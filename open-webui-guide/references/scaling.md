@@ -84,7 +84,7 @@
 ### PostgreSQL (рекомендация для production)
 
 ```env
-DATABASE_URL=postgresql://openwebui:password@db.example.com:5432/openwebui
+DATABASE_URL=postgresql://openwebui:<your-password>@db.example.com:5432/openwebui
 DATABASE_POOL_SIZE=50
 DATABASE_POOL_MAX_OVERFLOW=20
 DATABASE_POOL_TIMEOUT=30

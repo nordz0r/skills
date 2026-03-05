@@ -113,7 +113,7 @@ OAUTH_MERGE_ACCOUNTS_BY_EMAIL=true
 
 # Google
 GOOGLE_CLIENT_ID=xxx.apps.googleusercontent.com
-GOOGLE_CLIENT_SECRET=xxx
+GOOGLE_CLIENT_SECRET=<your-client-secret>
 GOOGLE_OAUTH_SCOPE="openid email profile"
 GOOGLE_REDIRECT_URI=https://your-domain.com/oauth/google/callback
 ```
@@ -122,7 +122,7 @@ GOOGLE_REDIRECT_URI=https://your-domain.com/oauth/google/callback
 
 ```env
 OAUTH_CLIENT_ID=open-webui
-OAUTH_CLIENT_SECRET=your-secret
+OAUTH_CLIENT_SECRET=<your-client-secret>
 OAUTH_PROVIDER_NAME=Keycloak
 OAUTH_OPENID_CONFIG_URL=https://keycloak.example.com/realms/master/.well-known/openid-configuration
 OAUTH_SCOPES="openid email profile"
@@ -154,7 +154,7 @@ LDAP_SERVER_HOST=ldap.example.com
 LDAP_SERVER_PORT=389                  # 636 для LDAPS
 LDAP_USE_TLS=true
 LDAP_BIND_DN="cn=admin,dc=example,dc=com"
-LDAP_BIND_PASSWORD=secret
+LDAP_BIND_PASSWORD=<your-password>
 LDAP_SEARCH_BASE="ou=users,dc=example,dc=com"
 LDAP_SEARCH_FILTERS="(&(objectClass=person)(uid={username}))"
 LDAP_ATTRIBUTE_FOR_MAIL=mail
@@ -192,7 +192,7 @@ sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ### Использование
 
 ```bash
-curl -H "Authorization: Bearer sk-your-key-here" \
+curl -H "Authorization: Bearer <your-api-key>" \
      https://your-domain.com/api/v1/chats
 ```
 
@@ -226,7 +226,7 @@ SCIM 2.0 позволяет автоматически создавать/обн
 ```env
 ENABLE_SCIM=true
 SCIM_AUTH_HEADER=Authorization
-SCIM_AUTH_TOKEN=your-scim-secret
+SCIM_AUTH_TOKEN=<your-token>
 ```
 
 Эндпоинты: `backend/open_webui/routers/scim.py`

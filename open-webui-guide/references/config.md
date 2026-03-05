@@ -203,8 +203,8 @@ OLLAMA_BASE_URLS=url1;url2                   # несколько серверо
 # OpenAI-совместимые API
 OPENAI_API_BASE_URL=https://api.openai.com/v1
 OPENAI_API_BASE_URLS=url1;url2;url3          # несколько провайдеров
-OPENAI_API_KEY=sk-xxx
-OPENAI_API_KEYS=key1;key2;key3               # ключи для каждого URL
+OPENAI_API_KEY=<your-api-key>
+OPENAI_API_KEYS=<key-1>;<key-2>;<key-3>       # ключи для каждого URL
 
 # Модели по умолчанию
 DEFAULT_MODELS=llama3.1                      # модель по умолчанию для новых чатов
@@ -316,7 +316,7 @@ LICENSE_KEY=
 LICENSE_BLOB_PATH=
 
 # CORS
-CORS_ALLOW_ORIGIN=*                          # разрешённые origins (production: ограничь!)
+CORS_ALLOW_ORIGIN=https://chat.example.com   # разрешённые origins (НЕ используй * в production!)
 ```
 
 ---

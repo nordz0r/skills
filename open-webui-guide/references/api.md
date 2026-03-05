@@ -190,7 +190,7 @@ Open WebUI предоставляет OpenAI-совместимый API, что 
 ```bash
 # Chat Completions
 curl -X POST http://localhost:8080/api/chat/completions \
-  -H "Authorization: Bearer sk-your-api-key" \
+  -H "Authorization: Bearer <your-api-key>" \
   -H "Content-Type: application/json" \
   -d '{
     "model": "llama3.1",
@@ -200,7 +200,7 @@ curl -X POST http://localhost:8080/api/chat/completions \
 
 # List Models
 curl http://localhost:8080/api/models \
-  -H "Authorization: Bearer sk-your-api-key"
+  -H "Authorization: Bearer <your-api-key>"
 ```
 
 Это позволяет подключать Open WebUI к любым приложениям, которые умеют работать с OpenAI API (LangChain, AutoGen, и т.д.).
@@ -215,7 +215,7 @@ curl http://localhost:8080/api/models \
 import requests
 
 BASE = "http://localhost:8080/api/v1"
-TOKEN = "your-jwt-token"
+TOKEN = "<your-jwt-token>"
 headers = {"Authorization": f"Bearer {TOKEN}"}
 
 # Создать чат
