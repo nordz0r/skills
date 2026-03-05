@@ -73,7 +73,7 @@ docker logs open-webui 2>&1 | grep -i "migration\|alembic\|error"
 2. Забыл пароль админа — задай нового через env:
    ```env
    WEBUI_ADMIN_EMAIL=new@email.com
-   WEBUI_ADMIN_PASSWORD=newpassword
+   WEBUI_ADMIN_PASSWORD=<one-time-strong-secret>
    ```
 
 ### Сессии слетают после перезапуска

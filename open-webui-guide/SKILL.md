@@ -94,7 +94,6 @@ npm run dev
 
 ```env
 WEBUI_ADMIN_EMAIL=admin@example.com
-WEBUI_ADMIN_PASSWORD=securepassword
 WEBUI_ADMIN_NAME=Admin
 ```
 

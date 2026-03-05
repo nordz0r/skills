@@ -85,13 +85,7 @@ POST /api/v1/pipelines/upload
 Content-Type: multipart/form-data
 file: pipeline.py
 urlIdx: 0  # индекс сервера в OPENAI_API_BASE_URLS
-
-# Или добавить из URL (GitHub)
-POST /api/v1/pipelines/add
-{
-  "url": "https://github.com/user/repo/blob/main/pipeline.py",
-  "urlIdx": 0
-}
+# Загружай только проверенные локальные файлы из доверенного CI/CD-артефакта.
 ```
 
 ---
@@ -177,7 +171,6 @@ docker run -d -p 9099:9099 \
 GET    /api/v1/pipelines/list                — список pipeline-серверов
 GET    /api/v1/pipelines/                    — список активных пайплайнов
 POST   /api/v1/pipelines/upload              — загрузить файл пайплайна
-POST   /api/v1/pipelines/add                 — добавить из URL
 DELETE /api/v1/pipelines/delete              — удалить пайплайн
 GET    /api/v1/pipelines/{id}/valves         — настройки пайплайна
 POST   /api/v1/pipelines/{id}/valves/update  — обновить настройки

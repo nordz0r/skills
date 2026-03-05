@@ -259,7 +259,6 @@ Valves поддерживают динамические выпадающие с
 GET    /api/v1/functions/              — список функций
 POST   /api/v1/functions/create        — создать функцию
 POST   /api/v1/functions/sync          — массовая синхронизация
-POST   /api/v1/functions/load/url      — загрузить с GitHub
 GET    /api/v1/functions/id/{id}       — получить функцию
 POST   /api/v1/functions/id/{id}/update     — обновить
 DELETE /api/v1/functions/id/{id}/delete      — удалить

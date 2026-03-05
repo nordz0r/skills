@@ -28,9 +28,9 @@ Open WebUI содержит скрытые UI-элементы, активиру
 
 ```env
 WEBUI_ADMIN_EMAIL=admin@company.com
-WEBUI_ADMIN_PASSWORD=<your-password>
 WEBUI_ADMIN_NAME=System Admin
 ENABLE_INITIAL_ADMIN_SIGNUP=true
+# После bootstrap удалите эти переменные и выключите регистрацию: ENABLE_SIGNUP=false
 ```
 
 После первого старта эти переменные можно убрать — аккаунт уже создан.
@@ -53,7 +53,8 @@ ENABLE_OAUTH_TOKEN_EXCHANGE=true
 ### Forwarding User Info
 
 ```env
-ENABLE_FORWARD_USER_INFO_HEADERS=true
+ENABLE_FORWARD_USER_INFO_HEADERS=false
+# Включать только для доверенных внутренних провайдеров и при утверждённой PII-политике.
 ```
 
 Передаёт информацию о пользователе (email, имя, роль) в заголовках запросов к LLM-провайдерам. Полезно для:
@@ -155,15 +156,16 @@ curl -X POST http://localhost:8080/api/v1/functions/sync \
 
 Массовая синхронизация функций — полезно для CI/CD.
 
-### Load function from URL
+### Secure function deployment
 
-```bash
-curl -X POST http://localhost:8080/api/v1/functions/load/url \
-  -H "Authorization: Bearer $TOKEN" \
-  -d '{"url": "https://github.com/user/repo/blob/main/function.py"}'
+Загружай функции только из проверенного локального кода и деплой через доверенный CI/CD:
+
+```text
+POST /api/v1/functions/create
+POST /api/v1/functions/sync
 ```
 
-Загрузка функции прямо из GitHub.
+Не разворачивай исполняемый код функций из произвольных публичных URL.
 
 ---
 

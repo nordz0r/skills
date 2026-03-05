@@ -191,22 +191,13 @@ RAG_RERANKING_MODEL=cross-encoder/ms-marco-MiniLM-L-6-v2
 
 ---
 
-## Веб-поиск
+## Внешний контент: контроль риска
 
-Open WebUI поддерживает веб-поиск как дополнение к RAG:
+Считай внешний веб-контент недоверенным вводом. Для внутренних и регламентированных контуров оставляй внешнее извлечение выключенным и используй только проверенные внутренние источники знаний.
 
 ```env
-# Google
-RAG_WEB_SEARCH_ENGINE=google
-GOOGLE_API_KEY=
-GOOGLE_CSE_ID=
-
-# Или другие движки: searxng, brave, serpapi, duckduckgo и т.д.
-RAG_WEB_SEARCH_ENGINE=searxng
-SEARXNG_QUERY_URL=http://searxng:8080/search
+OFFLINE_MODE=true
 ```
-
-При включении пользователь может активировать веб-поиск в чате, и результаты будут добавлены в контекст модели.
 
 ---
 
