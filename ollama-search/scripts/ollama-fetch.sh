@@ -15,12 +15,13 @@ Options:
   -h, --help Show this help
 
 Environment:
-  OLLAMA_API_KEY        Ollama API key (required)
+  OLLAMA_SEARCH_API_KEY Ollama Web Search API key (required)
+  OLLAMA_API_KEY        Legacy fallback name for the same key
   OLLAMA_WEB_FETCH_URL  Override fetch endpoint (default: https://ollama.com/api/web_fetch)
 EOF
 }
 
-api_key="${OLLAMA_API_KEY:-}"
+api_key="${OLLAMA_SEARCH_API_KEY:-${OLLAMA_API_KEY:-}}"
 web_fetch_url="${OLLAMA_WEB_FETCH_URL:-https://ollama.com/api/web_fetch}"
 target_url=""
 json_output="0"
@@ -54,7 +55,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [[ -z "$api_key" ]]; then
-  echo "OLLAMA_API_KEY is not set" >&2
+  echo "OLLAMA_SEARCH_API_KEY is not set (OLLAMA_API_KEY is accepted as a legacy fallback)" >&2
   exit 2
 fi
 

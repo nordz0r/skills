@@ -15,7 +15,7 @@
 Все запросы требуют Bearer-токен:
 
 ```
-Authorization: Bearer $OLLAMA_API_KEY
+Authorization: Bearer $OLLAMA_SEARCH_API_KEY
 ```
 
 Ключ создаётся на `https://ollama.com/settings/keys`. Один аккаунт может иметь несколько ключей.
@@ -37,7 +37,7 @@ Authorization: Bearer $OLLAMA_API_KEY
 
 ```bash
 curl -s https://ollama.com/api/web_search \
-  -H "Authorization: Bearer $OLLAMA_API_KEY" \
+  -H "Authorization: Bearer $OLLAMA_SEARCH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"query": "ollama web search", "max_results": 3}'
 ```
@@ -82,7 +82,7 @@ curl -s https://ollama.com/api/web_search \
 
 ```bash
 curl -s https://ollama.com/api/web_fetch \
-  -H "Authorization: Bearer $OLLAMA_API_KEY" \
+  -H "Authorization: Bearer $OLLAMA_SEARCH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"url": "https://docs.ollama.com/capabilities/web-search"}'
 ```
@@ -117,7 +117,7 @@ curl -s https://ollama.com/api/web_fetch \
 
 | HTTP-код | Причина | Что делать |
 |----------|---------|-----------|
-| 401 | Неверный или отсутствующий API-ключ | Проверь `OLLAMA_API_KEY`, создай новый ключ |
+| 401 | Неверный или отсутствующий API-ключ | Проверь `OLLAMA_SEARCH_API_KEY`, создай новый ключ |
 | 400 | Невалидные параметры | Проверь JSON-тело запроса, `query` не пустой, `max_results` 1–10 |
 | 429 | Rate limit | Подожди и повтори, уменьши частоту запросов |
 | 500 | Ошибка сервера | Повтори через несколько секунд |
@@ -126,7 +126,7 @@ curl -s https://ollama.com/api/web_fetch \
 
 ```bash
 response=$(curl -s -w "\n%{http_code}" https://ollama.com/api/web_search \
-  -H "Authorization: Bearer $OLLAMA_API_KEY" \
+  -H "Authorization: Bearer $OLLAMA_SEARCH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"query": "test"}')
 
@@ -135,7 +135,7 @@ body=$(echo "$response" | head -n -1)
 
 case "$http_code" in
   200) echo "$body" | jq . ;;
-  401) echo "Ошибка авторизации: проверь OLLAMA_API_KEY" >&2; exit 1 ;;
+  401) echo "Ошибка авторизации: проверь OLLAMA_SEARCH_API_KEY" >&2; exit 1 ;;
   429) echo "Слишком много запросов, подождите" >&2; exit 1 ;;
   *)   echo "Ошибка $http_code: $body" >&2; exit 1 ;;
 esac

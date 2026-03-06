@@ -28,7 +28,7 @@
       "ollama_search": {
         "enabled": true,
         "env": {
-          "OLLAMA_API_KEY": "your-ollama-api-key",
+          "OLLAMA_SEARCH_API_KEY": "your-ollama-api-key",
           "OLLAMA_WEB_SEARCH_URL": "https://ollama.com/api/web_search",
           "OLLAMA_WEB_FETCH_URL": "https://ollama.com/api/web_fetch"
         }
@@ -48,7 +48,7 @@ cp ~/.openclaw/openclaw.json ~/.openclaw/openclaw.json.bak
 jq '.skills.entries.ollama_search = {
   "enabled": true,
   "env": {
-    "OLLAMA_API_KEY": "your-key",
+    "OLLAMA_SEARCH_API_KEY": "your-key",
     "OLLAMA_WEB_SEARCH_URL": "https://ollama.com/api/web_search",
     "OLLAMA_WEB_FETCH_URL": "https://ollama.com/api/web_fetch"
   }
@@ -65,9 +65,11 @@ docker compose restart openclaw-gateway
 
 | Переменная | Обязательная | По умолчанию | Описание |
 |-----------|-------------|-------------|----------|
-| `OLLAMA_API_KEY` | да | — | API-ключ с ollama.com/settings/keys |
+| `OLLAMA_SEARCH_API_KEY` | да | — | API-ключ с ollama.com/settings/keys |
 | `OLLAMA_WEB_SEARCH_URL` | нет | `https://ollama.com/api/web_search` | URL эндпоинта поиска |
 | `OLLAMA_WEB_FETCH_URL` | нет | `https://ollama.com/api/web_fetch` | URL эндпоинта получения контента |
+
+Для обратной совместимости shell-скрипты пока принимают и старое имя `OLLAMA_API_KEY`, но в конфиге и новых интеграциях используй `OLLAMA_SEARCH_API_KEY`.
 
 Переменные задаются через:
 1. **openclaw.json** → `.skills.entries.ollama_search.env` (рекомендуется)
@@ -90,7 +92,7 @@ docker compose run --rm openclaw-cli skills list --eligible
 
 ```bash
 curl -s -o /dev/null -w "%{http_code}" https://ollama.com/api/web_search \
-  -H "Authorization: Bearer $OLLAMA_API_KEY" \
+  -H "Authorization: Bearer $OLLAMA_SEARCH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"query": "test"}'
 ```
@@ -125,12 +127,12 @@ bash ~/.openclaw/workspace/skills/ollama-search/scripts/ollama-search.sh \
    docker compose restart openclaw-gateway
    ```
 
-### Ошибка "OLLAMA_API_KEY is not set"
+### Ошибка "OLLAMA_SEARCH_API_KEY is not set"
 
 Ключ не попадает в окружение скрипта. Проверь:
 
 ```bash
-jq '.skills.entries.ollama_search.env.OLLAMA_API_KEY' ~/.openclaw/openclaw.json
+jq '.skills.entries.ollama_search.env.OLLAMA_SEARCH_API_KEY' ~/.openclaw/openclaw.json
 ```
 
 Если значение `null` — добавь ключ через jq (см. выше).
@@ -146,7 +148,7 @@ jq '.skills.entries.ollama_search.env.OLLAMA_API_KEY' ~/.openclaw/openclaw.json
 - Проверь сетевой доступ из контейнера:
   ```bash
   docker compose exec openclaw-gateway curl -s https://ollama.com/api/web_search \
-    -H "Authorization: Bearer $OLLAMA_API_KEY" \
+    -H "Authorization: Bearer $OLLAMA_SEARCH_API_KEY" \
     -H "Content-Type: application/json" \
     -d '{"query":"ping"}'
   ```

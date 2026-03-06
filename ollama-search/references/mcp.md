@@ -34,7 +34,7 @@ uvx ollama-mcp
 Требуется переменная окружения:
 
 ```bash
-export OLLAMA_API_KEY="your-key-here"
+export OLLAMA_SEARCH_API_KEY="your-key-here"
 ```
 
 ---
@@ -53,7 +53,7 @@ export OLLAMA_API_KEY="your-key-here"
       "command": "uvx",
       "args": ["ollama-mcp"],
       "env": {
-        "OLLAMA_API_KEY": "your-key-here"
+        "OLLAMA_SEARCH_API_KEY": "your-key-here"
       }
     }
   }
@@ -70,7 +70,7 @@ command = "uvx"
 args = ["ollama-mcp"]
 
 [mcp_servers.ollama.env]
-OLLAMA_API_KEY = "your-key-here"
+OLLAMA_SEARCH_API_KEY = "your-key-here"
 ```
 
 ### Goose
@@ -83,7 +83,7 @@ OLLAMA_API_KEY = "your-key-here"
   "command": "uvx",
   "args": ["ollama-mcp"],
   "env": {
-    "OLLAMA_API_KEY": "your-key-here"
+    "OLLAMA_SEARCH_API_KEY": "your-key-here"
   }
 }
 ```
@@ -105,7 +105,7 @@ claude mcp add ollama -- uvx ollama-mcp
       "command": "uvx",
       "args": ["ollama-mcp"],
       "env": {
-        "OLLAMA_API_KEY": "your-key-here"
+        "OLLAMA_SEARCH_API_KEY": "your-key-here"
       }
     }
   }
@@ -117,7 +117,7 @@ claude mcp add ollama -- uvx ollama-mcp
 Любой клиент, поддерживающий MCP, может подключить Ollama Search. Нужны три вещи:
 
 1. **Команда запуска:** `uvx ollama-mcp` (или `python -m ollama_mcp`)
-2. **Переменная окружения:** `OLLAMA_API_KEY`
+2. **Переменная окружения:** `OLLAMA_SEARCH_API_KEY`
 3. **Транспорт:** stdio (по умолчанию)
 
 ---
