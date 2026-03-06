@@ -10,6 +10,7 @@
 |-------|----------|
 | [open-webui-guide](open-webui-guide/) | Русскоязычная справка по Open WebUI: архитектура, авторизация, функции, пайплайны, API, RAG, масштабирование, отладка |
 | [zapret-openwrt-guide](zapret-openwrt-guide/) | Русскоязычная справка по zapret-openwrt: Anti-DPI утилита для OpenWrt, стратегии обхода DPI, конфигурация, веб-интерфейс LuCI, диагностика |
+| [ollama-search](ollama-search/) | Ollama Web Search & Fetch API: поиск в интернете, получение контента страниц, Python/JS SDK, MCP-сервер, интеграция с OpenClaw |
 
 ## Структура
 
@@ -17,6 +18,8 @@
 skills/
 └── <skill-name>/
     ├── SKILL.md              # Точка входа скилла (frontmatter + основной контент)
+    ├── scripts/              # Исполняемые скрипты (опционально)
+    │   └── ...
     └── references/           # Справочные материалы, подгружаемые по необходимости
         ├── topic-a.md
         ├── topic-b.md
