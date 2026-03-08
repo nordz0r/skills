@@ -11,6 +11,7 @@
 | [open-webui-guide](open-webui-guide/) | Русскоязычная справка по Open WebUI: архитектура, авторизация, функции, пайплайны, API, RAG, масштабирование, отладка |
 | [zapret-openwrt-guide](zapret-openwrt-guide/) | Русскоязычная справка по zapret-openwrt: Anti-DPI утилита для OpenWrt, стратегии обхода DPI, конфигурация, веб-интерфейс LuCI, диагностика |
 | [ollama-search](ollama-search/) | Ollama Web Search & Fetch API: поиск в интернете, получение контента страниц, Python/JS SDK, MCP-сервер, интеграция с OpenClaw |
+| [open-terminal-guide](open-terminal-guide/) | Русскоязычная справка по Open Terminal: REST API терминала для AI-агентов, эндпоинты, конфигурация, Docker, интеграция с Open WebUI, архитектура |
 
 ## Структура
 
