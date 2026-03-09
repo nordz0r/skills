@@ -13,7 +13,7 @@ description: "Управление Nextcloud через OCS API и WebDAV: фа�
 
 | Переменная | Назначение |
 |---|---|
-| `NEXTCLOUD_URL` | Базовый URL инстанса (например `https://cloud.goldfinches.ru`) |
+| `NEXTCLOUD_URL` | Базовый URL инстанса (например `https://cloud.example.com`) |
 | `NEXTCLOUD_USER` | Имя пользователя для аутентификации |
 | `NEXTCLOUD_TOKEN` | App-токен пользователя (используется вместо пароля) |
 | `NEXTCLOUD_ADMIN_TOKEN` | App-токен администратора (для операций управления пользователями/группами/приложениями) |
