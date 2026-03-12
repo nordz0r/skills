@@ -1,0 +1,4 @@
+interface:
+  display_name: "PBR OpenWrt Guide"
+  short_description: "OpenWrt policy routing with pbr and LuCI"
+  default_prompt: "Use $pbr-openwrt-guide to install, configure, or debug policy-based routing with pbr on OpenWrt."
