@@ -21,20 +21,35 @@ yarn locales:actualize
 
 Что проверяет upstream CI:
 
-- форматирование;
+- форматирование (prettier);
 - ESLint;
-- тесты;
+- тесты (vitest);
 - build без неожиданных сгенерированных изменений.
+
+Результат `yarn build` копируется в `luci-app-podkop/htdocs/luci-static/resources/view/podkop/`.
 
 ## Backend / shell workflow
 
 Критические shell-файлы:
 
-- `install.sh`
-- `podkop/files/usr/bin/podkop`
-- `podkop/files/usr/lib/podkop/*.sh`
+- `install.sh` — установка/обновление.
+- `podkop/files/usr/bin/podkop` — основной оркестратор (~2700 строк).
+- `podkop/files/usr/lib/*.sh` — библиотеки:
+  - `constants.sh` — константы, теги, URL.
+  - `logging.sh` — логирование.
+  - `helpers.sh` — валидация, парсинг URL, UCI, cron, миграция.
+  - `nft.sh` — NFTable-операции.
+  - `rulesets.sh` — sing-box rulesets.
+  - `sing_box_config_manager.sh` — низкоуровневые JSON-билдеры sing-box.
+  - `sing_box_config_facade.sh` — высокоуровневый API.
 
-Для них в CI используется differential ShellCheck. Если меняешь shell-код, держи его POSIX/ash-friendly и не ломай существующую структуру helpers.
+Для них в CI используется differential ShellCheck. Код должен быть POSIX/ash-friendly (busybox).
+
+Init script (`podkop/files/etc/init.d/podkop`):
+- procd-based, `START=99` (после основных сервисов).
+- Поддерживает interface monitoring triggers (BadWAN).
+- Config change triggers для автоматического reload.
+- Netdev triggers для отслеживания состояния интерфейсов.
 
 ## Сборка релизных пакетов
 
@@ -56,5 +71,7 @@ Upstream release pipeline строит `ipk` и `apk` через Docker:
 
 - Изменения shell-части проверяй на побочные эффекты для `dnsmasq` и `sing-box`.
 - Любая правка схемы `/etc/config/podkop` должна сопровождаться migration story.
-- Не предполагай наличие старых OpenWrt: upstream ориентируется на `24.10`.
+- Не предполагай наличие старых OpenWrt: upstream ориентируется на `24.10+`.
 - Если меняешь frontend validators, сверяйся с `String-example.md`, иначе UI и backend начнут расходиться.
+- При добавлении нового community list: обнови `constants.sh` (COMMUNITY_SERVICES + URL подсетей если есть) и `fe-app-podkop/src/constants.ts`.
+- Версии зависимостей проверяются в runtime: `sing-box` ≥ 1.12.0, `jq` ≥ 1.7.1, `coreutils-base64` ≥ 9.7.
