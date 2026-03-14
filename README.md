@@ -12,6 +12,10 @@
 | [zapret-openwrt-guide](zapret-openwrt-guide/) | Русскоязычная справка по zapret-openwrt: Anti-DPI утилита для OpenWrt, стратегии обхода DPI, конфигурация, веб-интерфейс LuCI, диагностика |
 | [ollama-search](ollama-search/) | Ollama Web Search & Fetch API: поиск в интернете, получение контента страниц, Python/JS SDK, MCP-сервер, интеграция с OpenClaw |
 | [open-terminal-guide](open-terminal-guide/) | Русскоязычная справка по Open Terminal: REST API терминала для AI-агентов, эндпоинты, конфигурация, Docker, интеграция с Open WebUI, архитектура |
+| [nextcloud-admin](nextcloud-admin/) | Nextcloud OCS API и WebDAV: управление пользователями, группами, приложениями, файлами |
+| [amneziawg-openwrt-guide](amneziawg-openwrt-guide/) | AmneziaWG для OpenWrt: установка, настройка, интеграция с Podkop |
+| [podkop-openwrt-guide](podkop-openwrt-guide/) | Podkop для OpenWrt: маршрутизация трафика через VPN/прокси, конфигурация, диагностика |
+| [qdrant-codebase-search](qdrant-codebase-search/) | Семантический поиск по коду через Qdrant + Ollama: AST-индексация, поиск по коду и git-истории, MCP-сервер для AI-агентов |
 
 ## Структура
 
