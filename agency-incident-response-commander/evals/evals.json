@@ -1,0 +1,17 @@
+{
+  "skill_name": "agency-incident-response-commander",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "После релиза open-webui пользователи ловят 503. Нужен incident summary, оценка SEV, первые 30 минут действий и текст апдейта для команды.",
+      "expected_output": "Ответ должен быть структурирован как incident handling, а не как обычный дебаг без severity и updates.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Сделай blameless postmortem по ночному падению proxy-vpn: был rollback, часть клиентов потеряла доступ на 18 минут.",
+      "expected_output": "Ответ должен включать timeline, impact, contributing factors, corrective actions и blameless framing.",
+      "files": []
+    }
+  ]
+}

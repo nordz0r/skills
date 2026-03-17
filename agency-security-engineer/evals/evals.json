@@ -1,0 +1,17 @@
+{
+  "skill_name": "agency-security-engineer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Проверь безопасность схемы Traefik -> Nextcloud -> PostgreSQL + external storage mounts + Vault secrets. Нужен practical security review.",
+      "expected_output": "Промпт должен вызывать threat-boundary analysis, ranked findings и concrete remediations.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Мы хотим деплоить приложение в k3s с public ingress и app secrets. Какие security guardrails и CI/CD checks обязательны?",
+      "expected_output": "Ответ должен охватывать workload hardening, secrets handling, network exposure и pipeline controls.",
+      "files": []
+    }
+  ]
+}

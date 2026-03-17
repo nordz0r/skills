@@ -1,0 +1,17 @@
+{
+  "skill_name": "agency-ux-architect",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "В панели управления каша в навигации и IA. Разложи flow, layout system и responsive rules так, чтобы это можно было строить в коде.",
+      "expected_output": "Промпт должен вызывать IA, layout architecture, component map and build order.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Есть PRD для onboarding, но разработчикам непонятно, как это собирать. Преврати его в implementation-ready UX structure.",
+      "expected_output": "Ответ должен мостить продуктовый документ в buildable interface architecture.",
+      "files": []
+    }
+  ]
+}
