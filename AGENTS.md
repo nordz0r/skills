@@ -28,6 +28,7 @@ skills/
 ├── basic-memory-workflow/            # Local basic-memory operating workflow
 ├── nextcloud-admin/                  # Nextcloud OCS API + WebDAV
 ├── ollama-search/                    # Ollama Web Search / Fetch API + scripts
+├── playwright-skill/                 # Playwright browser automation + Node runtime
 ├── open-terminal-guide/              # Open Terminal guide
 ├── open-webui-guide/                 # Largest reference set
 ├── amneziawg-openwrt-guide/          # AmneziaWG on OpenWrt
@@ -63,6 +64,7 @@ All 10 `agency-*` skills currently follow the same pattern:
 - `basic-memory-workflow`
 - `nextcloud-admin`
 - `ollama-search`
+- `playwright-skill`
 - `open-terminal-guide`
 - `open-webui-guide`
 - `amneziawg-openwrt-guide`
@@ -79,7 +81,7 @@ All 10 `agency-*` skills currently follow the same pattern:
 | Frontmatter example | Any `SKILL.md` | `name` must match directory name; `metadata` is optional |
 | Eval prompt examples | `agency-*/evals/evals.json` | Useful for trigger QA and smoke tests |
 | OpenClaw metadata example | `ollama-search/SKILL.md` | Currently the clearest `metadata.openclaw` example |
-| Script patterns | `ollama-search/scripts/`, `qdrant-codebase-search/scripts/` | Bash wrappers and setup helpers |
+| Script patterns | `ollama-search/scripts/`, `qdrant-codebase-search/scripts/`, `playwright-skill/scripts/` | Bash wrappers, Node executors, and setup helpers |
 | Largest reference set | `open-webui-guide/references/` | 11 files; best example of deep multi-file documentation |
 | Memory workflow conventions | `basic-memory-workflow/SKILL.md` | How this environment expects project memory to be used |
 | OpenWrt skill patterns | `amneziawg-openwrt-guide/`, `podkop-openwrt-guide/`, `zapret-openwrt-guide/` | Good templates for Russian infra/network docs |
@@ -92,7 +94,7 @@ All 10 `agency-*` skills currently follow the same pattern:
 <skill-name>/
 ├── SKILL.md
 ├── evals/         # optional; used heavily by agency-* skills
-├── scripts/       # optional; currently present in ollama-search and qdrant-codebase-search
+├── scripts/       # optional; currently present in ollama-search, qdrant-codebase-search, and playwright-skill
 └── references/    # optional; one topic per file
 ```
 
@@ -135,7 +137,8 @@ metadata: {...}   # optional
 - Repo-level discovery matters: `README.md` and `README.en.md` are part of search/catalog visibility, not just human docs.
 - Runtime auto-triggering still depends primarily on each skill's `SKILL.md`, especially `description`.
 - Env-based configuration is common for integration skills: `OLLAMA_SEARCH_API_KEY`, `NEXTCLOUD_URL`, and similar variables are documented in-skill.
-- `ollama-search` and `qdrant-codebase-search` are the only skills with executable `scripts/`.
+- `ollama-search`, `qdrant-codebase-search`, and `playwright-skill` currently ship executable `scripts/`.
+- `playwright-skill` is an imported third-party runtime skill with a root `package.json`, a Node executor, and a large reference file.
 - `open-webui-guide` has the deepest reference tree and is the best template for a large guide.
 - `basic-memory-workflow` is a workflow skill, not a product/API guide.
 
@@ -157,10 +160,11 @@ npx skills add nordz0r/skills -s open-webui-guide -g
 
 ## NOTES
 
-- Current inventory: 19 skills total.
-- `agency-*` accounts for 10 of those 19 skills.
+- Current inventory: 20 skills total.
+- `agency-*` accounts for 10 of those 20 skills.
 - `open-webui-guide` has 11 reference files and is still the largest single documentation set.
 - `ollama-search` has 4 reference files and 2 scripts.
+- `playwright-skill` has 1 reference file, 2 script files, and a root `package.json`.
 - `qdrant-codebase-search` has 2 reference files and 2 scripts.
 - `basic-memory-workflow` has only `SKILL.md`; no `references/`, `scripts/`, or `evals/`.
 - The old AGENTS snapshot was stale: it described only 5 skills and predated the bilingual root README.
