@@ -4,8 +4,8 @@
  *
  * Executes Playwright automation code from:
  * - File path: node scripts/run.js script.js
- * - Inline code: node scripts/run.js 'await page.goto("...")'
- * - Stdin: cat script.js | node scripts/run.js
+ * - Inline code: node scripts/run.js --allow-inline 'await page.goto("...")'
+ * - Stdin: cat script.js | node scripts/run.js --allow-inline
  *
  * Ensures proper module resolution by running from skill directory.
  */
@@ -52,7 +52,9 @@ function installPlaywright() {
  * Get code to execute from various sources
  */
 function getCodeToExecute() {
-  const args = process.argv.slice(2);
+  const rawArgs = process.argv.slice(2);
+  const allowInline = rawArgs.includes('--allow-inline') || process.env.PLAYWRIGHT_SKILL_ALLOW_INLINE === '1';
+  const args = rawArgs.filter(arg => arg !== '--allow-inline');
 
   // Case 1: File path provided
   if (args.length > 0 && fs.existsSync(args[0])) {
@@ -63,12 +65,22 @@ function getCodeToExecute() {
 
   // Case 2: Inline code provided as argument
   if (args.length > 0) {
+    if (!allowInline) {
+      console.error('❌ Inline execution is disabled by default');
+      console.error('Re-run with --allow-inline after reviewing the code you are about to execute');
+      process.exit(1);
+    }
     console.log('⚡ Executing inline code');
     return args.join(' ');
   }
 
   // Case 3: Code from stdin
   if (!process.stdin.isTTY) {
+    if (!allowInline) {
+      console.error('❌ Stdin execution is disabled by default');
+      console.error('Re-run with --allow-inline after reviewing the code you are piping in');
+      process.exit(1);
+    }
     console.log('📥 Reading from stdin');
     return fs.readFileSync(0, 'utf8');
   }
@@ -77,8 +89,8 @@ function getCodeToExecute() {
   console.error('❌ No code to execute');
   console.error('Usage:');
   console.error('  node scripts/run.js script.js          # Execute file');
-  console.error('  node scripts/run.js "code here"        # Execute inline');
-  console.error('  cat script.js | node scripts/run.js    # Execute from stdin');
+  console.error('  node scripts/run.js --allow-inline "code here"     # Execute inline');
+  console.error('  cat script.js | node scripts/run.js --allow-inline # Execute from stdin');
   process.exit(1);
 }
 

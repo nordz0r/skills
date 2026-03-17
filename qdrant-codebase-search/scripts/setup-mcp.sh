@@ -2,12 +2,14 @@
 set -euo pipefail
 
 # Setup MCP configuration for @mhalder/qdrant-mcp-server
-# Usage: setup-mcp.sh --agent claude|codex|qwen [--qdrant-url URL] [--ollama-url URL]
+# Usage: setup-mcp.sh --agent claude|codex|qwen [--qdrant-url URL] [--ollama-url URL] [--apply]
 
 AGENT=""
 QDRANT_URL="${QDRANT_URL:-http://localhost:6333}"
 OLLAMA_URL="${EMBEDDING_BASE_URL:-http://localhost:11434}"
+QDRANT_MCP_PACKAGE="${QDRANT_MCP_PACKAGE:-@mhalder/qdrant-mcp-server@3.3.1}"
 NODE_PATH=""
+APPLY_CHANGES=0
 
 usage() {
     echo "Usage: $0 --agent claude|codex|qwen [OPTIONS]"
@@ -16,6 +18,7 @@ usage() {
     echo "  --agent         Agent to configure: claude, codex, qwen"
     echo "  --qdrant-url    Qdrant URL (default: $QDRANT_URL)"
     echo "  --ollama-url    Ollama URL (default: $OLLAMA_URL)"
+    echo "  --apply         Actually write config / run agent CLI. Default: print for review only"
     echo "  --node-path     Custom path to node/npx (e.g., /opt/homebrew/opt/node@22/bin)"
     exit 1
 }
@@ -25,6 +28,7 @@ while [[ $# -gt 0 ]]; do
         --agent) AGENT="$2"; shift 2 ;;
         --qdrant-url) QDRANT_URL="$2"; shift 2 ;;
         --ollama-url) OLLAMA_URL="$2"; shift 2 ;;
+        --apply) APPLY_CHANGES=1; shift ;;
         --node-path) NODE_PATH="$2"; shift 2 ;;
         -h|--help) usage ;;
         *) echo "Unknown option: $1"; usage ;;
@@ -65,13 +69,22 @@ fi
 
 case "$AGENT" in
     claude)
-        echo "Configuring MCP for Claude Code..."
-        claude mcp add qdrant-mcp \
-            -e QDRANT_URL="$QDRANT_URL" \
-            -e EMBEDDING_PROVIDER=ollama \
-            -e EMBEDDING_BASE_URL="$OLLAMA_URL" \
-            -- "$NPX_CMD" -y @mhalder/qdrant-mcp-server
-        echo "Done. Verify with: claude mcp list"
+        if [[ "$APPLY_CHANGES" -eq 1 ]]; then
+            echo "Applying MCP config to Claude Code..."
+            claude mcp add qdrant-mcp \
+                -e QDRANT_URL="$QDRANT_URL" \
+                -e EMBEDDING_PROVIDER=ollama \
+                -e EMBEDDING_BASE_URL="$OLLAMA_URL" \
+                -- "$NPX_CMD" -y "$QDRANT_MCP_PACKAGE"
+            echo "Done. Verify with: claude mcp list"
+        else
+            echo "Review the following command, then re-run with --apply if it looks correct:"
+            echo "claude mcp add qdrant-mcp \\"
+            echo "  -e QDRANT_URL=$QDRANT_URL \\"
+            echo "  -e EMBEDDING_PROVIDER=ollama \\"
+            echo "  -e EMBEDDING_BASE_URL=$OLLAMA_URL \\"
+            echo "  -- $NPX_CMD -y $QDRANT_MCP_PACKAGE"
+        fi
         ;;
     codex)
         CONFIG_DIR="${HOME}/.codex"
@@ -83,7 +96,7 @@ case "$AGENT" in
   "mcpServers": {
     "qdrant-mcp": {
       "command": "$NPX_CMD",
-      "args": ["-y", "@mhalder/qdrant-mcp-server"],
+      "args": ["-y", "$QDRANT_MCP_PACKAGE"],
       "env": {
         "QDRANT_URL": "$QDRANT_URL",
         "EMBEDDING_PROVIDER": "ollama",
@@ -94,13 +107,14 @@ case "$AGENT" in
 }
 EOF
 )
-        if [[ -f "$CONFIG_FILE" ]]; then
-            echo "Warning: $CONFIG_FILE already exists."
-            echo "Add the following MCP config manually:"
-            echo "$MCP_CONFIG"
-        else
+        if [[ "$APPLY_CHANGES" -eq 1 && ! -f "$CONFIG_FILE" ]]; then
             echo "$MCP_CONFIG" > "$CONFIG_FILE"
             echo "Written to $CONFIG_FILE"
+        else
+            [[ -f "$CONFIG_FILE" ]] && echo "Warning: $CONFIG_FILE already exists."
+            echo "Review the following MCP config manually:"
+            echo "$MCP_CONFIG"
+            [[ "$APPLY_CHANGES" -eq 0 ]] && echo "Re-run with --apply to write automatically when the target file does not exist."
         fi
         ;;
     qwen)
@@ -113,7 +127,7 @@ EOF
   "mcpServers": {
     "qdrant-mcp": {
       "command": "$NPX_CMD",
-      "args": ["-y", "@mhalder/qdrant-mcp-server"],
+      "args": ["-y", "$QDRANT_MCP_PACKAGE"],
       "env": {
         "QDRANT_URL": "$QDRANT_URL",
         "EMBEDDING_PROVIDER": "ollama",
@@ -124,13 +138,14 @@ EOF
 }
 EOF
 )
-        if [[ -f "$CONFIG_FILE" ]]; then
-            echo "Warning: $CONFIG_FILE already exists."
-            echo "Add the following MCP config manually:"
-            echo "$MCP_CONFIG"
-        else
+        if [[ "$APPLY_CHANGES" -eq 1 && ! -f "$CONFIG_FILE" ]]; then
             echo "$MCP_CONFIG" > "$CONFIG_FILE"
             echo "Written to $CONFIG_FILE"
+        else
+            [[ -f "$CONFIG_FILE" ]] && echo "Warning: $CONFIG_FILE already exists."
+            echo "Review the following MCP config manually:"
+            echo "$MCP_CONFIG"
+            [[ "$APPLY_CHANGES" -eq 0 ]] && echo "Re-run with --apply to write automatically when the target file does not exist."
         fi
         ;;
     *)

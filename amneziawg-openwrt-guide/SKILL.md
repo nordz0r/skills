@@ -1,6 +1,13 @@
 ---
 name: amneziawg-openwrt-guide
-description: "Полная русскоязычная справка по `amneziawg-openwrt`. Используй этот skill при любых задачах по AmneziaWG на OpenWrt: установка пакетов `amneziawg-tools`, `kmod-amneziawg`, `luci-proto-amneziawg`, настройка `proto amneziawg`, UCI/LuCI-конфигурация интерфейсов и peers, генерация ключей, QR, watchdog, сборка пакетов и отладка kernel/userspace fallback. Триггеры: amneziawg, amnezia, awg, luci-proto-amneziawg, kmod-amneziawg, amneziawg-tools, amneziawg-go, openwrt awg."
+description: >-
+  Полная русскоязычная справка по `amneziawg-openwrt`. Используй этот skill
+  при любых задачах по AmneziaWG на OpenWrt: установка пакетов
+  `amneziawg-tools`, `kmod-amneziawg`, `luci-proto-amneziawg`, настройка
+  `proto amneziawg`, UCI/LuCI-конфигурация интерфейсов и peers, генерация
+  ключей, QR, watchdog, сборка пакетов и отладка kernel/userspace fallback.
+  Триггеры: amneziawg, amnezia, awg, luci-proto-amneziawg, kmod-amneziawg,
+  amneziawg-tools, amneziawg-go, openwrt awg.
 ---
 
 # AmneziaWG OpenWrt Guide
@@ -47,6 +54,12 @@ description: "Полная русскоязычная справка по `amnez
 - Userspace fallback требует `amneziawg-go`, но этот бинарник upstream-репозиторий не кладет.
 - QR generation требует установленный `qrencode`.
 - Изменения kernel patch легко ломаются на новых версиях OpenWrt/kernel tree.
+
+## Security Notes
+
+- Ставь пакеты и бинарники только из проверенного feed, релизного артефакта или зафиксированного commit/tag, а не из непроверенного зеркала.
+- Для `amneziawg-go`, kernel patches и LuCI-компонентов фиксируй версию и сверяй источник перед обновлением.
+- Не подмешивай в UCI/LuCI значения, которые пришли из недоверенного внешнего источника, без ручной проверки.
 
 ## References
 

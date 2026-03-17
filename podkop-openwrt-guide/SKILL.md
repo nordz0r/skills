@@ -1,6 +1,16 @@
 ---
 name: podkop-openwrt-guide
-description: "Полная русскоязычная справка по Podkop на OpenWrt. Используй этот skill при любых задачах по `itdoginfo/podkop`: установка, обновление, миграция `/etc/config/podkop`, настройка selective/domain routing через `sing-box`, работа с `dnsmasq`, `nft/tproxy`, LuCI UI, proxy URL-строками (vless, trojan, ss, hysteria2, socks), community/user lists, selector/urltest, exclusion, Clash API/YACD dashboard, BadWAN мониторинг, FakeIP, диагностикой сервиса и разработкой `podkop`, `luci-app-podkop`, `fe-app-podkop`. Триггеры: podkop, luci-app-podkop, sing-box on OpenWrt, fakeip, proxy_string, community lists, selective routing, clash api, yacd, urltest, selector, exclusion."
+description: >-
+  Полная русскоязычная справка по Podkop на OpenWrt. Используй этот skill при
+  любых задачах по `itdoginfo/podkop`: установка, обновление, миграция
+  `/etc/config/podkop`, настройка selective/domain routing через `sing-box`,
+  работа с `dnsmasq`, `nft/tproxy`, LuCI UI, proxy URL-строками (vless,
+  trojan, ss, hysteria2, socks), community/user lists, selector/urltest,
+  exclusion, Clash API/YACD dashboard, BadWAN мониторинг, FakeIP,
+  диагностикой сервиса и разработкой `podkop`, `luci-app-podkop`,
+  `fe-app-podkop`. Триггеры: podkop, luci-app-podkop, sing-box on OpenWrt,
+  fakeip, proxy_string, community lists, selective routing, clash api, yacd,
+  urltest, selector, exclusion.
 ---
 
 # Podkop OpenWrt Guide
@@ -44,6 +54,12 @@ rulesets           config_*   redirect  rt table
 - Задача про корректность proxy-строки → `references/proxy-strings.md`.
 
 Открывай только нужный reference, не загружай все файлы сразу.
+
+## Safety Notes
+
+- Podkop меняет системные сервисы и конфиги роутера. Перед установкой или миграцией делай backup `/etc/config/podkop` и понимай путь отката.
+- Не запускай удалённый install/update script без фиксации версии и ручной проверки содержимого.
+- Remote domain/subnet lists и community data — это внешний ввод. Не считай их автоматически доверенными.
 
 ## Router Workflow
 

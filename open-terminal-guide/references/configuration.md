@@ -40,7 +40,7 @@
 # docker-compose.yml
 services:
   terminal:
-    image: ghcr.io/open-webui/open-terminal
+    image: ghcr.io/open-webui/open-terminal@sha256:<verified-digest>
     secrets:
       - api_key
     environment:
@@ -60,9 +60,9 @@ secrets:
 ## Пример TOML-конфига
 
 ```toml
-host = "0.0.0.0"
+host = "127.0.0.1"
 port = 8000
-api_key = "sk-my-secret-key"
+api_key = "<read-from-secret-store>"
 cors_allowed_origins = "*"
 log_dir = "/var/log/open-terminal"
 binary_mime_prefixes = "image,audio"

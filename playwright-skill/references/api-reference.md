@@ -373,7 +373,7 @@ class LoginPage {
 test('login with valid credentials', async ({ page }) => {
   const loginPage = new LoginPage(page);
   await loginPage.navigate();
-  await loginPage.login('user@example.com', 'password123');
+  await loginPage.login('user@example.com', '<test-password>');
   await expect(page).toHaveURL('/dashboard');
 });
 ```
@@ -522,8 +522,8 @@ test.describe.parallel('Parallel suite', () => {
 ```javascript
 // Parameterized tests
 const testData = [
-  { username: 'user1', password: 'pass1', expected: 'Welcome user1' },
-  { username: 'user2', password: 'pass2', expected: 'Welcome user2' },
+  { username: '<test-user-1>', password: '<test-password-1>', expected: 'Welcome user1' },
+  { username: '<test-user-2>', password: '<test-password-2>', expected: 'Welcome user2' },
 ];
 
 testData.forEach(({ username, password, expected }) => {

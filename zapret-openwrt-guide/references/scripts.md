@@ -200,6 +200,8 @@ DAEMON_LOG_ENABLE, DAEMON_LOG_SIZE_MAX, DAEMON_LOG_FILE
 4. Сравнивает с установленной версией
 5. Выводит результат: `RESULT: (CODE) message` и `ZAP_PKG_URL = url`
 
+Проверяй источник release metadata и фиксируй release/tag перед автоматическим обновлением на production-роутере.
+
 Коды результата:
 - `L` — доступна более новая версия
 - `E` — установлена текущая версия
@@ -214,6 +216,8 @@ DAEMON_LOG_ENABLE, DAEMON_LOG_SIZE_MAX, DAEMON_LOG_FILE
 5. Устанавливает новые пакеты
 6. Запускает сервис
 7. Выводит `RESULT: (+) Updated`
+
+Перед реальной установкой сверяй URL архива, expected version и источник пакета. Не трактуй внешний ZIP как “доверенный по умолчанию”.
 
 ### Поддержка менеджеров пакетов
 

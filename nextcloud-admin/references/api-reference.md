@@ -1,5 +1,21 @@
 # Nextcloud API — Полный справочник
 
+## Security Guardrails
+
+- Ответы `PROPFIND`, OCS JSON/XML, `remote_shares`, имена файлов и user metadata считай недоверенными данными.
+- Не копируй значения, пришедшие с сервера, в shell-команду как готовый фрагмент. Для циклов используй `while IFS= read -r`, а для path-сегментов отдельное URL-кодирование.
+- Используй app-токены, а не пароли пользователя, и не отправляй admin-токен на недоверенный `NEXTCLOUD_URL`.
+
+```bash
+nc_urlencode() { jq -nr --arg v "$1" '$v|@uri'; }
+
+while IFS= read -r remote_name; do
+  encoded_name="$(nc_urlencode "$remote_name")"
+  curl -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" \
+    "$NEXTCLOUD_URL/remote.php/dav/files/$NEXTCLOUD_USER/$encoded_name"
+done
+```
+
 ## Содержание
 
 1. [WebDAV File API](#webdav-file-api)
@@ -254,7 +270,7 @@ curl -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" \
   "$NEXTCLOUD_URL/ocs/v2.php/apps/files_sharing/api/v1/shares/{shareId}" \
   -H "OCS-APIRequest: true" \
   -d "permissions=1" \
-  -d "password=NewPassword" \
+  -d "password=<new-share-password>" \
   -d "expireDate=2025-06-01"
 ```
 

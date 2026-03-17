@@ -1,6 +1,14 @@
 ---
 name: open-terminal-guide
-description: "Полная русскоязычная справка по Open Terminal — self-hosted REST API терминала для AI-агентов. Используй этот скилл при любых вопросах об Open Terminal: API-эндпоинты, развёртывание (Docker, bare-metal), конфигурация, интеграция с Open WebUI, архитектура, отладка, написание клиентского кода для взаимодействия с Open Terminal. Также используй при работе с кодовой базой open-terminal: структура проекта, runner.py, main.py, MCP-сервер, Jupyter-ноутбуки. Триггерится на: open-terminal, open terminal, remote terminal API, /execute, /files, sandbox API, terminal sessions, Open WebUI terminal."
+description: >-
+  Полная русскоязычная справка по Open Terminal: self-hosted REST API
+  терминала для AI-агентов. Используй этот скилл при любых вопросах об Open
+  Terminal: API-эндпоинты, развёртывание (Docker, bare-metal), конфигурация,
+  интеграция с Open WebUI, архитектура, отладка, написание клиентского кода
+  для взаимодействия с Open Terminal. Также используй при работе с кодовой
+  базой open-terminal: структура проекта, runner.py, main.py, MCP-сервер,
+  Jupyter-ноутбуки. Триггеры: open-terminal, open terminal, remote terminal
+  API, /execute, /files, sandbox API, terminal sessions, Open WebUI terminal.
 ---
 
 # Open Terminal — Полная справка
@@ -17,34 +25,48 @@ Open Terminal — это легковесный self-hosted REST API, котор
 ## Быстрый старт
 
 ```bash
+# Задай ключ заранее через secret manager или env-file
+export OPEN_TERMINAL_API_KEY='<random-secret-from-secret-store>'
+export OPEN_TERMINAL_IMAGE='ghcr.io/open-webui/open-terminal@sha256:<verified-digest>'
+
 # Docker (рекомендуется)
+docker pull "$OPEN_TERMINAL_IMAGE"
 docker run -d --name open-terminal --restart unless-stopped \
-  -p 8000:8000 -v open-terminal:/home/user \
-  -e OPEN_TERMINAL_API_KEY=your-secret-key \
-  ghcr.io/open-webui/open-terminal
+  -p 127.0.0.1:8000:8000 \
+  -v open-terminal:/home/user \
+  -e OPEN_TERMINAL_API_KEY="$OPEN_TERMINAL_API_KEY" \
+  "$OPEN_TERMINAL_IMAGE"
 
 # Bare metal через uvx (без установки)
-uvx open-terminal run --host 0.0.0.0 --port 8000 --api-key your-secret-key
+uvx open-terminal run --host 127.0.0.1 --port 8000 --api-key "$OPEN_TERMINAL_API_KEY"
 
 # Bare metal через pip
 pip install open-terminal
-open-terminal run --host 0.0.0.0 --port 8000 --api-key your-secret-key
+open-terminal run --host 127.0.0.1 --port 8000 --api-key "$OPEN_TERMINAL_API_KEY"
 ```
 
-Если API-ключ не задан, он генерируется автоматически и выводится в логи.
+Автогенерация API-ключа в логах годится только для локального одноразового теста. Для постоянного окружения задай ключ явно через env var или `_FILE` secret.
 
 ## Аутентификация
 
 Все эндпоинты кроме `/health` требуют Bearer-токен:
 
 ```
-Authorization: Bearer <OPEN_TERMINAL_API_KEY>
+Authorization: Bearer $OPEN_TERMINAL_API_KEY
 ```
 
 WebSocket-терминалы используют **first-message auth** — первое сообщение после подключения должно быть JSON:
 ```json
-{"type": "auth", "token": "<api_key>"}
+{"type": "auth", "token": "$OPEN_TERMINAL_API_KEY"}
 ```
+
+## Security Guardrails
+
+- Разворачивай Open Terminal только за VPN, reverse proxy или allowlist ACL. Не публикуй его напрямую в интернет без отдельного изоляционного контура.
+- Для production предпочитай Docker/VM/отдельного пользователя без привилегий. Bare metal допустим только в доверенной среде.
+- `/files/upload` с полем `url`, notebook `source` и `/proxy/{port}/{path}` используй только для доверенных источников. Не скачивай URL и не выполняй полученный контент без ручной проверки.
+- Если не нужны PTY, notebooks или proxy, отключай их конфигом/доступом на периметре.
+- Не вставляй реальные ключи в команды, логи, issue-трекер, примеры JSON и сообщения агенту.
 
 ## Основные группы API
 
@@ -124,7 +146,7 @@ PTY-сессии управляются через REST + WebSocket:
 docker run -d -p 8000:8000 \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v open-terminal:/home/user \
-  ghcr.io/open-webui/open-terminal
+  "$OPEN_TERMINAL_IMAGE"
 ```
 `entrypoint.sh` автоматически добавляет пользователя в группу сокета.
 

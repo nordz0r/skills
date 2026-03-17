@@ -370,12 +370,22 @@ async function createContext(browser, options = {}) {
 }
 
 /**
- * Detect running dev servers on common ports
- * @param {Array<number>} customPorts - Additional ports to check
+ * Detect running loopback dev servers on common ports
+ * Probing is opt-in because even localhost port scans can be surprising.
+ * @param {Array<number>|Object} customPortsOrOptions - Additional ports to check, or options
+ * @param {Object} maybeOptions - Options object when the first arg is an array
  * @returns {Promise<Array>} Array of detected server URLs
  */
-async function detectDevServers(customPorts = []) {
+async function detectDevServers(customPortsOrOptions = [], maybeOptions = {}) {
   const http = require('http');
+  const customPorts = Array.isArray(customPortsOrOptions) ? customPortsOrOptions : [];
+  const options = Array.isArray(customPortsOrOptions) ? maybeOptions : (customPortsOrOptions || {});
+  const allowProbe = options.allowProbe === true || process.env.PW_ALLOW_DEV_SERVER_DETECTION === '1';
+
+  if (!allowProbe) {
+    console.log('⏭️  Dev server detection skipped (set allowProbe:true or PW_ALLOW_DEV_SERVER_DETECTION=1)');
+    return [];
+  }
 
   // Common dev server ports
   const commonPorts = [3000, 3001, 3002, 5173, 8080, 8000, 4200, 5000, 9000, 1234];

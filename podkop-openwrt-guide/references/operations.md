@@ -32,8 +32,14 @@ Runtime зависимости:
 ## Установка и обновление
 
 ```sh
-sh <(wget -O - https://raw.githubusercontent.com/itdoginfo/podkop/refs/heads/main/install.sh)
+PODKOP_REF="<pinned-tag-or-commit>"
+curl -fsSL -o /tmp/podkop-install.sh \
+  "https://raw.githubusercontent.com/itdoginfo/podkop/${PODKOP_REF}/install.sh"
+sed -n '1,200p' /tmp/podkop-install.sh
+sh /tmp/podkop-install.sh
 ```
+
+Перед запуском зафиксируй `PODKOP_REF`, сверь release notes/commit и не выполняй удалённый install script напрямую с плавающей ветки `main`.
 
 Скрипт:
 
@@ -49,9 +55,12 @@ sh <(wget -O - https://raw.githubusercontent.com/itdoginfo/podkop/refs/heads/mai
 Начиная с `0.7.0` структура `/etc/config/podkop` несовместима со старыми значениями.
 
 ```sh
+PODKOP_REF="<same-pinned-tag-or-commit>"
 mv /etc/config/podkop /etc/config/podkop-070
-wget -O /etc/config/podkop \
-  https://raw.githubusercontent.com/itdoginfo/podkop/refs/heads/main/podkop/files/etc/config/podkop
+curl -fsSL -o /tmp/podkop.config \
+  "https://raw.githubusercontent.com/itdoginfo/podkop/${PODKOP_REF}/podkop/files/etc/config/podkop"
+sed -n '1,120p' /tmp/podkop.config
+cp /tmp/podkop.config /etc/config/podkop
 ```
 
 После этого настрой Podkop заново через LuCI или UCI.
