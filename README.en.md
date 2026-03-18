@@ -36,6 +36,7 @@ Most domain guides live inside each skill directory. The main repository README 
 | [agency-ux-architect](agency-ux-architect/) | IA, flows, layout systems, implementation-ready UX structure | ux architecture, ia, flow, layout system |
 | [agency-ux-researcher](agency-ux-researcher/) | Research planning, usability testing, validation | ux research, usability test, interview guide |
 | [agency-whimsy-injector](agency-whimsy-injector/) | Delight, personality, playful copy, micro-interactions | delight, micro-interactions, playful ui |
+| [preview-interview](preview-interview/) | Interview preparation: question banks, answer structuring, mock sessions | interview, prep, mock interview, behavioral, technical interview, resume |
 
 ### AI tooling, knowledge workflows, and integrations
 
@@ -48,6 +49,7 @@ Most domain guides live inside each skill directory. The main repository README 
 | [ollama-search](ollama-search/) | Ollama Web Search and Web Fetch API, SDK, MCP, OpenClaw integration | ollama search, web fetch, mcp, openclaw |
 | [qdrant-codebase-search](qdrant-codebase-search/) | Semantic code search with Qdrant, Ollama, and MCP | qdrant, code search, semantic search, vector search |
 | [nextcloud-admin](nextcloud-admin/) | Nextcloud administration via OCS API and WebDAV | nextcloud, webdav, ocs api, file sharing |
+| [elk-kibana-dashboards](elk-kibana-dashboards/) | Elasticsearch and Kibana: log analysis, dashboards, Lens/TSVB, KQL/Lucene, DSL aggregations | elasticsearch, kibana, elk, kql, lucene, lens, tsvb, dashboard, logs |
 
 ### OpenWrt, networking, and anti-censorship
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: "ELK & Kibana"
+  short_description: "Elastic Stack, Kibana dashboards, KQL/DSL, and triage."
+  default_prompt: "Help with Elasticsearch, Kibana dashboards, KQL, DSL aggregations, and observability troubleshooting."

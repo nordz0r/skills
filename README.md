@@ -36,6 +36,7 @@
 | [agency-ux-architect](agency-ux-architect/) | IA, flows, layout systems, theming foundations, implementation-ready UX | ux architecture, ia, flow, layout system, screen structure |
 | [agency-ux-researcher](agency-ux-researcher/) | Research plans, interview guides, usability tests, validation | ux research, usability test, interview guide, discovery |
 | [agency-whimsy-injector](agency-whimsy-injector/) | Delight, product personality, playful copy, micro-interactions | delight, micro-interactions, personality, playful ui |
+| [preview-interview](preview-interview/) | Подготовка к интервью: разбор вопросов, структурирование ответов, mock-сессии | interview, prep, mock interview, behavioral, technical interview, resume |
 
 ### AI tooling, knowledge workflows и integrations
 
@@ -48,6 +49,7 @@
 | [ollama-search](ollama-search/) | Ollama Web Search / Web Fetch API, SDK, MCP, OpenClaw integration | ollama search, web search, web fetch, mcp, openclaw |
 | [qdrant-codebase-search](qdrant-codebase-search/) | Семантический поиск по коду через Qdrant + Ollama + MCP | qdrant, code search, semantic search, vector search, mcp qdrant |
 | [nextcloud-admin](nextcloud-admin/) | Управление Nextcloud через OCS API и WebDAV | nextcloud, webdav, ocs api, file sharing, public link |
+| [elk-kibana-dashboards](elk-kibana-dashboards/) | Elasticsearch и Kibana: анализ логов, дашборды, Lens/TSVB, KQL/Lucene, DSL aggregations | elasticsearch, kibana, elk, kql, lucene, lens, tsvb, dashboard, logs |
 
 ### OpenWrt, networking и anti-censorship
 

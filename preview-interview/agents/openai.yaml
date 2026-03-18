@@ -1,0 +1,4 @@
+interface:
+  display_name: "Preview Interview"
+  short_description: "Mock interviews, question banks, and answer critique."
+  default_prompt: "Use $preview-interview to prepare likely interview questions, mock rounds, and answer critiques for a target role."
