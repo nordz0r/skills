@@ -58,8 +58,8 @@ if [[ "$NODE_VERSION" -lt 22 ]]; then
     exit 1
 fi
 
-if [[ ! -x "$QDRANT_MCP_WRAPPER" ]]; then
-    echo "Error: wrapper script not found or not executable: $QDRANT_MCP_WRAPPER"
+if [[ ! -f "$QDRANT_MCP_WRAPPER" ]]; then
+    echo "Error: wrapper script not found: $QDRANT_MCP_WRAPPER"
     exit 1
 fi
 
