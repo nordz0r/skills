@@ -41,6 +41,8 @@ sh /tmp/podkop-install.sh
 
 Перед запуском зафиксируй `PODKOP_REF`, сверь release notes/commit и не выполняй удалённый install script напрямую с плавающей ветки `main`.
 
+Если есть возможность, предпочитай скачать release-артефакты и install script на доверенной машине, проверить checksum/содержимое и только потом переносить их на роутер для установки.
+
 Скрипт:
 
 - определяет `opkg` или `apk`;
@@ -204,6 +206,8 @@ DNS-поток:
 
 Для сервисов с подсетями (discord, meta, twitter, telegram, roblox, cloudflare, cloudfront, digitalocean, hetzner, ovh) автоматически подтягиваются IPv4-подсети из `itdoginfo/allow-domains`.
 
+Community lists и remote lists считай внешним вводом. Для production-контуров лучше зеркалировать нужные списки во внутренний источник и обновлять их после ревью.
+
 ## CLI команды Podkop
 
 ### Lifecycle
@@ -256,6 +260,8 @@ GET  /proxies/{tag}/delay?url=&timeout=  # Latency proxy
 GET  /group/{tag}/delay?url=&timeout=    # Latency группы
 PUT  /proxies/{tag}  {"name":"proxy"}    # Переключить proxy
 ```
+
+Держи Clash API и YACD на loopback или за отдельным auth/reverse-proxy контуром. Не публикуй их напрямую в LAN/WAN без контроля доступа.
 
 ## Что проверять первым при поломке
 

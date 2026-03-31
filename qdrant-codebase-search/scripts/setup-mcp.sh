@@ -7,7 +7,8 @@ set -euo pipefail
 AGENT=""
 QDRANT_URL="${QDRANT_URL:-http://localhost:6333}"
 OLLAMA_URL="${EMBEDDING_BASE_URL:-http://localhost:11434}"
-QDRANT_MCP_PACKAGE="${QDRANT_MCP_PACKAGE:-@mhalder/qdrant-mcp-server@3.3.1}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+QDRANT_MCP_WRAPPER="${QDRANT_MCP_WRAPPER:-${SCRIPT_DIR}/run-mcp-server.sh}"
 NODE_PATH=""
 APPLY_CHANGES=0
 
@@ -19,7 +20,7 @@ usage() {
     echo "  --qdrant-url    Qdrant URL (default: $QDRANT_URL)"
     echo "  --ollama-url    Ollama URL (default: $OLLAMA_URL)"
     echo "  --apply         Actually write config / run agent CLI. Default: print for review only"
-    echo "  --node-path     Custom path to node/npx (e.g., /opt/homebrew/opt/node@22/bin)"
+    echo "  --node-path     Custom path to node (e.g., /opt/homebrew/opt/node@22/bin)"
     exit 1
 }
 
@@ -45,25 +46,20 @@ check_command() {
     fi
 }
 
-NPX_CMD="npx"
-if [[ -n "$NODE_PATH" ]]; then
-    NPX_CMD="${NODE_PATH}/npx"
-    if [[ ! -x "$NPX_CMD" ]]; then
-        echo "Error: npx not found at $NPX_CMD"
-        exit 1
-    fi
-else
-    check_command npx
-fi
-
 # Verify Node.js version >= 22
 NODE_CMD="node"
 [[ -n "$NODE_PATH" ]] && NODE_CMD="${NODE_PATH}/node"
+check_command "$NODE_CMD"
 NODE_VERSION=$("$NODE_CMD" -v 2>/dev/null | sed 's/v//' | cut -d. -f1)
 if [[ "$NODE_VERSION" -lt 22 ]]; then
     echo "Error: Node.js 22+ required (found v${NODE_VERSION})"
     echo "Install: brew install node@22"
     echo "Then re-run with: --node-path /opt/homebrew/opt/node@22/bin"
+    exit 1
+fi
+
+if [[ ! -x "$QDRANT_MCP_WRAPPER" ]]; then
+    echo "Error: wrapper script not found or not executable: $QDRANT_MCP_WRAPPER"
     exit 1
 fi
 
@@ -75,7 +71,7 @@ case "$AGENT" in
                 -e QDRANT_URL="$QDRANT_URL" \
                 -e EMBEDDING_PROVIDER=ollama \
                 -e EMBEDDING_BASE_URL="$OLLAMA_URL" \
-                -- "$NPX_CMD" -y "$QDRANT_MCP_PACKAGE"
+                -- bash "$QDRANT_MCP_WRAPPER"
             echo "Done. Verify with: claude mcp list"
         else
             echo "Review the following command, then re-run with --apply if it looks correct:"
@@ -83,7 +79,7 @@ case "$AGENT" in
             echo "  -e QDRANT_URL=$QDRANT_URL \\"
             echo "  -e EMBEDDING_PROVIDER=ollama \\"
             echo "  -e EMBEDDING_BASE_URL=$OLLAMA_URL \\"
-            echo "  -- $NPX_CMD -y $QDRANT_MCP_PACKAGE"
+            echo "  -- bash $QDRANT_MCP_WRAPPER"
         fi
         ;;
     codex)
@@ -95,8 +91,8 @@ case "$AGENT" in
 {
   "mcpServers": {
     "qdrant-mcp": {
-      "command": "$NPX_CMD",
-      "args": ["-y", "$QDRANT_MCP_PACKAGE"],
+      "command": "bash",
+      "args": ["$QDRANT_MCP_WRAPPER"],
       "env": {
         "QDRANT_URL": "$QDRANT_URL",
         "EMBEDDING_PROVIDER": "ollama",
@@ -126,8 +122,8 @@ EOF
 {
   "mcpServers": {
     "qdrant-mcp": {
-      "command": "$NPX_CMD",
-      "args": ["-y", "$QDRANT_MCP_PACKAGE"],
+      "command": "bash",
+      "args": ["$QDRANT_MCP_WRAPPER"],
       "env": {
         "QDRANT_URL": "$QDRANT_URL",
         "EMBEDDING_PROVIDER": "ollama",

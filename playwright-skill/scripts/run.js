@@ -3,16 +3,15 @@
  * Universal Playwright Executor for standalone skills
  *
  * Executes Playwright automation code from:
- * - File path: node scripts/run.js script.js
- * - Inline code: node scripts/run.js --allow-inline 'await page.goto("...")'
- * - Stdin: cat script.js | node scripts/run.js --allow-inline
+ * - File path: node scripts/run.js /tmp/playwright-test-foo.js
  *
  * Ensures proper module resolution by running from skill directory.
+ * Inline and stdin execution are intentionally disabled so the caller reviews
+ * a concrete file before execution.
  */
 
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
 
 const SKILL_ROOT = path.resolve(__dirname, '..');
 
@@ -32,66 +31,22 @@ function checkPlaywrightInstalled() {
 }
 
 /**
- * Install Playwright if missing
- */
-function installPlaywright() {
-  console.log('📦 Playwright not found. Installing...');
-  try {
-    execSync('npm install', { stdio: 'inherit', cwd: SKILL_ROOT });
-    execSync('npx playwright install chromium', { stdio: 'inherit', cwd: SKILL_ROOT });
-    console.log('✅ Playwright installed successfully');
-    return true;
-  } catch (e) {
-    console.error('❌ Failed to install Playwright:', e.message);
-    console.error('Please run manually: cd', SKILL_ROOT, '&& npm run setup');
-    return false;
-  }
-}
-
-/**
  * Get code to execute from various sources
  */
 function getCodeToExecute() {
-  const rawArgs = process.argv.slice(2);
-  const allowInline = rawArgs.includes('--allow-inline') || process.env.PLAYWRIGHT_SKILL_ALLOW_INLINE === '1';
-  const args = rawArgs.filter(arg => arg !== '--allow-inline');
+  const args = process.argv.slice(2);
 
-  // Case 1: File path provided
-  if (args.length > 0 && fs.existsSync(args[0])) {
-    const filePath = path.resolve(args[0]);
-    console.log(`📄 Executing file: ${filePath}`);
-    return fs.readFileSync(filePath, 'utf8');
+  if (args.length !== 1 || !fs.existsSync(args[0])) {
+    console.error('❌ This executor only accepts a reviewed script file path');
+    console.error('Write your automation to /tmp/playwright-test-*.js and pass that file here');
+    console.error('Usage:');
+    console.error('  node scripts/run.js /tmp/playwright-test-page.js');
+    process.exit(1);
   }
 
-  // Case 2: Inline code provided as argument
-  if (args.length > 0) {
-    if (!allowInline) {
-      console.error('❌ Inline execution is disabled by default');
-      console.error('Re-run with --allow-inline after reviewing the code you are about to execute');
-      process.exit(1);
-    }
-    console.log('⚡ Executing inline code');
-    return args.join(' ');
-  }
-
-  // Case 3: Code from stdin
-  if (!process.stdin.isTTY) {
-    if (!allowInline) {
-      console.error('❌ Stdin execution is disabled by default');
-      console.error('Re-run with --allow-inline after reviewing the code you are piping in');
-      process.exit(1);
-    }
-    console.log('📥 Reading from stdin');
-    return fs.readFileSync(0, 'utf8');
-  }
-
-  // No input
-  console.error('❌ No code to execute');
-  console.error('Usage:');
-  console.error('  node scripts/run.js script.js          # Execute file');
-  console.error('  node scripts/run.js --allow-inline "code here"     # Execute inline');
-  console.error('  cat script.js | node scripts/run.js --allow-inline # Execute from stdin');
-  process.exit(1);
+  const filePath = path.resolve(args[0]);
+  console.log(`📄 Executing file: ${filePath}`);
+  return fs.readFileSync(filePath, 'utf8');
 }
 
 /**
@@ -199,12 +154,11 @@ async function main() {
   // Clean up old temp files from previous runs
   cleanupOldTempFiles();
 
-  // Check Playwright installation
   if (!checkPlaywrightInstalled()) {
-    const installed = installPlaywright();
-    if (!installed) {
-      process.exit(1);
-    }
+    console.error('❌ Playwright is not installed in this skill directory');
+    console.error('Run manual setup first:');
+    console.error(`  cd ${SKILL_ROOT} && npm run setup`);
+    process.exit(1);
   }
 
   // Get code to execute
