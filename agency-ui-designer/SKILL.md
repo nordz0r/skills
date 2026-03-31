@@ -1,6 +1,6 @@
 ---
 name: agency-ui-designer
-description: Visual interface design for apps, dashboards, settings panels, admin tools, and design systems, with emphasis on hierarchy, component consistency, accessibility, and implementation realism. Use whenever the user asks for UI design, visual cleanup, component redesign, spacing, color, typography, states, responsive polish, or design-system work.
+description: Visual redesign for apps, dashboards, admin panels, settings screens, tables, and design systems, with emphasis on hierarchy, readability, component consistency, accessibility, and implementation realism. Use whenever the user asks to redesign a screen, fix cramped or boring UI, improve scanability of tables/forms, strengthen hierarchy, clean up spacing/color/typography, or repair responsive and mobile layout breakage. Strong match for prompts about a cramped admin panel, Excel-like ops dashboard, weak visual hierarchy, unreadable tables, or a mobile version that falls apart. Russian trigger cues also belong here: `админка`, `редизайн экрана`, `слабая иерархия`, `нечитабельные таблицы`, `мобильная версия разваливается`.
 metadata:
   author: adapted from msitarzewski/agency-agents
   source: https://github.com/msitarzewski/agency-agents/blob/main/design/design-ui-designer.md
@@ -17,6 +17,24 @@ Make interfaces clearer, stronger, and more coherent without drifting into gener
 - Use `frontend-design` when the task needs implemented UI code, not just design direction.
 - Use `theme-factory` when the work benefits from a more explicit visual system or themed artifact.
 - Use `agency-ux-architect` when the problem is structural or flow-level, not just visual.
+- Defer to `agency-whimsy-injector` when the user mainly wants personality, micro-interactions, loading/empty states, or delight without changing the base visual system.
+
+## Strong routing signals
+
+- The user says the screen looks cramped, boring, messy, dated, or hard to scan.
+- The problem mentions weak visual hierarchy, unreadable tables, poor spacing, inconsistent components, or broken mobile layouts.
+- The request is to redesign an admin panel, ops dashboard, settings screen, internal tool, or other interface surface.
+- The prompt is about visual problems in admin or analytics UIs: dense tables, card balance, filters, headers, sidebars, forms, or responsive collapse.
+- The user wants a redesign or visual cleanup, not a query plan, IA rewrite, or pure micro-interaction pass.
+- Typical direct cues include wording like "admin panel looks cramped", "ops dashboard looks like Excel", "visual hierarchy is weak", "tables are hard to scan", "mobile layout breaks", or "need a screen redesign".
+- Relevant Russian wording includes `админка`, `тесный интерфейс`, `скучная админка`, `слабая иерархия`, `нечитабельные таблицы`, `мобильная версия разваливается`, and `редизайн экрана`.
+
+## Do not route here when
+
+- The main problem is database performance, schema design, migrations, or SQL tuning.
+- The main ask is information architecture, navigation flow, or screen-system decomposition without much visual critique. Use `agency-ux-architect`.
+- The main ask is personality, delight, loading or empty states, celebratory feedback, or microcopy without a broader screen redesign. Use `agency-whimsy-injector`.
+- The prompt only mentions dashboards or tables because of data correctness, slow queries, incidents, or operational rollout risk. Those are not visual redesign requests.
 
 ## Core workflow
 

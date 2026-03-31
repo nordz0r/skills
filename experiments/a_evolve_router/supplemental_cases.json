@@ -1,0 +1,44 @@
+[
+  {
+    "task_id": "agency-ui-designer::supp-train-1",
+    "prompt": "Наша ops dashboard работает, но выглядит как Excel: таблицы тяжело сканировать, визуальная иерархия слабая, на мобильном всё ломается.",
+    "expected_skill": "agency-ui-designer",
+    "expected_output": "Ответ должен уверенно маршрутизировать visual hierarchy, table readability, dashboard redesign и mobile cleanup к UI skill.",
+    "split": "train"
+  },
+  {
+    "task_id": "agency-ui-designer::supp-holdout-1",
+    "prompt": "Internal control panel feels cramped and visually weak: unreadable data table, poor scanability, broken mobile layout. Нужен redesign без ребрендинга.",
+    "expected_skill": "agency-ui-designer",
+    "expected_output": "Ответ должен отличать screen redesign и readability problems от incident, security или data concerns.",
+    "split": "holdout"
+  },
+  {
+    "task_id": "agency-whimsy-injector::supp-train-1",
+    "prompt": "Нужно придумать loading и empty states для аналитического dashboard так, чтобы продукт был менее стерильным, но без полного редизайна.",
+    "expected_skill": "agency-whimsy-injector",
+    "expected_output": "Ответ должен выбирать delight/personality для already-working UI instead of full visual redesign.",
+    "split": "train"
+  },
+  {
+    "task_id": "agency-whimsy-injector::supp-holdout-1",
+    "prompt": "Базовый интерфейс уже в порядке, но ему не хватает personality: micro-copy, playful success moments и subtle micro-interactions без clown mode.",
+    "expected_skill": "agency-whimsy-injector",
+    "expected_output": "Ответ должен удерживать фокус на personality, delight и restraint, а не на layout cleanup.",
+    "split": "holdout"
+  },
+  {
+    "task_id": "agency-database-optimizer::supp-train-1",
+    "prompt": "Reporting dashboard тормозит не из-за верстки: query по orders делает join и sort, нужен EXPLAIN ANALYZE и index strategy.",
+    "expected_skill": "agency-database-optimizer",
+    "expected_output": "Ответ должен трактовать dashboard slowdown as SQL/indexing work when the prompt names query evidence.",
+    "split": "train"
+  },
+  {
+    "task_id": "agency-database-optimizer::supp-holdout-1",
+    "prompt": "Список заказов в админке открывается 8 секунд; проблема в SQL, а не в UI. Нужны plan, индексы и schema-safe rollout.",
+    "expected_skill": "agency-database-optimizer",
+    "expected_output": "Ответ должен маршрутизировать SQL diagnosis, indexing и rollout safety к database skill despite admin UI wording.",
+    "split": "holdout"
+  }
+]

@@ -1,6 +1,6 @@
 ---
 name: agency-database-optimizer
-description: Database design, migration safety, indexing, EXPLAIN analysis, query tuning, connection management, and production-safe PostgreSQL or MySQL changes. Use whenever the user mentions Postgres, PostgreSQL, MySQL, MariaDB, slow queries, schema design, migrations, locking risk, indexing, or wants to move an app between database engines safely.
+description: Database design, migration safety, indexing, EXPLAIN analysis, query tuning, connection management, and production-safe PostgreSQL or MySQL changes. Use whenever the user mentions Postgres, PostgreSQL, MySQL, MariaDB, slow queries, schema design, migrations, locking risk, indexing, SQL plans, or wants to move an app between database engines safely.
 metadata:
   author: adapted from msitarzewski/agency-agents
   source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-database-optimizer.md
@@ -16,6 +16,12 @@ Treat database changes as production changes, not just SQL edits.
 - Use `agency-devops-automator` when DB changes are part of a deployment pipeline or migration wave.
 - Use `agency-sre` when performance or availability symptoms need measurement and alerting.
 - Use `nextcloud-admin` when the task touches a live Nextcloud instance and app or user state matters.
+
+## Do not route here when
+
+- The user is criticizing the look of an admin panel, dashboard, table, form, or mobile layout without asking for SQL or schema work. Use `agency-ui-designer`.
+- The prompt is about personality, delight, loading states, or empty states rather than database behavior. Use `agency-whimsy-injector`.
+- The task is about navigation structure, information architecture, or responsive layout rules rather than data-layer performance. Use `agency-ux-architect`.
 
 ## Core workflow
 

@@ -1,2 +1,5 @@
 .idea
 .vscode
+experiments/a_evolve_router/.workdir
+experiments/a_evolve_router/.venv
+experiments/**/__pycache__

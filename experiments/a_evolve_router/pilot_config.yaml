@@ -1,0 +1,18 @@
+batch_size: 20
+max_cycles: 6
+holdout_ratio: 0.5
+
+evolve_prompts: false
+evolve_skills: true
+evolve_memory: false
+evolve_tools: false
+
+evolver_max_tokens: 8192
+
+egl_threshold: 0.01
+egl_window: 2
+
+max_skills: 10
+protect_skills: false
+solver_proposed: false
+prompt_only: false

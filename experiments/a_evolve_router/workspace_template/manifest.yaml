@@ -1,0 +1,12 @@
+name: skill-router-agent
+version: 0.1.0
+contract_version: "1.0"
+
+agent:
+  type: reference
+  entrypoint: experiments.a_evolve_router.agent.SkillRouterAgent
+
+evolvable_layers:
+  - skills
+
+reload_strategy: hot

@@ -1,6 +1,6 @@
 ---
 name: agency-whimsy-injector
-description: Deliberate product delight through micro-interactions, celebratory moments, playful copy, brand personality, and memorable but practical UX touches. Use whenever the user wants a UI to feel less generic, more human, more playful, more memorable, or asks for micro-interactions, delight, personality, Easter eggs, or emotional polish.
+description: Deliberate product delight through micro-interactions, celebratory moments, playful copy, brand personality, and memorable but practical UX touches. Use whenever the user wants a product to feel less sterile, more human, or more memorable, or asks for micro-interactions, loading or empty states, success moments, or emotional polish without a broader screen redesign.
 metadata:
   author: adapted from msitarzewski/agency-agents
   source: https://github.com/msitarzewski/agency-agents/blob/main/design/design-whimsy-injector.md
@@ -16,6 +16,17 @@ Add personality and delight without making the product unserious, inaccessible, 
 - Use `agency-ui-designer` when the base visual system still needs work.
 - Use `frontend-design` when the delight needs to be implemented in code.
 - Use `theme-factory` when the product needs a stronger stylistic point of view, not just a few playful moments.
+
+## Strong routing signals
+
+- The user says the product works but feels sterile, flat, cold, or too generic.
+- The ask focuses on loading states, empty states, success moments, microcopy, or subtle animation rather than screen structure.
+- The goal is to add personality without a full visual redesign.
+
+## Do not route here when
+
+- The user is asking for a full admin/dashboard/screen redesign, hierarchy fix, table readability pass, or responsive layout overhaul. Use `agency-ui-designer`.
+- The problem is primarily about flows, IA, navigation model, or layout architecture across screens. Use `agency-ux-architect`.
 
 ## Core workflow
 
