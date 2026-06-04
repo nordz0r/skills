@@ -45,6 +45,7 @@ Most domain guides live inside each skill directory. The main repository README 
 | [basic-memory-workflow](basic-memory-workflow/) | Project memory workflow, ADRs, meeting notes, stable facts | basic-memory, project memory, adr, recall context |
 | [playwright-skill](playwright-skill/) | Playwright browser automation for screenshots, responsive checks, login flows, forms, and dev-server detection | playwright, browser automation, e2e, responsive testing, screenshots |
 | [lightpanda-browser](lightpanda-browser/) | Lightpanda runtime for rendered extraction, CDP automation, and MCP browsing across Windows, Linux, macOS, and WSL | lightpanda, rendered extraction, cdp, mcp, semantic tree, markdown dump, wsl |
+| [litellm-guide](litellm-guide/) | LiteLLM SDK, proxy/gateway, providers, routing, APIs, MCP/A2A, troubleshooting, and repo development | litellm, proxy, gateway, providers, routing, virtual keys, mcp, openai-compatible |
 | [open-webui-guide](open-webui-guide/) | Open WebUI architecture, auth, functions, pipelines, API, RAG, scaling | open webui, pipelines, rag, oauth, ldap, jwt |
 | [open-terminal-guide](open-terminal-guide/) | Open Terminal self-hosted REST API for AI agents | open terminal, terminal api, /execute, sandbox api |
 | [ollama-search](ollama-search/) | Ollama Web Search and Web Fetch API, SDK, MCP, OpenClaw integration | ollama search, web fetch, mcp, openclaw |

@@ -45,6 +45,7 @@
 | [basic-memory-workflow](basic-memory-workflow/) | Работа с project memory: recall context, ADR, meeting notes, stable facts | basic-memory, project memory, recall context, adr, summary |
 | [playwright-skill](playwright-skill/) | Автоматизация браузера через Playwright: скриншоты, responsive checks, формы, login flows, dev-server detection | playwright, browser automation, e2e, responsive testing, screenshots |
 | [lightpanda-browser](lightpanda-browser/) | Lightpanda как runtime для rendered extraction, CDP automation и MCP browsing под Win/Linux/macOS/WSL | lightpanda, rendered extraction, cdp, mcp, semantic tree, markdown dump, wsl |
+| [litellm-guide](litellm-guide/) | LiteLLM: SDK, proxy/gateway, providers, routing, API, MCP/A2A, troubleshooting и repo development | litellm, proxy, gateway, providers, routing, virtual keys, mcp, openai-compatible |
 | [open-webui-guide](open-webui-guide/) | Open WebUI: architecture, auth, functions, pipelines, API, RAG, scaling | open webui, pipelines, rag, oauth, ldap, jwt, docker-compose |
 | [open-terminal-guide](open-terminal-guide/) | Open Terminal: self-hosted terminal REST API for AI agents | open terminal, terminal api, /execute, /files, sandbox api |
 | [ollama-search](ollama-search/) | Ollama Web Search / Web Fetch API, SDK, MCP, OpenClaw integration | ollama search, web search, web fetch, mcp, openclaw |
