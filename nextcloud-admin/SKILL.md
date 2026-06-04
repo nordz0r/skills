@@ -426,3 +426,7 @@ fi
 ## Составные сценарии
 
 Для детального справочника всех эндпоинтов, аргументов и кодов ошибок — читай `references/api-reference.md`.
+
+<!-- A-EVOLVE-ROUTING-SIGNALS:START -->
+## Routing signals: nextcloud webdav ocs api files folders sharing public link users groups app passwords permissions quota admin
+<!-- A-EVOLVE-ROUTING-SIGNALS:END -->

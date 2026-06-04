@@ -161,3 +161,7 @@ bash {baseDir}/scripts/check-health.sh
 | 10k LOC (~50 файлов) | ~10 сек | <100 мс |
 | 100k LOC (~500 файлов) | ~2 мин | <200 мс |
 | 500k LOC (~2500 файлов) | ~10 мин | <500 мс |
+
+<!-- A-EVOLVE-ROUTING-SIGNALS:START -->
+## Routing signals: qdrant code search semantic search vector search ollama embeddings mcp tree-sitter ast chunking repository indexing git history
+<!-- A-EVOLVE-ROUTING-SIGNALS:END -->

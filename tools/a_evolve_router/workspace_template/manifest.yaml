@@ -4,7 +4,7 @@ contract_version: "1.0"
 
 agent:
   type: reference
-  entrypoint: experiments.a_evolve_router.agent.SkillRouterAgent
+  entrypoint: tools.a_evolve_router.agent.SkillRouterAgent
 
 evolvable_layers:
   - skills

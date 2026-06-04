@@ -115,12 +115,33 @@ When adding a new skill, keep these three layers in sync:
 2. `name` and `description` in `SKILL.md`
 3. Entries in `README.md` and `README.en.md`
 
+## Experimental skill routing
+
+The repository includes [`tools/a_evolve_router`](tools/a_evolve_router/), a small benchmark for checking whether `SKILL.md` wording routes user prompts to the right skill. It reads eval cases from top-level `<skill>/evals/evals.json`, adds ambiguous stress cases from `supplemental_cases.json`, and runs against an isolated workspace copy so real skill directories are not mutated during the experiment.
+
+Use it to:
+
+- check trigger-wording baseline after adding or editing a skill;
+- stress-test nearby skills that may be confused by auto-routing;
+- run a local `a-evolve` loop that improves routing signals in the workspace copy;
+- compare `train`/`holdout` accuracy before copying phrasing back into real `SKILL.md` files.
+
+Quick baseline without installing `a-evolve`:
+
+```bash
+python3 -m tools.a_evolve_router.evaluate_baseline --split all
+```
+
+The full local `a-evolve` workflow is documented in [`tools/a_evolve_router/README.md`](tools/a_evolve_router/README.md). Use `--reset-workspace` for clean reruns from the current skill catalog.
+
 ## Repository structure
 
 ```text
 skills/
 ├── README.md
 ├── README.en.md
+├── tools/
+│   └── a_evolve_router/  # experimental skill-routing benchmark
 └── <skill-name>/
     ├── SKILL.md
     ├── evals/

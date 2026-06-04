@@ -245,3 +245,7 @@ zapret-openwrt/
 - `env.js` — все пути, имена файлов, URL-ы (загружается первым)
 - `tools.js` — RPC-вызовы, POLLER, fileEditDialog, longstrEditDialog, decode_svc_info
 - Каждая страница — отдельный view, наследующий `view.extend()` или `baseclass.extend()`
+
+<!-- A-EVOLVE-ROUTING-SIGNALS:START -->
+## Routing signals: zapret openwrt dpi desync nfqws hostlist autohostlist luci uci firewall nftables troubleshooting anti-censorship router
+<!-- A-EVOLVE-ROUTING-SIGNALS:END -->

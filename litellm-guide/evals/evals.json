@@ -1,0 +1,17 @@
+{
+  "skill_name": "litellm-guide",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Нужно настроить LiteLLM Proxy как OpenAI-compatible gateway: model_list, virtual keys, budgets, logging callbacks и /model/info для DB-backed моделей.",
+      "expected_output": "Ответ должен выбрать litellm-guide для proxy/gateway настройки, auth, budgets, logging и live model info.",
+      "split": "train"
+    },
+    {
+      "id": 2,
+      "prompt": "В LiteLLM ошибка LLM Provider NOT provided при вызове модели через Router. Надо понять provider prefix, custom_llm_provider, fallback и routing config.",
+      "expected_output": "Ответ должен выбрать litellm-guide для диагностики provider vs gateway, Router, routing config и troubleshooting.",
+      "split": "holdout"
+    }
+  ]
+}

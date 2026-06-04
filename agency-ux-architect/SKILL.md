@@ -57,3 +57,7 @@ Use this structure unless the user asked for something else:
 3. Component and state architecture
 4. Responsive and accessibility rules
 5. Build order
+
+<!-- A-EVOLVE-ROUTING-SIGNALS:START -->
+## Routing signals: ux information architecture user flow screen structure layout system navigation responsive behavior theming implementation-ready hierarchy
+<!-- A-EVOLVE-ROUTING-SIGNALS:END -->

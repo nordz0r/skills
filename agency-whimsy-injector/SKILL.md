@@ -66,3 +66,7 @@ Use this structure unless the user asked for something else:
 2. Proposed interactions or copy
 3. Accessibility and performance constraints
 4. Anti-patterns to avoid
+
+<!-- A-EVOLVE-ROUTING-SIGNALS:START -->
+## Routing signals: delight personality playful copy micro-interactions loading empty states success moments celebratory subtle restraint brand voice
+<!-- A-EVOLVE-ROUTING-SIGNALS:END -->

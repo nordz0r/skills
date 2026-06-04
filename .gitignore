@@ -1,5 +1,17 @@
 .idea
 .vscode
-experiments/a_evolve_router/.workdir
-experiments/a_evolve_router/.venv
-experiments/**/__pycache__
+
+# Python/runtime caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local A-Evolve router runtime; never commit generated workspaces or envs
+tools/a_evolve_router/.venv/
+tools/a_evolve_router/.workdir/
+tools/a_evolve_router/.tmp/
+tools/a_evolve_router/tmp/
+tools/a_evolve_router/*.log
+tools/a_evolve_router/*.jsonl

@@ -67,3 +67,7 @@ Return only the pieces that fit the request:
 
 Load [interview-patterns.md](references/interview-patterns.md) for reusable
 frameworks, answer structures, and mock-interview templates.
+
+<!-- A-EVOLVE-ROUTING-SIGNALS:START -->
+## Routing signals: interview prep mock interview behavioral technical recruiter screening answer structure star resume role seniority questions practice feedback
+<!-- A-EVOLVE-ROUTING-SIGNALS:END -->

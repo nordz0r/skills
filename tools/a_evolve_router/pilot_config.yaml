@@ -12,7 +12,7 @@ evolver_max_tokens: 8192
 egl_threshold: 0.01
 egl_window: 2
 
-max_skills: 10
+max_skills: 24
 protect_skills: false
 solver_proposed: false
 prompt_only: false

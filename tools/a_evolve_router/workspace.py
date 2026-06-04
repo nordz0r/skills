@@ -3,7 +3,7 @@ from __future__ import annotations
 import shutil
 from pathlib import Path
 
-from .catalog import EXPERIMENT_ROOT, REPO_ROOT
+from .catalog import EXPERIMENT_ROOT, REPO_ROOT, parse_frontmatter
 
 
 WORKSPACE_TEMPLATE = EXPERIMENT_ROOT / "workspace_template"
@@ -30,11 +30,12 @@ def materialize_workspace(
         shutil.rmtree(skills_dir)
     skills_dir.mkdir(parents=True, exist_ok=True)
 
-    for skill_dir in sorted(repo.glob("agency-*")):
-        source = skill_dir / "SKILL.md"
-        if not source.exists():
+    for source in sorted(repo.glob("*/SKILL.md")):
+        if source.parts[-2] in {"experiments"}:
             continue
-        dest_dir = skills_dir / skill_dir.name
+        metadata = parse_frontmatter(source.read_text(encoding="utf-8"))
+        skill_name = metadata.get("name", source.parent.name)
+        dest_dir = skills_dir / skill_name
         dest_dir.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source, dest_dir / "SKILL.md")
 

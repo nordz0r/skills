@@ -57,3 +57,7 @@ Use this structure unless the user asked for something else:
 3. Validation and rollout checks
 4. Rollback and backup notes
 5. Residual risks
+
+<!-- A-EVOLVE-ROUTING-SIGNALS:START -->
+## Routing signals: ci cd deploy terraform ansible kubernetes helm vault automation rollout rollback environment promotion secrets ingress backup gitops pipeline
+<!-- A-EVOLVE-ROUTING-SIGNALS:END -->

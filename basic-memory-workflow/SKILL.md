@@ -139,3 +139,7 @@ basic-memory project ls --name main
 - Для новых устойчивых решений сначала кратко сформулируй summary, затем записывай.
 - Если пользователь явно не просил сохранять, но вывод выглядит как важное решение, предложи сохранить, а не записывай молча.
 - Если note уже явно существует, лучше обновить его, чем плодить дубликаты.
+
+<!-- A-EVOLVE-ROUTING-SIGNALS:START -->
+## Routing signals: basic-memory project memory recall context adr summary decision meeting notes search recent activity save note memory workflow
+<!-- A-EVOLVE-ROUTING-SIGNALS:END -->

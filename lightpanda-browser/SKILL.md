@@ -101,3 +101,7 @@ Do not over-promise current open-source Lightpanda behavior.
 If the task is mainly visual regression, screenshot capture, download persistence, or Chromium-specific automation reliability, switch to `$playwright-skill` and state that the current Lightpanda open-source surface is not the safest default for that workflow.
 
 Read [references/limitations.md](references/limitations.md) before promising browser parity.
+
+<!-- A-EVOLVE-ROUTING-SIGNALS:START -->
+## Routing signals: lightpanda browser automation rendered extraction cdp mcp semantic tree markdown dump screenshots headless runtime node wsl dev server
+<!-- A-EVOLVE-ROUTING-SIGNALS:END -->

@@ -10,7 +10,7 @@ from .catalog import BenchmarkCase, REPO_ROOT, load_eval_cases
 
 
 class SkillRouterBenchmark(BenchmarkAdapter):
-    """Balanced routing benchmark built from the repo's agency-* eval prompts."""
+    """Balanced routing benchmark built from the repo's skill eval prompts."""
 
     def __init__(self, repo_root: Path | None = None):
         self.repo_root = (repo_root or REPO_ROOT).resolve()

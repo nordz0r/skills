@@ -159,3 +159,7 @@ Ollama предоставляет MCP-сервер для интеграции �
 - Скрипты только читают данные (read-only) — ничего не модифицируют
 - API-ключ передаётся через переменную окружения `OLLAMA_SEARCH_API_KEY`, не хардкодь в скриптах
 - При использовании в OpenClaw, ключ хранится в `openclaw.json` → `.skills.entries.ollama_search.env`
+
+<!-- A-EVOLVE-ROUTING-SIGNALS:START -->
+## Routing signals: ollama search web search web fetch api sdk mcp openclaw query url results json fetch api key
+<!-- A-EVOLVE-ROUTING-SIGNALS:END -->

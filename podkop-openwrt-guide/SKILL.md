@@ -91,3 +91,7 @@ rulesets           config_*   redirect  rt table
 - `references/repo-map.md`: структура репозитория, shell-библиотеки, LuCI-компоненты, зоны ответственности.
 - `references/build-and-dev.md`: frontend/backend workflow, CI и release build.
 - `references/proxy-strings.md`: форматы URL-схем, параметры, валидация.
+
+<!-- A-EVOLVE-ROUTING-SIGNALS:START -->
+## Routing signals: podkop openwrt sing-box selective routing fakeip clash api selector urltest proxy strings luci dns router
+<!-- A-EVOLVE-ROUTING-SIGNALS:END -->

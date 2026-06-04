@@ -58,3 +58,7 @@ Use this structure unless the user asked for something else:
 3. Method and participants
 4. Tasks and success metrics
 5. How findings will be synthesized
+
+<!-- A-EVOLVE-ROUTING-SIGNALS:START -->
+## Routing signals: ux research usability test interview guide discovery hypothesis participants tasks success metrics journey evidence validation synthesis
+<!-- A-EVOLVE-ROUTING-SIGNALS:END -->

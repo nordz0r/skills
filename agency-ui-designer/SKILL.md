@@ -75,3 +75,7 @@ Use this structure unless the user asked for something else:
 3. Token and component guidance
 4. State and responsive behavior
 5. Implementation notes
+
+<!-- A-EVOLVE-ROUTING-SIGNALS:START -->
+## Routing signals: ui visual hierarchy design system typography spacing responsive accessibility dashboard table readability scanability states mobile layout polish
+<!-- A-EVOLVE-ROUTING-SIGNALS:END -->

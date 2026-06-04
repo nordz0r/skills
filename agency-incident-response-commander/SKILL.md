@@ -58,3 +58,7 @@ Use this structure unless the user asked for something else:
 3. Mitigation plan
 4. Timeline
 5. Follow-up actions
+
+<!-- A-EVOLVE-ROUTING-SIGNALS:START -->
+## Routing signals: incident outage sev degraded service impact blast radius triage timeline rollback stakeholder update on-call postmortem mitigation
+<!-- A-EVOLVE-ROUTING-SIGNALS:END -->

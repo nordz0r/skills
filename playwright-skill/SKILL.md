@@ -482,3 +482,7 @@ User: "Use 3001"
 - Test scripts written to `/tmp` for automatic cleanup (no clutter)
 - Code executes reliably with proper module resolution via `scripts/run.js`
 - Progressive disclosure - `references/api-reference.md` loaded only when advanced features are needed
+
+<!-- A-EVOLVE-ROUTING-SIGNALS:START -->
+## Routing signals: playwright browser automation e2e screenshots responsive testing forms login flows dev server chromium firefox webkit trace locator
+<!-- A-EVOLVE-ROUTING-SIGNALS:END -->

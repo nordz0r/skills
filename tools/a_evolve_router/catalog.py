@@ -8,7 +8,7 @@ import re
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 EXPERIMENT_ROOT = Path(__file__).resolve().parent
-AGENCY_GLOB = "agency-*/SKILL.md"
+SKILL_GLOB = "*/SKILL.md"
 SUPPLEMENTAL_CASES_FILE = EXPERIMENT_ROOT / "supplemental_cases.json"
 TOKEN_RE = re.compile(r"[0-9A-Za-zА-Яа-я][0-9A-Za-zА-Яа-я+_-]*")
 FRONTMATTER_RE = re.compile(r"^---\s*\n(.*?)\n---\s*\n?", re.DOTALL)
@@ -105,7 +105,7 @@ def parse_frontmatter(text: str) -> dict[str, str]:
 def load_skill_catalog(repo_root: Path | None = None) -> list[SkillDoc]:
     root = repo_root or REPO_ROOT
     skills: list[SkillDoc] = []
-    for skill_file in sorted(root.glob(AGENCY_GLOB)):
+    for skill_file in sorted(root.glob(SKILL_GLOB)):
         content = skill_file.read_text(encoding="utf-8")
         metadata = parse_frontmatter(content)
         skills.append(
@@ -122,7 +122,7 @@ def load_skill_catalog(repo_root: Path | None = None) -> list[SkillDoc]:
 def load_eval_cases(repo_root: Path | None = None) -> list[BenchmarkCase]:
     root = repo_root or REPO_ROOT
     cases: list[BenchmarkCase] = []
-    for eval_file in sorted(root.glob("agency-*/evals/evals.json")):
+    for eval_file in sorted(root.glob("*/evals/evals.json")):
         payload = json.loads(eval_file.read_text(encoding="utf-8"))
         skill_name = payload["skill_name"]
         for item in payload["evals"]:

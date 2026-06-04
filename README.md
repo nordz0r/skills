@@ -122,12 +122,33 @@ README не заменяет `SKILL.md`, но усиливает discoverability
 2. `name` и `description` в `SKILL.md`
 3. Запись в `README.md` и `README.en.md`
 
+## Экспериментальная маршрутизация skills
+
+В репозитории есть эксперимент [`tools/a_evolve_router`](tools/a_evolve_router/) — небольшой benchmark для проверки, насколько хорошо тексты `SKILL.md` маршрутизируют пользовательские запросы к нужному skill. Он использует eval cases из `<skill>/evals/evals.json`, дополнительные неоднозначные кейсы из `supplemental_cases.json` и изолированную workspace-копию skills, поэтому реальные директории skills не изменяются во время прогона.
+
+Для чего использовать:
+
+- быстро проверить baseline качества trigger wording после добавления или правки skill;
+- стресс-тестировать похожие skills, где автоподбор может путаться;
+- запускать локальный `a-evolve` loop, который улучшает routing-сигналы в копии workspace;
+- сравнивать `train`/`holdout` accuracy перед переносом формулировок обратно в реальные `SKILL.md`.
+
+Быстрый baseline без установки `a-evolve`:
+
+```bash
+python3 -m tools.a_evolve_router.evaluate_baseline --split all
+```
+
+Полный локальный прогон через `a-evolve` описан в [`tools/a_evolve_router/README.md`](tools/a_evolve_router/README.md). Обычно используют `--reset-workspace`, чтобы каждый запуск начинался с чистой копии текущих skills.
+
 ## Структура репозитория
 
 ```text
 skills/
 ├── README.md
 ├── README.en.md
+├── tools/
+│   └── a_evolve_router/  # экспериментальный benchmark маршрутизации skills
 └── <skill-name>/
     ├── SKILL.md
     ├── evals/         # опционально: тестовые промпты и проверки trigger quality

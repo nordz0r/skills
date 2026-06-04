@@ -188,3 +188,7 @@ open-terminal mcp --transport streamable-http --host 0.0.0.0 --port 8000
 4. `DELETE /notebooks/{session_id}` — остановить ядро
 
 Сессии автоматически удаляются после 30 минут простоя. Ноутбук сохраняется на диск после каждого выполнения.
+
+<!-- A-EVOLVE-ROUTING-SIGNALS:START -->
+## Routing signals: open terminal rest api execute files sessions sandbox command notebook self-hosted terminal api agents open_terminal_api_key
+<!-- A-EVOLVE-ROUTING-SIGNALS:END -->

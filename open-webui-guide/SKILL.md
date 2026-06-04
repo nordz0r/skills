@@ -153,3 +153,7 @@ Open WebUI — это агрегатор моделей. Он подключае
 3. Для проблем с авторизацией — `references/auth.md`
 4. Для проблем с моделями — проверь подключение к Ollama/OpenAI
 5. Для проблем с RAG — `references/rag.md`
+
+<!-- A-EVOLVE-ROUTING-SIGNALS:START -->
+## Routing signals: open webui architecture auth oauth ldap jwt api rag models functions pipelines docker compose websocket database scaling troubleshooting
+<!-- A-EVOLVE-ROUTING-SIGNALS:END -->

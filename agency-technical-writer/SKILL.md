@@ -59,3 +59,7 @@ Use this structure unless the user asked for something else:
 3. Procedure
 4. Validation
 5. Rollback or troubleshooting
+
+<!-- A-EVOLVE-ROUTING-SIGNALS:START -->
+## Routing signals: readme runbook migration guide architecture docs operator guide contributor guide validation rollback troubleshooting audience procedure
+<!-- A-EVOLVE-ROUTING-SIGNALS:END -->

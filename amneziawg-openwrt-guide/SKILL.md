@@ -66,3 +66,7 @@ description: >-
 - `references/architecture.md`: роли пакетов и карта ключевых файлов.
 - `references/uci-model.md`: интерфейс `proto amneziawg`, peer sections, опции и их смысл.
 - `references/build-and-debug.md`: сборка, kernel/userspace fallback, watchdog и runtime-диагностика.
+
+<!-- A-EVOLVE-ROUTING-SIGNALS:START -->
+## Routing signals: amneziawg awg openwrt luci uci peer interface handshake endpoint keys qr watchdog kernel userspace vpn router
+<!-- A-EVOLVE-ROUTING-SIGNALS:END -->

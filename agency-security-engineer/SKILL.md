@@ -58,3 +58,7 @@ Use this structure unless the user asked for something else:
 3. Recommended remediations
 4. Pipeline and operational guardrails
 5. Residual risk
+
+<!-- A-EVOLVE-ROUTING-SIGNALS:START -->
+## Routing signals: security threat model authn authz secrets hardening trust boundaries vulnerabilities ci cd security gates cloud kubernetes risk
+<!-- A-EVOLVE-ROUTING-SIGNALS:END -->

@@ -63,3 +63,7 @@ Use this structure unless the user asked for something else:
 3. Recommended schema or query changes
 4. Migration and rollback notes
 5. Validation commands or checks
+
+<!-- A-EVOLVE-ROUTING-SIGNALS:START -->
+## Routing signals: sql query explain analyze index indexing migration schema rollout slow query postgres mysql mariadb join sort lock transaction plan
+<!-- A-EVOLVE-ROUTING-SIGNALS:END -->

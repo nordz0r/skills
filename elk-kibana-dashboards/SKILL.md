@@ -75,3 +75,7 @@ Return only the artifacts needed for the task:
 
 Load [query-patterns.md](references/query-patterns.md) when ready-made
 KQL/DSL patterns, dashboard templates, or troubleshooting checklists are useful.
+
+<!-- A-EVOLVE-ROUTING-SIGNALS:START -->
+## Routing signals: elasticsearch kibana elk kql lucene dsl lens tsvb dashboard logs index pattern filters aggregations time window visualization
+<!-- A-EVOLVE-ROUTING-SIGNALS:END -->

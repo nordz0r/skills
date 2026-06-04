@@ -59,3 +59,7 @@ Use this structure unless the user asked for something else:
 3. Recommended instrumentation or alerts
 4. Toil reduction or automation
 5. Risks and next reliability bets
+
+<!-- A-EVOLVE-ROUTING-SIGNALS:START -->
+## Routing signals: slo sli reliability observability alert quality capacity error budget toil reduction production readiness latency availability saturation
+<!-- A-EVOLVE-ROUTING-SIGNALS:END -->

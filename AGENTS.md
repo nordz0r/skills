@@ -25,7 +25,12 @@ skills/
 ├── .gitattributes                    # Shell scripts forced to LF
 ├── .gitignore                        # IDE-only ignores
 ├── agency-*/                         # 10 English meta-skills, each with evals/evals.json
+├── tools/a_evolve_router/            # A-Evolve routing benchmark over skill evals
 ├── basic-memory-workflow/            # Local basic-memory operating workflow
+├── litellm-guide/                    # LiteLLM SDK/proxy/provider/repo guide
+├── lightpanda-browser/               # Lightpanda browser automation runtime
+├── elk-kibana-dashboards/            # Elasticsearch/Kibana dashboards and log analysis
+├── preview-interview/                # Interview preparation workflow
 ├── nextcloud-admin/                  # Nextcloud OCS API + WebDAV
 ├── ollama-search/                    # Ollama Web Search / Fetch API + scripts
 ├── playwright-skill/                 # Playwright browser automation + Node runtime
@@ -65,8 +70,12 @@ All 10 `agency-*` skills currently follow the same pattern:
 - `nextcloud-admin`
 - `ollama-search`
 - `playwright-skill`
+- `lightpanda-browser`
+- `litellm-guide`
 - `open-terminal-guide`
 - `open-webui-guide`
+- `elk-kibana-dashboards`
+- `preview-interview`
 - `amneziawg-openwrt-guide`
 - `podkop-openwrt-guide`
 - `qdrant-codebase-search`
@@ -79,10 +88,11 @@ All 10 `agency-*` skills currently follow the same pattern:
 | Root repo positioning / install / discovery | `README.md`, `README.en.md` | Keep both updated when adding or renaming skills |
 | Trigger wording for a skill | `<skill>/SKILL.md` frontmatter | `description` is the main auto-trigger surface for agents |
 | Frontmatter example | Any `SKILL.md` | `name` must match directory name; `metadata` is optional |
-| Eval prompt examples | `agency-*/evals/evals.json` | Useful for trigger QA and smoke tests |
+| Eval prompt examples | `<skill>/evals/evals.json`, `agency-*/evals/evals.json` | Useful for trigger QA and smoke tests |
 | OpenClaw metadata example | `ollama-search/SKILL.md` | Currently the clearest `metadata.openclaw` example |
 | Script patterns | `ollama-search/scripts/`, `qdrant-codebase-search/scripts/`, `playwright-skill/scripts/` | Bash wrappers, Node executors, and setup helpers |
 | Largest reference set | `open-webui-guide/references/` | 11 files; best example of deep multi-file documentation |
+| Routing benchmark | `tools/a_evolve_router/` | Baseline/evolution loop for skill trigger wording |
 | Memory workflow conventions | `basic-memory-workflow/SKILL.md` | How this environment expects project memory to be used |
 | OpenWrt skill patterns | `amneziawg-openwrt-guide/`, `podkop-openwrt-guide/`, `zapret-openwrt-guide/` | Good templates for Russian infra/network docs |
 
@@ -136,6 +146,7 @@ metadata: {...}   # optional
 - Documentation-first repo: the skills are the product.
 - Repo-level discovery matters: `README.md` and `README.en.md` are part of search/catalog visibility, not just human docs.
 - Runtime auto-triggering still depends primarily on each skill's `SKILL.md`, especially `description`.
+- `tools/a_evolve_router` tests routing quality from `<skill>/evals/evals.json` against isolated workspace copies; it is safe to delete `.workdir/`.
 - Env-based configuration is common for integration skills: `OLLAMA_SEARCH_API_KEY`, `NEXTCLOUD_URL`, and similar variables are documented in-skill.
 - `ollama-search`, `qdrant-codebase-search`, and `playwright-skill` currently ship executable `scripts/`.
 - `playwright-skill` is an imported third-party runtime skill with a root `package.json`, a Node executor, and a large reference file.
@@ -160,11 +171,13 @@ npx skills add nordz0r/skills -s open-webui-guide -g
 
 ## NOTES
 
-- Current inventory: 20 skills total.
-- `agency-*` accounts for 10 of those 20 skills.
+- Current inventory: 24 skills total.
+- `agency-*` accounts for 10 of those 24 skills.
 - `open-webui-guide` has 11 reference files and is still the largest single documentation set.
 - `ollama-search` has 4 reference files and 2 scripts.
 - `playwright-skill` has 1 reference file, 2 script files, and a root `package.json`.
+- `litellm-guide` has 6 reference files, an OpenAI agent metadata file, and evals for `a_evolve_router`.
+- `lightpanda-browser` has 5 reference files, 3 Node scripts, an OpenAI agent metadata file, and a root `package.json`.
 - `qdrant-codebase-search` has 2 reference files and 2 scripts.
 - `basic-memory-workflow` has only `SKILL.md`; no `references/`, `scripts/`, or `evals/`.
 - The old AGENTS snapshot was stale: it described only 5 skills and predated the bilingual root README.

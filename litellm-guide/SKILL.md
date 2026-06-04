@@ -43,3 +43,7 @@ description: "Русскоязычная справка и workflow по LiteLLM
 - Providers: https://docs.litellm.ai/docs/providers
 - Routing/load balancing: https://docs.litellm.ai/docs/routing
 - Swagger/API explorer: https://litellm-api.up.railway.app/
+
+<!-- A-EVOLVE-ROUTING-SIGNALS:START -->
+## Routing signals: litellm sdk proxy gateway openai-compatible config model_list providers router load balancing fallbacks virtual keys budgets spend logging guardrails mcp a2a troubleshooting model_prices
+<!-- A-EVOLVE-ROUTING-SIGNALS:END -->
