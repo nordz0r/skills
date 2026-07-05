@@ -28,6 +28,7 @@ skills/
 ├── tools/a_evolve_router/            # A-Evolve routing benchmark over skill evals
 ├── basic-memory-workflow/            # Local basic-memory operating workflow
 ├── litellm-guide/                    # LiteLLM SDK/proxy/provider/repo guide
+├── omniroute-guide/                  # OmniRoute AI router/proxy/MCP/A2A guide
 ├── lightpanda-browser/               # Lightpanda browser automation runtime
 ├── elk-kibana-dashboards/            # Elasticsearch/Kibana dashboards and log analysis
 ├── preview-interview/                # Interview preparation workflow
@@ -72,6 +73,7 @@ All 10 `agency-*` skills currently follow the same pattern:
 - `playwright-skill`
 - `lightpanda-browser`
 - `litellm-guide`
+- `omniroute-guide`
 - `open-terminal-guide`
 - `open-webui-guide`
 - `elk-kibana-dashboards`
@@ -171,12 +173,13 @@ npx skills add nordz0r/skills -s open-webui-guide -g
 
 ## NOTES
 
-- Current inventory: 24 skills total.
+- Current inventory: 25 skills total.
 - `agency-*` accounts for 10 of those 24 skills.
 - `open-webui-guide` has 11 reference files and is still the largest single documentation set.
 - `ollama-search` has 4 reference files and 2 scripts.
 - `playwright-skill` has 1 reference file, 2 script files, and a root `package.json`.
 - `litellm-guide` has 6 reference files, an OpenAI agent metadata file, and evals for `a_evolve_router`.
+- `omniroute-guide` has 11 reference files and evals for `a_evolve_router`; second-largest reference set after `open-webui-guide`.
 - `lightpanda-browser` has 5 reference files, 3 Node scripts, an OpenAI agent metadata file, and a root `package.json`.
 - `qdrant-codebase-search` has 2 reference files and 2 scripts.
 - `basic-memory-workflow` has only `SKILL.md`; no `references/`, `scripts/`, or `evals/`.

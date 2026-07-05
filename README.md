@@ -4,11 +4,11 @@
 
 Коллекция переиспользуемых skills для `Claude Code`, `Codex` и других агентных CLI. Репозиторий распространяется через `npx skills add nordz0r/skills` и оформлен так, чтобы его было легко читать людям, индексировать каталогам и находить через встроенный skill discovery.
 
-> English summary: reusable skills for Claude Code, Codex, and AI agents. Covers DevOps, SRE, incident response, security, UX, Playwright browser automation, Lightpanda browser automation, Open WebUI, Open Terminal, Ollama Search, Qdrant code search, Nextcloud, OpenWrt, and project memory workflows.
+> English summary: reusable skills for Claude Code, Codex, and AI agents. Covers DevOps, SRE, incident response, security, UX, Playwright browser automation, Lightpanda browser automation, Open WebUI, Open Terminal, OmniRoute AI router, Ollama Search, Qdrant code search, Nextcloud, OpenWrt, and project memory workflows.
 
 **Каталоги и discovery:** [skills.sh](https://skills.sh) · [SkillsMP](https://skillsmp.com)
 
-**Ключевые слова для поиска:** Claude Code skills, Codex skills, AI agent skills, skills.sh, SkillsMP, DevOps, SRE, incident response, security review, technical writing, UX research, UI design, Playwright, Lightpanda, browser automation, rendered extraction, CDP, MCP, headless browser for AI, E2E testing, screenshot testing, responsive testing, Open WebUI, Open Terminal, Ollama Search, Qdrant code search, Nextcloud, WebDAV, OCS API, OpenWrt, AmneziaWG, Podkop, zapret, basic-memory, project memory.
+**Ключевые слова для поиска:** Claude Code skills, Codex skills, AI agent skills, skills.sh, SkillsMP, DevOps, SRE, incident response, security review, technical writing, UX research, UI design, Playwright, Lightpanda, browser automation, rendered extraction, CDP, MCP, headless browser for AI, E2E testing, screenshot testing, responsive testing, Open WebUI, Open Terminal, OmniRoute, AI router, LLM proxy, combo routing, auto-combo, Ollama Search, Qdrant code search, Nextcloud, WebDAV, OCS API, OpenWrt, AmneziaWG, Podkop, zapret, basic-memory, project memory.
 
 ## Что внутри
 
@@ -46,6 +46,7 @@
 | [playwright-skill](playwright-skill/) | Автоматизация браузера через Playwright: скриншоты, responsive checks, формы, login flows, dev-server detection | playwright, browser automation, e2e, responsive testing, screenshots |
 | [lightpanda-browser](lightpanda-browser/) | Lightpanda как runtime для rendered extraction, CDP automation и MCP browsing под Win/Linux/macOS/WSL | lightpanda, rendered extraction, cdp, mcp, semantic tree, markdown dump, wsl |
 | [litellm-guide](litellm-guide/) | LiteLLM: SDK, proxy/gateway, providers, routing, API, MCP/A2A, troubleshooting и repo development | litellm, proxy, gateway, providers, routing, virtual keys, mcp, openai-compatible |
+| [omniroute-guide](omniroute-guide/) | OmniRoute: AI router/proxy, 237 providers, combo/auto routing, MCP (94 tools), A2A, resilience, dashboard, CLI setup | omniroute, ai router, llm proxy, combo routing, auto-combo, mcp, a2a, circuit breaker, provider fallback |
 | [open-webui-guide](open-webui-guide/) | Open WebUI: architecture, auth, functions, pipelines, API, RAG, scaling | open webui, pipelines, rag, oauth, ldap, jwt, docker-compose |
 | [open-terminal-guide](open-terminal-guide/) | Open Terminal: self-hosted terminal REST API for AI agents | open terminal, terminal api, /execute, /files, sandbox api |
 | [ollama-search](ollama-search/) | Ollama Web Search / Web Fetch API, SDK, MCP, OpenClaw integration | ollama search, web search, web fetch, mcp, openclaw |
