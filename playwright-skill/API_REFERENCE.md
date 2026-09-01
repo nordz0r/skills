@@ -1,6 +1,6 @@
 # Playwright Skill - Complete API Reference
 
-This document contains the comprehensive Playwright API reference and advanced patterns. For quick-start execution patterns, see [SKILL.md](../SKILL.md).
+This document contains the comprehensive Playwright API reference and advanced patterns. For quick-start execution patterns, see [SKILL.md](SKILL.md).
 
 ## Table of Contents
 
@@ -36,7 +36,7 @@ Before using this skill, ensure Playwright is available:
 npm list playwright 2>/dev/null || echo "Playwright not installed"
 
 # Install (if needed)
-cd ~/.codex/skills/playwright-skill  # or ~/.claude/skills/playwright-skill
+cd ~/.claude/skills/playwright-skill
 npm run setup
 ```
 
@@ -95,10 +95,9 @@ const { chromium } = require('playwright');
 
   const page = await context.newPage();
 
-  // Navigate
-  await page.goto('https://example.com', {
-    waitUntil: 'networkidle'  // Wait for network to be idle
-  });
+  // Navigate, then assert a meaningful readiness signal.
+  await page.goto('https://example.com');
+  await page.getByRole('link', { name: 'More information' }).waitFor();
 
   // Your automation here
 
@@ -270,8 +269,8 @@ await page.locator('button').waitFor({ state: 'detached' });
 await page.waitForURL('**/success');
 await page.waitForURL(url => url.pathname === '/dashboard');
 
-// Wait for network
-await page.waitForLoadState('networkidle');
+// Prefer a user-visible assertion over network-idle heuristics.
+await page.getByRole('heading', { name: 'Dashboard' }).waitFor();
 await page.waitForLoadState('domcontentloaded');
 
 // Wait for function
@@ -373,7 +372,7 @@ class LoginPage {
 test('login with valid credentials', async ({ page }) => {
   const loginPage = new LoginPage(page);
   await loginPage.navigate();
-  await loginPage.login('user@example.com', '<test-password>');
+  await loginPage.login('user@example.com', 'password123');
   await expect(page).toHaveURL('/dashboard');
 });
 ```
@@ -422,7 +421,6 @@ PW_EXTRA_HEADERS='{"X-Automated-By":"playwright-skill","X-Request-ID":"123"}'
 
 These headers are automatically applied to all requests when using:
 - `helpers.createContext(browser)` - headers merged automatically
-- `getContextOptionsWithHeaders(options)` - utility injected by `scripts/run.js`
 
 **Precedence (highest to lowest):**
 1. Headers passed directly in `options.extraHTTPHeaders`
@@ -522,8 +520,8 @@ test.describe.parallel('Parallel suite', () => {
 ```javascript
 // Parameterized tests
 const testData = [
-  { username: '<test-user-1>', password: '<test-password-1>', expected: 'Welcome user1' },
-  { username: '<test-user-2>', password: '<test-password-2>', expected: 'Welcome user2' },
+  { username: 'user1', password: 'pass1', expected: 'Welcome user1' },
+  { username: 'user2', password: 'pass2', expected: 'Welcome user2' },
 ];
 
 testData.forEach(({ username, password, expected }) => {
@@ -614,7 +612,7 @@ await frame.locator('button').click();
 ```javascript
 async function scrollToBottom(page) {
   await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-  await page.waitForTimeout(500);
+  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => resolve())));
 }
 ```
 
