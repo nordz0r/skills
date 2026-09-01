@@ -176,6 +176,16 @@ python3 -m tools.a_evolve_router.evaluate_baseline --split all
 
 Полный локальный прогон через `a-evolve` описан в [`tools/a_evolve_router/README.md`](tools/a_evolve_router/README.md). Обычно используют `--reset-workspace`, чтобы каждый запуск начинался с чистой копии текущих skills.
 
+**Текущие метрики** (пилот 2026-09-01, 31 skill / 55 кейсов):
+
+| Состояние | top1 acc | avg_score |
+|-----------|----------|-----------|
+| Baseline (line-based `parse_frontmatter`) | **0.8364** (46/55) | 0.8745 |
+| После `parse_frontmatter` → PyYAML (откачено) | 0.7818 (43/55) | 0.8136 |
+| После `heuristic` engine (3 цикла) | не измерено | не измерено |
+
+PyYAML-вариант парсера корректно читает `description: >-`, но регрессирует top-1 на −5.5 п.п., потому что эвристический роутер полагается на first-line-only overlap для различения соседних skills — фикс откачен, описание в [pilot README](tools/a_evolve_router/README.md). Эвристический движок `a-evolve` остаётся в коде как reference implementation, но в текущем виде нетто-вреден.
+
 ## Структура репозитория
 
 ```text

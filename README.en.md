@@ -176,6 +176,16 @@ python3 -m tools.a_evolve_router.evaluate_baseline --split all
 
 The full local `a-evolve` workflow is documented in [`tools/a_evolve_router/README.md`](tools/a_evolve_router/README.md). Use `--reset-workspace` for clean reruns from the current skill catalog.
 
+**Current metrics** (pilot run 2026-09-01, 31 skills / 55 cases):
+
+| State | top1 acc | avg_score |
+|-------|----------|-----------|
+| Baseline (line-based `parse_frontmatter`) | **0.8364** (46/55) | 0.8745 |
+| After `parse_frontmatter` → PyYAML (reverted) | 0.7818 (43/55) | 0.8136 |
+| After `heuristic` engine (3 cycles) | not measured | not measured |
+
+The PyYAML variant of `parse_frontmatter` correctly reads folded `description: >-` blocks, but regresses top-1 by 5.5 pp because the heuristic router relies on first-line-only description overlap to discriminate nearby skills — that change is reverted and described in the [pilot README](tools/a_evolve_router/README.md). The `heuristic` engine is left in the codebase as a reference implementation but is net-negative in its current form.
+
 ## Repository structure
 
 ```text

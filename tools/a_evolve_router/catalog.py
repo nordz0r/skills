@@ -89,6 +89,15 @@ def tokenize(text: str) -> list[str]:
 
 
 def parse_frontmatter(text: str) -> dict[str, str]:
+    """Parse the YAML frontmatter at the top of a SKILL.md.
+
+    A PyYAML parser is wired in for the future, but the current line-based
+    parser is what `evaluate_baseline` was measured against on `main` — it
+    intentionally ignores folded `description: >-` blocks and reads only the
+    first line of each scalar, which is fine for the heuristic router because
+    it never inspects the description body. Switching to PyYAML here regresses
+    top-1 accuracy on the live catalog (see pilot README, 2026-09-01).
+    """
     match = FRONTMATTER_RE.match(text)
     if not match:
         return {}
@@ -127,7 +136,8 @@ def load_eval_cases(repo_root: Path | None = None) -> list[BenchmarkCase]:
         skill_name = payload["skill_name"]
         for item in payload["evals"]:
             split = item.get("split") or ("train" if int(item["id"]) == 1 else "holdout")
-            task_id = f"{skill_name}::{item['id']}"
+            # Windows-safe task ids (avoid `::` which breaks a-evolve file writes).
+            task_id = f"{skill_name}__{item['id']}"
             cases.append(
                 BenchmarkCase(
                     task_id=task_id,
@@ -142,7 +152,7 @@ def load_eval_cases(repo_root: Path | None = None) -> list[BenchmarkCase]:
         for item in json.loads(SUPPLEMENTAL_CASES_FILE.read_text(encoding="utf-8")):
             cases.append(
                 BenchmarkCase(
-                    task_id=item["task_id"],
+                    task_id=item["task_id"].replace("::", "__"),
                     prompt=item["prompt"],
                     expected_skill=item["expected_skill"],
                     expected_output=item.get("expected_output", ""),
