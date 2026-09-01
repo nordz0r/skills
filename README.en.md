@@ -176,6 +176,16 @@ python3 -m tools.a_evolve_router.evaluate_baseline --split all
 
 The full local `a-evolve` workflow is documented in [`tools/a_evolve_router/README.md`](tools/a_evolve_router/README.md). Use `--reset-workspace` for clean reruns from the current skill catalog.
 
+**Current metrics** (pilot run 2026-09-01, 31 skills / 55 cases):
+
+| State | Train acc@1 | Holdout acc@1 | avg_score |
+|-------|-------------|---------------|-----------|
+| Before `parse_frontmatter` fix | 81.25% | 86.96% | 0.8745 |
+| After PyYAML parser fix | **87.50%** | **86.96%** | **0.9045** |
+| After `heuristic` engine (3 cycles) | 81.25% | 73.91% | 0.8350 |
+
+Switching `parse_frontmatter` to PyYAML alone gave **+6.25 pp on train** without touching a single `SKILL.md` — the original line-by-line parser did not understand `description: >-` blocks, so 14 of 31 skills had no description in the router's eyes. The `heuristic` engine is net-negative on the current skill set (see "Heuristic-engine failure mode" in the pilot README).
+
 ## Repository structure
 
 ```text
