@@ -1,5 +1,12 @@
 .idea
 .vscode
+.sisyphus/
+experiments/
+
+# Node dependencies and temp files
+node_modules/
+.temp-*
+*.temp-*
 
 # Python/runtime caches
 __pycache__/

@@ -1,0 +1,17 @@
+{
+  "skill_name": "administering-linux",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "На Ubuntu 24.04 сервис nginx failed after reboot. Нужно найти unit, journalctl за текущий boot и сделать drop-in без правки vendor unit.",
+      "expected_output": "Ответ должен выбрать administering-linux и дать systemctl/journalctl/drop-in workflow.",
+      "split": "train"
+    },
+    {
+      "id": 2,
+      "prompt": "Хост ушёл в OOM, df полный, ssh пускает по ключу, но нагрузка высокая. Разберись без Docker и без Ansible.",
+      "expected_output": "Ответ должен выбрать administering-linux для host-level diagnosis: OOM, disk, load, sshd.",
+      "split": "holdout"
+    }
+  ]
+}

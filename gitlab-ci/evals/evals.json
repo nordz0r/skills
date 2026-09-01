@@ -1,0 +1,17 @@
+{
+  "skill_name": "gitlab-ci",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Собери .gitlab-ci.yml для self-hosted GitLab: MR pipelines, kaniko push в CI_REGISTRY_IMAGE, prod deploy when:manual, без only/except.",
+      "expected_output": "Ответ должен выбрать gitlab-ci и дать rules/registry/manual deploy YAML.",
+      "split": "train"
+    },
+    {
+      "id": 2,
+      "prompt": "GitLab runner offline, job tagged docker висит pending, dind ругается на TLS. Разбери config.toml и executor.",
+      "expected_output": "Ответ должен выбрать gitlab-ci для runner/dind, не GitHub Actions.",
+      "split": "holdout"
+    }
+  ]
+}

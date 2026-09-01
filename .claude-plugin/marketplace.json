@@ -1,0 +1,380 @@
+{
+  "$schema": "https://anthropic.com/schemas/claude-code-marketplace.json",
+  "name": "nord-skills",
+  "version": "1.0.0",
+  "description": "Universal collection of DevOps, SRE, Linux, OpenWrt, browser automation, and AI router skills for Claude Code and AI agents",
+  "owner": {
+    "name": "NorD",
+    "url": "https://github.com/nordz0r/skills"
+  },
+  "plugins": [
+    {
+      "name": "all-skills",
+      "displayName": "All Skills (Full Bundle)",
+      "description": "Complete collection of all 31 DevOps, SRE, AI tooling, Linux, and OpenWrt skills",
+      "version": "1.0.0",
+      "source": "./",
+      "strict": false,
+      "category": "bundle",
+      "tags": ["devops", "sre", "ai-tools", "linux", "openwrt", "automation"]
+    },
+    {
+      "name": "agency-skills",
+      "displayName": "Agency Engineering & Product Bundle",
+      "description": "10 specialised agency skills: DevOps, SRE, incident response, security, database optimization, technical writing, UI/UX design, research, and delight",
+      "version": "1.0.0",
+      "source": "./",
+      "strict": false,
+      "category": "engineering",
+      "skills": [
+        "./agency-database-optimizer",
+        "./agency-devops-automator",
+        "./agency-incident-response-commander",
+        "./agency-security-engineer",
+        "./agency-sre",
+        "./agency-technical-writer",
+        "./agency-ui-designer",
+        "./agency-ux-architect",
+        "./agency-ux-researcher",
+        "./agency-whimsy-injector"
+      ],
+      "tags": ["agency", "devops", "sre", "security", "database", "ui", "ux", "docs"]
+    },
+    {
+      "name": "infra-linux",
+      "displayName": "Linux, Containers & CI/CD Bundle",
+      "description": "6 host administration, containerization, CI/CD, Ansible, Amnezia VPN, and policy routing skills",
+      "version": "1.0.0",
+      "source": "./",
+      "strict": false,
+      "category": "infrastructure",
+      "skills": [
+        "./administering-linux",
+        "./docker-ops",
+        "./gitlab-ci",
+        "./ansible-playbook",
+        "./amnezia-vpn",
+        "./linux-routing"
+      ],
+      "tags": ["linux", "systemd", "docker", "gitlab-ci", "ansible", "amnezia", "routing"]
+    },
+    {
+      "name": "ai-tools",
+      "displayName": "AI Tooling, Proxies & Automation Bundle",
+      "description": "12 skills covering LiteLLM, OmniRoute, Open WebUI, Open Terminal, Playwright, Lightpanda, Qdrant semantic search, Ollama search, Nextcloud, ELK, and memory",
+      "version": "1.0.0",
+      "source": "./",
+      "strict": false,
+      "category": "ai-tools",
+      "skills": [
+        "./basic-memory-workflow",
+        "./playwright-skill",
+        "./lightpanda-browser",
+        "./litellm-guide",
+        "./omniroute-guide",
+        "./open-webui-guide",
+        "./open-terminal-guide",
+        "./ollama-search",
+        "./qdrant-codebase-search",
+        "./nextcloud-admin",
+        "./elk-kibana-dashboards",
+        "./preview-interview"
+      ],
+      "tags": ["litellm", "omniroute", "open-webui", "playwright", "lightpanda", "qdrant", "ollama"]
+    },
+    {
+      "name": "openwrt-routing",
+      "displayName": "OpenWrt & Anti-Censorship Bundle",
+      "description": "3 skills for OpenWrt: AmneziaWG, Podkop (sing-box selective routing), and zapret DPI bypass",
+      "version": "1.0.0",
+      "source": "./",
+      "strict": false,
+      "category": "networking",
+      "skills": [
+        "./amneziawg-openwrt-guide",
+        "./podkop-openwrt-guide",
+        "./zapret-openwrt-guide"
+      ],
+      "tags": ["openwrt", "amneziawg", "podkop", "sing-box", "zapret", "anti-censorship"]
+    },
+    {
+      "name": "agency-database-optimizer",
+      "displayName": "Agency Database Optimizer",
+      "description": "PostgreSQL, MySQL, and MariaDB query optimization, indexing, schema design, EXPLAIN analysis, and migration safety",
+      "source": "./agency-database-optimizer",
+      "strict": false,
+      "category": "engineering",
+      "tags": ["database", "postgres", "mysql", "sql", "indexing", "performance"]
+    },
+    {
+      "name": "agency-devops-automator",
+      "displayName": "Agency DevOps Automator",
+      "description": "CI/CD pipelines, Terraform, Ansible, Kubernetes, Helm, Vault, release rollouts, and rollback automation",
+      "source": "./agency-devops-automator",
+      "strict": false,
+      "category": "engineering",
+      "tags": ["devops", "ci-cd", "terraform", "kubernetes", "helm", "ansible"]
+    },
+    {
+      "name": "agency-incident-response-commander",
+      "displayName": "Agency Incident Response Commander",
+      "description": "Live production outage coordination, SEV classification, mitigation, rollback, postmortems, and stakeholder comms",
+      "source": "./agency-incident-response-commander",
+      "strict": false,
+      "category": "engineering",
+      "tags": ["incident-response", "sre", "on-call", "postmortem", "outage"]
+    },
+    {
+      "name": "agency-security-engineer",
+      "displayName": "Agency Security Engineer",
+      "description": "Threat modeling, authentication/authorization, secrets management, security hardening, and cloud/k8s audit",
+      "source": "./agency-security-engineer",
+      "strict": false,
+      "category": "engineering",
+      "tags": ["security", "threat-modeling", "auth", "secrets", "hardening"]
+    },
+    {
+      "name": "agency-sre",
+      "displayName": "Agency Site Reliability Engineer",
+      "description": "Reliability engineering, SLO/SLI definition, alerting rules, observability, capacity planning, and resilience",
+      "source": "./agency-sre",
+      "strict": false,
+      "category": "engineering",
+      "tags": ["sre", "slo", "sli", "observability", "metrics", "alerts"]
+    },
+    {
+      "name": "agency-technical-writer",
+      "displayName": "Agency Technical Writer",
+      "description": "Technical documentation, READMEs, runbooks, migration guides, architecture decision records, and operator docs",
+      "source": "./agency-technical-writer",
+      "strict": false,
+      "category": "engineering",
+      "tags": ["documentation", "technical-writing", "readme", "runbooks", "docs"]
+    },
+    {
+      "name": "agency-ui-designer",
+      "displayName": "Agency UI Designer",
+      "description": "Visual hierarchy, UI component systems, typography, spacing scales, accessibility, and responsive layout polish",
+      "source": "./agency-ui-designer",
+      "strict": false,
+      "category": "design",
+      "tags": ["ui", "design-systems", "css", "typography", "accessibility"]
+    },
+    {
+      "name": "agency-ux-architect",
+      "displayName": "Agency UX Architect",
+      "description": "Information architecture, user journey flows, layout systems, component wireframing, and implementation UX",
+      "source": "./agency-ux-architect",
+      "strict": false,
+      "category": "design",
+      "tags": ["ux", "information-architecture", "user-flows", "wireframing"]
+    },
+    {
+      "name": "agency-ux-researcher",
+      "displayName": "Agency UX Researcher",
+      "description": "User research plans, interview scripts, usability testing protocols, feedback synthesis, and persona development",
+      "source": "./agency-ux-researcher",
+      "strict": false,
+      "category": "design",
+      "tags": ["ux-research", "user-interviews", "usability-testing", "personas"]
+    },
+    {
+      "name": "agency-whimsy-injector",
+      "displayName": "Agency Whimsy Injector",
+      "description": "Delight engineering, micro-interactions, witty copy personality, playful empty states, and Easter eggs",
+      "source": "./agency-whimsy-injector",
+      "strict": false,
+      "category": "design",
+      "tags": ["delight", "micro-interactions", "personality", "copywriting"]
+    },
+    {
+      "name": "administering-linux",
+      "displayName": "Linux Host Administration",
+      "description": "Linux system administration, systemd service management, journald logs, disk/RAM troubleshooting, and SSH hardening",
+      "source": "./administering-linux",
+      "strict": false,
+      "category": "infrastructure",
+      "tags": ["linux", "systemd", "journalctl", "sysadmin", "ssh", "troubleshooting"]
+    },
+    {
+      "name": "docker-ops",
+      "displayName": "Docker & Compose Operations",
+      "description": "Dockerfile optimization, Docker Compose v2 patterns, container healthchecks, networks, volumes, and registry management",
+      "source": "./docker-ops",
+      "strict": false,
+      "category": "infrastructure",
+      "tags": ["docker", "docker-compose", "containers", "devops"]
+    },
+    {
+      "name": "gitlab-ci",
+      "displayName": "GitLab CI/CD Operations",
+      "description": "GitLab CI pipeline configuration (.gitlab-ci.yml), rules, cache/artifacts, custom runners, DinD, and container registries",
+      "source": "./gitlab-ci",
+      "strict": false,
+      "category": "infrastructure",
+      "tags": ["gitlab", "gitlab-ci", "ci-cd", "runners", "devops"]
+    },
+    {
+      "name": "ansible-playbook",
+      "displayName": "Ansible Automation & Playbooks",
+      "description": "Ansible playbooks, roles, inventory management, Ansible Vault secrets, linting, dry-runs, and best practices",
+      "source": "./ansible-playbook",
+      "strict": false,
+      "category": "infrastructure",
+      "tags": ["ansible", "playbooks", "automation", "vault", "iac"]
+    },
+    {
+      "name": "amnezia-vpn",
+      "displayName": "AmneziaVPN & AWG on Linux",
+      "description": "AmneziaVPN and AmneziaWG server/client setup on Linux and Docker (not OpenWrt UCI)",
+      "source": "./amnezia-vpn",
+      "strict": false,
+      "category": "infrastructure",
+      "tags": ["amnezia", "amneziawg", "vpn", "wireguard", "linux"]
+    },
+    {
+      "name": "linux-routing",
+      "displayName": "Linux Policy Routing & nftables",
+      "description": "Linux policy-based routing (ip rule / ip route), fwmark, nftables NAT/masquerade, split-tunneling, and conntrack",
+      "source": "./linux-routing",
+      "strict": false,
+      "category": "infrastructure",
+      "tags": ["routing", "iproute2", "nftables", "pbr", "linux-networking"]
+    },
+    {
+      "name": "basic-memory-workflow",
+      "displayName": "Basic Project Memory Workflow",
+      "description": "Operating model for project memory: recall context, ADRs, meeting notes, stable facts, and knowledge retention",
+      "source": "./basic-memory-workflow",
+      "strict": false,
+      "category": "ai-tools",
+      "tags": ["memory", "knowledge", "adr", "ai-workflow"]
+    },
+    {
+      "name": "playwright-skill",
+      "displayName": "Playwright Browser Automation",
+      "description": "Playwright automation runtime: visual testing, full-page screenshots, form filling, login flows, and dev server checks",
+      "source": "./playwright-skill",
+      "strict": false,
+      "category": "ai-tools",
+      "tags": ["playwright", "browser-automation", "e2e", "testing", "screenshots"]
+    },
+    {
+      "name": "lightpanda-browser",
+      "displayName": "Lightpanda Headless Browser",
+      "description": "Lightpanda headless browser runtime for fast rendered extraction, CDP automation, semantic DOM trees, and MCP browsing",
+      "source": "./lightpanda-browser",
+      "strict": false,
+      "category": "ai-tools",
+      "tags": ["lightpanda", "headless-browser", "scraping", "cdp", "mcp"]
+    },
+    {
+      "name": "litellm-guide",
+      "displayName": "LiteLLM Guide & Proxy",
+      "description": "LiteLLM SDK, proxy gateway, 100+ LLM providers, load balancing, virtual keys, MCP/A2A, and router development",
+      "source": "./litellm-guide",
+      "strict": false,
+      "category": "ai-tools",
+      "tags": ["litellm", "llm-proxy", "ai-gateway", "routing", "openai-compatible"]
+    },
+    {
+      "name": "omniroute-guide",
+      "displayName": "OmniRoute AI Router Guide",
+      "description": "OmniRoute multi-provider AI proxy/router, 237 providers, combo/auto-routing, 94 MCP tools, A2A, and circuit breaking",
+      "source": "./omniroute-guide",
+      "strict": false,
+      "category": "ai-tools",
+      "tags": ["omniroute", "ai-router", "llm-proxy", "mcp", "a2a"]
+    },
+    {
+      "name": "open-webui-guide",
+      "displayName": "Open WebUI Architecture & Operations",
+      "description": "Open WebUI installation, OAuth/LDAP auth, custom pipelines, functions, RAG pipeline, API integration, and scaling",
+      "source": "./open-webui-guide",
+      "strict": false,
+      "category": "ai-tools",
+      "tags": ["open-webui", "llm-ui", "rag", "pipelines", "oauth"]
+    },
+    {
+      "name": "open-terminal-guide",
+      "displayName": "Open Terminal Guide",
+      "description": "Open Terminal self-hosted REST API for AI agent code execution, sandboxed commands, and file operations",
+      "source": "./open-terminal-guide",
+      "strict": false,
+      "category": "ai-tools",
+      "tags": ["open-terminal", "code-execution", "sandbox", "agent-tools"]
+    },
+    {
+      "name": "ollama-search",
+      "displayName": "Ollama Web Search & Fetch",
+      "description": "Ollama Web Search and Web Fetch APIs, Python/JS SDKs, MCP server integration, and OpenClaw web search",
+      "source": "./ollama-search",
+      "strict": false,
+      "category": "ai-tools",
+      "tags": ["ollama", "web-search", "web-fetch", "mcp", "search"]
+    },
+    {
+      "name": "qdrant-codebase-search",
+      "displayName": "Qdrant Codebase Semantic Search",
+      "description": "Semantic codebase indexing and vector search via Qdrant, Ollama embeddings, and MCP server tooling",
+      "source": "./qdrant-codebase-search",
+      "strict": false,
+      "category": "ai-tools",
+      "tags": ["qdrant", "vector-search", "code-search", "embeddings", "semantic-search"]
+    },
+    {
+      "name": "nextcloud-admin",
+      "displayName": "Nextcloud Administration & API",
+      "description": "Nextcloud file sharing, user management, and administration via OCS API and WebDAV protocols",
+      "source": "./nextcloud-admin",
+      "strict": false,
+      "category": "infrastructure",
+      "tags": ["nextcloud", "webdav", "ocs-api", "cloud-storage"]
+    },
+    {
+      "name": "elk-kibana-dashboards",
+      "displayName": "Elasticsearch & Kibana Dashboards",
+      "description": "Elasticsearch query DSL, Kibana Lens/TSVB visualization dashboards, KQL log analysis, and data views",
+      "source": "./elk-kibana-dashboards",
+      "strict": false,
+      "category": "infrastructure",
+      "tags": ["elasticsearch", "kibana", "elk", "dashboards", "logs", "kql"]
+    },
+    {
+      "name": "preview-interview",
+      "displayName": "Interview Preparation Workflow",
+      "description": "Technical, architectural, and behavioral interview preparation frameworks, question banks, and mock sessions",
+      "source": "./preview-interview",
+      "strict": false,
+      "category": "engineering",
+      "tags": ["interview", "career", "mock-interview", "tech-interview"]
+    },
+    {
+      "name": "amneziawg-openwrt-guide",
+      "displayName": "AmneziaWG on OpenWrt",
+      "description": "AmneziaWG protocol on OpenWrt routers: package setup, UCI network/firewall config, LuCI interface, and watchdog",
+      "source": "./amneziawg-openwrt-guide",
+      "strict": false,
+      "category": "networking",
+      "tags": ["openwrt", "amneziawg", "awg", "router", "vpn"]
+    },
+    {
+      "name": "podkop-openwrt-guide",
+      "displayName": "Podkop & sing-box on OpenWrt",
+      "description": "Podkop with sing-box on OpenWrt: selective domain/IP routing, FakeIP, Clash API integration, and rule testing",
+      "source": "./podkop-openwrt-guide",
+      "strict": false,
+      "category": "networking",
+      "tags": ["openwrt", "podkop", "sing-box", "selective-routing", "clash-api"]
+    },
+    {
+      "name": "zapret-openwrt-guide",
+      "displayName": "zapret DPI Bypass on OpenWrt",
+      "description": "zapret-openwrt: DPI desynchronization via nfqws, auto-hostlists, LuCI config, and strategy diagnostics",
+      "source": "./zapret-openwrt-guide",
+      "strict": false,
+      "category": "networking",
+      "tags": ["openwrt", "zapret", "nfqws", "dpi-desync", "censorship-circumvention"]
+    }
+  ]
+}

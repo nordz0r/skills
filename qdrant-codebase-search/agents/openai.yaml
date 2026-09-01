@@ -1,0 +1,4 @@
+interface:
+  display_name: "Qdrant Codebase Search"
+  short_description: "- Русскоязычная справка по семантическому поиску по кодовой базе через Qdrant..."
+  default_prompt: "Use $qdrant-codebase-search to assist with qdrant codebase search tasks."

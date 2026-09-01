@@ -1,0 +1,42 @@
+{
+  "name": "nord-skills",
+  "version": "1.0.0",
+  "description": "Universal collection of DevOps, SRE, Linux, OpenWrt, browser automation, and AI router skills for Claude Code and AI agents",
+  "author": {
+    "name": "NorD",
+    "url": "https://github.com/nordz0r/skills"
+  },
+  "skills": [
+    "./agency-database-optimizer",
+    "./agency-devops-automator",
+    "./agency-incident-response-commander",
+    "./agency-security-engineer",
+    "./agency-sre",
+    "./agency-technical-writer",
+    "./agency-ui-designer",
+    "./agency-ux-architect",
+    "./agency-ux-researcher",
+    "./agency-whimsy-injector",
+    "./administering-linux",
+    "./docker-ops",
+    "./gitlab-ci",
+    "./ansible-playbook",
+    "./amnezia-vpn",
+    "./linux-routing",
+    "./basic-memory-workflow",
+    "./playwright-skill",
+    "./lightpanda-browser",
+    "./litellm-guide",
+    "./omniroute-guide",
+    "./open-webui-guide",
+    "./open-terminal-guide",
+    "./ollama-search",
+    "./qdrant-codebase-search",
+    "./nextcloud-admin",
+    "./elk-kibana-dashboards",
+    "./preview-interview",
+    "./amneziawg-openwrt-guide",
+    "./podkop-openwrt-guide",
+    "./zapret-openwrt-guide"
+  ]
+}

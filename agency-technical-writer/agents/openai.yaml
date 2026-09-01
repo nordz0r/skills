@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agency Technical Writer"
+  short_description: "Technical writing for READMEs, runbooks, migration plans, contributor guides,..."
+  default_prompt: "Use $agency-technical-writer to assist with agency technical writer tasks."

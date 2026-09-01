@@ -1,0 +1,4 @@
+interface:
+  display_name: "Playwright Skill"
+  short_description: "Complete browser automation with Playwright for explicit localhost or user-ap..."
+  default_prompt: "Use $playwright-skill to assist with playwright skill tasks."

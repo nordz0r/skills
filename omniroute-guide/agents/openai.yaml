@@ -1,0 +1,4 @@
+interface:
+  display_name: "Omniroute Guide"
+  short_description: "Полная справка по OmniRoute — unified AI proxy/router: архитектура, установка..."
+  default_prompt: "Use $omniroute-guide to assist with omniroute guide tasks."

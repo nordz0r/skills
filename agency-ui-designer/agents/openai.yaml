@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agency Ui Designer"
+  short_description: "Visual redesign for apps, dashboards, admin panels, settings screens, tables,..."
+  default_prompt: "Use $agency-ui-designer to assist with agency ui designer tasks."
