@@ -93,7 +93,7 @@ They are environment-only and do not change Linux/macOS behaviour.
 - `tools/a_evolve_router/catalog.py` keeps the original line-based
   frontmatter parser on purpose. A PyYAML parser was wired in during the
   pilot and tested against the current catalog, but on `main` it
-  regresses top-1 accuracy from 0.9070 to 0.8372 (see the pilot-run table
+  regresses top-1 accuracy from 0.8364 to 0.7818 (see the pilot-run table
   below) because the heuristic router relies on the first-line-only
   description overlap to discriminate nearby skills. The line-based
   parser is left in place; a future switch to PyYAML should ship with a
@@ -117,16 +117,15 @@ python -m tools.a_evolve_router.run_pilot --reset-workspace --engine codex --cyc
 ## Pilot run (2026-09-01)
 
 What I actually ran, in order, on the current `main` snapshot of this repo
-(31 top-level skill directories, but only 25 have a `SKILL.md`; six are
-`evals`-only — `administering-linux`, `amnezia-vpn`, `ansible-playbook`,
-`docker-ops`, `gitlab-ci`, `linux-routing` — so the router never sees them).
-The benchmark has 43 cases: 25 catalog evals (`id=1` train / `id=2` holdout)
-plus 19 supplemental cross-skill cases added during the pilot.
+(31 top-level skill directories, all with `SKILL.md`; 18 of them also ship
+`evals/evals.json`). The benchmark has 55 cases: 36 catalog evals
+(`id=1` train / `id=2` holdout) plus 19 supplemental cross-skill cases
+added during the pilot.
 
 | Step | Engine | Cycles | top1 acc | avg_score | Notes |
 |------|--------|--------|----------|-----------|-------|
-| 1. Baseline (line-based `parse_frontmatter`) | — | — | **0.9070** (39/43) | 0.9151 | router reads only the first line of `description:`; folded `>-` blocks are ignored. The six skills without `SKILL.md` are absent from the catalog but their evals still count as failures. |
-| 2. `parse_frontmatter` switched to PyYAML (reverted) | — | — | 0.8372 (36/43) | 0.8698 | regression on `main`. PyYAML correctly reads folded `description: >-` blocks, but the heuristic router relies on first-line-only description overlap to discriminate nearby skills. Net **−7.0 pp** vs the line-based parser, so the change was reverted. |
+| 1. Baseline (line-based `parse_frontmatter`) | — | — | **0.8364** (46/55) | 0.8745 | router reads only the first line of `description:`; folded `>-` blocks are ignored. |
+| 2. `parse_frontmatter` switched to PyYAML (reverted) | — | — | 0.7818 (43/55) | 0.8136 | regression on `main`. PyYAML correctly reads folded `description: >-` blocks, but the heuristic router relies on first-line-only description overlap to discriminate nearby skills. Net **−5.5 pp** vs the line-based parser, so the change was reverted. |
 | 3. Heuristic engine | `heuristic` | 3 | not measured | not measured | same net-negative failure mode as the original pilot (see below). Left in code for design reference; not promoted to a recommendation. |
 | 4. Codex CLI engine | `codex` | 1 | not reached | not reached | failed in this environment: ChatGPT-account Codex cannot use `gpt-5`, and the default profile's MCP servers hit an OAuth-protected Cloudflare endpoint. The `--codex` engine is left in the code for Linux/CI runs that have an OpenAI API key. |
 
@@ -147,21 +146,25 @@ relevance threshold and a holdout-aware penalty before the next run.
 
 ### Known router limitations on the current `main` (line-based parser)
 
-Four cases fail on the current `main` (top1 = 39/43 = 90.70%). All four are
+Nine cases fail on the current `main` (top1 = 46/55 = 83.64%). All are
 honest description-level collisions, not parser bugs:
 
 | task_id | expected | selected by router | reason |
 |---------|----------|--------------------|--------|
-| `ansible-playbook__neg-devops` | `ansible-playbook` | `agency-devops-automator` | `ansible-playbook` has no `SKILL.md` on `main` (only `evals/evals.json`), so the router has no candidate to pick. |
+| `administering-linux__1` | `administering-linux` | `basic-memory-workflow` | Russian generic-token overlap on "linux"/"system". |
+| `administering-linux__2` | `administering-linux` | `ansible-playbook` | both mention "systemd"/"playbook"; ansible wins on playbook density. |
+| `amnezia-vpn__1` | `amnezia-vpn` | `amneziawg-openwrt-guide` | both name AmneziaWG; OpenWrt variant wins on the "openwrt" token. |
+| `ansible-playbook__2` | `ansible-playbook` | `basic-memory-workflow` | sparse description tokens collide with the ADR/memory signal. |
+| `gitlab-ci__1` | `gitlab-ci` | `agency-devops-automator` | both mention "ci"/"deploy"; devops wins on "rollout" density. |
+| `linux-routing__1` | `linux-routing` | `podkop-openwrt-guide` | both mention "routing" and "policy"; OpenWrt variant wins. |
 | `agency-incident-response-commander__neg-security` | `agency-incident-response-commander` | `basic-memory-workflow` | the active-leak prompt is correctly identified by humans as incident-class but the keyword "rotate keys" is sparse in the incident description and denser in `basic-memory-workflow`. |
 | `agency-technical-writer__neg-devops` | `agency-technical-writer` | `agency-incident-response-commander` | both mention "runbook"; incident wins on `sev`/`outage` tokens. |
 | `preview-interview__neg-writer` | `preview-interview` | `agency-ui-designer` | UI designer wins on the shared "design"/"system" tokens vs the same score for `preview-interview` (tie-breaker is catalog order). |
 
 Fixing these requires either richer routing features (bigrams, weighting by
-heading position, or per-skill `negative_cues:` blocks), hand-editing
-descriptions, or restoring the missing `SKILL.md` files for the six
-evals-only skills. The pilot leaves them in place and surfaces them here so
-the next iteration knows where to invest.
+heading position, or per-skill `negative_cues:` blocks) or hand-editing
+descriptions to surface the discriminating tokens. The pilot leaves them in
+place and surfaces them here so the next iteration knows where to invest.
 
 ### Cross-skill negative cases added to `supplemental_cases.json`
 
