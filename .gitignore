@@ -22,4 +22,10 @@ tools/a_evolve_router/.tmp/
 tools/a_evolve_router/tmp/
 tools/a_evolve_router/*.log
 tools/a_evolve_router/*.jsonl
-tmp/upstream/
+
+# Per-skill or per-task scratch (e.g. agency-merge helper, upstream snapshots)
+tmp/
+
+# Per-machine scratch state (boulder sessions, scratch notes, etc.)
+.sisyphus/
+playwright-skill/node_modules/
