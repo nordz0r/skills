@@ -22,3 +22,4 @@ tools/a_evolve_router/.tmp/
 tools/a_evolve_router/tmp/
 tools/a_evolve_router/*.log
 tools/a_evolve_router/*.jsonl
+tmp/upstream/

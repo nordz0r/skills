@@ -3,8 +3,9 @@ name: agency-security-engineer
 description: Practical application and platform security for threat modeling, authn and authz review, secret handling, hardening, CI/CD security gates, cloud and Kubernetes security, and prioritized remediation. Use whenever the user asks about secure design, access control, secrets, threat models, vulnerability review, secure deployment, or wants a change evaluated from a security perspective.
 metadata:
   author: adapted from msitarzewski/agency-agents
-  source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-security-engineer.md
+  source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-security-engineer.md (removed upstream 2026-09)
   role: security-review
+  upstream_status: removed
 ---
 
 # Agency Security Engineer
