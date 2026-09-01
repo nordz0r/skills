@@ -176,15 +176,15 @@ python3 -m tools.a_evolve_router.evaluate_baseline --split all
 
 The full local `a-evolve` workflow is documented in [`tools/a_evolve_router/README.md`](tools/a_evolve_router/README.md). Use `--reset-workspace` for clean reruns from the current skill catalog.
 
-**Current metrics** (pilot run 2026-09-01, 31 skills / 55 cases):
+**Current metrics** (pilot run 2026-09-01, 25 router-visible skills / 43 cases):
 
-| State | Train acc@1 | Holdout acc@1 | avg_score |
-|-------|-------------|---------------|-----------|
-| Before `parse_frontmatter` fix | 81.25% | 86.96% | 0.8745 |
-| After PyYAML parser fix | **87.50%** | **86.96%** | **0.9045** |
-| After `heuristic` engine (3 cycles) | 81.25% | 73.91% | 0.8350 |
+| State | top1 acc | avg_score |
+|-------|----------|-----------|
+| Baseline (line-based `parse_frontmatter`) | **0.9070** (39/43) | 0.9151 |
+| After `parse_frontmatter` → PyYAML (reverted) | 0.8372 (36/43) | 0.8698 |
+| After `heuristic` engine (3 cycles) | not measured | not measured |
 
-Switching `parse_frontmatter` to PyYAML alone gave **+6.25 pp on train** without touching a single `SKILL.md` — the original line-by-line parser did not understand `description: >-` blocks, so 14 of 31 skills had no description in the router's eyes. The `heuristic` engine is net-negative on the current skill set (see "Heuristic-engine failure mode" in the pilot README).
+Six skill directories on `main` (`administering-linux`, `amnezia-vpn`, `ansible-playbook`, `docker-ops`, `gitlab-ci`, `linux-routing`) contain only `evals/evals.json` with no `SKILL.md`, so the router never sees them while their eval cases are still counted as honest failures. The PyYAML variant of `parse_frontmatter` correctly reads folded `description: >-` blocks, but regresses top-1 by 7 pp because the heuristic router relies on first-line-only description overlap to discriminate nearby skills — that change is reverted and described in the [pilot README](tools/a_evolve_router/README.md). The `heuristic` engine is left in the codebase as a reference implementation but is net-negative in its current form.
 
 ## Repository structure
 

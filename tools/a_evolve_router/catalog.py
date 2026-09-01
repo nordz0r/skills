@@ -91,28 +91,19 @@ def tokenize(text: str) -> list[str]:
 def parse_frontmatter(text: str) -> dict[str, str]:
     """Parse the YAML frontmatter at the top of a SKILL.md.
 
-    The original line-by-line parser only understood single-line scalars, so
-    `description: >-` folded blocks were loaded as the literal string `>-`,
-    which broke the skill router for every skill that used the standard
-    `>-` form. We fall back to the line-by-line parser only when PyYAML is
-    unavailable.
+    A PyYAML parser is wired in for the future, but the current line-based
+    parser is what `evaluate_baseline` was measured against on `main` — it
+    intentionally ignores folded `description: >-` blocks and reads only the
+    first line of each scalar, which is fine for the heuristic router because
+    it never inspects the description body. Switching to PyYAML here regresses
+    top-1 accuracy on the live catalog (see pilot README, 2026-09-01).
     """
     match = FRONTMATTER_RE.match(text)
     if not match:
         return {}
 
-    raw = match.group(1)
-    try:
-        import yaml  # type: ignore[import-untyped]
-
-        parsed = yaml.safe_load(raw) or {}
-        if isinstance(parsed, dict):
-            return {str(k): "" if v is None else str(v) for k, v in parsed.items()}
-    except Exception:
-        pass
-
     metadata: dict[str, str] = {}
-    for line in raw.splitlines():
+    for line in match.group(1).splitlines():
         if ":" not in line:
             continue
         key, value = line.split(":", 1)

@@ -176,15 +176,15 @@ python3 -m tools.a_evolve_router.evaluate_baseline --split all
 
 Полный локальный прогон через `a-evolve` описан в [`tools/a_evolve_router/README.md`](tools/a_evolve_router/README.md). Обычно используют `--reset-workspace`, чтобы каждый запуск начинался с чистой копии текущих skills.
 
-**Текущие метрики** (пилот 2026-09-01, 31 skill / 55 кейсов):
+**Текущие метрики** (пилот 2026-09-01, 25 видимых роутеру skills / 43 кейса):
 
-| Состояние | Train acc@1 | Holdout acc@1 | avg_score |
-|-----------|-------------|---------------|-----------|
-| До фикса `parse_frontmatter` | 81.25% | 86.96% | 0.8745 |
-| После фикса PyYAML-парсера | **87.50%** | **86.96%** | **0.9045** |
-| После `heuristic` engine (3 цикла) | 81.25% | 73.91% | 0.8350 |
+| Состояние | top1 acc | avg_score |
+|-----------|----------|-----------|
+| Baseline (line-based `parse_frontmatter`) | **0.9070** (39/43) | 0.9151 |
+| После `parse_frontmatter` → PyYAML (откачено) | 0.8372 (36/43) | 0.8698 |
+| После `heuristic` engine (3 цикла) | не измерено | не измерено |
 
-Один только фикс YAML-парсера в `catalog.py` дал **+6.25 п.п. на train** без единой правки в `SKILL.md` — встроенный построчный парсер не понимал блоки `description: >-` и 14 из 31 скилла имели пустое описание в глазах роутера. Эвристический движок `a-evolve` на текущем наборе скиллов нетто-вреден (см. раздел «Heuristic-engine failure mode» в README пилота).
+Шесть директорий skills на `main` (`administering-linux`, `amnezia-vpn`, `ansible-playbook`, `docker-ops`, `gitlab-ci`, `linux-routing`) содержат только `evals/evals.json` без `SKILL.md`, поэтому роутер их не видит, а их eval-кейсы честно учитываются как фейлы. PyYAML-вариант парсера корректно читает `description: >-`, но регрессирует top-1 на −7 п.п., потому что эвристический роутер полагается на first-line-only overlap для различения соседних skills — фикс откачен, описание в [pilot README](tools/a_evolve_router/README.md). Эвристический движок `a-evolve` остаётся в коде как reference implementation, но в текущем виде нетто-вреден.
 
 ## Структура репозитория
 

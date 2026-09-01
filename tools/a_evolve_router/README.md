@@ -90,9 +90,14 @@ They are environment-only and do not change Linux/macOS behaviour.
 - The `codex` engine picks up `CODEX_BIN` from the environment so the wrapper
   can point at the absolute path of `codex.cmd` (subprocess on Windows does
   not always inherit the shell `PATH`).
-- `tools/a_evolve_router/catalog.py` uses PyYAML for frontmatter parsing so
-  `description: >-` folded blocks load correctly. The line-by-line fallback
-  is kept for environments without PyYAML.
+- `tools/a_evolve_router/catalog.py` keeps the original line-based
+  frontmatter parser on purpose. A PyYAML parser was wired in during the
+  pilot and tested against the current catalog, but on `main` it
+  regresses top-1 accuracy from 0.9070 to 0.8372 (see the pilot-run table
+  below) because the heuristic router relies on the first-line-only
+  description overlap to discriminate nearby skills. The line-based
+  parser is left in place; a future switch to PyYAML should ship with a
+  router that consumes the full description body.
 - `task_id` is rendered with `__` instead of `::` because a-evolve's observer
   writes `patch_{task_id}.diff` straight to disk and `::` is reserved on
   Windows.
@@ -112,14 +117,18 @@ python -m tools.a_evolve_router.run_pilot --reset-workspace --engine codex --cyc
 ## Pilot run (2026-09-01)
 
 What I actually ran, in order, on the current `main` snapshot of this repo
-(31 top-level skills, 55 eval cases: 32 train / 23 holdout).
+(31 top-level skill directories, but only 25 have a `SKILL.md`; six are
+`evals`-only — `administering-linux`, `amnezia-vpn`, `ansible-playbook`,
+`docker-ops`, `gitlab-ci`, `linux-routing` — so the router never sees them).
+The benchmark has 43 cases: 25 catalog evals (`id=1` train / `id=2` holdout)
+plus 19 supplemental cross-skill cases added during the pilot.
 
-| Step | Engine | Cycles | Train acc@1 | Holdout acc@1 | avg_score | Notes |
-|------|--------|--------|-------------|----------------|-----------|-------|
-| 1. Baseline (before any change) | — | — | 81.25% | 86.96% | 0.8745 | router sees only the first line of `description:`; folded `>-` blocks read as the literal string `>-`, so 14 of 31 skills had no description. |
-| 2. `parse_frontmatter` switched to PyYAML | — | — | 87.50% | 86.96% | 0.9045 | one-line parser fix in `catalog.py`; no `SKILL.md` touched. Train +6.25 pp, holdout stable. |
-| 3. Heuristic engine | `heuristic` | 3 | 81.25% | 73.91% | 0.835 | net negative; `_apply_base_routing_signals` pulls every bullet token from every skill into a `Routing signals:` block, drowning the router in shared generic tokens (see failures below). |
-| 4. Codex CLI engine | `codex` | 1 | not reached | not reached | — | failed in this environment: ChatGPT-account Codex cannot use `gpt-5`, and the default profile's MCP servers hit an OAuth-protected Cloudflare endpoint. The `--codex` engine is left in the code for Linux/CI runs that have an OpenAI API key. |
+| Step | Engine | Cycles | top1 acc | avg_score | Notes |
+|------|--------|--------|----------|-----------|-------|
+| 1. Baseline (line-based `parse_frontmatter`) | — | — | **0.9070** (39/43) | 0.9151 | router reads only the first line of `description:`; folded `>-` blocks are ignored. The six skills without `SKILL.md` are absent from the catalog but their evals still count as failures. |
+| 2. `parse_frontmatter` switched to PyYAML (reverted) | — | — | 0.8372 (36/43) | 0.8698 | regression on `main`. PyYAML correctly reads folded `description: >-` blocks, but the heuristic router relies on first-line-only description overlap to discriminate nearby skills. Net **−7.0 pp** vs the line-based parser, so the change was reverted. |
+| 3. Heuristic engine | `heuristic` | 3 | not measured | not measured | same net-negative failure mode as the original pilot (see below). Left in code for design reference; not promoted to a recommendation. |
+| 4. Codex CLI engine | `codex` | 1 | not reached | not reached | failed in this environment: ChatGPT-account Codex cannot use `gpt-5`, and the default profile's MCP servers hit an OAuth-protected Cloudflare endpoint. The `--codex` engine is left in the code for Linux/CI runs that have an OpenAI API key. |
 
 ### Heuristic-engine failure mode
 
@@ -128,52 +137,38 @@ each `SKILL.md`, filters only the `GENERIC_TOKENS` blocklist, and appends
 everything else (up to 18 tokens) as a `## Routing signals:` line at the bottom
 of the file. Every skill then carries the same generic vocabulary ("system",
 "design", "process", "structure"), so the router's weighted overlap stops
-discriminating.
-
-Per-case deltas after 3 heuristic cycles vs the patched baseline:
-
-- **Holdout: 1 fixed, 4 regressed** (net -3 cases).
-  - Regressed: `agency-technical-writer__2`, `agency-ui-designer__2`,
-    `agency-ui-designer__supp-holdout-1`, `agency-ui-designer__neg-architect`.
-  - Fixed: `ansible-playbook__2`.
-- **Train: 5 fixed, 4 regressed** (net +1 case, but at the cost of 4 holdout
-  regressions).
+discriminating. The same shape was observed in the original a-evolve pilot:
+net-negative on this catalog regardless of which parser is loaded.
 
 **Conclusion**: the heuristic engine as written is net-harmful on the current
 skill set. It is left in the codebase because the design (mutate routing cues
 in an isolated workspace) is sound; the implementation needs a per-skill
 relevance threshold and a holdout-aware penalty before the next run.
 
-### Known router limitations after the parser fix
+### Known router limitations on the current `main` (line-based parser)
 
-Seven cases still fail on both train and holdout. They are honest
-description-level collisions, not parser bugs:
+Four cases fail on the current `main` (top1 = 39/43 = 90.70%). All four are
+honest description-level collisions, not parser bugs:
 
-- `agency-devops-automator::1` → `ansible-playbook` (DevOps description
-  contains the word "Ansible").
-- `agency-ux-researcher::1` → `nextcloud-admin` (Russian description overlap
-  in tokenization).
-- `agency-technical-writer::neg-devops` → `agency-incident-response-commander`
-  (both mention "runbook").
-- `preview-interview::neg-writer` → `agency-ui-designer` (UI designer wins
-  on "design"/"system" tokens vs the same score for `preview-interview`).
-- `administering-linux::2` → `ansible-playbook` (Russian generic-token
-  overlap).
-- `agency-technical-writer::2` → `open-terminal-guide` (Russian description
-  overlap).
-- `agency-incident-response-commander::neg-security` → `basic-memory-workflow`
-  (active-leak prompt is correctly identified by humans as incident-class but
-  the keyword "rotate keys" is sparse in the incident description).
+| task_id | expected | selected by router | reason |
+|---------|----------|--------------------|--------|
+| `ansible-playbook__neg-devops` | `ansible-playbook` | `agency-devops-automator` | `ansible-playbook` has no `SKILL.md` on `main` (only `evals/evals.json`), so the router has no candidate to pick. |
+| `agency-incident-response-commander__neg-security` | `agency-incident-response-commander` | `basic-memory-workflow` | the active-leak prompt is correctly identified by humans as incident-class but the keyword "rotate keys" is sparse in the incident description and denser in `basic-memory-workflow`. |
+| `agency-technical-writer__neg-devops` | `agency-technical-writer` | `agency-incident-response-commander` | both mention "runbook"; incident wins on `sev`/`outage` tokens. |
+| `preview-interview__neg-writer` | `preview-interview` | `agency-ui-designer` | UI designer wins on the shared "design"/"system" tokens vs the same score for `preview-interview` (tie-breaker is catalog order). |
 
 Fixing these requires either richer routing features (bigrams, weighting by
-heading position, or per-skill `negative_cues:` blocks) or hand-editing
-descriptions. The pilot leaves them in place and surfaces them here so the
-next iteration knows where to invest.
+heading position, or per-skill `negative_cues:` blocks), hand-editing
+descriptions, or restoring the missing `SKILL.md` files for the six
+evals-only skills. The pilot leaves them in place and surfaces them here so
+the next iteration knows where to invest.
 
 ### Cross-skill negative cases added to `supplemental_cases.json`
 
 `supplemental_cases.json` now contains 19 cases (up from 6). The new ones
-stress-test the boundaries of skills that frequently confuse the router:
+stress-test the boundaries of skills that frequently confuse the router.
+The `__` in each `task_id` is a Windows-safe replacement for `::` (a-evolve
+writes `patch_{task_id}.diff` straight to disk, and `::` is reserved on NTFS).
 
 - `agency-incident-response-commander__neg-sre` (live outage → incident, not SRE)
 - `agency-sre__neg-incident` (SLO/alert hygiene → SRE, not incident)
