@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ollama Search"
+  short_description: "- Полная русскоязычная справка по Ollama Web Search и Web Fetch API: поиск в ..."
+  default_prompt: "Use $ollama-search to assist with ollama search tasks."

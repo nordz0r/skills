@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agency Ux Researcher"
+  short_description: "UX research planning for usability tests, interview guides, hypothesis-driven..."
+  default_prompt: "Use $agency-ux-researcher to assist with agency ux researcher tasks."

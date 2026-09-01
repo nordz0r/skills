@@ -37,6 +37,12 @@ skills/
 ├── playwright-skill/                 # Playwright browser automation + Node runtime
 ├── open-terminal-guide/              # Open Terminal guide
 ├── open-webui-guide/                 # Largest reference set
+├── administering-linux/              # systemd / journald / host troubleshooting
+├── docker-ops/                       # Dockerfile + Compose v2
+├── gitlab-ci/                        # GitLab CI/CD + runners
+├── ansible-playbook/                 # Ansible playbooks / vault / lint
+├── amnezia-vpn/                      # AmneziaVPN / AWG on Linux + Docker
+├── linux-routing/                    # iproute2 PBR + nftables
 ├── amneziawg-openwrt-guide/          # AmneziaWG on OpenWrt
 ├── podkop-openwrt-guide/             # Podkop / sing-box on OpenWrt
 ├── qdrant-codebase-search/           # Qdrant + Ollama semantic code search + scripts
@@ -68,6 +74,12 @@ All 10 `agency-*` skills currently follow the same pattern:
 ### Domain and workflow skills
 
 - `basic-memory-workflow`
+- `administering-linux`
+- `docker-ops`
+- `gitlab-ci`
+- `ansible-playbook`
+- `amnezia-vpn`
+- `linux-routing`
 - `nextcloud-admin`
 - `ollama-search`
 - `playwright-skill`
@@ -97,6 +109,7 @@ All 10 `agency-*` skills currently follow the same pattern:
 | Routing benchmark | `tools/a_evolve_router/` | Baseline/evolution loop for skill trigger wording |
 | Memory workflow conventions | `basic-memory-workflow/SKILL.md` | How this environment expects project memory to be used |
 | OpenWrt skill patterns | `amneziawg-openwrt-guide/`, `podkop-openwrt-guide/`, `zapret-openwrt-guide/` | Good templates for Russian infra/network docs |
+| Linux host / CI skills | `administering-linux/`, `docker-ops/`, `gitlab-ci/`, `ansible-playbook/`, `amnezia-vpn/`, `linux-routing/` | Operator-focused RU guides; AWG on Linux is `amnezia-vpn`, OpenWrt AWG stays in `amneziawg-openwrt-guide` |
 
 ## CONVENTIONS
 
@@ -158,23 +171,28 @@ metadata: {...}   # optional
 ## COMMANDS
 
 ```bash
-# List available skills
+# Claude Code Plugin Marketplace:
+claude plugin marketplace add nordz0r/skills
+claude plugin install all-skills@nord-skills
+claude plugin install agency-skills@nord-skills
+claude plugin install infra-linux@nord-skills
+claude plugin install ai-tools@nord-skills
+claude plugin install openwrt-routing@nord-skills
+
+# Validation script:
+node scripts/validate-skills.js
+
+# npx skills (Codex / OpenClaw / Agent CLIs):
 npx skills add nordz0r/skills -l
-
-# Install all skills into the current project
 npx skills add nordz0r/skills
-
-# Install all skills globally
 npx skills add nordz0r/skills -g
-
-# Install one skill globally
-npx skills add nordz0r/skills -s open-webui-guide -g
+npx skills add nordz0r/skills -s litellm-guide -g
 ```
 
 ## NOTES
 
-- Current inventory: 25 skills total.
-- `agency-*` accounts for 10 of those 24 skills.
+- Current inventory: 31 skills total.
+- `agency-*` accounts for 10 of those skills.
 - `open-webui-guide` has 11 reference files and is still the largest single documentation set.
 - `ollama-search` has 4 reference files and 2 scripts.
 - `playwright-skill` has 1 reference file, 2 script files, and a root `package.json`.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agency Database Optimizer"
+  short_description: "Database design, migration safety, indexing, EXPLAIN analysis, query tuning, ..."
+  default_prompt: "Use $agency-database-optimizer to assist with agency database optimizer tasks."

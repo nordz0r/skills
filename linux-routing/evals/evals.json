@@ -1,0 +1,17 @@
+{
+  "skill_name": "linux-routing",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Нужен split-tunnel на Linux: default через WAN, префиксы через awg0, ip rule fwmark, не заворачивать VPN endpoint. Не OpenWrt и не podkop.",
+      "expected_output": "Ответ должен выбрать linux-routing, не podkop-openwrt-guide.",
+      "split": "train"
+    },
+    {
+      "id": 2,
+      "prompt": "После awg-quick up пропал интернет: два default, rp_filter strict, nft masquerade на eth0. Разбери ip rule и conntrack.",
+      "expected_output": "Ответ должен выбрать linux-routing для PBR/nft/rp_filter.",
+      "split": "holdout"
+    }
+  ]
+}

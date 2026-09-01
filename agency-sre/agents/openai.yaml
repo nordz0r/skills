@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agency Sre"
+  short_description: "Reliability engineering for SLOs, SLIs, observability, alert quality, capacit..."
+  default_prompt: "Use $agency-sre to assist with agency sre tasks."

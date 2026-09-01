@@ -8,7 +8,7 @@
 
 **Каталоги и discovery:** [skills.sh](https://skills.sh) · [SkillsMP](https://skillsmp.com)
 
-**Ключевые слова для поиска:** Claude Code skills, Codex skills, AI agent skills, skills.sh, SkillsMP, DevOps, SRE, incident response, security review, technical writing, UX research, UI design, Playwright, Lightpanda, browser automation, rendered extraction, CDP, MCP, headless browser for AI, E2E testing, screenshot testing, responsive testing, Open WebUI, Open Terminal, OmniRoute, AI router, LLM proxy, combo routing, auto-combo, Ollama Search, Qdrant code search, Nextcloud, WebDAV, OCS API, OpenWrt, AmneziaWG, Podkop, zapret, basic-memory, project memory.
+**Ключевые слова для поиска:** Claude Code skills, Codex skills, AI agent skills, skills.sh, SkillsMP, DevOps, SRE, incident response, security review, technical writing, UX research, UI design, Playwright, Lightpanda, browser automation, rendered extraction, CDP, MCP, headless browser for AI, E2E testing, screenshot testing, responsive testing, Open WebUI, Open Terminal, OmniRoute, AI router, LLM proxy, combo routing, auto-combo, Ollama Search, Qdrant code search, Nextcloud, WebDAV, OCS API, Linux, systemd, Docker, Docker Compose, GitLab CI, Ansible, AmneziaVPN, AmneziaWG, policy routing, iproute2, nftables, OpenWrt, Podkop, zapret, basic-memory, project memory.
 
 ## Что внутри
 
@@ -38,6 +38,17 @@
 | [agency-whimsy-injector](agency-whimsy-injector/) | Delight, product personality, playful copy, micro-interactions | delight, micro-interactions, personality, playful ui |
 | [preview-interview](preview-interview/) | Подготовка к интервью: разбор вопросов, структурирование ответов, mock-сессии | interview, prep, mock interview, behavioral, technical interview, resume |
 
+### Linux, Docker, GitLab, Ansible и host routing
+
+| Skill | Фокус | Trigger keywords |
+|------|-------|------------------|
+| [administering-linux](administering-linux/) | systemd, journald, диски, SSH, пакеты, host-level troubleshooting | linux, systemd, journalctl, sshd, disk full, oom, apt, dnf |
+| [docker-ops](docker-ops/) | Dockerfile, Compose v2, healthcheck, networks, volumes, registry | docker, dockerfile, compose.yaml, healthcheck, docker logs |
+| [gitlab-ci](gitlab-ci/) | `.gitlab-ci.yml`, rules, runners, dind, GitLab Registry | gitlab, gitlab-ci, runner, CI_REGISTRY, CI_JOB_TOKEN, rules |
+| [ansible-playbook](ansible-playbook/) | playbooks, roles, inventory, vault, `--check --diff`, FQCN | ansible, playbook, vault, ansible-lint, inventory, handler |
+| [amnezia-vpn](amnezia-vpn/) | AmneziaVPN/AWG на Linux и Docker, не OpenWrt UCI | amnezia, amneziawg, awg-quick, /opt/amnezia, Jc, handshake |
+| [linux-routing](linux-routing/) | `ip rule`/`ip route`, fwmark, nft NAT, split-tunnel, conntrack | policy routing, fwmark, rt_tables, nftables, masquerade, rp_filter |
+
 ### AI tooling, knowledge workflows и integrations
 
 | Skill | Фокус | Trigger keywords |
@@ -58,11 +69,34 @@
 
 | Skill | Фокус | Trigger keywords |
 |------|-------|------------------|
-| [amneziawg-openwrt-guide](amneziawg-openwrt-guide/) | AmneziaWG на OpenWrt: пакеты, UCI/LuCI, peers, QR, watchdog | amneziawg, awg, luci-proto-amneziawg, openwrt awg |
-| [podkop-openwrt-guide](podkop-openwrt-guide/) | Podkop + sing-box на OpenWrt: selective routing, FakeIP, Clash API | podkop, sing-box, fakeip, clash api, selector, urltest |
+| [amneziawg-openwrt-guide](amneziawg-openwrt-guide/) | AmneziaWG на OpenWrt: пакеты, UCI/LuCI, peers, QR, watchdog | amneziawg, awg, luci-proto-amneziawg, openwrt awg. Linux/Docker AWG → `amnezia-vpn` |
+| [podkop-openwrt-guide](podkop-openwrt-guide/) | Podkop + sing-box на OpenWrt: selective routing, FakeIP, Clash API | podkop, sing-box, fakeip, clash api, selector, urltest. Linux PBR → `linux-routing` |
 | [zapret-openwrt-guide](zapret-openwrt-guide/) | zapret-openwrt: DPI desync, nfqws, hostlists, LuCI, troubleshooting | zapret, nfqws, dpi desync, autohostlist, openwrt |
 
-## Установка
+## Установка и подключение
+
+Репозиторий оформлен как универсальный источник: его можно подключать как официальный **Claude Code Plugin / Marketplace**, так и устанавливать через **`npx skills`** для `Codex`, `OpenClaw` и других AI-агентов.
+
+### 1. Claude Code (Plugin Marketplace)
+
+```bash
+# 1. Добавить маркетплейс в Claude Code
+claude plugin marketplace add nordz0r/skills
+
+# 2. Установить бандл или отдельные плагины:
+claude plugin install all-skills@nord-skills       # Все 31 скилл
+claude plugin install agency-skills@nord-skills    # Только Agency (10 скиллов)
+claude plugin install infra-linux@nord-skills      # Linux, Docker, CI/CD, Ansible
+claude plugin install ai-tools@nord-skills         # LiteLLM, OmniRoute, WebUI, Playwright
+claude plugin install openwrt-routing@nord-skills  # OpenWrt (AmneziaWG, Podkop, zapret)
+claude plugin install litellm-guide@nord-skills    # Конкретный скилл
+
+# Внутри интерактивной сессии Claude Code:
+/plugin marketplace add nordz0r/skills
+/plugin install all-skills@nord-skills
+```
+
+### 2. OpenAI Codex, OpenClaw и Agent CLI (`npx skills`)
 
 ```bash
 # Показать список skills
@@ -75,11 +109,11 @@ npx skills add nordz0r/skills
 npx skills add nordz0r/skills -g
 
 # Установить конкретный skill
-npx skills add nordz0r/skills -s open-webui-guide -g
+npx skills add nordz0r/skills -s litellm-guide -g
 ```
 
-| Флаг | Что делает |
-|------|------------|
+| Флаг `npx skills` | Что делает |
+|-------------------|------------|
 | `-l`, `--list` | Показывает доступные skills без установки |
 | `-s`, `--skill <name>` | Устанавливает только один skill |
 | `-g`, `--global` | Делает skill доступным глобально |
@@ -146,15 +180,22 @@ python3 -m tools.a_evolve_router.evaluate_baseline --split all
 
 ```text
 skills/
+├── .claude-plugin/
+│   ├── marketplace.json  # Каталог маркетплейса Claude Code (бандлы + 31 плагин)
+│   └── plugin.json       # Корневой манифест плагина для прямой установки
+├── scripts/
+│   └── validate-skills.js # Валидатор манифестов, frontmatter и путей
 ├── README.md
 ├── README.en.md
+├── AGENTS.md
 ├── tools/
 │   └── a_evolve_router/  # экспериментальный benchmark маршрутизации skills
 └── <skill-name>/
-    ├── SKILL.md
-    ├── evals/         # опционально: тестовые промпты и проверки trigger quality
-    ├── scripts/       # опционально: bash-скрипты или automation helpers
-    └── references/    # опционально: подробные справочные материалы по темам
+    ├── SKILL.md          # Основные инструкции с YAML frontmatter
+    ├── agents/           # OpenAI/Codex agent manifest (openai.yaml)
+    ├── evals/            # опционально: тестовые промпты и проверки trigger quality
+    ├── scripts/          # опционально: bash-скрипты или automation helpers
+    └── references/       # опционально: подробные справочные материалы по темам
 ```
 
 ## Рекомендации для новых skills

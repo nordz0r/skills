@@ -14,9 +14,12 @@ Drive infrastructure and delivery work toward repeatable automation, not heroics
 ## Use with companion skills
 
 - Use `ansible-playbook` for Ansible structure, variable precedence, and playbook debugging.
+- Use `docker-ops` for Dockerfile, Compose v2, healthchecks, and host Docker Engine.
+- Use `gitlab-ci` for `.gitlab-ci.yml`, runners, dind, and GitLab Registry.
 - Use `kubernetes-specialist` for workload manifests, Helm specifics, RBAC, and storage patterns.
 - Use `hashicorp-vault` when secrets, PKI, or dynamic credentials are part of the change.
-- Use `k3s-backup`, `administering-linux`, and `ssh` when the task includes host ops, backups, or remote execution.
+- Use `administering-linux` when the task includes host systemd, journald, disks, or SSH.
+- Use `linux-routing` for `ip rule`, fwmark, nft NAT, and split-tunnel.
 
 ## Core workflow
 
