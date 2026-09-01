@@ -89,12 +89,30 @@ def tokenize(text: str) -> list[str]:
 
 
 def parse_frontmatter(text: str) -> dict[str, str]:
+    """Parse the YAML frontmatter at the top of a SKILL.md.
+
+    The original line-by-line parser only understood single-line scalars, so
+    `description: >-` folded blocks were loaded as the literal string `>-`,
+    which broke the skill router for every skill that used the standard
+    `>-` form. We fall back to the line-by-line parser only when PyYAML is
+    unavailable.
+    """
     match = FRONTMATTER_RE.match(text)
     if not match:
         return {}
 
+    raw = match.group(1)
+    try:
+        import yaml  # type: ignore[import-untyped]
+
+        parsed = yaml.safe_load(raw) or {}
+        if isinstance(parsed, dict):
+            return {str(k): "" if v is None else str(v) for k, v in parsed.items()}
+    except Exception:
+        pass
+
     metadata: dict[str, str] = {}
-    for line in match.group(1).splitlines():
+    for line in raw.splitlines():
         if ":" not in line:
             continue
         key, value = line.split(":", 1)
@@ -127,7 +145,8 @@ def load_eval_cases(repo_root: Path | None = None) -> list[BenchmarkCase]:
         skill_name = payload["skill_name"]
         for item in payload["evals"]:
             split = item.get("split") or ("train" if int(item["id"]) == 1 else "holdout")
-            task_id = f"{skill_name}::{item['id']}"
+            # Windows-safe task ids (avoid `::` which breaks a-evolve file writes).
+            task_id = f"{skill_name}__{item['id']}"
             cases.append(
                 BenchmarkCase(
                     task_id=task_id,
@@ -142,7 +161,7 @@ def load_eval_cases(repo_root: Path | None = None) -> list[BenchmarkCase]:
         for item in json.loads(SUPPLEMENTAL_CASES_FILE.read_text(encoding="utf-8")):
             cases.append(
                 BenchmarkCase(
-                    task_id=item["task_id"],
+                    task_id=item["task_id"].replace("::", "__"),
                     prompt=item["prompt"],
                     expected_skill=item["expected_skill"],
                     expected_output=item.get("expected_output", ""),

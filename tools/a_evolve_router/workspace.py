@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import shutil
 from pathlib import Path
 
@@ -7,7 +8,11 @@ from .catalog import EXPERIMENT_ROOT, REPO_ROOT, parse_frontmatter
 
 
 WORKSPACE_TEMPLATE = EXPERIMENT_ROOT / "workspace_template"
-DEFAULT_WORKDIR = EXPERIMENT_ROOT / ".workdir" / "skill-router"
+DEFAULT_WORKDIR = (
+    Path(os.environ["AEVOLVE_WORKSPACE"]).resolve()
+    if os.environ.get("AEVOLVE_WORKSPACE")
+    else EXPERIMENT_ROOT / ".workdir" / "skill-router"
+)
 
 
 def materialize_workspace(

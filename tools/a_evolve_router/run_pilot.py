@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from pathlib import Path
 import shutil
 
@@ -16,7 +17,11 @@ from .noop_engine import NoMutationEngine
 from .workspace import DEFAULT_WORKDIR, materialize_workspace
 
 
-AEVOLVE_WORKDIR = EXPERIMENT_ROOT / ".workdir" / "evolution_workdir"
+AEVOLVE_WORKDIR = (
+    Path(os.environ["AEVOLVE_WORKDIR"]).resolve()
+    if os.environ.get("AEVOLVE_WORKDIR")
+    else EXPERIMENT_ROOT / ".workdir" / "evolution_workdir"
+)
 
 
 def _evaluate_split(agent: SkillRouterAgent, benchmark: SkillRouterBenchmark, split: str) -> dict:
@@ -99,6 +104,7 @@ def main() -> None:
             resolved_config,
             model=args.codex_model,
             reasoning_effort=args.codex_reasoning_effort,
+            codex_bin=os.environ.get("CODEX_BIN", "codex"),
         )
     else:
         engine = NoMutationEngine()

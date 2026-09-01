@@ -1,44 +1,135 @@
 [
   {
-    "task_id": "agency-ui-designer::supp-train-1",
+    "task_id": "agency-ui-designer__supp-train-1",
     "prompt": "Наша ops dashboard работает, но выглядит как Excel: таблицы тяжело сканировать, визуальная иерархия слабая, на мобильном всё ломается.",
     "expected_skill": "agency-ui-designer",
     "expected_output": "Ответ должен уверенно маршрутизировать visual hierarchy, table readability, dashboard redesign и mobile cleanup к UI skill.",
     "split": "train"
   },
   {
-    "task_id": "agency-ui-designer::supp-holdout-1",
+    "task_id": "agency-ui-designer__supp-holdout-1",
     "prompt": "Internal control panel feels cramped and visually weak: unreadable data table, poor scanability, broken mobile layout. Нужен redesign без ребрендинга.",
     "expected_skill": "agency-ui-designer",
     "expected_output": "Ответ должен отличать screen redesign и readability problems от incident, security или data concerns.",
     "split": "holdout"
   },
   {
-    "task_id": "agency-whimsy-injector::supp-train-1",
+    "task_id": "agency-whimsy-injector__supp-train-1",
     "prompt": "Нужно придумать loading и empty states для аналитического dashboard так, чтобы продукт был менее стерильным, но без полного редизайна.",
     "expected_skill": "agency-whimsy-injector",
     "expected_output": "Ответ должен выбирать delight/personality для already-working UI instead of full visual redesign.",
     "split": "train"
   },
   {
-    "task_id": "agency-whimsy-injector::supp-holdout-1",
+    "task_id": "agency-whimsy-injector__supp-holdout-1",
     "prompt": "Базовый интерфейс уже в порядке, но ему не хватает personality: micro-copy, playful success moments и subtle micro-interactions без clown mode.",
     "expected_skill": "agency-whimsy-injector",
     "expected_output": "Ответ должен удерживать фокус на personality, delight и restraint, а не на layout cleanup.",
     "split": "holdout"
   },
   {
-    "task_id": "agency-database-optimizer::supp-train-1",
+    "task_id": "agency-database-optimizer__supp-train-1",
     "prompt": "Reporting dashboard тормозит не из-за верстки: query по orders делает join и sort, нужен EXPLAIN ANALYZE и index strategy.",
     "expected_skill": "agency-database-optimizer",
     "expected_output": "Ответ должен трактовать dashboard slowdown as SQL/indexing work when the prompt names query evidence.",
     "split": "train"
   },
   {
-    "task_id": "agency-database-optimizer::supp-holdout-1",
+    "task_id": "agency-database-optimizer__supp-holdout-1",
     "prompt": "Список заказов в админке открывается 8 секунд; проблема в SQL, а не в UI. Нужны plan, индексы и schema-safe rollout.",
     "expected_skill": "agency-database-optimizer",
     "expected_output": "Ответ должен маршрутизировать SQL diagnosis, indexing и rollout safety к database skill despite admin UI wording.",
     "split": "holdout"
+  },
+  {
+    "task_id": "agency-incident-response-commander__neg-sre",
+    "prompt": "Сейчас production лежит, 500-е ответы идут треть клиентов. Собери incident команду и открой war room.",
+    "expected_skill": "agency-incident-response-commander",
+    "expected_output": "Должен сработать incident skill, а не agency-sre (который про SLO/observability, а не live outage).",
+    "split": "train"
+  },
+  {
+    "task_id": "agency-sre__neg-incident",
+    "prompt": "Хочу пересмотреть SLO для checkout service и уменьшить noise от алертов в on-call.",
+    "expected_skill": "agency-sre",
+    "expected_output": "Должен сработать SRE skill (preventive SLO/alerts), а не incident commander.",
+    "split": "train"
+  },
+  {
+    "task_id": "agency-devops-automator__neg-ansible",
+    "prompt": "Помоги собрать новый Terraform module для VPC и подключить его к Atlantis.",
+    "expected_skill": "agency-devops-automator",
+    "expected_output": "DevOps/CI-CD/Terraform skill, не ansible-playbook (который только про Ansible).",
+    "split": "train"
+  },
+  {
+    "task_id": "ansible-playbook__neg-devops",
+    "prompt": "Нужен ansible role для nginx с handlers, idempotency и molecule tests.",
+    "expected_skill": "ansible-playbook",
+    "expected_output": "Ansible skill, не общий devops-automator.",
+    "split": "train"
+  },
+  {
+    "task_id": "agency-security-engineer__neg-incident",
+    "prompt": "Проведи threat model для нового OAuth flow и проверь secret handling в CI.",
+    "expected_skill": "agency-security-engineer",
+    "expected_output": "Security skill (preventive), не incident commander.",
+    "split": "train"
+  },
+  {
+    "task_id": "agency-incident-response-commander__neg-security",
+    "prompt": "Активная утечка токенов в проде, нужно срочно rotate keys и остановить распространение.",
+    "expected_skill": "agency-incident-response-commander",
+    "expected_output": "Active incident — incident commander; security engineer привлекается, но приоритет у incident runbook.",
+    "split": "holdout"
+  },
+  {
+    "task_id": "agency-ux-architect__neg-ui",
+    "prompt": "Нужно спроектировать IA для нового onboarding flow и подготовить CSS tokens для design system.",
+    "expected_skill": "agency-ux-architect",
+    "expected_output": "Architecture/IA skill, не pixel-level visual redesign (agency-ui-designer).",
+    "split": "train"
+  },
+  {
+    "task_id": "agency-ui-designer__neg-architect",
+    "prompt": "Конкретный settings screen нечитабельный: хочу визуально переделать таблицу и spacing.",
+    "expected_skill": "agency-ui-designer",
+    "expected_output": "Visual/UI skill для конкретного экрана, не architecture/IA work.",
+    "split": "holdout"
+  },
+  {
+    "task_id": "agency-ux-researcher__neg-architect",
+    "prompt": "Спланируй usability test для нового checkout: hypothesis, interview guide и метрики.",
+    "expected_skill": "agency-ux-researcher",
+    "expected_output": "Research planning, не architecture и не visual design.",
+    "split": "train"
+  },
+  {
+    "task_id": "agency-technical-writer__neg-devops",
+    "prompt": "У нас есть runbook для rollback, но он устарел. Перепиши его с актуальными шагами.",
+    "expected_skill": "agency-technical-writer",
+    "expected_output": "Документация/runbook, не настройка CI/CD.",
+    "split": "train"
+  },
+  {
+    "task_id": "basic-memory-workflow__neg-researcher",
+    "prompt": "Запомни, что мы решили использовать Postgres для нового сервиса, и проверь прошлые ADR.",
+    "expected_skill": "basic-memory-workflow",
+    "expected_output": "Memory recall/save, не UX research.",
+    "split": "train"
+  },
+  {
+    "task_id": "playwright-skill__neg-lightpanda",
+    "prompt": "Мне нужно прогнать e2e тест на публичном сайте через Playwright и собрать скриншоты.",
+    "expected_skill": "playwright-skill",
+    "expected_output": "Стандартный Playwright; lightpanda-browser — это про рендеринг/обход блокировок, не основной путь.",
+    "split": "train"
+  },
+  {
+    "task_id": "preview-interview__neg-writer",
+    "prompt": "Завтра у меня финальный интервью в FAANG, прогоним STAR answers по System Design.",
+    "expected_skill": "preview-interview",
+    "expected_output": "Interview prep, не написание документации.",
+    "split": "train"
   }
 ]
