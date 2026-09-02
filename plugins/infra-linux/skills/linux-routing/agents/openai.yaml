@@ -1,0 +1,4 @@
+interface:
+  display_name: "Linux Routing"
+  short_description: "- Практическая IP-маршрутизация на Linux: ip route, ip rule, policy routing, ..."
+  default_prompt: "Use $linux-routing to assist with linux routing tasks."

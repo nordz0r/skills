@@ -13,11 +13,13 @@
 
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
 const ROOT_DIR = path.resolve(__dirname, '..');
 const CLAUDE_PLUGIN_DIR = path.join(ROOT_DIR, '.claude-plugin');
 const MARKETPLACE_JSON_PATH = path.join(CLAUDE_PLUGIN_DIR, 'marketplace.json');
 const PLUGIN_JSON_PATH = path.join(CLAUDE_PLUGIN_DIR, 'plugin.json');
+const CODEX_SYNC_SCRIPT = path.join(ROOT_DIR, 'scripts', 'sync-codex-plugins.js');
 
 const generateOpenAiYaml = process.argv.includes('--generate-openai-yaml');
 
@@ -160,6 +162,22 @@ if (!fs.existsSync(PLUGIN_JSON_PATH)) {
     }
   } catch (err) {
     logError(`plugin.json is invalid JSON: ${err.message}`);
+  }
+}
+
+// 6. Validate generated Codex plugin layout (.agents/plugins + plugins/)
+if (!fs.existsSync(CODEX_SYNC_SCRIPT)) {
+  logWarn(`Codex sync script missing at ${CODEX_SYNC_SCRIPT}`);
+} else {
+  try {
+    execSync('node scripts/sync-codex-plugins.js --check', {
+      cwd: ROOT_DIR,
+      stdio: 'pipe',
+    });
+    logOk('Codex plugin layout (.agents/plugins + plugins/) is in sync with marketplace.json');
+  } catch (err) {
+    const details = (err.stdout || '').toString().trim();
+    logError(`Codex plugin layout out of sync with marketplace.json — run: node scripts/sync-codex-plugins.js${details ? `\n         ${details.split('\n').join('\n         ')}` : ''}`);
   }
 }
 

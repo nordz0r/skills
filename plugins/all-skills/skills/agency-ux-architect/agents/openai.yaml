@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agency Ux Architect"
+  short_description: "UX structure and implementation-ready architecture for information hierarchy,..."
+  default_prompt: "Use $agency-ux-architect to assist with agency ux architect tasks."

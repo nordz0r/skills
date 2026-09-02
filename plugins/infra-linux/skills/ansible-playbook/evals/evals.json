@@ -1,0 +1,17 @@
+{
+  "skill_name": "ansible-playbook",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Напиши ansible playbook для nginx: FQCN, handler restart, template validate, vault для TLS key, потом --check --diff.",
+      "expected_output": "Ответ должен выбрать ansible-playbook и дать идемпотентный YAML с vault/handlers.",
+      "split": "train"
+    },
+    {
+      "id": 2,
+      "prompt": "ansible-playbook падает на undefined variable и каждый прогон changed=12 из-за shell task. Нужно разобрать precedence и идемпотентность.",
+      "expected_output": "Ответ должен выбрать ansible-playbook для debug, не чистый linux admin.",
+      "split": "holdout"
+    }
+  ]
+}

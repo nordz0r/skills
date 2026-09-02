@@ -1,0 +1,32 @@
+{
+  "name": "openwrt-routing",
+  "version": "1.0.0",
+  "description": "3 skills for OpenWrt: AmneziaWG, Podkop (sing-box selective routing), and zapret DPI bypass",
+  "author": {
+    "name": "NorD",
+    "url": "https://github.com/nordz0r/skills"
+  },
+  "homepage": "https://github.com/nordz0r/skills",
+  "repository": "https://github.com/nordz0r/skills",
+  "license": "MIT",
+  "keywords": [
+    "openwrt",
+    "amneziawg",
+    "podkop",
+    "sing-box",
+    "zapret",
+    "anti-censorship"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "OpenWrt & Anti-Censorship Bundle",
+    "shortDescription": "3 skills for OpenWrt: AmneziaWG, Podkop (sing-box selective routing), and zapret DPI bypass",
+    "longDescription": "3 skills for OpenWrt: AmneziaWG, Podkop (sing-box selective routing), and zapret DPI bypass",
+    "developerName": "NorD",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read"
+    ],
+    "websiteURL": "https://github.com/nordz0r/skills"
+  }
+}

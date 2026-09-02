@@ -1,0 +1,4 @@
+interface:
+  display_name: "Open Webui Guide"
+  short_description: "Подробная русскоязычная справка по Open WebUI: архитектура, авторизация, функ..."
+  default_prompt: "Use $open-webui-guide to assist with open webui guide tasks."

@@ -1,0 +1,17 @@
+{
+  "skill_name": "agency-database-optimizer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Нужно переехать с MariaDB на PostgreSQL для Nextcloud. Хочу migration plan с backup, compatibility risks, cutover и rollback.",
+      "expected_output": "Ответ должен фокусироваться на engine migration safety, compatibility gaps, validation and rollback.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Покажи, как разбирать EXPLAIN ANALYZE в Postgres и какие индексы искать для медленного запроса со join и sort.",
+      "expected_output": "Ответ должен быть evidence-driven и практичным, а не абстрактным списком советов.",
+      "files": []
+    }
+  ]
+}

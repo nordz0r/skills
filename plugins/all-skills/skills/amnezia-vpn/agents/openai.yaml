@@ -1,0 +1,4 @@
+interface:
+  display_name: "Amnezia Vpn"
+  short_description: "- Практическая работа с Amnezia VPN и AmneziaWG на Linux/VPS/Docker: стек кон..."
+  default_prompt: "Use $amnezia-vpn to assist with amnezia vpn tasks."

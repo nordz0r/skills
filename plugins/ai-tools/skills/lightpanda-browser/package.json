@@ -1,0 +1,17 @@
+{
+  "name": "lightpanda-browser-skill",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Cross-platform Lightpanda runtime helpers for rendered extraction, CDP automation, and MCP browsing",
+  "scripts": {
+    "setup": "npm install",
+    "check": "node --check scripts/lib/runtime.js && node --check scripts/resolve-runtime.js && node --check scripts/run-lightpanda.js && node --check scripts/run-cdp-task.js"
+  },
+  "dependencies": {
+    "playwright-core": "^1.57.0",
+    "puppeteer-core": "^24.8.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

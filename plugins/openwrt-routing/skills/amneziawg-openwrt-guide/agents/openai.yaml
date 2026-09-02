@@ -1,0 +1,4 @@
+interface:
+  display_name: "AmneziaWG OpenWrt Guide"
+  short_description: "AmneziaWG on OpenWrt: setup, UCI, LuCI, debug"
+  default_prompt: "Use $amneziawg-openwrt-guide to configure, build, or troubleshoot AmneziaWG on OpenWrt."

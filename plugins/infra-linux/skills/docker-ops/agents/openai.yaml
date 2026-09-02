@@ -1,0 +1,4 @@
+interface:
+  display_name: "Docker Ops"
+  short_description: "- Практическая работа с Docker Engine и Docker Compose v2: Dockerfile, multi-..."
+  default_prompt: "Use $docker-ops to assist with docker ops tasks."

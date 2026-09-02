@@ -1,0 +1,17 @@
+{
+  "skill_name": "docker-ops",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Напиши production docker compose для api+postgres: healthcheck, named volumes, bind-mount конфига :ro, без latest, логи json-file.",
+      "expected_output": "Ответ должен выбрать docker-ops и отдать compose.yaml с healthcheck/volumes/restart policy.",
+      "split": "train"
+    },
+    {
+      "id": 2,
+      "prompt": "Контейнер api в статусе Restarting (1). Нужно docker logs, inspect Health и понять, почему volume permissions ломают USER app.",
+      "expected_output": "Ответ должен выбрать docker-ops для container debug, не systemd-хост и не GitLab YAML.",
+      "split": "holdout"
+    }
+  ]
+}

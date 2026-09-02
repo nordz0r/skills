@@ -1,0 +1,17 @@
+{
+  "skill_name": "agency-technical-writer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Преврати хаотичные заметки по деплою в нормальный README с prerequisites, commands, validation и rollback.",
+      "expected_output": "Ответ должен структурировать документ под операционное использование, а не просто переписать текст красивее.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Нужен contributor guide для infra repo: структура, команды, проверки, правила коммитов и PR.",
+      "expected_output": "Промпт должен вызывать concise but actionable technical documentation.",
+      "files": []
+    }
+  ]
+}

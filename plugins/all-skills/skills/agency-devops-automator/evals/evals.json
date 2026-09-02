@@ -1,0 +1,17 @@
+{
+  "skill_name": "agency-devops-automator",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Убери ручной деплой qdrant и предложи общий automation-first flow для Ansible + k3s с check mode, rollout validation и rollback.",
+      "expected_output": "Промпт должен триггерить devops skill и приводить к общему deployment workflow с валидацией и откатом.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Спроектируй CI/CD pipeline для build, scan, publish и Helm deploy в k3s, секреты через Vault, после деплоя smoke checks и safe rollback.",
+      "expected_output": "Ответ должен покрывать pipeline, секреты, rollout verification и rollback path, а не только build steps.",
+      "files": []
+    }
+  ]
+}

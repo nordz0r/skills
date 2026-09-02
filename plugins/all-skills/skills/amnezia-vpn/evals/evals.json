@@ -1,0 +1,17 @@
+{
+  "skill_name": "amnezia-vpn",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "На Ubuntu VPS нет handshake AmneziaWG: awg show пустой, UDP 443. Нужно отличить kernel module от amneziawg-go и проверить Jc/H1 params без OpenWrt.",
+      "expected_output": "Ответ должен выбрать amnezia-vpn, не amneziawg-openwrt-guide.",
+      "split": "train"
+    },
+    {
+      "id": 2,
+      "prompt": "AmneziaVPN Docker стек в /opt/amnezia, контейнер amnezia-awg Restarting. Сними docker ps/logs и TUN/NET_ADMIN.",
+      "expected_output": "Ответ должен выбрать amnezia-vpn для Docker-стека Amnezia, не общий docker-ops как единственный skill.",
+      "split": "holdout"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Gitlab Ci"
+  short_description: "- Практическая работа с self-hosted GitLab CI/CD: .gitlab-ci.yml, rules, incl..."
+  default_prompt: "Use $gitlab-ci to assist with gitlab ci tasks."

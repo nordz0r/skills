@@ -1,0 +1,4 @@
+interface:
+  display_name: "Podkop OpenWrt Guide"
+  short_description: "Podkop on OpenWrt: install, config, debug"
+  default_prompt: "Use $podkop-openwrt-guide to install, configure, troubleshoot, or modify Podkop on OpenWrt."

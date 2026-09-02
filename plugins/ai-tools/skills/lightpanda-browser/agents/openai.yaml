@@ -1,0 +1,6 @@
+interface:
+  display_name: "Lightpanda Browser"
+  short_description: "Lightpanda browser automation and extraction"
+  default_prompt: "Use $lightpanda-browser to run Lightpanda for rendered extraction, CDP automation, or MCP-based browsing."
+policy:
+  allow_implicit_invocation: true

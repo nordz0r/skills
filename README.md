@@ -96,7 +96,28 @@ claude plugin install litellm-guide@nord-skills    # Конкретный ски
 /plugin install all-skills@nord-skills
 ```
 
-### 2. OpenAI Codex, OpenClaw и Agent CLI (`npx skills`)
+### 2. OpenAI Codex (Plugins — как в ChatGPT)
+
+Codex CLI читает тот же репозиторий как **plugin marketplace**: в корне лежит `.agents/plugins/marketplace.json`, а каждый бандл — отдельный плагин со своим манифестом `.codex-plugin/plugin.json` и скиллами внутри `skills/`. Список плагинов доступен через `/plugins` в интерактивной сессии Codex или в ChatGPT desktop app.
+
+```bash
+# 1. Добавить маркетплейс в Codex
+codex plugin marketplace add nordz0r/skills
+
+# 2. Установить бандл:
+codex plugin add openwrt-routing@nord-skills
+
+# 3. Посмотреть, что установлено:
+codex plugin list
+```
+
+Внутри интерактивной сессии Codex: `/plugins` — выбрать маркетплейс `nord-skills` и установить любой из пяти бандлов (`all-skills`, `agency-skills`, `infra-linux`, `ai-tools`, `openwrt-routing`).
+
+После установки скиллы доступны в новых сессиях и вызываются по имени (`openwrt-routing:zapret-openwrt-guide`) или подбираются автоматически по описанию задачи.
+
+> Структуру плагинов генерирует скрипт `scripts/sync-codex-plugins.js` из `.claude-plugin/marketplace.json`: руки в `plugins/` не трогаем, меняем источник и пересобираем.
+
+### 3. OpenClaw и Agent CLI (`npx skills`)
 
 ```bash
 # Показать список skills
@@ -193,8 +214,15 @@ skills/
 ├── .claude-plugin/
 │   ├── marketplace.json  # Каталог маркетплейса Claude Code (бандлы + 31 плагин)
 │   └── plugin.json       # Корневой манифест плагина для прямой установки
+├── .agents/plugins/
+│   └── marketplace.json  # Каталог маркетплейса OpenAI Codex / ChatGPT plugins
+├── plugins/              # Сгенерированные Codex-плагины (не редактировать руками)
+│   └── <bundle>/
+│       ├── .codex-plugin/plugin.json
+│       └── skills/<skill-name>/SKILL.md
 ├── scripts/
-│   └── validate-skills.js # Валидатор манифестов, frontmatter и путей
+│   ├── validate-skills.js     # Валидатор манифестов, frontmatter и путей
+│   └── sync-codex-plugins.js  # Генератор Codex-плагинов из .claude-plugin/marketplace.json
 ├── README.md
 ├── README.en.md
 ├── AGENTS.md

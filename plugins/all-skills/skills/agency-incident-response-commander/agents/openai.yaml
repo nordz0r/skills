@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agency Incident Response Commander"
+  short_description: "Structured incident handling for outages, degraded services, SEV triage, roll..."
+  default_prompt: "Use $agency-incident-response-commander to assist with agency incident response commander tasks."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agency Security Engineer"
+  short_description: "Practical application and platform security for threat modeling, authn and au..."
+  default_prompt: "Use $agency-security-engineer to assist with agency security engineer tasks."

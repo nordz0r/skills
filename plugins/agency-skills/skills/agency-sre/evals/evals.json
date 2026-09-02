@@ -1,0 +1,17 @@
+{
+  "skill_name": "agency-sre",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "У нас noisy alerts по open-webui и grafana. Помоги переделать мониторинг вокруг SLO, burn rate и полезных страниц для on-call.",
+      "expected_output": "Промпт должен включать SLO/SLI framing, alert quality, burn-rate thinking и observability gaps.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Как понять, что k3s сервис упирается в capacity, а не просто в плохой релиз? Нужен reliability-oriented план диагностики.",
+      "expected_output": "Ответ должен разделять user impact, signals, saturation, recent changes и next instrumentation steps.",
+      "files": []
+    }
+  ]
+}

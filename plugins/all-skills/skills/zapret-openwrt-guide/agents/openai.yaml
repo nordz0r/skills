@@ -1,0 +1,4 @@
+interface:
+  display_name: "Zapret Openwrt Guide"
+  short_description: "- Полная русскоязычная справка по проекту zapret-openwrt: Anti-DPI утилита дл..."
+  default_prompt: "Use $zapret-openwrt-guide to assist with zapret openwrt guide tasks."

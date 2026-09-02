@@ -1,0 +1,33 @@
+{
+  "name": "infra-linux",
+  "version": "1.0.0",
+  "description": "6 host administration, containerization, CI/CD, Ansible, Amnezia VPN, and policy routing skills",
+  "author": {
+    "name": "NorD",
+    "url": "https://github.com/nordz0r/skills"
+  },
+  "homepage": "https://github.com/nordz0r/skills",
+  "repository": "https://github.com/nordz0r/skills",
+  "license": "MIT",
+  "keywords": [
+    "linux",
+    "systemd",
+    "docker",
+    "gitlab-ci",
+    "ansible",
+    "amnezia",
+    "routing"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Linux, Containers & CI/CD Bundle",
+    "shortDescription": "6 host administration, containerization, CI/CD, Ansible, Amnezia VPN, and policy routing skills",
+    "longDescription": "6 host administration, containerization, CI/CD, Ansible, Amnezia VPN, and policy routing skills",
+    "developerName": "NorD",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read"
+    ],
+    "websiteURL": "https://github.com/nordz0r/skills"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "skill_name": "agency-ui-designer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Админка выглядит тесной и скучной: слабая иерархия, нечитабельные таблицы, мобильная версия разваливается. Нужен редизайн экрана.",
+      "expected_output": "Промпт должен вызывать visual hierarchy, component consistency, states and responsive behavior.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Собери design-system cleanup для dashboard cards, forms и tables без полной смены бренда.",
+      "expected_output": "Ответ должен описывать tokens, components, state coverage и implementation realism.",
+      "files": []
+    }
+  ]
+}

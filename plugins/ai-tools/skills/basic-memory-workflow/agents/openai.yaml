@@ -1,0 +1,4 @@
+interface:
+  display_name: "Basic Memory Workflow"
+  short_description: "Используй этот скилл, когда нужно читать или записывать память проекта через ..."
+  default_prompt: "Use $basic-memory-workflow to assist with basic memory workflow tasks."

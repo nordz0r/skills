@@ -1,0 +1,4 @@
+interface:
+  display_name: "Open Terminal Guide"
+  short_description: "- Полная русскоязычная справка по Open Terminal: self-hosted REST API термина..."
+  default_prompt: "Use $open-terminal-guide to assist with open terminal guide tasks."

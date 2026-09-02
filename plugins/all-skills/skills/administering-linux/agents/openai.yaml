@@ -1,0 +1,4 @@
+interface:
+  display_name: "Administering Linux"
+  short_description: "- Практическая Linux-админка для systemd-хостов: сервисы, journald, процессы,..."
+  default_prompt: "Use $administering-linux to assist with administering linux tasks."

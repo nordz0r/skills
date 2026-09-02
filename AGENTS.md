@@ -24,6 +24,10 @@ skills/
 ├── AGENTS.md                         # Repo knowledge base for coding agents
 ├── .gitattributes                    # Shell scripts forced to LF
 ├── .gitignore                        # IDE-only ignores
+├── .claude-plugin/                   # Claude Code marketplace + root plugin manifests
+├── .agents/plugins/                  # Codex/ChatGPT plugin marketplace catalog (generated)
+├── plugins/                          # Generated Codex plugin bundles (never hand-edit)
+├── scripts/                          # validate-skills.js + sync-codex-plugins.js
 ├── agency-*/                         # 10 English meta-skills, each with evals/evals.json
 ├── tools/a_evolve_router/            # A-Evolve routing benchmark over skill evals
 ├── basic-memory-workflow/            # Local basic-memory operating workflow
@@ -168,6 +172,14 @@ metadata: {...}   # optional
 - `open-webui-guide` has the deepest reference tree and is the best template for a large guide.
 - `basic-memory-workflow` is a workflow skill, not a product/API guide.
 
+### Codex plugin layout (generated)
+
+- `.claude-plugin/marketplace.json` is the single source of truth for bundle grouping.
+- `node scripts/sync-codex-plugins.js` derives `.agents/plugins/marketplace.json` and `plugins/<bundle>/.codex-plugin/plugin.json` + `plugins/<bundle>/skills/<skill-name>/` copies from it.
+- `plugins/` is fully derived: sync wipes and rebuilds it. Never hand-edit anything under `plugins/`.
+- Adding a skill or re-bundling means: edit `.claude-plugin/marketplace.json`, re-run the sync script, commit both source and generated artifacts.
+- `scripts/validate-skills.js` runs the sync in `--check` mode and fails if the generated layout drifted.
+
 ## COMMANDS
 
 ```bash
@@ -179,8 +191,17 @@ claude plugin install infra-linux@nord-skills
 claude plugin install ai-tools@nord-skills
 claude plugin install openwrt-routing@nord-skills
 
-# Validation script:
+# OpenAI Codex Plugins (reads .agents/plugins/marketplace.json + plugins/):
+codex plugin marketplace add nordz0r/skills
+codex plugin add openwrt-routing@nord-skills
+codex plugin list
+
+# Validation script (includes a Codex layout sync check):
 node scripts/validate-skills.js
+
+# Regenerate Codex plugin layout after changing skills or bundles:
+node scripts/sync-codex-plugins.js
+node scripts/sync-codex-plugins.js --check   # CI mode: exit 1 if out of sync
 
 # npx skills (Codex / OpenClaw / Agent CLIs):
 npx skills add nordz0r/skills -l

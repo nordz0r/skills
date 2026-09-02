@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ansible Playbook"
+  short_description: "- Практическая работа с Ansible: playbooks, roles, inventory, ansible-core, F..."
+  default_prompt: "Use $ansible-playbook to assist with ansible playbook tasks."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agency Whimsy Injector"
+  short_description: "Deliberate product delight through micro-interactions, celebratory moments, p..."
+  default_prompt: "Use $agency-whimsy-injector to assist with agency whimsy injector tasks."

@@ -1,0 +1,17 @@
+{
+  "skill_name": "agency-whimsy-injector",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Интерфейс хороший, но слишком sterile. Добавь personality, micro-interactions и delight без clown mode.",
+      "expected_output": "Ответ должен предлагать purposeful delight, emotional intent, and restraint.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Придумай loading, empty и success states с характером для productivity app, учитывая reduced motion и accessibility.",
+      "expected_output": "Промпт должен покрывать delightful states, accessibility and anti-patterns.",
+      "files": []
+    }
+  ]
+}

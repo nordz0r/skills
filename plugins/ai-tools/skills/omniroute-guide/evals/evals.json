@@ -1,0 +1,17 @@
+{
+  "skill_name": "omniroute-guide",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Как подключить OmniRoute MCP к Cursor через stdio, включить transport и выдать API key со scopes для omniroute_route_request и check_quota?",
+      "expected_output": "Ответ должен выбрать omniroute-guide для MCP stdio/HTTP config, scopes, Dashboard Endpoints и omniroute_route_request.",
+      "split": "train"
+    },
+    {
+      "id": 2,
+      "prompt": "В OmniRoute провайдер ушёл в circuit breaker, auto-combo не выбирает модель, combo fallback срабатывает неправильно — как отладить resilience и routing?",
+      "expected_output": "Ответ должен выбрать omniroute-guide для 3-layer resilience, auto-combo, combo strategies и troubleshooting.",
+      "split": "holdout"
+    }
+  ]
+}

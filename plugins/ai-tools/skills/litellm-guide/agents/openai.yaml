@@ -1,0 +1,4 @@
+interface:
+  display_name: "LiteLLM Guide"
+  short_description: "SDK, proxy, APIs, providers, and repo workflows"
+  default_prompt: "Use $litellm-guide to configure, debug, or extend LiteLLM safely."

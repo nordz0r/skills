@@ -1,0 +1,17 @@
+{
+  "skill_name": "agency-ux-researcher",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Сделай usability research plan для миграции пользователей на новый Nextcloud UX: что именно валидировать, как тестировать и кого звать.",
+      "expected_output": "Ответ должен выдавать decision-oriented research plan, not generic UX advice.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Нужен набор research questions и test tasks, чтобы проверить редизайн dashboard до разработки.",
+      "expected_output": "Промпт должен приводить к hypotheses, methods, participant logic and success metrics.",
+      "files": []
+    }
+  ]
+}

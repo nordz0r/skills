@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agency Devops Automator"
+  short_description: "Automation-first platform delivery for CI/CD, Terraform, Ansible, Kubernetes,..."
+  default_prompt: "Use $agency-devops-automator to assist with agency devops automator tasks."
