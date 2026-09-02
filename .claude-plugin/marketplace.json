@@ -11,7 +11,7 @@
     {
       "name": "all-skills",
       "displayName": "All Skills (Full Bundle)",
-      "description": "Complete collection of all 31 DevOps, SRE, AI tooling, Linux, and OpenWrt skills",
+      "description": "Complete collection of all 32 DevOps, SRE, AI tooling, Linux, and OpenWrt skills",
       "version": "1.0.0",
       "source": "./",
       "strict": false,
@@ -195,6 +195,15 @@
       "strict": false,
       "category": "infrastructure",
       "tags": ["linux", "systemd", "journalctl", "sysadmin", "ssh", "troubleshooting"]
+    },
+    {
+      "name": "atlassian",
+      "displayName": "Atlassian: Jira, Confluence & Bitbucket",
+      "description": "Python utilities for Jira (issues, JQL search, workflows, sprints, worklogs), Confluence (pages, CQL search, comments, labels, storage-format formatting) and Bitbucket Server/DC (pull requests, code, commits). Cloud and Data Center.",
+      "source": "./atlassian",
+      "strict": false,
+      "category": "engineering",
+      "tags": ["jira", "confluence", "bitbucket", "atlassian", "jql", "cql", "wiki", "tickets", "sprints"]
     },
     {
       "name": "docker-ops",

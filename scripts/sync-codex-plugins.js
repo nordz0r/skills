@@ -44,11 +44,11 @@ const CATEGORY_TO_CODEX = {
 };
 
 // Skill layout constants: known skill subdirectories copied wholesale, unknown
-// top-level files with code/doc extensions copied as-is (so playwright-skill's
-// run.js and API_REFERENCE.md keep working). Everything else is skipped to
-// avoid junk leakage into plugins/.
+// top-level files with code/doc/config extensions copied as-is (so playwright-
+// skill's run.js and atlassian's requirements.txt keep working). Everything
+// else is skipped to avoid junk leakage into plugins/.
 const COPY_DIRS = new Set(['references', 'scripts', 'agents', 'evals', 'assets', 'lib']);
-const COPY_FILES = new Set(['SKILL.md', 'package.json', 'package-lock.json']);
+const COPY_FILES = new Set(['SKILL.md', 'package.json', 'package-lock.json', 'requirements.txt', '.env.example']);
 const COPY_EXTRA = new Set(['.js', '.mjs', '.cjs', '.sh', '.md']);
 const SKIP_DIRS = new Set(['node_modules', '__pycache__', '.venv', 'tmp']);
 
@@ -79,14 +79,16 @@ function copySkill(skillPath, destSkillDir) {
   const src = path.join(ROOT_DIR, skillPath);
   fs.mkdirSync(destSkillDir, { recursive: true });
   for (const entry of fs.readdirSync(src, { withFileTypes: true })) {
-    if (entry.name.startsWith('.') || SKIP_DIRS.has(entry.name)) continue;
+    // Explicit allowlist wins over the dotfile rule (e.g. .env.example).
+    const allowed = COPY_FILES.has(entry.name);
+    if (!allowed && (entry.name.startsWith('.') || SKIP_DIRS.has(entry.name))) continue;
     const s = path.join(src, entry.name);
     const d = path.join(destSkillDir, entry.name);
     if (entry.isDirectory()) {
       if (COPY_DIRS.has(entry.name)) copyDirSync(s, d);
       continue;
     }
-    if (COPY_FILES.has(entry.name) || COPY_EXTRA.has(path.extname(entry.name))) {
+    if (allowed || COPY_EXTRA.has(path.extname(entry.name))) {
       fs.copyFileSync(s, d);
     }
   }
@@ -242,7 +244,11 @@ console.log('  2. Install in Codex: codex plugin marketplace add nordz0r/skills'
 function skillsMatch(srcDir, destDir) {
   if (!fs.existsSync(destDir)) return false;
   const srcEntries = fs.readdirSync(srcDir, { withFileTypes: true })
-    .filter((e) => !e.name.startsWith('.') && !SKIP_DIRS.has(e.name) && (e.isDirectory() ? COPY_DIRS.has(e.name) : (COPY_FILES.has(e.name) || COPY_EXTRA.has(path.extname(e.name)))))
+    .filter((e) => {
+      const allowed = COPY_FILES.has(e.name);
+      if (!allowed && (e.name.startsWith('.') || SKIP_DIRS.has(e.name))) return false;
+      return e.isDirectory() ? COPY_DIRS.has(e.name) : (allowed || COPY_EXTRA.has(path.extname(e.name)));
+    })
     .map((e) => e.name)
     .sort();
   const destEntries = fs.readdirSync(destDir).sort();

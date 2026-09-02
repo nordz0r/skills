@@ -1,0 +1,4 @@
+interface:
+  display_name: "Atlassian (Jira / Confluence / Bitbucket)"
+  short_description: "Jira issues + JQL, Confluence pages + CQL, Bitbucket PRs via Python; Cloud & Data Center."
+  default_prompt: "Use $atlassian to work with Jira issues, Confluence pages, or Bitbucket pull requests."

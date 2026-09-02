@@ -64,6 +64,7 @@
 | [qdrant-codebase-search](qdrant-codebase-search/) | Семантический поиск по коду через Qdrant + Ollama + MCP | qdrant, code search, semantic search, vector search, mcp qdrant |
 | [nextcloud-admin](nextcloud-admin/) | Управление Nextcloud через OCS API и WebDAV | nextcloud, webdav, ocs api, file sharing, public link |
 | [elk-kibana-dashboards](elk-kibana-dashboards/) | Elasticsearch и Kibana: анализ логов, дашборды, Lens/TSVB, KQL/Lucene, DSL aggregations | elasticsearch, kibana, elk, kql, lucene, lens, tsvb, dashboard, logs |
+| [atlassian](atlassian/) | Jira (задачи, JQL, workflow, спринты, worklog), Confluence (страницы, CQL, метки, красивые статьи в storage format), Bitbucket Server/DC (PR, коммиты). Cloud + Data Center | jira, confluence, bitbucket, atlassian, jql, cql, задача, тикет, спринт, wiki-страница |
 
 ### OpenWrt, networking и anti-censorship
 
@@ -84,7 +85,7 @@
 claude plugin marketplace add nordz0r/skills
 
 # 2. Установить бандл или отдельные плагины:
-claude plugin install all-skills@nord-skills       # Все 31 скилл
+claude plugin install all-skills@nord-skills       # Все 32 скилла
 claude plugin install agency-skills@nord-skills    # Только Agency (10 скиллов)
 claude plugin install infra-linux@nord-skills      # Linux, Docker, CI/CD, Ansible
 claude plugin install ai-tools@nord-skills         # LiteLLM, OmniRoute, WebUI, Playwright
@@ -212,7 +213,7 @@ PyYAML-вариант парсера корректно читает `descriptio
 ```text
 skills/
 ├── .claude-plugin/
-│   ├── marketplace.json  # Каталог маркетплейса Claude Code (бандлы + 31 плагин)
+│   ├── marketplace.json  # Каталог маркетплейса Claude Code (бандлы + 32 плагина)
 │   └── plugin.json       # Корневой манифест плагина для прямой установки
 ├── .agents/plugins/
 │   └── marketplace.json  # Каталог маркетплейса OpenAI Codex / ChatGPT plugins

@@ -98,6 +98,7 @@ All 10 `agency-*` skills currently follow the same pattern:
 - `podkop-openwrt-guide`
 - `qdrant-codebase-search`
 - `zapret-openwrt-guide`
+- `atlassian`
 
 ## WHERE TO LOOK
 
@@ -212,7 +213,7 @@ npx skills add nordz0r/skills -s litellm-guide -g
 
 ## NOTES
 
-- Current inventory: 31 skills total.
+- Current inventory: 32 skills total.
 - `agency-*` accounts for 10 of those skills.
 - `open-webui-guide` has 11 reference files and is still the largest single documentation set.
 - `ollama-search` has 4 reference files and 2 scripts.
@@ -222,4 +223,5 @@ npx skills add nordz0r/skills -s litellm-guide -g
 - `lightpanda-browser` has 5 reference files, 3 Node scripts, an OpenAI agent metadata file, and a root `package.json`.
 - `qdrant-codebase-search` has 2 reference files and 2 scripts.
 - `basic-memory-workflow` has only `SKILL.md`; no `references/`, `scripts/`, or `evals/`.
+- `atlassian` is vendored from [langpingxue/atlassian-skills](https://github.com/langpingxue/atlassian-skills) (MIT): 18 Python modules under `scripts/` (Jira/Confluence/Bitbucket REST), 2 local reference files (JQL/CQL cookbook, Confluence storage-format formatting), plus `.env.example`. It is the only skill with a `requirements.txt` — document `pip install -r requirements.txt` when using it.
 - The old AGENTS snapshot was stale: it described only 5 skills and predated the bilingual root README.

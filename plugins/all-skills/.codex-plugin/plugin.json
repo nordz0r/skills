@@ -1,7 +1,7 @@
 {
   "name": "all-skills",
   "version": "1.0.0",
-  "description": "Complete collection of all 31 DevOps, SRE, AI tooling, Linux, and OpenWrt skills",
+  "description": "Complete collection of all 32 DevOps, SRE, AI tooling, Linux, and OpenWrt skills",
   "author": {
     "name": "NorD",
     "url": "https://github.com/nordz0r/skills"
@@ -20,8 +20,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "All Skills (Full Bundle)",
-    "shortDescription": "Complete collection of all 31 DevOps, SRE, AI tooling, Linux, and OpenWrt skills",
-    "longDescription": "Complete collection of all 31 DevOps, SRE, AI tooling, Linux, and OpenWrt skills",
+    "shortDescription": "Complete collection of all 32 DevOps, SRE, AI tooling, Linux, and OpenWrt skills",
+    "longDescription": "Complete collection of all 32 DevOps, SRE, AI tooling, Linux, and OpenWrt skills",
     "developerName": "NorD",
     "category": "Productivity",
     "capabilities": [

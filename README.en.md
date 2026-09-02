@@ -64,6 +64,7 @@ Most domain guides live inside each skill directory. The main repository README 
 | [qdrant-codebase-search](qdrant-codebase-search/) | Semantic code search with Qdrant, Ollama, and MCP | qdrant, code search, semantic search, vector search |
 | [nextcloud-admin](nextcloud-admin/) | Nextcloud administration via OCS API and WebDAV | nextcloud, webdav, ocs api, file sharing |
 | [elk-kibana-dashboards](elk-kibana-dashboards/) | Elasticsearch and Kibana: log analysis, dashboards, Lens/TSVB, KQL/Lucene, DSL aggregations | elasticsearch, kibana, elk, kql, lucene, lens, tsvb, dashboard, logs |
+| [atlassian](atlassian/) | Jira (issues, JQL, workflows, sprints, worklogs), Confluence (pages, CQL, labels, rich storage-format articles), Bitbucket Server/DC (PRs, commits). Cloud + Data Center | jira, confluence, bitbucket, atlassian, jql, cql, issue, ticket, sprint, wiki page |
 
 ### OpenWrt, networking, and anti-censorship
 
@@ -84,7 +85,7 @@ This repository is structured for universal integration: install it directly as 
 claude plugin marketplace add nordz0r/skills
 
 # 2. Install bundle or individual plugins:
-claude plugin install all-skills@nord-skills       # Complete 31 skills collection
+claude plugin install all-skills@nord-skills       # Complete 32 skills collection
 claude plugin install agency-skills@nord-skills    # Agency engineering & product bundle
 claude plugin install infra-linux@nord-skills      # Linux, Docker, CI/CD, Ansible
 claude plugin install ai-tools@nord-skills         # LiteLLM, OmniRoute, WebUI, Playwright
@@ -212,7 +213,7 @@ The PyYAML variant of `parse_frontmatter` correctly reads folded `description: >
 ```text
 skills/
 ├── .claude-plugin/
-│   ├── marketplace.json  # Claude Code plugin marketplace catalog (bundles + 31 plugins)
+│   ├── marketplace.json  # Claude Code plugin marketplace catalog (bundles + 32 plugins)
 │   └── plugin.json       # Root plugin manifest for direct installation
 ├── .agents/plugins/
 │   └── marketplace.json  # OpenAI Codex / ChatGPT plugins marketplace catalog
