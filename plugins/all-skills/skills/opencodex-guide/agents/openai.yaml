@@ -1,0 +1,4 @@
+interface:
+  display_name: "Opencodex Guide"
+  short_description: "Drive a running opencodex (`ocx`) proxy from the CLI — account pools, provide..."
+  default_prompt: "Use $opencodex-guide to assist with opencodex guide tasks."
