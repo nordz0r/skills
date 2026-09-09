@@ -38,6 +38,8 @@
     "./preview-interview",
     "./amneziawg-openwrt-guide",
     "./podkop-openwrt-guide",
-    "./zapret-openwrt-guide"
+    "./zapret-openwrt-guide",
+    "./opencodex-guide",
+    "./telegram-formatting"
   ]
 }

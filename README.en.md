@@ -57,6 +57,8 @@ Most domain guides live inside each skill directory. The main repository README 
 | [playwright-skill](playwright-skill/) | Playwright browser automation for screenshots, responsive checks, login flows, forms, and dev-server detection | playwright, browser automation, e2e, responsive testing, screenshots |
 | [lightpanda-browser](lightpanda-browser/) | Lightpanda runtime for rendered extraction, CDP automation, and MCP browsing across Windows, Linux, macOS, and WSL | lightpanda, rendered extraction, cdp, mcp, semantic tree, markdown dump, wsl |
 | [litellm-guide](litellm-guide/) | LiteLLM SDK, proxy/gateway, providers, routing, APIs, MCP/A2A, troubleshooting, and repo development | litellm, proxy, gateway, providers, routing, virtual keys, mcp, openai-compatible |
+| [opencodex-guide](opencodex-guide/) | OpenCodex CLI guide: account pools, routing, models | opencodex, ocx, proxy, llm proxy |
+| [telegram-formatting](telegram-formatting/) | Telegram Rich Markdown syntax, limits, and delivery | telegram, formatting, rich-messages, bot-api |
 | [omniroute-guide](omniroute-guide/) | OmniRoute unified AI router: 237 providers, combo/auto routing, MCP (94 tools), A2A, resilience, dashboard, CLI integrations | omniroute, ai router, llm proxy, combo routing, auto-combo, mcp, a2a, circuit breaker, provider fallback |
 | [open-webui-guide](open-webui-guide/) | Open WebUI architecture, auth, functions, pipelines, API, RAG, scaling | open webui, pipelines, rag, oauth, ldap, jwt |
 | [open-terminal-guide](open-terminal-guide/) | Open Terminal self-hosted REST API for AI agents | open terminal, terminal api, /execute, sandbox api |
@@ -85,7 +87,7 @@ This repository is structured for universal integration: install it directly as 
 claude plugin marketplace add nordz0r/skills
 
 # 2. Install bundle or individual plugins:
-claude plugin install all-skills@nord-skills       # Complete 32 skills collection
+claude plugin install all-skills@nord-skills       # Complete 34 skills collection
 claude plugin install agency-skills@nord-skills    # Agency engineering & product bundle
 claude plugin install infra-linux@nord-skills      # Linux, Docker, CI/CD, Ansible
 claude plugin install ai-tools@nord-skills         # LiteLLM, OmniRoute, WebUI, Playwright

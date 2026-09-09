@@ -1,0 +1,4 @@
+interface:
+  display_name: "Telegram Formatting"
+  short_description: "Telegram Rich Markdown formatting: syntax, limits, delivery."
+  default_prompt: "Use $telegram-formatting to assist with telegram formatting tasks."

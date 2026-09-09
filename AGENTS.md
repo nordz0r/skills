@@ -213,7 +213,7 @@ npx skills add nordz0r/skills -s litellm-guide -g
 
 ## NOTES
 
-- Current inventory: 32 skills total.
+- Current inventory: 34 skills total.
 - `agency-*` accounts for 10 of those skills.
 - `open-webui-guide` has 11 reference files and is still the largest single documentation set.
 - `ollama-search` has 4 reference files and 2 scripts.

@@ -11,12 +11,19 @@
     {
       "name": "all-skills",
       "displayName": "All Skills (Full Bundle)",
-      "description": "Complete collection of all 32 DevOps, SRE, AI tooling, Linux, and OpenWrt skills",
+      "description": "Complete collection of all 34 DevOps, SRE, AI tooling, Linux, and OpenWrt skills",
       "version": "1.0.0",
       "source": "./",
       "strict": false,
       "category": "bundle",
-      "tags": ["devops", "sre", "ai-tools", "linux", "openwrt", "automation"]
+      "tags": [
+        "devops",
+        "sre",
+        "ai-tools",
+        "linux",
+        "openwrt",
+        "automation"
+      ]
     },
     {
       "name": "agency-skills",
@@ -38,7 +45,16 @@
         "./agency-ux-researcher",
         "./agency-whimsy-injector"
       ],
-      "tags": ["agency", "devops", "sre", "security", "database", "ui", "ux", "docs"]
+      "tags": [
+        "agency",
+        "devops",
+        "sre",
+        "security",
+        "database",
+        "ui",
+        "ux",
+        "docs"
+      ]
     },
     {
       "name": "infra-linux",
@@ -56,12 +72,20 @@
         "./amnezia-vpn",
         "./linux-routing"
       ],
-      "tags": ["linux", "systemd", "docker", "gitlab-ci", "ansible", "amnezia", "routing"]
+      "tags": [
+        "linux",
+        "systemd",
+        "docker",
+        "gitlab-ci",
+        "ansible",
+        "amnezia",
+        "routing"
+      ]
     },
     {
       "name": "ai-tools",
       "displayName": "AI Tooling, Proxies & Automation Bundle",
-      "description": "12 skills covering LiteLLM, OmniRoute, Open WebUI, Open Terminal, Playwright, Lightpanda, Qdrant semantic search, Ollama search, Nextcloud, ELK, and memory",
+      "description": "14 skills covering LiteLLM, OmniRoute, Open WebUI, Open Terminal, Playwright, Lightpanda, Qdrant semantic search, Ollama search, Nextcloud, ELK, and memory, OpenCodex, and Telegram formatting",
       "version": "1.0.0",
       "source": "./",
       "strict": false,
@@ -78,9 +102,21 @@
         "./qdrant-codebase-search",
         "./nextcloud-admin",
         "./elk-kibana-dashboards",
-        "./preview-interview"
+        "./preview-interview",
+        "./opencodex-guide",
+        "./telegram-formatting"
       ],
-      "tags": ["litellm", "omniroute", "open-webui", "playwright", "lightpanda", "qdrant", "ollama"]
+      "tags": [
+        "litellm",
+        "omniroute",
+        "open-webui",
+        "playwright",
+        "lightpanda",
+        "qdrant",
+        "ollama",
+        "opencodex",
+        "telegram"
+      ]
     },
     {
       "name": "openwrt-routing",
@@ -95,7 +131,14 @@
         "./podkop-openwrt-guide",
         "./zapret-openwrt-guide"
       ],
-      "tags": ["openwrt", "amneziawg", "podkop", "sing-box", "zapret", "anti-censorship"]
+      "tags": [
+        "openwrt",
+        "amneziawg",
+        "podkop",
+        "sing-box",
+        "zapret",
+        "anti-censorship"
+      ]
     },
     {
       "name": "agency-database-optimizer",
@@ -104,7 +147,14 @@
       "source": "./agency-database-optimizer",
       "strict": false,
       "category": "engineering",
-      "tags": ["database", "postgres", "mysql", "sql", "indexing", "performance"]
+      "tags": [
+        "database",
+        "postgres",
+        "mysql",
+        "sql",
+        "indexing",
+        "performance"
+      ]
     },
     {
       "name": "agency-devops-automator",
@@ -113,7 +163,14 @@
       "source": "./agency-devops-automator",
       "strict": false,
       "category": "engineering",
-      "tags": ["devops", "ci-cd", "terraform", "kubernetes", "helm", "ansible"]
+      "tags": [
+        "devops",
+        "ci-cd",
+        "terraform",
+        "kubernetes",
+        "helm",
+        "ansible"
+      ]
     },
     {
       "name": "agency-incident-response-commander",
@@ -122,7 +179,13 @@
       "source": "./agency-incident-response-commander",
       "strict": false,
       "category": "engineering",
-      "tags": ["incident-response", "sre", "on-call", "postmortem", "outage"]
+      "tags": [
+        "incident-response",
+        "sre",
+        "on-call",
+        "postmortem",
+        "outage"
+      ]
     },
     {
       "name": "agency-security-engineer",
@@ -131,7 +194,13 @@
       "source": "./agency-security-engineer",
       "strict": false,
       "category": "engineering",
-      "tags": ["security", "threat-modeling", "auth", "secrets", "hardening"]
+      "tags": [
+        "security",
+        "threat-modeling",
+        "auth",
+        "secrets",
+        "hardening"
+      ]
     },
     {
       "name": "agency-sre",
@@ -140,7 +209,14 @@
       "source": "./agency-sre",
       "strict": false,
       "category": "engineering",
-      "tags": ["sre", "slo", "sli", "observability", "metrics", "alerts"]
+      "tags": [
+        "sre",
+        "slo",
+        "sli",
+        "observability",
+        "metrics",
+        "alerts"
+      ]
     },
     {
       "name": "agency-technical-writer",
@@ -149,7 +225,13 @@
       "source": "./agency-technical-writer",
       "strict": false,
       "category": "engineering",
-      "tags": ["documentation", "technical-writing", "readme", "runbooks", "docs"]
+      "tags": [
+        "documentation",
+        "technical-writing",
+        "readme",
+        "runbooks",
+        "docs"
+      ]
     },
     {
       "name": "agency-ui-designer",
@@ -158,7 +240,13 @@
       "source": "./agency-ui-designer",
       "strict": false,
       "category": "design",
-      "tags": ["ui", "design-systems", "css", "typography", "accessibility"]
+      "tags": [
+        "ui",
+        "design-systems",
+        "css",
+        "typography",
+        "accessibility"
+      ]
     },
     {
       "name": "agency-ux-architect",
@@ -167,7 +255,12 @@
       "source": "./agency-ux-architect",
       "strict": false,
       "category": "design",
-      "tags": ["ux", "information-architecture", "user-flows", "wireframing"]
+      "tags": [
+        "ux",
+        "information-architecture",
+        "user-flows",
+        "wireframing"
+      ]
     },
     {
       "name": "agency-ux-researcher",
@@ -176,7 +269,12 @@
       "source": "./agency-ux-researcher",
       "strict": false,
       "category": "design",
-      "tags": ["ux-research", "user-interviews", "usability-testing", "personas"]
+      "tags": [
+        "ux-research",
+        "user-interviews",
+        "usability-testing",
+        "personas"
+      ]
     },
     {
       "name": "agency-whimsy-injector",
@@ -185,7 +283,12 @@
       "source": "./agency-whimsy-injector",
       "strict": false,
       "category": "design",
-      "tags": ["delight", "micro-interactions", "personality", "copywriting"]
+      "tags": [
+        "delight",
+        "micro-interactions",
+        "personality",
+        "copywriting"
+      ]
     },
     {
       "name": "administering-linux",
@@ -194,7 +297,14 @@
       "source": "./administering-linux",
       "strict": false,
       "category": "infrastructure",
-      "tags": ["linux", "systemd", "journalctl", "sysadmin", "ssh", "troubleshooting"]
+      "tags": [
+        "linux",
+        "systemd",
+        "journalctl",
+        "sysadmin",
+        "ssh",
+        "troubleshooting"
+      ]
     },
     {
       "name": "atlassian",
@@ -203,7 +313,17 @@
       "source": "./atlassian",
       "strict": false,
       "category": "engineering",
-      "tags": ["jira", "confluence", "bitbucket", "atlassian", "jql", "cql", "wiki", "tickets", "sprints"]
+      "tags": [
+        "jira",
+        "confluence",
+        "bitbucket",
+        "atlassian",
+        "jql",
+        "cql",
+        "wiki",
+        "tickets",
+        "sprints"
+      ]
     },
     {
       "name": "docker-ops",
@@ -212,7 +332,12 @@
       "source": "./docker-ops",
       "strict": false,
       "category": "infrastructure",
-      "tags": ["docker", "docker-compose", "containers", "devops"]
+      "tags": [
+        "docker",
+        "docker-compose",
+        "containers",
+        "devops"
+      ]
     },
     {
       "name": "gitlab-ci",
@@ -221,7 +346,13 @@
       "source": "./gitlab-ci",
       "strict": false,
       "category": "infrastructure",
-      "tags": ["gitlab", "gitlab-ci", "ci-cd", "runners", "devops"]
+      "tags": [
+        "gitlab",
+        "gitlab-ci",
+        "ci-cd",
+        "runners",
+        "devops"
+      ]
     },
     {
       "name": "ansible-playbook",
@@ -230,7 +361,13 @@
       "source": "./ansible-playbook",
       "strict": false,
       "category": "infrastructure",
-      "tags": ["ansible", "playbooks", "automation", "vault", "iac"]
+      "tags": [
+        "ansible",
+        "playbooks",
+        "automation",
+        "vault",
+        "iac"
+      ]
     },
     {
       "name": "amnezia-vpn",
@@ -239,7 +376,13 @@
       "source": "./amnezia-vpn",
       "strict": false,
       "category": "infrastructure",
-      "tags": ["amnezia", "amneziawg", "vpn", "wireguard", "linux"]
+      "tags": [
+        "amnezia",
+        "amneziawg",
+        "vpn",
+        "wireguard",
+        "linux"
+      ]
     },
     {
       "name": "linux-routing",
@@ -248,7 +391,13 @@
       "source": "./linux-routing",
       "strict": false,
       "category": "infrastructure",
-      "tags": ["routing", "iproute2", "nftables", "pbr", "linux-networking"]
+      "tags": [
+        "routing",
+        "iproute2",
+        "nftables",
+        "pbr",
+        "linux-networking"
+      ]
     },
     {
       "name": "basic-memory-workflow",
@@ -257,7 +406,12 @@
       "source": "./basic-memory-workflow",
       "strict": false,
       "category": "ai-tools",
-      "tags": ["memory", "knowledge", "adr", "ai-workflow"]
+      "tags": [
+        "memory",
+        "knowledge",
+        "adr",
+        "ai-workflow"
+      ]
     },
     {
       "name": "playwright-skill",
@@ -266,7 +420,13 @@
       "source": "./playwright-skill",
       "strict": false,
       "category": "ai-tools",
-      "tags": ["playwright", "browser-automation", "e2e", "testing", "screenshots"]
+      "tags": [
+        "playwright",
+        "browser-automation",
+        "e2e",
+        "testing",
+        "screenshots"
+      ]
     },
     {
       "name": "lightpanda-browser",
@@ -275,7 +435,13 @@
       "source": "./lightpanda-browser",
       "strict": false,
       "category": "ai-tools",
-      "tags": ["lightpanda", "headless-browser", "scraping", "cdp", "mcp"]
+      "tags": [
+        "lightpanda",
+        "headless-browser",
+        "scraping",
+        "cdp",
+        "mcp"
+      ]
     },
     {
       "name": "litellm-guide",
@@ -284,7 +450,13 @@
       "source": "./litellm-guide",
       "strict": false,
       "category": "ai-tools",
-      "tags": ["litellm", "llm-proxy", "ai-gateway", "routing", "openai-compatible"]
+      "tags": [
+        "litellm",
+        "llm-proxy",
+        "ai-gateway",
+        "routing",
+        "openai-compatible"
+      ]
     },
     {
       "name": "omniroute-guide",
@@ -293,7 +465,13 @@
       "source": "./omniroute-guide",
       "strict": false,
       "category": "ai-tools",
-      "tags": ["omniroute", "ai-router", "llm-proxy", "mcp", "a2a"]
+      "tags": [
+        "omniroute",
+        "ai-router",
+        "llm-proxy",
+        "mcp",
+        "a2a"
+      ]
     },
     {
       "name": "open-webui-guide",
@@ -302,7 +480,13 @@
       "source": "./open-webui-guide",
       "strict": false,
       "category": "ai-tools",
-      "tags": ["open-webui", "llm-ui", "rag", "pipelines", "oauth"]
+      "tags": [
+        "open-webui",
+        "llm-ui",
+        "rag",
+        "pipelines",
+        "oauth"
+      ]
     },
     {
       "name": "open-terminal-guide",
@@ -311,7 +495,12 @@
       "source": "./open-terminal-guide",
       "strict": false,
       "category": "ai-tools",
-      "tags": ["open-terminal", "code-execution", "sandbox", "agent-tools"]
+      "tags": [
+        "open-terminal",
+        "code-execution",
+        "sandbox",
+        "agent-tools"
+      ]
     },
     {
       "name": "ollama-search",
@@ -320,7 +509,13 @@
       "source": "./ollama-search",
       "strict": false,
       "category": "ai-tools",
-      "tags": ["ollama", "web-search", "web-fetch", "mcp", "search"]
+      "tags": [
+        "ollama",
+        "web-search",
+        "web-fetch",
+        "mcp",
+        "search"
+      ]
     },
     {
       "name": "qdrant-codebase-search",
@@ -329,7 +524,13 @@
       "source": "./qdrant-codebase-search",
       "strict": false,
       "category": "ai-tools",
-      "tags": ["qdrant", "vector-search", "code-search", "embeddings", "semantic-search"]
+      "tags": [
+        "qdrant",
+        "vector-search",
+        "code-search",
+        "embeddings",
+        "semantic-search"
+      ]
     },
     {
       "name": "nextcloud-admin",
@@ -338,7 +539,12 @@
       "source": "./nextcloud-admin",
       "strict": false,
       "category": "infrastructure",
-      "tags": ["nextcloud", "webdav", "ocs-api", "cloud-storage"]
+      "tags": [
+        "nextcloud",
+        "webdav",
+        "ocs-api",
+        "cloud-storage"
+      ]
     },
     {
       "name": "elk-kibana-dashboards",
@@ -347,7 +553,14 @@
       "source": "./elk-kibana-dashboards",
       "strict": false,
       "category": "infrastructure",
-      "tags": ["elasticsearch", "kibana", "elk", "dashboards", "logs", "kql"]
+      "tags": [
+        "elasticsearch",
+        "kibana",
+        "elk",
+        "dashboards",
+        "logs",
+        "kql"
+      ]
     },
     {
       "name": "preview-interview",
@@ -356,7 +569,12 @@
       "source": "./preview-interview",
       "strict": false,
       "category": "engineering",
-      "tags": ["interview", "career", "mock-interview", "tech-interview"]
+      "tags": [
+        "interview",
+        "career",
+        "mock-interview",
+        "tech-interview"
+      ]
     },
     {
       "name": "amneziawg-openwrt-guide",
@@ -365,7 +583,13 @@
       "source": "./amneziawg-openwrt-guide",
       "strict": false,
       "category": "networking",
-      "tags": ["openwrt", "amneziawg", "awg", "router", "vpn"]
+      "tags": [
+        "openwrt",
+        "amneziawg",
+        "awg",
+        "router",
+        "vpn"
+      ]
     },
     {
       "name": "podkop-openwrt-guide",
@@ -374,7 +598,13 @@
       "source": "./podkop-openwrt-guide",
       "strict": false,
       "category": "networking",
-      "tags": ["openwrt", "podkop", "sing-box", "selective-routing", "clash-api"]
+      "tags": [
+        "openwrt",
+        "podkop",
+        "sing-box",
+        "selective-routing",
+        "clash-api"
+      ]
     },
     {
       "name": "zapret-openwrt-guide",
@@ -383,7 +613,43 @@
       "source": "./zapret-openwrt-guide",
       "strict": false,
       "category": "networking",
-      "tags": ["openwrt", "zapret", "nfqws", "dpi-desync", "censorship-circumvention"]
+      "tags": [
+        "openwrt",
+        "zapret",
+        "nfqws",
+        "dpi-desync",
+        "censorship-circumvention"
+      ]
+    },
+    {
+      "name": "opencodex-guide",
+      "displayName": "OpenCodex CLI Guide",
+      "description": "Drive a running opencodex proxy from the CLI — account pools, provider routing, model catalog, and management API",
+      "source": "./opencodex-guide",
+      "strict": false,
+      "category": "ai-tools",
+      "tags": [
+        "opencodex",
+        "ocx",
+        "proxy",
+        "ai-gateway",
+        "llm-proxy"
+      ]
+    },
+    {
+      "name": "telegram-formatting",
+      "displayName": "Telegram Rich Markdown Formatting",
+      "description": "Telegram Rich Markdown formatting: syntax, limits, delivery, and Bot API message structures",
+      "source": "./telegram-formatting",
+      "strict": false,
+      "category": "ai-tools",
+      "tags": [
+        "telegram",
+        "formatting",
+        "rich-messages",
+        "markdown",
+        "bot-api"
+      ]
     }
   ]
 }
