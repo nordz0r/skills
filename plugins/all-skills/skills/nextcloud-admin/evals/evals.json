@@ -1,0 +1,17 @@
+{
+  "skill_name": "nextcloud-admin",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Нужно залить архив 4 ГБ в Nextcloud через WebDAV и выдать на него публичную ссылку с паролем и сроком действия, а потом проверить permissions шары через OCS API.",
+      "expected_output": "Ответ должен выбрать nextcloud-admin: chunked upload на remote.php/dav/uploads, POST /shares с shareType=3, password и expireDate.",
+      "split": "train"
+    },
+    {
+      "id": 2,
+      "prompt": "На Nextcloud нужно массово создать пользователей с квотой, раскидать их по группам и назначить субадминов, а OCS-запросы падают с 997.",
+      "expected_output": "Ответ должен выбрать nextcloud-admin для Provisioning API: /cloud/users, groups, subadmins и заголовок OCS-APIRequest.",
+      "split": "holdout"
+    }
+  ]
+}

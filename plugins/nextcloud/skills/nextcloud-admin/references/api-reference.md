@@ -23,7 +23,8 @@ done
 3. [User Provisioning API](#user-provisioning-api)
 4. [Groups API](#groups-api)
 5. [Apps API](#apps-api)
-6. [Коды ошибок](#коды-ошибок)
+6. [Capabilities и app-пароли](#capabilities-и-app-пароли)
+7. [Коды ошибок](#коды-ошибок)
 
 ---
 
@@ -130,29 +131,75 @@ curl -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" \
 
 ### Chunked Upload (большие файлы)
 
-Для файлов >50MB рекомендуется chunked upload:
+Chunked upload v2 через `/remote.php/dav/uploads/`. Три жёстких правила, на которых чаще всего ломается самодельный скрипт:
+
+- Чанк называется **числом от 1 до 10000** (`00001`, `00002`, …). Сборка идёт в порядке имён, поэтому `split`-имена вида `chunk_aa` не подходят.
+- Размер чанка — **от 5MB до 5GB**, меньше 5MB разрешён только последний чанк.
+- Заголовок `Destination` с финальным путём обязателен на MKCOL, на каждом PUT и на финальном MOVE. `OC-Total-Length` на PUT даёт серверу проверить квоту сразу (иначе ошибка вылезет только на MOVE, после заливки всех данных).
 
 ```bash
-# 1. Создать upload-сессию
-UPLOAD_ID="upload-$(date +%s)"
-curl -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" \
-  -X MKCOL \
-  "$NEXTCLOUD_URL/remote.php/dav/uploads/$NEXTCLOUD_USER/$UPLOAD_ID"
+SRC="largefile.zip"
+DEST="$NEXTCLOUD_URL/remote.php/dav/files/$NEXTCLOUD_USER/largefile.zip"
+UPLOAD="$NEXTCLOUD_URL/remote.php/dav/uploads/$NEXTCLOUD_USER/$(uuidgen)"
+TOTAL=$(stat -c %s "$SRC")
 
-# 2. Загрузить чанки (по 10MB)
-split -b 10485760 largefile.zip chunk_
+# 1. Создать upload-папку
+curl -sf -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" -X MKCOL \
+  -H "Destination: $DEST" "$UPLOAD"
+
+# 2. Нарезать по 10MB и залить чанки с числовыми именами
+split -b 10485760 -d -a 5 "$SRC" chunk_
+n=0
 for chunk in chunk_*; do
-  curl -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" \
-    -T "$chunk" \
-    "$NEXTCLOUD_URL/remote.php/dav/uploads/$NEXTCLOUD_USER/$UPLOAD_ID/$chunk"
+  n=$((n + 1))
+  curl -sf -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" -T "$chunk" \
+    -H "Destination: $DEST" -H "OC-Total-Length: $TOTAL" \
+    "$UPLOAD/$(printf '%05d' "$n")"
 done
 
-# 3. Собрать файл
-curl -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" \
-  -X MOVE \
-  -H "Destination: $NEXTCLOUD_URL/remote.php/dav/files/$NEXTCLOUD_USER/largefile.zip" \
-  "$NEXTCLOUD_URL/remote.php/dav/uploads/$NEXTCLOUD_USER/$UPLOAD_ID/.file"
+# 3. Собрать файл (псевдо-файл .file)
+curl -sf -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" -X MOVE \
+  -H "Destination: $DEST" -H "OC-Total-Length: $TOTAL" \
+  "$UPLOAD/.file"
+
+rm -f chunk_*
 ```
+
+- Отменить загрузку: `DELETE` на upload-папку (заголовок `Destination` не нужен).
+- Задать mtime результата: `-H "X-OC-Mtime: 1547545326"` на MOVE, иначе датой правки станет время загрузки.
+- Незавершённая upload-папка удаляется сервером после 24 часов простоя.
+- Чанки нельзя скачать обратно из upload-папки.
+- Превышение квоты на PUT с `OC-Total-Length` → `507 Insufficient Storage`.
+
+### Версии файлов
+
+Базовый URL: `$NEXTCLOUD_URL/remote.php/dav/versions/$NEXTCLOUD_USER/`. Адресация идёт по числовому `fileId`, а не по имени файла.
+
+```bash
+# 1. Узнать fileId
+curl -sf -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" -X PROPFIND -H "Depth: 0" \
+  -H "Content-Type: application/xml" \
+  -d '<?xml version="1.0"?>
+<d:propfind xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
+  <d:prop><oc:fileid/></d:prop>
+</d:propfind>' \
+  "$NEXTCLOUD_URL/remote.php/dav/files/$NEXTCLOUD_USER/{path}"
+
+# 2. Список версий (имя каждой версии — timestamp)
+curl -sf -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" -X PROPFIND -H "Depth: 1" \
+  "$NEXTCLOUD_URL/remote.php/dav/versions/$NEXTCLOUD_USER/versions/{fileId}"
+
+# 3. Скачать конкретную версию
+curl -sf -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" -o old.txt \
+  "$NEXTCLOUD_URL/remote.php/dav/versions/$NEXTCLOUD_USER/versions/{fileId}/{timestamp}"
+
+# 4. Восстановить версию — MOVE в служебную папку restore
+curl -sf -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" -X MOVE \
+  -H "Destination: $NEXTCLOUD_URL/remote.php/dav/versions/$NEXTCLOUD_USER/restore" \
+  "$NEXTCLOUD_URL/remote.php/dav/versions/$NEXTCLOUD_USER/versions/{fileId}/{timestamp}"
+```
+
+Требует включённого приложения `files_versions`; глубина истории зависит от настроек хранения ревизий на сервере.
 
 ### Корзина (Trashbin WebDAV)
 
@@ -254,11 +301,17 @@ curl -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" \
 Обязательные поля: `shareType`, `path`. Для `shareType=0` и `shareType=1` также обязателен `shareWith`.
 
 Дополнительные аргументы:
-- `publicUpload` (string, "true"/"false") — разрешить публичную загрузку
+- `publicUpload` (string, "true"/"false") — разрешить публичную загрузку в расшаренную папку
 - `password` (string) — пароль для публичной ссылки
 - `expireDate` (string, "YYYY-MM-DD") — дата истечения
 - `note` (string) — заметка для получателя
 - `label` (string) — метка для ссылки
+- `sendMail` (string, "true"/"false") — уведомить получателя письмом
+- `attributes` (string) — URI-кодированный JSON с атрибутами шары (например запрет скачивания). С Nextcloud 30 ключ `enabled` внутри атрибута переименован в `value` и принимает не только boolean
+
+Дефолт `permissions` — 31, но для публичных ссылок — 1 (только чтение).
+
+`sendMail` в `PUT /shares/{shareId}` письмо не отправляет — для повторной отправки есть отдельный `POST /shares/{shareId}/send-email`.
 
 **Коды ответа:** 100=ок, 400=неизвестный тип, 403=публичная загрузка отключена, 404=файл не найден
 
@@ -351,7 +404,9 @@ curl -u "$NEXTCLOUD_USER:$NEXTCLOUD_ADMIN_TOKEN" \
 - `quota` (string) — квота (например "1 GB", "500 MB")
 - `language` (string) — язык
 
-**Коды:** 100=ок, 101=невалидные данные, 102=пользователь существует, 103=ошибка создания, 104=группа не существует, 105=недостаточно прав, 108=нужен пароль или email
+**Коды:** 100=ок, 101=невалидные данные, 102=пользователь существует, 103=ошибка создания, 104=группа не существует, 105=недостаточно прав, 108=нужен email, чтобы отправить ссылку на установку пароля, 110=email обязателен
+
+Повторно отправить приветственное письмо: `POST /ocs/v1.php/cloud/users/{userid}/welcome` (100=ок, 101=нет email, 102=ошибка отправки).
 
 ### GET /users/{userid} — Детали пользователя
 
@@ -380,16 +435,18 @@ curl -u "$NEXTCLOUD_USER:$NEXTCLOUD_ADMIN_TOKEN" \
 |---|---|
 | `email` | Email адрес |
 | `quota` | Квота ("1 GB", "none", "default") |
-| `displayname` | Отображаемое имя |
+| `displayname` | Отображаемое имя (`display` — устаревший синоним) |
 | `phone` | Телефон |
 | `address` | Адрес |
 | `website` | Веб-сайт |
-| `twitter` | Аккаунт Twitter |
+| `twitter` | Аккаунт Twitter/X |
 | `password` | Пароль |
 | `language` | Язык интерфейса |
 | `locale` | Локаль |
 
-**Коды:** 100=ок, 101=пользователь не найден, 102=невалидные данные
+Пользователь может менять себе `email`, `displayname` и `password`; `quota` — только админ. Реальный список разрешённых полей на конкретном инстансе отдаёт `GET /ocs/v1.php/cloud/user/fields`; сверяйся с ним, если PUT возвращает 113.
+
+**Коды:** 100=ок, 101=невалидный аргумент, 102=невалидные данные, 107=пароль не прошёл password policy, 112=бэкенд не поддерживает смену пароля, 113=поле недоступно для редактирования или не существует
 
 ### PUT /users/{userid}/disable — Выключить пользователя
 
@@ -575,6 +632,51 @@ curl -u "$NEXTCLOUD_USER:$NEXTCLOUD_ADMIN_TOKEN" \
   "$NEXTCLOUD_URL/ocs/v1.php/cloud/apps/{appid}" \
   -H "OCS-APIRequest: true"
 ```
+
+---
+
+## Capabilities и app-пароли
+
+### GET /ocs/v2.php/cloud/capabilities — версия и включённые фичи
+
+```bash
+curl -sf -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" \
+  -H "OCS-APIRequest: true" \
+  "$NEXTCLOUD_URL/ocs/v2.php/cloud/capabilities?format=json" \
+  | jq '{version: .ocs.data.version, sharing: .ocs.data.capabilities.files_sharing}'
+```
+
+Отдаёт версию сервера и блоки возможностей по приложениям: включён ли Share API, разрешены ли публичные ссылки и загрузка по ним, требуется ли пароль, поддерживается ли chunking. Проверяй это перед тем, как объяснять 403 на шаре чем-то другим. Эндпоинт также существует как `/ocs/v1.php/cloud/capabilities`.
+
+### GET /ocs/v2.php/core/getapppassword — выпустить app-токен
+
+```bash
+curl -sf -u "$NEXTCLOUD_USER:$NEXTCLOUD_PASSWORD" \
+  -H "OCS-APIRequest: true" \
+  "$NEXTCLOUD_URL/ocs/v2.php/core/getapppassword?format=json" \
+  | jq -r '.ocs.data.apppassword'
+```
+
+Требует настоящий пароль пользователя: вызов с уже выданным app-токеном отдаёт 403. Имя нового токена сервер берёт из User-Agent.
+
+### DELETE /ocs/v2.php/core/apppassword — отозвать токен
+
+```bash
+curl -sf -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" -X DELETE \
+  -H "OCS-APIRequest: true" \
+  "$NEXTCLOUD_URL/ocs/v2.php/core/apppassword"
+```
+
+Отзывается именно тот токен, которым выполнен запрос.
+
+### GET /ocs/v2.php/core/autocomplete/get — поиск получателя для шары
+
+```bash
+curl -sf -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" -H "OCS-APIRequest: true" \
+  "$NEXTCLOUD_URL/ocs/v2.php/core/autocomplete/get?search=ivan&itemType=files&shareTypes[]=0&limit=10&format=json"
+```
+
+Полезно, когда известно отображаемое имя, а для `shareWith` нужен точный `userid`.
 
 ---
 

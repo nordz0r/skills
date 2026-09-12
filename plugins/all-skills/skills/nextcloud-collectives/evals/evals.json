@@ -1,0 +1,17 @@
+{
+  "skill_name": "nextcloud-collectives",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "В нашем wiki-коллективе Nextcloud Collectives надо завести новую статью под разделом «Инфраструктура», записать markdown-контент и поправить landing page Readme.md коллектива.",
+      "expected_output": "Ответ должен выбрать nextcloud-collectives: POST /pages/{parentId} через OCS, затем запись .md по WebDAV из полей PageInfo.",
+      "split": "train"
+    },
+    {
+      "id": 2,
+      "prompt": "Из коллектива случайно удалили wiki-страницу с дочерними подстраницами: надо найти её в корзине Collectives, восстановить и вернуть прежний порядок подстраниц в дереве.",
+      "expected_output": "Ответ должен выбрать nextcloud-collectives: pages/trash, PATCH восстановления, parentId и subpageOrder.",
+      "split": "holdout"
+    }
+  ]
+}

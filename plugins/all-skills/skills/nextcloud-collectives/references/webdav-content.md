@@ -54,6 +54,12 @@ dav_url() { # $1=collectivePath $2=filePath $3=fileName
 
 Проверка здоровья пути: `PROPFIND` с `Depth: 0` на собранный URL должен вернуть 207. Если 404 — не пытайся чинить путь угадыванием; перечитай список страниц через OCS и собери путь заново.
 
+## Грабли реальных инстансов
+
+- **`GET /collectives/search/recent` и поиск возвращают display-путь** в `collectivePath` (например `/Wiki-1` или `/Knowledge-Base-2`) — по нему WebDAV не строится, будет 404. Канонические поля для сборки пути дают только `GET /collectives/{cid}/pages` и `GET /pages/{id}`. Если после поиска получаешь 404 на DAV — перезапроси PageInfo страницы основным эндпоинтом.
+- **Корень монтирования зависит от режима инстанса**: по умолчанию это папка `Collectives` (локализуется, например `Коллективы`), в team-режиме коллективы могут монтироваться иначе (наблюдалось `Группы/Wiki/<имя>`). Ещё одна причина строить путь только из полей PageInfo и никогда не хардкодить префикс.
+- **Кириллица и пробелы в пути** — сегменты коллективов и страниц часто содержат кириллицу/пробелы: кодируй каждый сегмент (`jq @uri` или `python` `urllib.parse.quote`); слэши-разделители кодировать нельзя.
+
 ## Чтение и запись контента
 
 ```bash
@@ -104,12 +110,17 @@ curl -sf -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" -X PROPFIND \
 curl -sf -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" -X PROPFIND -H "Depth: 1" \
   "$NEXTCLOUD_URL/remote.php/dav/versions/$NEXTCLOUD_USER/versions/{fileId}/"
 
-# 3. Скачать конкретную версию
+# 3. Скачать конкретную версию (имя версии — timestamp)
 curl -sf -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" \
-  "$NEXTCLOUD_URL/remote.php/dav/versions/$NEXTCLOUD_USER/versions/{fileId}/{versionId}"
+  "$NEXTCLOUD_URL/remote.php/dav/versions/$NEXTCLOUD_USER/versions/{fileId}/{timestamp}"
+
+# 4. Восстановить версию — MOVE в служебную папку restore
+curl -sf -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" -X MOVE \
+  -H "Destination: $NEXTCLOUD_URL/remote.php/dav/versions/$NEXTCLOUD_USER/restore" \
+  "$NEXTCLOUD_URL/remote.php/dav/versions/$NEXTCLOUD_USER/versions/{fileId}/{timestamp}"
 ```
 
-Восстановление версии делается `COPY` из URL версии в `/remote.php/dav/versions/$NEXTCLOUD_USER/restore/target`. Доступность версий зависит от включённого приложения `files_versions` и настроек хранения ревизий на сервере.
+Доступность версий зависит от включённого приложения `files_versions` и настроек хранения ревизий на сервере. Если нужно только посмотреть старый текст — скачивай версию шага 3 и не трогай restore: восстановление меняет текущее содержимое страницы.
 
 ## Публичная ссылка на страницу
 

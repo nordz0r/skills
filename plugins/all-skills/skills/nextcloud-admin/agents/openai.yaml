@@ -1,4 +1,4 @@
 interface:
   display_name: "Nextcloud Admin"
-  short_description: "- Управление Nextcloud через OCS API и WebDAV: файлы, шаринг, пользователи, г..."
-  default_prompt: "Use $nextcloud-admin to assist with nextcloud admin tasks."
+  short_description: "Nextcloud files and administration via WebDAV and OCS API: uploads, shares, users, groups, apps."
+  default_prompt: "Use $nextcloud-admin to manage Nextcloud files, shares, users, and groups over WebDAV and the OCS API."

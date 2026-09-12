@@ -1,15 +1,6 @@
 ---
 name: nextcloud-collectives
-description: >-
-  Полное управление Nextcloud Collectives (wiki-приложение) через OCS API и
-  WebDAV: создание коллективов и страниц, чтение и запись markdown-контента,
-  иерархия статей, поиск, шаблоны, теги, вложения, публичные ссылки, корзина и
-  восстановление, версии страниц. Используй этот скилл для любых задач с
-  Collectives: добавить/найти/отредактировать статью в wiki, создать раздел или
-  подпрограмму, восстановить удалённую страницу, выложить публичную ссылку на
-  страницу или весь коллектив. Триггеры: collectives, nextcloud wiki, коллектив,
-  коллективы, wiki-страница, база знаний nextcloud, статьи, Readme.md, landing
-  page.
+description: "Nextcloud Collectives wiki через OCS API и WebDAV. Используй для любых задач с базой знаний в Nextcloud: создать коллектив, добавить или найти статью в wiki, прочитать и отредактировать markdown-контент страницы, построить дерево страниц и подстраниц, переместить или переименовать страницу, шаблоны, теги, вложения, emoji, landing page Readme.md, публичная ссылка на страницу или коллектив, корзина и восстановление удалённой страницы, версии страницы. Триггеры: collectives, коллектив, коллективы, nextcloud wiki, wiki-страница, статья, база знаний, knowledge base, Readme.md, landing page, дерево страниц. Для обычных файлов, шар и пользователей Nextcloud используй nextcloud-admin."
 ---
 
 # Nextcloud Collectives — Управление Wiki через API
@@ -25,7 +16,7 @@ Collectives устроен двухслойно, и это определяет 
 | Структура | OCS API (`/ocs/v2.php/apps/collectives/api/v1.0/`) | Коллективы, дерево страниц, метаданные (emoji, порядок, теги), поиск, шары, корзина |
 | Контент | WebDAV (`/remote.php/dav/files/`) | Чтение и запись markdown-содержимого страниц |
 
-**В ответах OCS нет содержимого страниц** — только метаданные (`PageInfo`). Чтобы прочитать или изменить текст статьи, нужно second шаг через WebDAV к `.md`-файлу страницы.
+**В ответах OCS нет содержимого страниц** — только метаданные (`PageInfo`). Чтобы прочитать или изменить текст статьи, нужен второй шаг через WebDAV к `.md`-файлу страницы.
 
 ## Подключение
 
@@ -65,7 +56,7 @@ nc_urlencode() { jq -nr --arg v "$1" '$v|@uri'; }
 - **Страница** (page) — одна markdown-запись, объект `PageInfo`: `id`, `title`, `parentId`, `fileName`, `filePath`, `collectivePath`, `emoji`, `subpageOrder`, `timestamp`, `lastUserId`.
 - **Иерархия** задаётся `parentId`; `parentId: 0` означает корень коллектива.
 - **Landing page** — корневая страница коллектива, файл `Readme.md`.
-- **На диске**: страницы — файлы `*.md`. Страница, у которой есть подпрограммы, становится папкой: её контент лежит в `<Название>/Readme.md`, а дети — рядом внутри папки. Подробности и сборка путей — `references/webdav-content.md`.
+- **На диске**: страницы — файлы `*.md`. Страница, у которой есть подстраницы, становится папкой: её контент лежит в `<Название>/Readme.md`, а дети — рядом внутри папки. Подробности и сборка путей — `references/webdav-content.md`.
 
 ## Базовые принципы OCS-запросов
 
@@ -78,6 +69,16 @@ COLL_API="$NEXTCLOUD_URL/ocs/v2.php/apps/collectives/api/v1.0"
 - POST/PUT с JSON-телом: `-H "Content-Type: application/json" -d '{...}'`.
 - Аутентификация: `-u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN"`.
 - Конверт ответа: `.ocs.data`; успешный `statuscode` — 200. Данные лежат в ключах `collectives`, `collective`, `pages`, `page`, `attachments`, `attachment` (шары возвращают объект шары напрямую).
+
+Рецепты ниже используют `jq`; если его нет в системе, парси тот же конвент через `python3`:
+
+```bash
+curl -sf ... | python3 -c "
+import json,sys
+d=json.load(sys.stdin)
+for c in d['ocs']['data']['collectives']:
+    print(c['id'], c['name'])"
+```
 
 ---
 
@@ -210,7 +211,7 @@ printf '# Моя статья\n\nТекст статьи.' | curl -sf -u "$NEXTC
   "$NEXTCLOUD_URL/remote.php/dav/files/$NEXTCLOUD_USER/$page_dav"
 ```
 
-- Подпрограмму создают так же, но `parentId` = id родительской страницы.
+- Подстраницу создают так же, но `parentId` = id родительской страницы.
 - `title` должен быть уникальным среди детей родителя; сервер сам разрешит коллизии суффиксом.
 - Шаблон: `{"title": "...", "templateId": 123}`.
 
@@ -266,7 +267,7 @@ curl -sf -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" -X DELETE -H "OCS-APIRequest: tru
   "$COLL_API/collectives/{cid}/pages/trash/{id}?format=json"
 ```
 
-### Emoji и порядок подпрограмм
+### Emoji и порядок подстраниц
 ```bash
 # Emoji (null — сбросить)
 -d '{"emoji": "🔧"}'   →  PUT "$COLL_API/collectives/{cid}/pages/{id}/emoji?format=json"
@@ -403,7 +404,8 @@ curl -sf ... "$COLL_API/collectives/{cid}/shares?format=json"
 
 - `references/api-reference.md` — полный каталог эндпоинтов v1.0 (включая публичные `/p/`), форматы тел и ответов, схемы `PageInfo`/`Collective`/`PageAttachment`/`CollectiveShare`/`Tag`.
 - `references/webdav-content.md` — раскладка файлов коллектива на диске, сборка WebDAV-путей, `PROPFIND`, версии страниц, безопасность совместного редактирования.
+- `nextcloud-admin` — тот же инстанс со стороны файлов: обычные шары, пользователи, группы, квоты, app-токены, приложения.
 
 <!-- A-EVOLVE-ROUTING-SIGNALS:START -->
-## Routing signals: collectives nextcloud wiki knowledge base страница статья коллектив markdown readme landing page ocs api webdav публичная ссылка тег вложение шаблон версия
+## Routing signals: collectives nextcloud wiki knowledge base страница подстраница статья коллектив дерево страниц markdown readme landing page pageinfo parentid ocs api webdav публичная ссылка тег вложение шаблон корзина версия
 <!-- A-EVOLVE-ROUTING-SIGNALS:END -->
