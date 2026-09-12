@@ -37,6 +37,7 @@ skills/
 ├── elk-kibana-dashboards/            # Elasticsearch/Kibana dashboards and log analysis
 ├── preview-interview/                # Interview preparation workflow
 ├── nextcloud-admin/                  # Nextcloud OCS API + WebDAV
+├── nextcloud-collectives/            # Nextcloud Collectives wiki (OCS API + WebDAV)
 ├── ollama-search/                    # Ollama Web Search / Fetch API + scripts
 ├── playwright-skill/                 # Playwright browser automation + Node runtime
 ├── open-terminal-guide/              # Open Terminal guide
@@ -85,6 +86,7 @@ All 10 `agency-*` skills currently follow the same pattern:
 - `amnezia-vpn`
 - `linux-routing`
 - `nextcloud-admin`
+- `nextcloud-collectives`
 - `ollama-search`
 - `playwright-skill`
 - `lightpanda-browser`
@@ -213,7 +215,7 @@ npx skills add nordz0r/skills -s litellm-guide -g
 
 ## NOTES
 
-- Current inventory: 34 skills total.
+- Current inventory: 35 skills total.
 - `agency-*` accounts for 10 of those skills.
 - `open-webui-guide` has 11 reference files and is still the largest single documentation set.
 - `ollama-search` has 4 reference files and 2 scripts.

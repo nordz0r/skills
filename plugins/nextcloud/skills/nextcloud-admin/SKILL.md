@@ -1,6 +1,6 @@
 ---
 name: nextcloud-admin
-description: "Nextcloud files and administration over WebDAV and OCS API. Используй при любой задаче с Nextcloud-файлами и администрированием инстанса: загрузить или скачать файл в облако Nextcloud, PROPFIND-листинг, MKCOL, MOVE, COPY, chunked upload больших файлов, корзина и версии файлов, расшарить файл, публичная ссылка с паролем и сроком, права и permissions на шару, создать или отключить пользователя, квота, группы, субадмины, app-пароль и токен, включить или выключить приложение, capabilities инстанса. Триггеры: nextcloud, WebDAV, OCS API, remote.php/dav, облачное хранилище, публичная ссылка на файл, шаринг файла, users provisioning, groups, quota, app token. Для wiki-страниц Collectives используй nextcloud-collectives."
+description: "Файлы и администрирование Nextcloud через WebDAV и OCS-API. Используй при любой задаче с файлами в Nextcloud и настройкой инстанса: загрузить или скачать файл в облако, PROPFIND-листинг каталога, MKCOL, MOVE, COPY, chunked-upload больших файлов, корзина и версии файлов, расшарить файл, публичная ссылка с паролем и сроком, права доступа к шаре, завести или отключить учётную запись, квоты, группы, субадмины, app-токен, включить приложение, capabilities инстанса. Триггеры: nextcloud, webdav, remote.php/dav, ocs, облачное хранилище, публичная ссылка на файл, шаринг файла, user-provisioning, quota."
 ---
 
 # Nextcloud Admin — Управление через API

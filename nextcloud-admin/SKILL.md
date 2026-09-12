@@ -1,19 +1,20 @@
 ---
 name: nextcloud-admin
-description: >-
-  Управление Nextcloud через OCS API и WebDAV: файлы, шаринг, пользователи,
-  группы, приложения. Используй этот скилл при любых задачах, связанных с
-  Nextcloud: загрузка/скачивание файлов, создание папок, управление доступом
-  (шары, публичные ссылки), администрирование пользователей и групп,
-  управление приложениями. Триггеры: nextcloud, шаринг файлов, облачное
-  хранилище, WebDAV, OCS API, публичная ссылка на файл, управление
-  пользователями nextcloud, загрузить файл в облако, скачать из облака,
-  расшарить файл.
+description: "Файлы и администрирование Nextcloud через WebDAV и OCS-API. Используй при любой задаче с файлами в Nextcloud и настройкой инстанса: загрузить или скачать файл в облако, PROPFIND-листинг каталога, MKCOL, MOVE, COPY, chunked-upload больших файлов, корзина и версии файлов, расшарить файл, публичная ссылка с паролем и сроком, права доступа к шаре, завести или отключить учётную запись, квоты, группы, субадмины, app-токен, включить приложение, capabilities инстанса. Триггеры: nextcloud, webdav, remote.php/dav, ocs, облачное хранилище, публичная ссылка на файл, шаринг файла, user-provisioning, quota."
 ---
 
 # Nextcloud Admin — Управление через API
 
 Скилл для полноценного управления Nextcloud-инстансом через OCS REST API и WebDAV. Все операции выполняются через `curl` из терминала.
+
+## Когда этот скилл, а когда соседний
+
+| Задача | Скилл |
+|---|---|
+| Файлы, папки, шары, пользователи, группы, приложения | этот скилл |
+| Wiki-страницы Collectives: коллективы, статьи, дерево страниц, теги | `nextcloud-collectives` |
+
+Collectives хранит страницы как `.md`-файлы в Files, поэтому WebDAV-часть отсюда применима и там — но структуру страниц меняй только через Collectives OCS API, иначе дерево разъедется.
 
 ## Подключение
 
@@ -25,6 +26,7 @@ description: >-
 | `NEXTCLOUD_USER` | Имя пользователя для аутентификации |
 | `NEXTCLOUD_TOKEN` | App-токен пользователя (используется вместо пароля) |
 | `NEXTCLOUD_ADMIN_TOKEN` | App-токен администратора (для операций управления пользователями/группами/приложениями) |
+| `NEXTCLOUD_PASSWORD` | Настоящий пароль — нужен только чтобы один раз выпустить app-токен, в обычных операциях не используется |
 
 Перед выполнением любых операций **всегда** проверяй наличие переменных:
 
@@ -35,6 +37,29 @@ if [ -z "$NEXTCLOUD_URL" ] || [ -z "$NEXTCLOUD_USER" ] || [ -z "$NEXTCLOUD_TOKEN
   exit 1
 fi
 ```
+
+### Как получить app-токен
+
+App-токен можно создать в UI (Настройки → Безопасность → Устройства и сессии) или через API — авторизовавшись **настоящим паролем** пользователя:
+
+```bash
+curl -sf -u "$NEXTCLOUD_USER:$NEXTCLOUD_PASSWORD" \
+  -H "OCS-APIRequest: true" \
+  "$NEXTCLOUD_URL/ocs/v2.php/core/getapppassword?format=json" \
+  | jq -r '.ocs.data.apppassword'
+```
+
+Имя токена сервер берёт из User-Agent. Вызов уже существующим app-токеном вернёт 403 — это защита от бесконечного размножения токенов. Отозвать токен: `DELETE /ocs/v2.php/core/apppassword` с этим же токеном в Basic Auth.
+
+### Проверка инстанса перед работой
+
+```bash
+curl -sf -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" -H "OCS-APIRequest: true" \
+  "$NEXTCLOUD_URL/ocs/v2.php/cloud/capabilities?format=json" \
+  | jq '{version: .ocs.data.version.string, sharing: .ocs.data.capabilities.files_sharing.api_enabled}'
+```
+
+`capabilities` — самый дешёвый способ одновременно проверить токен, узнать версию сервера и выяснить, какие фичи (шаринг, public link, chunking) включены. Делай это, если что-то не работает, прежде чем гадать о причине.
 
 ## Security Guardrails
 
@@ -153,6 +178,24 @@ curl -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" \
   -H "Destination: $NEXTCLOUD_URL/remote.php/dav/files/$NEXTCLOUD_USER/copy/path/file.txt" \
   "$NEXTCLOUD_URL/remote.php/dav/files/$NEXTCLOUD_USER/original/path/file.txt"
 ```
+
+### Большие файлы
+
+Обычный `PUT` упирается в `upload_max_filesize`/таймауты веб-сервера. Для файлов от сотен мегабайт используй chunked upload v2 через `/remote.php/dav/uploads/` — точная процедура, правила именования чанков и обязательные заголовки описаны в `references/api-reference.md` (раздел «Chunked Upload»).
+
+### Корзина и версии файлов
+
+```bash
+# Удалённые файлы
+curl -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" -X PROPFIND -H "Depth: 1" \
+  "$NEXTCLOUD_URL/remote.php/dav/trashbin/$NEXTCLOUD_USER/trash/"
+
+# Версии файла — по числовому fileId, не по имени
+curl -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" -X PROPFIND -H "Depth: 1" \
+  "$NEXTCLOUD_URL/remote.php/dav/versions/$NEXTCLOUD_USER/versions/{fileId}"
+```
+
+`fileId` берётся из расширенного `PROPFIND` по свойству `oc:fileid`. Восстановление версии — `MOVE` версии в `/remote.php/dav/versions/$NEXTCLOUD_USER/restore`; подробности в `references/api-reference.md`.
 
 ---
 
@@ -423,10 +466,11 @@ fi
 
 ---
 
-## Составные сценарии
+## Справочники и соседние скиллы
 
-Для детального справочника всех эндпоинтов, аргументов и кодов ошибок — читай `references/api-reference.md`.
+- `references/api-reference.md` — полный каталог эндпоинтов WebDAV/OCS: расширенный PROPFIND, chunked upload v2, версии файлов, корзина, все аргументы Share API и Provisioning API, capabilities, app-пароли, коды ошибок.
+- `nextcloud-collectives` — wiki поверх того же инстанса: коллективы, дерево страниц, markdown-контент статей.
 
 <!-- A-EVOLVE-ROUTING-SIGNALS:START -->
-## Routing signals: nextcloud webdav ocs api files folders sharing public link users groups app passwords permissions quota admin
+## Routing signals: nextcloud webdav ocs api remote.php dav files folders propfind mkcol chunked upload sharing public link share password expiredate users groups subadmin app passwords permissions quota capabilities admin
 <!-- A-EVOLVE-ROUTING-SIGNALS:END -->

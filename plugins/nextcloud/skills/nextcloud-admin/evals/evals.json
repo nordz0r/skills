@@ -9,7 +9,7 @@
     },
     {
       "id": 2,
-      "prompt": "На Nextcloud нужно массово создать пользователей с квотой, раскидать их по группам и назначить субадминов, а OCS-запросы падают с 997.",
+      "prompt": "На Nextcloud нужно массово завести учётные записи с квотой, раскидать их по группам и назначить субадминов, а запросы OCS падают с 997.",
       "expected_output": "Ответ должен выбрать nextcloud-admin для Provisioning API: /cloud/users, groups, subadmins и заголовок OCS-APIRequest.",
       "split": "holdout"
     }

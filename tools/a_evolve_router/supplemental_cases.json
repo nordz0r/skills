@@ -131,5 +131,19 @@
     "expected_skill": "preview-interview",
     "expected_output": "Interview prep, не написание документации.",
     "split": "train"
+  },
+  {
+    "task_id": "nextcloud-admin__neg-collectives",
+    "prompt": "Загрузи отчёт в папку Documents на нашем Nextcloud и сделай на него публичную ссылку на 7 дней с паролем.",
+    "expected_skill": "nextcloud-admin",
+    "expected_output": "Файлы и шары через WebDAV/Share API, не wiki-страница Collectives.",
+    "split": "train"
+  },
+  {
+    "task_id": "nextcloud-collectives__neg-admin",
+    "prompt": "Добавь в нашу базу знаний в Nextcloud статью про бэкапы: положи её подстраницей в раздел «Инфраструктура» и проставь emoji.",
+    "expected_skill": "nextcloud-collectives",
+    "expected_output": "Wiki-страница коллектива через Collectives OCS API, не обычная загрузка файла в Files.",
+    "split": "holdout"
   }
 ]
