@@ -1,0 +1,4 @@
+interface:
+  display_name: "Nextcloud Collectives"
+  short_description: "Полное управление Nextcloud Collectives (wiki) через OCS API и WebDAV: коллективы, страницы, markdown-контент, поиск, шары."
+  default_prompt: "Use $nextcloud-collectives to assist with Nextcloud Collectives wiki management."

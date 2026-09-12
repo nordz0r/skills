@@ -34,6 +34,7 @@
     "./ollama-search",
     "./qdrant-codebase-search",
     "./nextcloud-admin",
+    "./nextcloud-collectives",
     "./elk-kibana-dashboards",
     "./preview-interview",
     "./amneziawg-openwrt-guide",

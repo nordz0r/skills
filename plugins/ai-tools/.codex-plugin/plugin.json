@@ -1,7 +1,7 @@
 {
   "name": "ai-tools",
   "version": "1.0.0",
-  "description": "14 skills covering LiteLLM, OmniRoute, Open WebUI, Open Terminal, Playwright, Lightpanda, Qdrant semantic search, Ollama search, Nextcloud, ELK, and memory, OpenCodex, and Telegram formatting",
+  "description": "14 skills covering LiteLLM, OmniRoute, Open WebUI, Open Terminal, Playwright, Lightpanda, Qdrant semantic search, Ollama search, ELK, memory, OpenCodex, and Telegram formatting",
   "author": {
     "name": "NorD",
     "url": "https://github.com/nordz0r/skills"
@@ -23,8 +23,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "AI Tooling, Proxies & Automation Bundle",
-    "shortDescription": "14 skills covering LiteLLM, OmniRoute, Open WebUI, Open Terminal, Playwright, Lightpanda, Qdrant semantic search, Ollama search, Nextcloud, ELK, and memory, OpenCodex, and Telegram formatting",
-    "longDescription": "14 skills covering LiteLLM, OmniRoute, Open WebUI, Open Terminal, Playwright, Lightpanda, Qdrant semantic search, Ollama search, Nextcloud, ELK, and memory, OpenCodex, and Telegram formatting",
+    "shortDescription": "14 skills covering LiteLLM, OmniRoute, Open WebUI, Open Terminal, Playwright, Lightpanda, Qdrant semantic search, Ollama search, ELK, memory, OpenCodex, and Telegram formatting",
+    "longDescription": "14 skills covering LiteLLM, OmniRoute, Open WebUI, Open Terminal, Playwright, Lightpanda, Qdrant semantic search, Ollama search, ELK, memory, OpenCodex, and Telegram formatting",
     "developerName": "NorD",
     "category": "Productivity",
     "capabilities": [

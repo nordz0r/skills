@@ -1,0 +1,32 @@
+{
+  "name": "nextcloud",
+  "version": "1.0.0",
+  "description": "2 skills for full Nextcloud management via OCS API and WebDAV: files, sharing, users, and the Collectives wiki (pages, markdown, search, shares)",
+  "author": {
+    "name": "NorD",
+    "url": "https://github.com/nordz0r/skills"
+  },
+  "homepage": "https://github.com/nordz0r/skills",
+  "repository": "https://github.com/nordz0r/skills",
+  "license": "MIT",
+  "keywords": [
+    "nextcloud",
+    "webdav",
+    "ocs-api",
+    "collectives",
+    "wiki",
+    "knowledge-base"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Nextcloud Files & Wiki Bundle",
+    "shortDescription": "2 skills for full Nextcloud management via OCS API and WebDAV: files, sharing, users, and the Collectives wiki (pages, markdown, search, shares)",
+    "longDescription": "2 skills for full Nextcloud management via OCS API and WebDAV: files, sharing, users, and the Collectives wiki (pages, markdown, search, shares)",
+    "developerName": "NorD",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read"
+    ],
+    "websiteURL": "https://github.com/nordz0r/skills"
+  }
+}

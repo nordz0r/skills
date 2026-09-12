@@ -8,7 +8,7 @@ Most domain guides live inside each skill directory. The main repository README 
 
 **Catalogs and discovery:** [skills.sh](https://skills.sh) · [SkillsMP](https://skillsmp.com)
 
-**Search keywords:** Claude Code skills, Codex skills, AI agent skills, DevOps, SRE, incident response, security review, UX research, UI design, technical writing, Playwright, Lightpanda, browser automation, rendered extraction, CDP, MCP, E2E testing, screenshot testing, responsive testing, Open WebUI, Open Terminal, OmniRoute, AI router, LLM proxy, combo routing, auto-combo, Ollama Search, Qdrant code search, Nextcloud, WebDAV, OCS API, Linux, systemd, Docker, Docker Compose, GitLab CI, Ansible, AmneziaVPN, AmneziaWG, policy routing, iproute2, nftables, OpenWrt, Podkop, zapret, basic-memory, project memory.
+**Search keywords:** Claude Code skills, Codex skills, AI agent skills, DevOps, SRE, incident response, security review, UX research, UI design, technical writing, Playwright, Lightpanda, browser automation, rendered extraction, CDP, MCP, E2E testing, screenshot testing, responsive testing, Open WebUI, Open Terminal, OmniRoute, AI router, LLM proxy, combo routing, auto-combo, Ollama Search, Qdrant code search, Nextcloud, WebDAV, OCS API, Collectives, wiki, knowledge base, Linux, systemd, Docker, Docker Compose, GitLab CI, Ansible, AmneziaVPN, AmneziaWG, policy routing, iproute2, nftables, OpenWrt, Podkop, zapret, basic-memory, project memory.
 
 ## Repository at a glance
 
@@ -65,6 +65,7 @@ Most domain guides live inside each skill directory. The main repository README 
 | [ollama-search](ollama-search/) | Ollama Web Search and Web Fetch API, SDK, MCP, OpenClaw integration | ollama search, web fetch, mcp, openclaw |
 | [qdrant-codebase-search](qdrant-codebase-search/) | Semantic code search with Qdrant, Ollama, and MCP | qdrant, code search, semantic search, vector search |
 | [nextcloud-admin](nextcloud-admin/) | Nextcloud administration via OCS API and WebDAV | nextcloud, webdav, ocs api, file sharing |
+| [nextcloud-collectives](nextcloud-collectives/) | Nextcloud Collectives wiki via OCS API and WebDAV: collectives, markdown pages, page tree, search, tags, attachments, public shares, trash, versions | collectives, nextcloud wiki, knowledge base, wiki page, readme.md |
 | [elk-kibana-dashboards](elk-kibana-dashboards/) | Elasticsearch and Kibana: log analysis, dashboards, Lens/TSVB, KQL/Lucene, DSL aggregations | elasticsearch, kibana, elk, kql, lucene, lens, tsvb, dashboard, logs |
 | [atlassian](atlassian/) | Jira (issues, JQL, workflows, sprints, worklogs), Confluence (pages, CQL, labels, rich storage-format articles), Bitbucket Server/DC (PRs, commits). Cloud + Data Center | jira, confluence, bitbucket, atlassian, jql, cql, issue, ticket, sprint, wiki page |
 
@@ -87,10 +88,11 @@ This repository is structured for universal integration: install it directly as 
 claude plugin marketplace add nordz0r/skills
 
 # 2. Install bundle or individual plugins:
-claude plugin install all-skills@nord-skills       # Complete 34 skills collection
+claude plugin install all-skills@nord-skills       # Complete 35 skills collection
 claude plugin install agency-skills@nord-skills    # Agency engineering & product bundle
 claude plugin install infra-linux@nord-skills      # Linux, Docker, CI/CD, Ansible
 claude plugin install ai-tools@nord-skills         # LiteLLM, OmniRoute, WebUI, Playwright
+claude plugin install nextcloud@nord-skills        # Nextcloud: files + Collectives wiki
 claude plugin install openwrt-routing@nord-skills  # OpenWrt (AmneziaWG, Podkop, zapret)
 claude plugin install litellm-guide@nord-skills    # Specific skill plugin
 
@@ -109,12 +111,13 @@ codex plugin marketplace add nordz0r/skills
 
 # 2. Install a bundle:
 codex plugin add openwrt-routing@nord-skills
+codex plugin add nextcloud@nord-skills
 
 # 3. See what is installed:
 codex plugin list
 ```
 
-Inside an interactive Codex session: `/plugins` — pick the `nord-skills` marketplace and install any of the five bundles (`all-skills`, `agency-skills`, `infra-linux`, `ai-tools`, `openwrt-routing`).
+Inside an interactive Codex session: `/plugins` — pick the `nord-skills` marketplace and install any of the six bundles (`all-skills`, `agency-skills`, `infra-linux`, `ai-tools`, `nextcloud`, `openwrt-routing`).
 
 Installed skills become available in new sessions and are invoked by name (`openwrt-routing:zapret-openwrt-guide`) or matched automatically from the task description.
 
@@ -215,7 +218,7 @@ The PyYAML variant of `parse_frontmatter` correctly reads folded `description: >
 ```text
 skills/
 ├── .claude-plugin/
-│   ├── marketplace.json  # Claude Code plugin marketplace catalog (bundles + 32 plugins)
+│   ├── marketplace.json  # Claude Code plugin marketplace catalog (bundles + 35 plugins)
 │   └── plugin.json       # Root plugin manifest for direct installation
 ├── .agents/plugins/
 │   └── marketplace.json  # OpenAI Codex / ChatGPT plugins marketplace catalog

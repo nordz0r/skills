@@ -4,11 +4,11 @@
 
 Коллекция переиспользуемых skills для `Claude Code`, `Codex` и других агентных CLI. Репозиторий распространяется через `npx skills add nordz0r/skills` и оформлен так, чтобы его было легко читать людям, индексировать каталогам и находить через встроенный skill discovery.
 
-> English summary: reusable skills for Claude Code, Codex, and AI agents. Covers DevOps, SRE, incident response, security, UX, Playwright browser automation, Lightpanda browser automation, Open WebUI, Open Terminal, OmniRoute AI router, Ollama Search, Qdrant code search, Nextcloud, OpenWrt, and project memory workflows.
+> English summary: reusable skills for Claude Code, Codex, and AI agents. Covers DevOps, SRE, incident response, security, UX, Playwright browser automation, Lightpanda browser automation, Open WebUI, Open Terminal, OmniRoute AI router, Ollama Search, Qdrant code search, Nextcloud (files + Collectives wiki), OpenWrt, and project memory workflows.
 
 **Каталоги и discovery:** [skills.sh](https://skills.sh) · [SkillsMP](https://skillsmp.com)
 
-**Ключевые слова для поиска:** Claude Code skills, Codex skills, AI agent skills, skills.sh, SkillsMP, DevOps, SRE, incident response, security review, technical writing, UX research, UI design, Playwright, Lightpanda, browser automation, rendered extraction, CDP, MCP, headless browser for AI, E2E testing, screenshot testing, responsive testing, Open WebUI, Open Terminal, OmniRoute, AI router, LLM proxy, combo routing, auto-combo, Ollama Search, Qdrant code search, Nextcloud, WebDAV, OCS API, Linux, systemd, Docker, Docker Compose, GitLab CI, Ansible, AmneziaVPN, AmneziaWG, policy routing, iproute2, nftables, OpenWrt, Podkop, zapret, basic-memory, project memory.
+**Ключевые слова для поиска:** Claude Code skills, Codex skills, AI agent skills, skills.sh, SkillsMP, DevOps, SRE, incident response, security review, technical writing, UX research, UI design, Playwright, Lightpanda, browser automation, rendered extraction, CDP, MCP, headless browser for AI, E2E testing, screenshot testing, responsive testing, Open WebUI, Open Terminal, OmniRoute, AI router, LLM proxy, combo routing, auto-combo, Ollama Search, Qdrant code search, Nextcloud, WebDAV, OCS API, Collectives, wiki, база знаний, Linux, systemd, Docker, Docker Compose, GitLab CI, Ansible, AmneziaVPN, AmneziaWG, policy routing, iproute2, nftables, OpenWrt, Podkop, zapret, basic-memory, project memory.
 
 ## Что внутри
 
@@ -65,6 +65,7 @@
 | [ollama-search](ollama-search/) | Ollama Web Search / Web Fetch API, SDK, MCP, OpenClaw integration | ollama search, web search, web fetch, mcp, openclaw |
 | [qdrant-codebase-search](qdrant-codebase-search/) | Семантический поиск по коду через Qdrant + Ollama + MCP | qdrant, code search, semantic search, vector search, mcp qdrant |
 | [nextcloud-admin](nextcloud-admin/) | Управление Nextcloud через OCS API и WebDAV | nextcloud, webdav, ocs api, file sharing, public link |
+| [nextcloud-collectives](nextcloud-collectives/) | Nextcloud Collectives (wiki) через OCS API и WebDAV: коллективы, страницы, markdown, поиск, теги, вложения, шары, корзина, версии | collectives, nextcloud wiki, коллектив, база знаний, wiki-страница, readme.md |
 | [elk-kibana-dashboards](elk-kibana-dashboards/) | Elasticsearch и Kibana: анализ логов, дашборды, Lens/TSVB, KQL/Lucene, DSL aggregations | elasticsearch, kibana, elk, kql, lucene, lens, tsvb, dashboard, logs |
 | [atlassian](atlassian/) | Jira (задачи, JQL, workflow, спринты, worklog), Confluence (страницы, CQL, метки, красивые статьи в storage format), Bitbucket Server/DC (PR, коммиты). Cloud + Data Center | jira, confluence, bitbucket, atlassian, jql, cql, задача, тикет, спринт, wiki-страница |
 
@@ -87,10 +88,11 @@
 claude plugin marketplace add nordz0r/skills
 
 # 2. Установить бандл или отдельные плагины:
-claude plugin install all-skills@nord-skills       # Все 34 скилла
+claude plugin install all-skills@nord-skills       # Все 35 скиллов
 claude plugin install agency-skills@nord-skills    # Только Agency (10 скиллов)
 claude plugin install infra-linux@nord-skills      # Linux, Docker, CI/CD, Ansible
 claude plugin install ai-tools@nord-skills         # LiteLLM, OmniRoute, WebUI, Playwright
+claude plugin install nextcloud@nord-skills        # Nextcloud: файлы + Collectives wiki
 claude plugin install openwrt-routing@nord-skills  # OpenWrt (AmneziaWG, Podkop, zapret)
 claude plugin install litellm-guide@nord-skills    # Конкретный скилл
 
@@ -109,12 +111,13 @@ codex plugin marketplace add nordz0r/skills
 
 # 2. Установить бандл:
 codex plugin add openwrt-routing@nord-skills
+codex plugin add nextcloud@nord-skills
 
 # 3. Посмотреть, что установлено:
 codex plugin list
 ```
 
-Внутри интерактивной сессии Codex: `/plugins` — выбрать маркетплейс `nord-skills` и установить любой из пяти бандлов (`all-skills`, `agency-skills`, `infra-linux`, `ai-tools`, `openwrt-routing`).
+Внутри интерактивной сессии Codex: `/plugins` — выбрать маркетплейс `nord-skills` и установить любой из шести бандлов (`all-skills`, `agency-skills`, `infra-linux`, `ai-tools`, `nextcloud`, `openwrt-routing`).
 
 После установки скиллы доступны в новых сессиях и вызываются по имени (`openwrt-routing:zapret-openwrt-guide`) или подбираются автоматически по описанию задачи.
 
@@ -215,7 +218,7 @@ PyYAML-вариант парсера корректно читает `descriptio
 ```text
 skills/
 ├── .claude-plugin/
-│   ├── marketplace.json  # Каталог маркетплейса Claude Code (бандлы + 32 плагина)
+│   ├── marketplace.json  # Каталог маркетплейса Claude Code (бандлы + 35 плагинов)
 │   └── plugin.json       # Корневой манифест плагина для прямой установки
 ├── .agents/plugins/
 │   └── marketplace.json  # Каталог маркетплейса OpenAI Codex / ChatGPT plugins

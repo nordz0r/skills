@@ -11,7 +11,7 @@
     {
       "name": "all-skills",
       "displayName": "All Skills (Full Bundle)",
-      "description": "Complete collection of all 34 DevOps, SRE, AI tooling, Linux, and OpenWrt skills",
+      "description": "Complete collection of all 35 DevOps, SRE, AI tooling, Linux, and OpenWrt skills",
       "version": "1.0.0",
       "source": "./",
       "strict": false,
@@ -31,7 +31,7 @@
       "description": "10 specialised agency skills: DevOps, SRE, incident response, security, database optimization, technical writing, UI/UX design, research, and delight",
       "version": "1.0.0",
       "source": "./",
-      "strict": false,
+      "strict": true,
       "category": "engineering",
       "skills": [
         "./agency-database-optimizer",
@@ -62,7 +62,7 @@
       "description": "6 host administration, containerization, CI/CD, Ansible, Amnezia VPN, and policy routing skills",
       "version": "1.0.0",
       "source": "./",
-      "strict": false,
+      "strict": true,
       "category": "infrastructure",
       "skills": [
         "./administering-linux",
@@ -85,10 +85,10 @@
     {
       "name": "ai-tools",
       "displayName": "AI Tooling, Proxies & Automation Bundle",
-      "description": "14 skills covering LiteLLM, OmniRoute, Open WebUI, Open Terminal, Playwright, Lightpanda, Qdrant semantic search, Ollama search, Nextcloud, ELK, and memory, OpenCodex, and Telegram formatting",
+      "description": "14 skills covering LiteLLM, OmniRoute, Open WebUI, Open Terminal, Playwright, Lightpanda, Qdrant semantic search, Ollama search, ELK, memory, OpenCodex, and Telegram formatting",
       "version": "1.0.0",
       "source": "./",
-      "strict": false,
+      "strict": true,
       "category": "ai-tools",
       "skills": [
         "./basic-memory-workflow",
@@ -100,7 +100,6 @@
         "./open-terminal-guide",
         "./ollama-search",
         "./qdrant-codebase-search",
-        "./nextcloud-admin",
         "./elk-kibana-dashboards",
         "./preview-interview",
         "./opencodex-guide",
@@ -124,7 +123,7 @@
       "description": "3 skills for OpenWrt: AmneziaWG, Podkop (sing-box selective routing), and zapret DPI bypass",
       "version": "1.0.0",
       "source": "./",
-      "strict": false,
+      "strict": true,
       "category": "networking",
       "skills": [
         "./amneziawg-openwrt-guide",
@@ -138,6 +137,27 @@
         "sing-box",
         "zapret",
         "anti-censorship"
+      ]
+    },
+    {
+      "name": "nextcloud",
+      "displayName": "Nextcloud Files & Wiki Bundle",
+      "description": "2 skills for full Nextcloud management via OCS API and WebDAV: files, sharing, users, and the Collectives wiki (pages, markdown, search, shares)",
+      "version": "1.0.0",
+      "source": "./",
+      "strict": true,
+      "category": "infrastructure",
+      "skills": [
+        "./nextcloud-admin",
+        "./nextcloud-collectives"
+      ],
+      "tags": [
+        "nextcloud",
+        "webdav",
+        "ocs-api",
+        "collectives",
+        "wiki",
+        "knowledge-base"
       ]
     },
     {
@@ -544,6 +564,22 @@
         "webdav",
         "ocs-api",
         "cloud-storage"
+      ]
+    },
+    {
+      "name": "nextcloud-collectives",
+      "displayName": "Nextcloud Collectives Wiki",
+      "description": "Nextcloud Collectives wiki management via OCS API and WebDAV: collectives, markdown pages, page tree, search, tags, attachments, public shares, and trash",
+      "source": "./nextcloud-collectives",
+      "strict": false,
+      "category": "ai-tools",
+      "tags": [
+        "nextcloud",
+        "collectives",
+        "wiki",
+        "knowledge-base",
+        "markdown",
+        "ocs-api"
       ]
     },
     {
