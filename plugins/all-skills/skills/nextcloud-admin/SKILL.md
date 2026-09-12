@@ -69,14 +69,20 @@ curl -sf -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" -H "OCS-APIRequest: true" \
 - Не выводи `NEXTCLOUD_TOKEN` и `NEXTCLOUD_ADMIN_TOKEN` в логи, заголовки примеров, issue-трекер и финальные ответы.
 
 ```bash
-# Безопасное кодирование path-сегмента, полученного с сервера
+# Один сегмент (имя файла или папки): кодируется целиком
 nc_urlencode() { jq -nr --arg v "$1" '$v|@uri'; }
 
+# Целый путь: @uri кодирует и слэши (%2F), поэтому разделители возвращаем обратно.
+# Без этого 'Documents/report 2026.pdf' превратится в 'Documents%2Freport%202026.pdf'
+# — запрос уйдёт на несуществующий файл с таким именем и вернёт 404.
+nc_urlencode_path() { jq -nr --arg v "$1" '$v|@uri|gsub("%2F"; "/")'; }
+
 server_path='Documents/report 2026.pdf'
-encoded_path="$(nc_urlencode "$server_path")"
 curl -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" \
-  "$NEXTCLOUD_URL/remote.php/dav/files/$NEXTCLOUD_USER/$encoded_path"
+  "$NEXTCLOUD_URL/remote.php/dav/files/$NEXTCLOUD_USER/$(nc_urlencode_path "$server_path")"
 ```
+
+Кириллица и пробелы в именах — обычное дело, поэтому кодируй путь всегда, а не только когда «выглядит подозрительно».
 
 ## Базовые принципы
 
@@ -189,6 +195,11 @@ curl -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" \
 # Удалённые файлы
 curl -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" -X PROPFIND -H "Depth: 1" \
   "$NEXTCLOUD_URL/remote.php/dav/trashbin/$NEXTCLOUD_USER/trash/"
+
+# Восстановить — MOVE в коллекцию restore; сервер сам вернёт файл на место
+curl -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" -X MOVE \
+  -H "Destination: $NEXTCLOUD_URL/remote.php/dav/trashbin/$NEXTCLOUD_USER/restore" \
+  "$NEXTCLOUD_URL/remote.php/dav/trashbin/$NEXTCLOUD_USER/trash/{filename}"
 
 # Версии файла — по числовому fileId, не по имени
 curl -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" -X PROPFIND -H "Depth: 1" \
@@ -472,5 +483,5 @@ fi
 - `nextcloud-collectives` — wiki поверх того же инстанса: коллективы, дерево страниц, markdown-контент статей.
 
 <!-- A-EVOLVE-ROUTING-SIGNALS:START -->
-## Routing signals: nextcloud webdav ocs api remote.php dav files folders propfind mkcol chunked upload sharing public link share password expiredate users groups subadmin app passwords permissions quota capabilities admin
+## Routing signals: nextcloud webdav ocs-api remote.php/dav propfind mkcol chunked-upload nextcloud-файлы nextcloud-шара public-link share-password expiredate nextcloud-пользователи provisioning subadmin app-токен quota trashbin capabilities
 <!-- A-EVOLVE-ROUTING-SIGNALS:END -->

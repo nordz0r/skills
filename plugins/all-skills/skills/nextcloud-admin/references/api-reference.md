@@ -7,7 +7,10 @@
 - Используй app-токены, а не пароли пользователя, и не отправляй admin-токен на недоверенный `NEXTCLOUD_URL`.
 
 ```bash
+# Одно имя файла или папки
 nc_urlencode() { jq -nr --arg v "$1" '$v|@uri'; }
+# Путь из нескольких сегментов: @uri кодирует и слэши, разделители возвращаем
+nc_urlencode_path() { jq -nr --arg v "$1" '$v|@uri|gsub("%2F"; "/")'; }
 
 while IFS= read -r remote_name; do
   encoded_name="$(nc_urlencode "$remote_name")"
@@ -15,6 +18,8 @@ while IFS= read -r remote_name; do
     "$NEXTCLOUD_URL/remote.php/dav/files/$NEXTCLOUD_USER/$encoded_name"
 done
 ```
+
+Путь целиком (`Документы/отчёт 2026.pdf`) прогоняй через `nc_urlencode_path`, иначе разделители станут `%2F` и сервер вернёт 404 на файл с таким именем.
 
 ## Содержание
 
@@ -210,17 +215,25 @@ curl -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" \
   -H "Depth: 1" \
   "$NEXTCLOUD_URL/remote.php/dav/trashbin/$NEXTCLOUD_USER/trash/"
 
-# Восстановить файл
+# Восстановить файл — MOVE в служебную коллекцию restore, а не в files/.
+# Сервер сам вернёт файл на исходное место, путь назначения указывать не нужно.
 curl -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" \
   -X MOVE \
-  -H "Destination: $NEXTCLOUD_URL/remote.php/dav/files/$NEXTCLOUD_USER/restored-file.txt" \
+  -H "Destination: $NEXTCLOUD_URL/remote.php/dav/trashbin/$NEXTCLOUD_USER/restore" \
   "$NEXTCLOUD_URL/remote.php/dav/trashbin/$NEXTCLOUD_USER/trash/{filename}"
 
-# Очистить корзину (удалить всё)
+# Удалить из корзины один элемент безвозвратно
+curl -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" \
+  -X DELETE \
+  "$NEXTCLOUD_URL/remote.php/dav/trashbin/$NEXTCLOUD_USER/trash/{filename}"
+
+# Очистить корзину целиком
 curl -u "$NEXTCLOUD_USER:$NEXTCLOUD_TOKEN" \
   -X DELETE \
   "$NEXTCLOUD_URL/remote.php/dav/trashbin/$NEXTCLOUD_USER/trash"
 ```
+
+`PROPFIND` по корзине отдаёт три дополнительных свойства в неймспейсе `http://nextcloud.org/ns`, по ним восстанавливаемый файл и опознают: `trashbin-filename` (исходное имя), `trashbin-original-location` (откуда удалён), `trashbin-deletion-time`.
 
 ---
 
