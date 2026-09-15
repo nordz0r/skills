@@ -68,6 +68,18 @@ for (const dir of skillDirs) {
   const nameMatch = frontmatter.match(/^name:\s*(.+)$/m);
   const descMatch = frontmatter.match(/^description:\s*(?:>|\|)?\s*\r?\n?\s*([^\r\n]+(?:\r?\n\s+[^\r\n]+)*)/m);
 
+  // Strict YAML 1.2 parsers (used by `npx skills`) reject plain scalars
+  // containing ": " — the value would parse as a nested mapping.
+  for (const line of frontmatter.split(/\r?\n/)) {
+    const kv = line.match(/^([A-Za-z][A-Za-z0-9_-]*):\s(.+)$/);
+    if (!kv) continue;
+    const value = kv[2].trim();
+    if (/^['"{[|>&*]/.test(value)) continue;
+    if (value.includes(': ')) {
+      logError(`[${dir}] SKILL.md frontmatter '${kv[1]}' contains ': ' inside a plain scalar — quote the value or use a folded block scalar (>)`);
+    }
+  }
+
   if (!nameMatch) {
     logError(`[${dir}] SKILL.md frontmatter missing 'name'`);
   } else {

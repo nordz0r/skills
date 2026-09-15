@@ -148,6 +148,43 @@ npx skills add nordz0r/skills -s litellm-guide -g
 
 Restart the agent session after installation when possible. Many CLIs only load the available skill list on startup.
 
+### 4. Hermes Agent (`hermes skills`)
+
+The repository is compatible with Hermes Agent (Nous Research): skills install straight from GitHub and update through the built-in hub lifecycle.
+
+```bash
+# Install a single skill directly (owner/repo/<skill-dir>)
+hermes skills install nordz0r/skills/ollama-search
+
+# Add the whole repository as a tap (browsable via /skills browse)
+hermes skills tap add nordz0r/skills
+```
+
+`tap add` defaults to scanning a `skills/` subdirectory, while this repository keeps skills at the root — so after adding the tap, set the path in `$HERMES_HOME/skills/.hub/taps.json` (`HERMES_HOME` defaults to `~/.hermes`):
+
+```json
+{
+  "taps": [
+    { "repo": "nordz0r/skills", "path": "" }
+  ]
+}
+```
+
+Skills Hub categories are read from `skills.sh.json` at the repository root. Note that `search`/`browse` walks the large built-in taps first (openai, anthropics, NVIDIA, etc.), so a freshly added tap may not surface in search immediately — direct install by identifier always works.
+
+```bash
+# Check which installed skills changed upstream
+hermes skills check
+
+# Update only skills with upstream changes (local edits are preserved)
+hermes skills update
+
+# Force-overwrite a single skill
+hermes skills update ollama-search --force
+```
+
+On install Hermes copies `SKILL.md` plus only the files it references (`references/`, `scripts/`); private repos need `GITHUB_TOKEN`. Without a token the GitHub API is limited to 60 requests/hour.
+
 ## How to use
 
 ### Explicit invocation

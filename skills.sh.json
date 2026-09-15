@@ -1,0 +1,70 @@
+{
+  "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+  "groupings": [
+    {
+      "title": "Agency Engineering & Product",
+      "skills": [
+        "agency-database-optimizer",
+        "agency-devops-automator",
+        "agency-incident-response-commander",
+        "agency-security-engineer",
+        "agency-sre",
+        "agency-technical-writer",
+        "agency-ui-designer",
+        "agency-ux-architect",
+        "agency-ux-researcher",
+        "agency-whimsy-injector"
+      ]
+    },
+    {
+      "title": "Linux, Containers & CI/CD",
+      "skills": [
+        "administering-linux",
+        "docker-ops",
+        "gitlab-ci",
+        "ansible-playbook",
+        "amnezia-vpn",
+        "linux-routing"
+      ]
+    },
+    {
+      "title": "AI Tooling, Proxies & Automation",
+      "skills": [
+        "basic-memory-workflow",
+        "playwright-skill",
+        "lightpanda-browser",
+        "litellm-guide",
+        "omniroute-guide",
+        "open-webui-guide",
+        "open-terminal-guide",
+        "ollama-search",
+        "qdrant-codebase-search",
+        "elk-kibana-dashboards",
+        "preview-interview",
+        "opencodex-guide",
+        "telegram-formatting"
+      ]
+    },
+    {
+      "title": "OpenWrt & Anti-Censorship",
+      "skills": [
+        "amneziawg-openwrt-guide",
+        "podkop-openwrt-guide",
+        "zapret-openwrt-guide"
+      ]
+    },
+    {
+      "title": "Nextcloud",
+      "skills": [
+        "nextcloud-admin",
+        "nextcloud-collectives"
+      ]
+    },
+    {
+      "title": "Atlassian",
+      "skills": [
+        "atlassian"
+      ]
+    }
+  ]
+}
