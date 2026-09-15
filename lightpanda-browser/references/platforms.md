@@ -17,7 +17,7 @@ Resolve runtime in this order:
 
 1. Explicit cloud endpoint via `LIGHTPANDA_CDP_URL` or `LIGHTPANDA_MCP_URL`
 2. Local binary via `LIGHTPANDA_BIN` or `lightpanda` in `PATH`
-3. Docker image `lightpanda/browser:nightly`
+3. Docker image `lightpanda/browser:0.4.0` (pinned stable tag; override via `LIGHTPANDA_DOCKER_IMAGE`, e.g. to `nightly`)
 4. Derived cloud endpoint from `LIGHTPANDA_TOKEN` and optional `LIGHTPANDA_CLOUD_REGION`
 
 ## Environment variables
@@ -27,7 +27,7 @@ Resolve runtime in this order:
 - `LIGHTPANDA_MCP_URL`: remote MCP SSE endpoint such as `https://euwest.cloud.lightpanda.io/mcp/sse?token=...`.
 - `LIGHTPANDA_TOKEN`: cloud token used to derive endpoints when explicit URLs are absent.
 - `LIGHTPANDA_CLOUD_REGION`: `euwest` or `uswest`; defaults to `euwest`.
-- `LIGHTPANDA_DOCKER_IMAGE`: override the default Docker image.
+- `LIGHTPANDA_DOCKER_IMAGE`: override the default Docker image; the default is a pinned stable tag, so set this explicitly if you intentionally want a moving tag such as `nightly`.
 - `LIGHTPANDA_DISABLE_TELEMETRY`: set to `true` by default in local launch helpers.
 
 ## Windows and WSL notes

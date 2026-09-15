@@ -6,7 +6,8 @@ const os = require('os');
 const path = require('path');
 const { spawn, spawnSync } = require('child_process');
 
-const DEFAULT_DOCKER_IMAGE = process.env.LIGHTPANDA_DOCKER_IMAGE || 'lightpanda/browser:nightly';
+// Pinned stable tag by default; `nightly` is opt-in via LIGHTPANDA_DOCKER_IMAGE.
+const DEFAULT_DOCKER_IMAGE = process.env.LIGHTPANDA_DOCKER_IMAGE || 'lightpanda/browser:0.4.0';
 const DEFAULT_HOST = process.env.LIGHTPANDA_HOST || '127.0.0.1';
 const DEFAULT_PORT = parseInt(process.env.LIGHTPANDA_PORT || '9222', 10);
 const DEFAULT_TIMEOUT = parseInt(process.env.LIGHTPANDA_TIMEOUT || '10', 10);

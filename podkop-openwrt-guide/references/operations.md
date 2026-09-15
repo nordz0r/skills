@@ -41,7 +41,14 @@ sh /tmp/podkop-install.sh
 
 Перед запуском зафиксируй `PODKOP_REF`, сверь release notes/commit и не выполняй удалённый install script напрямую с плавающей ветки `main`.
 
-Если есть возможность, предпочитай скачать release-артефакты и install script на доверенной машине, проверить checksum/содержимое и только потом переносить их на роутер для установки.
+Если есть возможность, предпочитай скачать release-артефакты и install script на доверенной машине, проверить checksum/содержимое и только потом переносить их на роутер для установки:
+
+```sh
+# На доверенной машине: сверить sha256 со значением из release notes репозитория podkop
+curl -fsSL -o podkop-install.sh \
+  "https://raw.githubusercontent.com/itdoginfo/podkop/${PODKOP_REF}/install.sh"
+sha256sum podkop-install.sh   # сравни с опубликованным hash; не совпал — не запускай
+```
 
 Скрипт:
 
