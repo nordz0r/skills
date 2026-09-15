@@ -54,7 +54,6 @@ Most domain guides live inside each skill directory. The main repository README 
 | Skill | Scope | Keywords |
 |------|-------|----------|
 | [basic-memory-workflow](basic-memory-workflow/) | Project memory workflow, ADRs, meeting notes, stable facts | basic-memory, project memory, adr, recall context |
-| [playwright-skill](playwright-skill/) | Playwright browser automation for screenshots, responsive checks, login flows, forms, and dev-server detection | playwright, browser automation, e2e, responsive testing, screenshots |
 | [lightpanda-browser](lightpanda-browser/) | Lightpanda runtime for rendered extraction, CDP automation, and MCP browsing across Windows, Linux, macOS, and WSL | lightpanda, rendered extraction, cdp, mcp, semantic tree, markdown dump, wsl |
 | [litellm-guide](litellm-guide/) | LiteLLM SDK, proxy/gateway, providers, routing, APIs, MCP/A2A, troubleshooting, and repo development | litellm, proxy, gateway, providers, routing, virtual keys, mcp, openai-compatible |
 | [opencodex-guide](opencodex-guide/) | OpenCodex CLI guide: account pools, routing, models | opencodex, ocx, proxy, llm proxy |
@@ -62,8 +61,6 @@ Most domain guides live inside each skill directory. The main repository README 
 | [omniroute-guide](omniroute-guide/) | OmniRoute unified AI router: 237 providers, combo/auto routing, MCP (94 tools), A2A, resilience, dashboard, CLI integrations | omniroute, ai router, llm proxy, combo routing, auto-combo, mcp, a2a, circuit breaker, provider fallback |
 | [open-webui-guide](open-webui-guide/) | Open WebUI architecture, auth, functions, pipelines, API, RAG, scaling | open webui, pipelines, rag, oauth, ldap, jwt |
 | [open-terminal-guide](open-terminal-guide/) | Open Terminal self-hosted REST API for AI agents | open terminal, terminal api, /execute, sandbox api |
-| [ollama-search](ollama-search/) | Ollama Web Search and Web Fetch API, SDK, MCP, OpenClaw integration | ollama search, web fetch, mcp, openclaw |
-| [qdrant-codebase-search](qdrant-codebase-search/) | Semantic code search with Qdrant, Ollama, and MCP | qdrant, code search, semantic search, vector search |
 | [nextcloud-admin](nextcloud-admin/) | Nextcloud administration via OCS API and WebDAV | nextcloud, webdav, ocs api, file sharing |
 | [nextcloud-collectives](nextcloud-collectives/) | Nextcloud Collectives wiki via OCS API and WebDAV: collectives, markdown pages, page tree, search, tags, attachments, public shares, trash, versions | collectives, nextcloud wiki, knowledge base, wiki page, readme.md |
 | [elk-kibana-dashboards](elk-kibana-dashboards/) | Elasticsearch and Kibana: log analysis, dashboards, Lens/TSVB, KQL/Lucene, DSL aggregations | elasticsearch, kibana, elk, kql, lucene, lens, tsvb, dashboard, logs |
@@ -88,7 +85,7 @@ This repository is structured for universal integration: install it directly as 
 claude plugin marketplace add nordz0r/skills
 
 # 2. Install bundle or individual plugins:
-claude plugin install all-skills@nord-skills       # Complete 35 skills collection
+claude plugin install all-skills@nord-skills       # Complete 32 skills collection
 claude plugin install agency-skills@nord-skills    # Agency engineering & product bundle
 claude plugin install infra-linux@nord-skills      # Linux, Docker, CI/CD, Ansible
 claude plugin install ai-tools@nord-skills         # LiteLLM, OmniRoute, WebUI, Playwright
@@ -154,7 +151,7 @@ The repository is compatible with Hermes Agent (Nous Research): skills install s
 
 ```bash
 # Install a single skill directly (owner/repo/<skill-dir>)
-hermes skills install nordz0r/skills/ollama-search
+hermes skills install nordz0r/skills/open-webui-guide
 
 # Add the whole repository as a tap (browsable via /skills browse)
 hermes skills tap add nordz0r/skills
@@ -180,7 +177,7 @@ hermes skills check
 hermes skills update
 
 # Force-overwrite a single skill
-hermes skills update ollama-search --force
+hermes skills update open-webui-guide --force
 ```
 
 On install Hermes copies `SKILL.md` plus only the files it references (`references/`, `scripts/`); private repos need `GITHUB_TOKEN`. Without a token the GitHub API is limited to 60 requests/hour.
@@ -194,7 +191,6 @@ Call the skill by name in your first prompt.
 ```text
 Use agency-devops-automator and build CI/CD for k3s with rollback.
 Use agency-ui-designer and agency-ux-architect for an admin UI redesign.
-Use qdrant-codebase-search to search code and git history semantically.
 Use basic-memory-workflow and check project memory before making changes.
 ```
 
@@ -255,7 +251,7 @@ The PyYAML variant of `parse_frontmatter` correctly reads folded `description: >
 ```text
 skills/
 ├── .claude-plugin/
-│   ├── marketplace.json  # Claude Code plugin marketplace catalog (bundles + 35 plugins)
+│   ├── marketplace.json  # Claude Code plugin marketplace catalog (bundles + 32 plugins)
 │   └── plugin.json       # Root plugin manifest for direct installation
 ├── .agents/plugins/
 │   └── marketplace.json  # OpenAI Codex / ChatGPT plugins marketplace catalog

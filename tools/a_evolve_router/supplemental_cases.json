@@ -119,13 +119,6 @@
     "split": "train"
   },
   {
-    "task_id": "playwright-skill__neg-lightpanda",
-    "prompt": "Мне нужно прогнать e2e тест на публичном сайте через Playwright и собрать скриншоты.",
-    "expected_skill": "playwright-skill",
-    "expected_output": "Стандартный Playwright; lightpanda-browser — это про рендеринг/обход блокировок, не основной путь.",
-    "split": "train"
-  },
-  {
     "task_id": "preview-interview__neg-writer",
     "prompt": "Завтра у меня финальный интервью в FAANG, прогоним STAR answers по System Design.",
     "expected_skill": "preview-interview",

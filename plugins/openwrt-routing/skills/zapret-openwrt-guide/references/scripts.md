@@ -217,7 +217,14 @@ DAEMON_LOG_ENABLE, DAEMON_LOG_SIZE_MAX, DAEMON_LOG_FILE
 6. Запускает сервис
 7. Выводит `RESULT: (+) Updated`
 
-Перед реальной установкой сверяй URL архива, expected version и источник пакета. Не трактуй внешний ZIP как “доверенный по умолчанию”.
+Перед реальной установкой сверяй URL архива, expected version и источник пакета. Не трактуй внешний ZIP как “доверенный по умолчанию”:
+
+```sh
+# Ручная проверка архива до установки
+curl -fsSL -o /tmp/zapret-pkg.zip "<URL из ZAP_PKG_URL>"
+sha256sum /tmp/zapret-pkg.zip   # сверь с checksum из release notes репозитория
+unzip -l /tmp/zapret-pkg.zip    # внутри должны быть только ожидаемые .ipk/.apk
+```
 
 ### Поддержка менеджеров пакетов
 

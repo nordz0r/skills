@@ -28,4 +28,4 @@ Treat as best-effort:
 
 ## Fallback rule
 
-If the task is primarily about screenshots, download handling, or Chromium-specific browser automation reliability, switch to `playwright-skill` and say why.
+If the task is primarily about screenshots, download handling, or Chromium-specific browser automation reliability, say so and let the user switch to a dedicated Playwright setup.

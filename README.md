@@ -54,7 +54,6 @@
 | Skill | Фокус | Trigger keywords |
 |------|-------|------------------|
 | [basic-memory-workflow](basic-memory-workflow/) | Работа с project memory: recall context, ADR, meeting notes, stable facts | basic-memory, project memory, recall context, adr, summary |
-| [playwright-skill](playwright-skill/) | Автоматизация браузера через Playwright: скриншоты, responsive checks, формы, login flows, dev-server detection | playwright, browser automation, e2e, responsive testing, screenshots |
 | [lightpanda-browser](lightpanda-browser/) | Lightpanda как runtime для rendered extraction, CDP automation и MCP browsing под Win/Linux/macOS/WSL | lightpanda, rendered extraction, cdp, mcp, semantic tree, markdown dump, wsl |
 | [litellm-guide](litellm-guide/) | LiteLLM: SDK, proxy/gateway, providers, routing, API, MCP/A2A, troubleshooting и repo development | litellm, proxy, gateway, providers, routing, virtual keys, mcp, openai-compatible |
 | [opencodex-guide](opencodex-guide/) | OpenCodex: account pools, provider routing, CLI management | opencodex, ocx, proxy, llm proxy |
@@ -62,8 +61,6 @@
 | [omniroute-guide](omniroute-guide/) | OmniRoute: AI router/proxy, 237 providers, combo/auto routing, MCP (94 tools), A2A, resilience, dashboard, CLI setup | omniroute, ai router, llm proxy, combo routing, auto-combo, mcp, a2a, circuit breaker, provider fallback |
 | [open-webui-guide](open-webui-guide/) | Open WebUI: architecture, auth, functions, pipelines, API, RAG, scaling | open webui, pipelines, rag, oauth, ldap, jwt, docker-compose |
 | [open-terminal-guide](open-terminal-guide/) | Open Terminal: self-hosted terminal REST API for AI agents | open terminal, terminal api, /execute, /files, sandbox api |
-| [ollama-search](ollama-search/) | Ollama Web Search / Web Fetch API, SDK, MCP, OpenClaw integration | ollama search, web search, web fetch, mcp, openclaw |
-| [qdrant-codebase-search](qdrant-codebase-search/) | Семантический поиск по коду через Qdrant + Ollama + MCP | qdrant, code search, semantic search, vector search, mcp qdrant |
 | [nextcloud-admin](nextcloud-admin/) | Управление Nextcloud через OCS API и WebDAV | nextcloud, webdav, ocs api, file sharing, public link |
 | [nextcloud-collectives](nextcloud-collectives/) | Nextcloud Collectives (wiki) через OCS API и WebDAV: коллективы, страницы, markdown, поиск, теги, вложения, шары, корзина, версии | collectives, nextcloud wiki, коллектив, база знаний, wiki-страница, readme.md |
 | [elk-kibana-dashboards](elk-kibana-dashboards/) | Elasticsearch и Kibana: анализ логов, дашборды, Lens/TSVB, KQL/Lucene, DSL aggregations | elasticsearch, kibana, elk, kql, lucene, lens, tsvb, dashboard, logs |
@@ -88,7 +85,7 @@
 claude plugin marketplace add nordz0r/skills
 
 # 2. Установить бандл или отдельные плагины:
-claude plugin install all-skills@nord-skills       # Все 35 скиллов
+claude plugin install all-skills@nord-skills       # Все 32 скилла
 claude plugin install agency-skills@nord-skills    # Только Agency (10 скиллов)
 claude plugin install infra-linux@nord-skills      # Linux, Docker, CI/CD, Ansible
 claude plugin install ai-tools@nord-skills         # LiteLLM, OmniRoute, WebUI, Playwright
@@ -154,7 +151,7 @@ npx skills add nordz0r/skills -s litellm-guide -g
 
 ```bash
 # Установить один skill напрямую (owner/repo/<имя-skill>)
-hermes skills install nordz0r/skills/ollama-search
+hermes skills install nordz0r/skills/open-webui-guide
 
 # Подключить весь репозиторий как tap (навигация в /skills browse)
 hermes skills tap add nordz0r/skills
@@ -180,7 +177,7 @@ hermes skills check
 hermes skills update
 
 # Принудительно перезаписать один skill
-hermes skills update ollama-search --force
+hermes skills update open-webui-guide --force
 ```
 
 При установке Hermes копирует `SKILL.md` и только те файлы, на которые он ссылается (`references/`, `scripts/`); для приватных репозиториев нужен `GITHUB_TOKEN`. Без токена GitHub API ограничен 60 запросами/час.
@@ -194,7 +191,6 @@ hermes skills update ollama-search --force
 ```text
 Используй agency-devops-automator и собери CI/CD для k3s с rollback.
 Используй agency-ui-designer и agency-ux-architect для редизайна админки.
-Используй qdrant-codebase-search для поиска по коду и git-истории.
 Используй basic-memory-workflow и проверь project memory перед изменениями.
 ```
 
@@ -255,7 +251,7 @@ PyYAML-вариант парсера корректно читает `descriptio
 ```text
 skills/
 ├── .claude-plugin/
-│   ├── marketplace.json  # Каталог маркетплейса Claude Code (бандлы + 35 плагинов)
+│   ├── marketplace.json  # Каталог маркетплейса Claude Code (бандлы + 32 плагина)
 │   └── plugin.json       # Корневой манифест плагина для прямой установки
 ├── .agents/plugins/
 │   └── marketplace.json  # Каталог маркетплейса OpenAI Codex / ChatGPT plugins

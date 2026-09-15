@@ -11,7 +11,7 @@
     {
       "name": "all-skills",
       "displayName": "All Skills (Full Bundle)",
-      "description": "Complete collection of all 35 DevOps, SRE, AI tooling, Linux, and OpenWrt skills",
+      "description": "Complete collection of all 32 DevOps, SRE, AI tooling, Linux, and OpenWrt skills",
       "version": "1.0.0",
       "source": "./",
       "strict": false,
@@ -85,21 +85,18 @@
     {
       "name": "ai-tools",
       "displayName": "AI Tooling, Proxies & Automation Bundle",
-      "description": "14 skills covering LiteLLM, OmniRoute, Open WebUI, Open Terminal, Playwright, Lightpanda, Qdrant semantic search, Ollama search, ELK, memory, OpenCodex, and Telegram formatting",
+      "description": "10 skills covering LiteLLM, OmniRoute, Open WebUI, Open Terminal, Lightpanda, ELK, memory, OpenCodex, and Telegram formatting",
       "version": "1.0.0",
       "source": "./",
       "strict": true,
       "category": "ai-tools",
       "skills": [
         "./basic-memory-workflow",
-        "./playwright-skill",
         "./lightpanda-browser",
         "./litellm-guide",
         "./omniroute-guide",
         "./open-webui-guide",
         "./open-terminal-guide",
-        "./ollama-search",
-        "./qdrant-codebase-search",
         "./elk-kibana-dashboards",
         "./preview-interview",
         "./opencodex-guide",
@@ -109,10 +106,7 @@
         "litellm",
         "omniroute",
         "open-webui",
-        "playwright",
         "lightpanda",
-        "qdrant",
-        "ollama",
         "opencodex",
         "telegram"
       ]
@@ -434,21 +428,6 @@
       ]
     },
     {
-      "name": "playwright-skill",
-      "displayName": "Playwright Browser Automation",
-      "description": "Playwright automation runtime: visual testing, full-page screenshots, form filling, login flows, and dev server checks",
-      "source": "./playwright-skill",
-      "strict": false,
-      "category": "ai-tools",
-      "tags": [
-        "playwright",
-        "browser-automation",
-        "e2e",
-        "testing",
-        "screenshots"
-      ]
-    },
-    {
       "name": "lightpanda-browser",
       "displayName": "Lightpanda Headless Browser",
       "description": "Lightpanda headless browser runtime for fast rendered extraction, CDP automation, semantic DOM trees, and MCP browsing",
@@ -520,36 +499,6 @@
         "code-execution",
         "sandbox",
         "agent-tools"
-      ]
-    },
-    {
-      "name": "ollama-search",
-      "displayName": "Ollama Web Search & Fetch",
-      "description": "Ollama Web Search and Web Fetch APIs, Python/JS SDKs, MCP server integration, and OpenClaw web search",
-      "source": "./ollama-search",
-      "strict": false,
-      "category": "ai-tools",
-      "tags": [
-        "ollama",
-        "web-search",
-        "web-fetch",
-        "mcp",
-        "search"
-      ]
-    },
-    {
-      "name": "qdrant-codebase-search",
-      "displayName": "Qdrant Codebase Semantic Search",
-      "description": "Semantic codebase indexing and vector search via Qdrant, Ollama embeddings, and MCP server tooling",
-      "source": "./qdrant-codebase-search",
-      "strict": false,
-      "category": "ai-tools",
-      "tags": [
-        "qdrant",
-        "vector-search",
-        "code-search",
-        "embeddings",
-        "semantic-search"
       ]
     },
     {

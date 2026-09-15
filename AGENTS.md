@@ -38,8 +38,6 @@ skills/
 ├── preview-interview/                # Interview preparation workflow
 ├── nextcloud-admin/                  # Nextcloud OCS API + WebDAV
 ├── nextcloud-collectives/            # Nextcloud Collectives wiki (OCS API + WebDAV)
-├── ollama-search/                    # Ollama Web Search / Fetch API + scripts
-├── playwright-skill/                 # Playwright browser automation + Node runtime
 ├── open-terminal-guide/              # Open Terminal guide
 ├── open-webui-guide/                 # Largest reference set
 ├── administering-linux/              # systemd / journald / host troubleshooting
@@ -50,7 +48,6 @@ skills/
 ├── linux-routing/                    # iproute2 PBR + nftables
 ├── amneziawg-openwrt-guide/          # AmneziaWG on OpenWrt
 ├── podkop-openwrt-guide/             # Podkop / sing-box on OpenWrt
-├── qdrant-codebase-search/           # Qdrant + Ollama semantic code search + scripts
 └── zapret-openwrt-guide/             # zapret-openwrt guide
 ```
 
@@ -87,8 +84,6 @@ All 10 `agency-*` skills currently follow the same pattern:
 - `linux-routing`
 - `nextcloud-admin`
 - `nextcloud-collectives`
-- `ollama-search`
-- `playwright-skill`
 - `lightpanda-browser`
 - `litellm-guide`
 - `omniroute-guide`
@@ -98,7 +93,6 @@ All 10 `agency-*` skills currently follow the same pattern:
 - `preview-interview`
 - `amneziawg-openwrt-guide`
 - `podkop-openwrt-guide`
-- `qdrant-codebase-search`
 - `zapret-openwrt-guide`
 - `atlassian`
 
@@ -110,8 +104,8 @@ All 10 `agency-*` skills currently follow the same pattern:
 | Trigger wording for a skill | `<skill>/SKILL.md` frontmatter | `description` is the main auto-trigger surface for agents |
 | Frontmatter example | Any `SKILL.md` | `name` must match directory name; `metadata` is optional |
 | Eval prompt examples | `<skill>/evals/evals.json`, `agency-*/evals/evals.json` | Useful for trigger QA and smoke tests |
-| OpenClaw metadata example | `ollama-search/SKILL.md` | Currently the clearest `metadata.openclaw` example |
-| Script patterns | `ollama-search/scripts/`, `qdrant-codebase-search/scripts/`, `playwright-skill/scripts/` | Bash wrappers, Node executors, and setup helpers |
+| OpenClaw metadata example | `lightpanda-browser/SKILL.md`, `litellm-guide/` | Remaining `metadata.openclaw` / agent metadata examples |
+| Script patterns | `lightpanda-browser/scripts/` | Node executors and setup helpers |
 | Largest reference set | `open-webui-guide/references/` | 11 files; best example of deep multi-file documentation |
 | Routing benchmark | `tools/a_evolve_router/` | Baseline/evolution loop for skill trigger wording |
 | Memory workflow conventions | `basic-memory-workflow/SKILL.md` | How this environment expects project memory to be used |
@@ -126,7 +120,7 @@ All 10 `agency-*` skills currently follow the same pattern:
 <skill-name>/
 ├── SKILL.md
 ├── evals/         # optional; used heavily by agency-* skills
-├── scripts/       # optional; currently present in ollama-search, qdrant-codebase-search, and playwright-skill
+├── scripts/       # optional; currently present in lightpanda-browser and atlassian
 └── references/    # optional; one topic per file
 ```
 
@@ -169,9 +163,8 @@ metadata: {...}   # optional
 - Repo-level discovery matters: `README.md` and `README.en.md` are part of search/catalog visibility, not just human docs.
 - Runtime auto-triggering still depends primarily on each skill's `SKILL.md`, especially `description`.
 - `tools/a_evolve_router` tests routing quality from `<skill>/evals/evals.json` against isolated workspace copies; it is safe to delete `.workdir/`.
-- Env-based configuration is common for integration skills: `OLLAMA_SEARCH_API_KEY`, `NEXTCLOUD_URL`, and similar variables are documented in-skill.
-- `ollama-search`, `qdrant-codebase-search`, and `playwright-skill` currently ship executable `scripts/`.
-- `playwright-skill` is an imported third-party runtime skill with a root `package.json`, a Node executor, and a large reference file.
+- Env-based configuration is common for integration skills: `NEXTCLOUD_URL`, `LIGHTPANDA_CDP_URL`, and similar variables are documented in-skill.
+- `lightpanda-browser` ships executable `scripts/` (Node executors for fetch/serve/MCP runtime resolution).
 - `open-webui-guide` has the deepest reference tree and is the best template for a large guide.
 - `basic-memory-workflow` is a workflow skill, not a product/API guide.
 
@@ -215,16 +208,14 @@ npx skills add nordz0r/skills -s litellm-guide -g
 
 ## NOTES
 
-- Current inventory: 35 skills total.
+- Current inventory: 32 skills total.
 - `agency-*` accounts for 10 of those skills.
 - `open-webui-guide` has 11 reference files and is still the largest single documentation set.
-- `ollama-search` has 4 reference files and 2 scripts.
-- `playwright-skill` has 1 reference file, 2 script files, and a root `package.json`.
 - `litellm-guide` has 6 reference files, an OpenAI agent metadata file, and evals for `a_evolve_router`.
 - `omniroute-guide` has 11 reference files and evals for `a_evolve_router`; second-largest reference set after `open-webui-guide`.
 - `lightpanda-browser` has 5 reference files, 3 Node scripts, an OpenAI agent metadata file, and a root `package.json`.
-- `qdrant-codebase-search` has 2 reference files and 2 scripts.
 - `basic-memory-workflow` has only `SKILL.md`; no `references/`, `scripts/`, or `evals/`.
+- Removed in September 2026 after a skills.sh security-audit review (unremediated MEDIUM warnings): `playwright-skill` (arbitrary JS executor + auto npm installs), `ollama-search`, `qdrant-codebase-search` (`npx -y` runtime code fetch). Stale entries persist on skills.sh with their install counts.
 - `atlassian` is vendored from [langpingxue/atlassian-skills](https://github.com/langpingxue/atlassian-skills) (MIT): 18 Python modules under `scripts/` (Jira/Confluence/Bitbucket REST), 2 local reference files (JQL/CQL cookbook, Confluence storage-format formatting), plus `.env.example`. It is the only skill with a `requirements.txt` — document `pip install -r requirements.txt` when using it.
 - `skills.sh.json` at the repo root is the Hermes Skills Hub category manifest (`groupings[].title/skills`); groupings mirror the `.claude-plugin/marketplace.json` bundles plus a standalone `atlassian` grouping. Every name must be an existing skill directory.
 - Hermes Agent compatibility: skills sit at the repo root, so `hermes skills install nordz0r/skills/<name>` works directly (verified live on v0.21.0, including skills absent from skills.sh); as a tap the repo needs `"path": ""` in `$HERMES_HOME/skills/.hub/taps.json` (the `tap add` CLI defaults to `skills/`). Hermes walks its large default taps before user taps, so tap skills may not surface in `search`/`browse` right away. Install/update commands are documented in both READMEs (section 4).

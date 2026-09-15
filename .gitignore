@@ -29,3 +29,4 @@ tmp/
 # Per-machine scratch state (boulder sessions, scratch notes, etc.)
 .sisyphus/
 playwright-skill/node_modules/
+.omc/

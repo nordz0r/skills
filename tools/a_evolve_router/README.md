@@ -184,7 +184,6 @@ writes `patch_{task_id}.diff` straight to disk, and `::` is reserved on NTFS).
 - `agency-ux-researcher__neg-architect` (usability test plan → researcher, not architect)
 - `agency-technical-writer__neg-devops` (rewrite runbook → writer, not DevOps)
 - `basic-memory-workflow__neg-researcher` (save ADR + recall → memory, not research)
-- `playwright-skill__neg-lightpanda` (standard Playwright test → playwright)
 - `preview-interview__neg-writer` (FAANG STAR rehearsal → interview prep, not docs)
 
 ## Notes

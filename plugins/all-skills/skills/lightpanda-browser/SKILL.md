@@ -14,7 +14,7 @@ Use Lightpanda first for rendered extraction, agent browsing, and lightweight br
    - Use `fetch` for one-shot rendered extraction.
    - Use `serve` plus CDP for interactive automation.
    - Use `mcp` for MCP-native agent clients.
-3. Fall back to `$playwright-skill` when the task depends on real screenshots, robust downloads, or broad Chromium parity.
+3. State limitations honestly when the task depends on real screenshots, robust downloads, or broad Chromium parity, and let the user pick another automation runtime if needed.
 
 ## Security Guardrails
 
@@ -98,7 +98,7 @@ Do not over-promise current open-source Lightpanda behavior.
 - Treat download workflows as best-effort.
 - Treat Playwright compatibility as partial and evolving.
 
-If the task is mainly visual regression, screenshot capture, download persistence, or Chromium-specific automation reliability, switch to `$playwright-skill` and state that the current Lightpanda open-source surface is not the safest default for that workflow.
+If the task is mainly visual regression, screenshot capture, download persistence, or Chromium-specific automation reliability, state that the current Lightpanda open-source surface is not the safest default for that workflow and suggest a full Playwright setup outside this skill.
 
 Read [references/limitations.md](references/limitations.md) before promising browser parity.
 
