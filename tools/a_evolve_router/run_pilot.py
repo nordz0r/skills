@@ -14,6 +14,8 @@ from .catalog import EXPERIMENT_ROOT, REPO_ROOT
 from .codex_cli_engine import CodexCliEngine
 from .heuristic_engine import HeuristicRoutingEngine
 from .noop_engine import NoMutationEngine
+from .ocx_provider import make_ocx_provider
+from .skillforge_engine import SkillforgeEngine
 from .workspace import DEFAULT_WORKDIR, materialize_workspace
 
 
@@ -68,9 +70,9 @@ def main() -> None:
     parser.add_argument("--cycles", type=int, default=None, help="Override cycle count.")
     parser.add_argument(
         "--engine",
-        choices=["default", "heuristic", "none", "codex"],
-        default="heuristic",
-        help="Use the default a-evolve engine, a local heuristic engine, a Codex CLI engine, or a no-mutation engine.",
+        choices=["default", "skillforge", "heuristic", "none", "codex"],
+        default="none",
+        help="Skillforge/A-Evolve (default|skillforge) via OCX, local heuristic, Codex CLI, or no-mutation.",
     )
     parser.add_argument(
         "--codex-model",
@@ -95,8 +97,14 @@ def main() -> None:
         shutil.rmtree(AEVOLVE_WORKDIR)
     benchmark = SkillRouterBenchmark(repo_root=REPO_ROOT)
     resolved_config = ae.EvolveConfig.from_yaml(args.config)
-    if args.engine == "default":
-        engine = None
+    if args.engine in {"default", "skillforge"}:
+        ocx = make_ocx_provider(resolved_config)
+        if ocx is None:
+            raise SystemExit(
+                "Skillforge needs OCX_API_KEY or OPENAI_API_KEY "
+                "(optional OCX_BASE_URL / OCX_EVOLVER_MODEL)."
+            )
+        engine = SkillforgeEngine(resolved_config, llm=ocx)
     elif args.engine == "heuristic":
         engine = HeuristicRoutingEngine()
     elif args.engine == "codex":

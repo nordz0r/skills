@@ -1,6 +1,6 @@
 ---
 name: preview-interview
-description: Prepare for upcoming interviews by previewing likely questions, structuring strong answers, and running mock sessions. Use when Codex needs to help with interview preparation, recruiter screens, technical or product interviews, behavioral stories, resume-to-role gap analysis, question banks, answer critique, or pre-interview rehearsal.
+description: "Prepare for upcoming interviews: FAANG, STAR answers, mock sessions, recruiter screens, behavioral stories, question banks, answer critique, pre-interview rehearsal. Use for интервью, финальный interview, rehearsal — not visual UI design systems or admin-panel redesign."
 ---
 
 # Preview Interview

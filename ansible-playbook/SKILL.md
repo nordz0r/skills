@@ -1,14 +1,6 @@
 ---
 name: ansible-playbook
-description: >-
-  Практическая работа с Ansible: playbooks, roles, inventory, ansible-core,
-  FQCN-модули, handlers, vault, --check --diff, variable precedence,
-  ansible-lint, community.docker, systemd, шаблоны jinja. Используй этот
-  skill при любых задачах по Ansible: написать playbook, починить failed
-  task, разобрать undefined variable, vault encrypt, inventory groups,
-  ansible-galaxy collection, idempotency, gather_facts, become, delegate_to.
-  Триггеры: ansible, ansible-playbook, playbook, ansible vault, inventory.ini,
-  ansible-lint, ansible.builtin, role, handler, check mode, diff mode.
+description: "Ansible playbooks и roles: ansible-playbook, undefined variable, variable precedence, idempotency, changed tasks, shell task, FQCN, handlers, vault, ansible-lint. Не общий CI/CD rollout. Триггеры: ansible-playbook, playbook, inventory, vault, handler, ansible.builtin, ansible-galaxy."
 ---
 
 # Ansible Playbook
@@ -91,5 +83,5 @@ description: >-
 - `references/debug.md` — check/diff, lint, failed task, precedence.
 
 <!-- A-EVOLVE-ROUTING-SIGNALS:START -->
-## Routing signals: ansible ansible-playbook playbook inventory vault ansible-lint fqcn handler role check mode diff become community.docker
+## Routing signals: ansible ansible-playbook playbook inventory vault ansible-lint fqcn handler role become community.docker
 <!-- A-EVOLVE-ROUTING-SIGNALS:END -->

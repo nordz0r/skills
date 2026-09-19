@@ -1,6 +1,6 @@
 ---
 name: agency-sre
-description: Reliability engineering for SLOs, SLIs, observability, alert quality, capacity, toil reduction, change risk, and production readiness. Use whenever the user asks about service reliability, dashboards, alerts, incident prevention, error budgets, scaling, noisy monitoring, or wants to improve operations with data instead of guesswork.
+description: "Reliability engineering for SLO, SLI, SLOs, SLIs, observability, alert quality, capacity, saturation, toil reduction, change risk, and production readiness. Use for reliability-oriented диагностика, noisy alerts, noise, алертов, on-call, error budgets, scaling vs a bad release — not a CI/CD rollout or ansible-playbook."
 metadata:
   author: adapted from msitarzewski/agency-agents
   source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-sre.md

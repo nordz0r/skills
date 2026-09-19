@@ -8,7 +8,7 @@ Most domain guides live inside each skill directory. The main repository README 
 
 **Catalogs and discovery:** [skills.sh](https://skills.sh) · [SkillsMP](https://skillsmp.com)
 
-**Search keywords:** Claude Code skills, Codex skills, AI agent skills, DevOps, SRE, incident response, security review, UX research, UI design, technical writing, Playwright, Lightpanda, browser automation, rendered extraction, CDP, MCP, E2E testing, screenshot testing, responsive testing, Open WebUI, Open Terminal, OmniRoute, AI router, LLM proxy, combo routing, auto-combo, Ollama Search, Qdrant code search, Nextcloud, WebDAV, OCS API, Collectives, wiki, knowledge base, Linux, systemd, Docker, Docker Compose, GitLab CI, Ansible, AmneziaVPN, AmneziaWG, policy routing, iproute2, nftables, OpenWrt, Podkop, zapret, basic-memory, project memory.
+**Search keywords:** Claude Code skills, Codex skills, AI agent skills, DevOps, SRE, incident response, security review, UX research, UI design, technical writing, Open WebUI, Open Terminal, OmniRoute, AI router, LLM proxy, combo routing, auto-combo, Nextcloud, WebDAV, OCS API, Collectives, wiki, knowledge base, Linux, systemd, Docker, Docker Compose, GitLab CI, Ansible, AmneziaVPN, AmneziaWG, policy routing, iproute2, nftables, OpenWrt, Podkop, zapret.
 
 ## Repository at a glance
 
@@ -32,10 +32,6 @@ Most domain guides live inside each skill directory. The main repository README 
 | [agency-security-engineer](agency-security-engineer/) | Threat modeling, auth, secrets, hardening, cloud and Kubernetes security | security, threat model, authn, authz, secrets |
 | [agency-database-optimizer](agency-database-optimizer/) | PostgreSQL, MySQL, MariaDB, indexing, EXPLAIN, migrations | postgres, mysql, mariadb, indexing, explain |
 | [agency-technical-writer](agency-technical-writer/) | READMEs, runbooks, migration guides, architecture notes | readme, runbook, migration guide, docs |
-| [agency-ui-designer](agency-ui-designer/) | Visual hierarchy, components, accessibility, responsive polish | ui design, typography, spacing, responsive |
-| [agency-ux-architect](agency-ux-architect/) | IA, flows, layout systems, implementation-ready UX structure | ux architecture, ia, flow, layout system |
-| [agency-ux-researcher](agency-ux-researcher/) | Research planning, usability testing, validation | ux research, usability test, interview guide |
-| [agency-whimsy-injector](agency-whimsy-injector/) | Delight, personality, playful copy, micro-interactions | delight, micro-interactions, playful ui |
 | [preview-interview](preview-interview/) | Interview preparation: question banks, answer structuring, mock sessions | interview, prep, mock interview, behavioral, technical interview, resume |
 
 ### Linux, Docker, GitLab, Ansible, and host routing
@@ -53,11 +49,8 @@ Most domain guides live inside each skill directory. The main repository README 
 
 | Skill | Scope | Keywords |
 |------|-------|----------|
-| [basic-memory-workflow](basic-memory-workflow/) | Project memory workflow, ADRs, meeting notes, stable facts | basic-memory, project memory, adr, recall context |
-| [lightpanda-browser](lightpanda-browser/) | Lightpanda runtime for rendered extraction, CDP automation, and MCP browsing across Windows, Linux, macOS, and WSL | lightpanda, rendered extraction, cdp, mcp, semantic tree, markdown dump, wsl |
 | [litellm-guide](litellm-guide/) | LiteLLM SDK, proxy/gateway, providers, routing, APIs, MCP/A2A, troubleshooting, and repo development | litellm, proxy, gateway, providers, routing, virtual keys, mcp, openai-compatible |
 | [opencodex-guide](opencodex-guide/) | OpenCodex CLI guide: account pools, routing, models | opencodex, ocx, proxy, llm proxy |
-| [telegram-formatting](telegram-formatting/) | Telegram Rich Markdown: syntax, banners, inline images, delivery | telegram, formatting, rich-messages, bot-api, placehold, media |
 | [omniroute-guide](omniroute-guide/) | OmniRoute unified AI router: 237 providers, combo/auto routing, MCP (94 tools), A2A, resilience, dashboard, CLI integrations | omniroute, ai router, llm proxy, combo routing, auto-combo, mcp, a2a, circuit breaker, provider fallback |
 | [open-webui-guide](open-webui-guide/) | Open WebUI architecture, auth, functions, pipelines, API, RAG, scaling | open webui, pipelines, rag, oauth, ldap, jwt |
 | [open-terminal-guide](open-terminal-guide/) | Open Terminal self-hosted REST API for AI agents | open terminal, terminal api, /execute, sandbox api |
@@ -65,6 +58,12 @@ Most domain guides live inside each skill directory. The main repository README 
 | [nextcloud-collectives](nextcloud-collectives/) | Nextcloud Collectives wiki via OCS API and WebDAV: collectives, markdown pages, page tree, search, tags, attachments, public shares, trash, versions | collectives, nextcloud wiki, knowledge base, wiki page, readme.md |
 | [elk-kibana-dashboards](elk-kibana-dashboards/) | Elasticsearch and Kibana: log analysis, dashboards, Lens/TSVB, KQL/Lucene, DSL aggregations | elasticsearch, kibana, elk, kql, lucene, lens, tsvb, dashboard, logs |
 | [atlassian](atlassian/) | Jira (issues, JQL, workflows, sprints, worklogs), Confluence (pages, CQL, labels, rich storage-format articles), Bitbucket Server/DC (PRs, commits). Cloud + Data Center | jira, confluence, bitbucket, atlassian, jql, cql, issue, ticket, sprint, wiki page |
+
+### Telegram
+
+| Skill | Scope | Keywords |
+|------|-------|----------|
+| [telegram-formatting](telegram-formatting/) | Telegram Rich Markdown: syntax, banners, inline images, delivery | telegram, formatting, rich-messages, bot-api, placehold, media |
 
 ### OpenWrt, networking, and anti-censorship
 
@@ -85,13 +84,13 @@ This repository is structured for universal integration: install it directly as 
 claude plugin marketplace add nordz0r/skills
 
 # 2. Install bundle or individual plugins:
-claude plugin install all-skills@nord-skills       # Complete 32 skills collection
-claude plugin install agency-skills@nord-skills    # Agency engineering & product bundle
+claude plugin install all-skills@nord-skills       # Complete 26 skills collection
+claude plugin install agency-skills@nord-skills    # Agency engineering bundle
 claude plugin install infra-linux@nord-skills      # Linux, Docker, CI/CD, Ansible
-claude plugin install ai-tools@nord-skills         # LiteLLM, OmniRoute, WebUI, Playwright
+claude plugin install ai-tools@nord-skills         # LiteLLM, OmniRoute, WebUI, OpenCodex
 claude plugin install nextcloud@nord-skills        # Nextcloud: files + Collectives wiki
 claude plugin install openwrt-routing@nord-skills  # OpenWrt (AmneziaWG, Podkop, zapret)
-claude plugin install litellm-guide@nord-skills    # Specific skill plugin
+claude plugin install telegram-formatting@nord-skills  # Telegram Rich Markdown
 
 # Inside an active Claude Code interactive session:
 /plugin marketplace add nordz0r/skills
@@ -190,8 +189,8 @@ Call the skill by name in your first prompt.
 
 ```text
 Use agency-devops-automator and build CI/CD for k3s with rollback.
-Use agency-ui-designer and agency-ux-architect for an admin UI redesign.
-Use basic-memory-workflow and check project memory before making changes.
+Use agency-technical-writer and rewrite a stale runbook.
+Use telegram-formatting for a Telegram Rich Markdown reply.
 ```
 
 ### Automatic triggering
@@ -236,22 +235,23 @@ python3 -m tools.a_evolve_router.evaluate_baseline --split all
 
 The full local `a-evolve` workflow is documented in [`tools/a_evolve_router/README.md`](tools/a_evolve_router/README.md). Use `--reset-workspace` for clean reruns from the current skill catalog.
 
-**Current metrics** (pilot run 2026-09-01, 31 skills / 55 cases):
+**Current metrics** (2026-09-20, 26 skills / 48 cases):
 
 | State | top1 acc | avg_score |
 |-------|----------|-----------|
-| Baseline (line-based `parse_frontmatter`) | **0.8364** (46/55) | 0.8745 |
-| After `parse_frontmatter` → PyYAML (reverted) | 0.7818 (43/55) | 0.8136 |
-| After `heuristic` engine (3 cycles) | not measured | not measured |
+| Pilot 2026-09-01 | 0.8364 (46/55) | 0.8745 |
+| Quoted `description` + `нужно` stopword | 1.0000 (64/64) | 1.0000 |
+| After dropping `basic-memory` / `lightpanda` | 1.0000 (63/63) | 1.0000 |
+| After dropping 4 design-agency skills | **1.0000 (48/48)** | 1.0000 |
 
-The PyYAML variant of `parse_frontmatter` correctly reads folded `description: >-` blocks, but regresses top-1 by 5.5 pp because the heuristic router relies on first-line-only description overlap to discriminate nearby skills — that change is reverted and described in the [pilot README](tools/a_evolve_router/README.md). The `heuristic` engine is left in the codebase as a reference implementation but is net-negative in its current form.
+The router still reads only the first `description:` line, so folded `>-` blocks look empty — keep a quoted one-liner. The heuristic engine remains net-negative. Skillforge (`--engine skillforge`) mutates only the isolated `.workdir/`.
 
 ## Repository structure
 
 ```text
 skills/
 ├── .claude-plugin/
-│   ├── marketplace.json  # Claude Code plugin marketplace catalog (bundles + 32 plugins)
+│   ├── marketplace.json  # Claude Code plugin marketplace catalog (bundles + individual skills)
 │   └── plugin.json       # Root plugin manifest for direct installation
 ├── .agents/plugins/
 │   └── marketplace.json  # OpenAI Codex / ChatGPT plugins marketplace catalog

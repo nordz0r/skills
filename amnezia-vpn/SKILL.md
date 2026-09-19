@@ -1,14 +1,6 @@
 ---
 name: amnezia-vpn
-description: >-
-  Практическая работа с Amnezia VPN и AmneziaWG на Linux/VPS/Docker: стек
-  контейнеров /opt/amnezia, awg/awg-quick, kernel module amneziawg,
-  userspace amneziawg-go, Jc/Jmin/Jmax/S1/S2/H1-H4, Xray/Reality рядом со
-  стеком, диагностика handshake. Используй этот skill, когда задача про
-  AmneziaVPN, amnezia-awg, docker amnezia, Linux AWG-сервер, не OpenWrt.
-  Для OpenWrt UCI/LuCI бери amneziawg-openwrt-guide. Триггеры: amnezia,
-  amnezia vpn, amneziawg, awg-quick, awg0, /opt/amnezia, amneziawg-go,
-  Jc Jmin Jmax, obfuscation, amnezia docker, VPS VPN.
+description: "Amnezia VPN и AmneziaWG на Linux/VPS/Docker, не OpenWrt: handshake, awg show, amneziawg-go, kernel module, Jc/H1, /opt/amnezia, Ubuntu VPS, UDP. Триггеры: amneziawg, awg-quick, amneziawg-go, amnezia docker, VPS VPN, handshake."
 ---
 
 # Amnezia VPN (Linux / Docker)

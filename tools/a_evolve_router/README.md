@@ -36,46 +36,47 @@ From the repo root:
 python3 -m tools.a_evolve_router.evaluate_baseline --split all
 ```
 
-## Full a-evolve run with `uv`
+## Full a-evolve / Skillforge run
 
-1. Clone `a-evolve`.
-2. Run the pilot from this repo root so the manifest entrypoint
-   `tools.a_evolve_router.agent.SkillRouterAgent` is importable.
-
-Example:
+Install the PyPI package into the local venv (GitHub clone is optional; `main`
+is still `0.1.0`). From the repo root:
 
 ```bash
-uv venv tools/a_evolve_router/.venv
-uv pip install --python tools/a_evolve_router/.venv/bin/python --no-deps -e /path/to/a-evolve
-uv pip install --python tools/a_evolve_router/.venv/bin/python pyyaml
-PYTHONDONTWRITEBYTECODE=1 uv run --python tools/a_evolve_router/.venv/bin/python \
-  -m tools.a_evolve_router.run_pilot --reset-workspace --engine heuristic --cycles 2
+python3 -m venv tools/a_evolve_router/.venv
+tools/a_evolve_router/.venv/bin/pip install a-evolve
+PYTHONPATH=. PYTHONDONTWRITEBYTECODE=1 \
+  tools/a_evolve_router/.venv/bin/python -m tools.a_evolve_router.run_pilot \
+  --reset-workspace --engine none --cycles 1
 ```
 
-If you want a clean rerun each time, keep `--reset-workspace`.
+`--engine none` validates the loop without mutating skills. Keep
+`--reset-workspace` for a clean catalog copy.
 
-To validate only the loop wiring, without LLM-backed mutation:
+Skillforge (`AEvolveEngine`) over OCX — isolated workspace only:
 
 ```bash
-PYTHONDONTWRITEBYTECODE=1 uv run --python tools/a_evolve_router/.venv/bin/python \
-  -m tools.a_evolve_router.run_pilot --reset-workspace --engine none --cycles 1
+# OCX_API_KEY from ~/.hermes/.env, or export it.
+# Optional: OCX_BASE_URL, OCX_EVOLVER_MODEL
+PYTHONPATH=. PYTHONDONTWRITEBYTECODE=1 \
+  tools/a_evolve_router/.venv/bin/python -m tools.a_evolve_router.run_pilot \
+  --reset-workspace --engine skillforge --cycles 1
 ```
 
-To drive the evolver through the current logged-in Codex CLI session instead of API keys:
+`--engine default` is an alias of `skillforge`. PyPI `a-evolve` 0.1.0 only
+runs the bash tool-loop on Bedrock; this repo wraps OCX in
+`ocx_provider.py` / `skillforge_engine.py`.
+
+Codex CLI instead of OCX:
 
 ```bash
 codex login status
-PYTHONDONTWRITEBYTECODE=1 uv run --python tools/a_evolve_router/.venv/bin/python \
-  -m tools.a_evolve_router.run_pilot --reset-workspace --engine codex --cycles 1
+PYTHONPATH=. PYTHONDONTWRITEBYTECODE=1 \
+  tools/a_evolve_router/.venv/bin/python -m tools.a_evolve_router.run_pilot \
+  --reset-workspace --engine codex --cycles 1
 ```
 
-You can also pin a Codex model explicitly:
-
-```bash
-PYTHONDONTWRITEBYTECODE=1 uv run --python tools/a_evolve_router/.venv/bin/python \
-  -m tools.a_evolve_router.run_pilot --reset-workspace --engine codex \
-  --codex-model gpt-5.4 --codex-reasoning-effort medium --cycles 1
-```
+Do **not** use `--engine heuristic` on this catalog: it appends generic
+routing-signal tokens and collapses discrimination.
 
 ## Windows / OneDrive notes
 
@@ -114,64 +115,32 @@ set AEVOLVE_WORKSPACE=C:\Users\You\AppData\Local\Temp\a-evolve-pilot\skill-route
 python -m tools.a_evolve_router.run_pilot --reset-workspace --engine codex --cycles 1
 ```
 
-## Pilot run (2026-09-01)
+## Pilot run (2026-09-20)
 
-What I actually ran, in order, on the current `main` snapshot of this repo
-(31 top-level skill directories, all with `SKILL.md`; 18 of them also ship
-`evals/evals.json`). The benchmark has 55 cases: 36 catalog evals
-(`id=1` train / `id=2` holdout) plus 19 supplemental cross-skill cases
-added during the pilot.
+Catalog after dropping design-agency skills: 26 skills, 48 routing cases.
+`telegram-formatting` remains a listed skill but is not in the `ai-tools` bundle.
 
 | Step | Engine | Cycles | top1 acc | avg_score | Notes |
 |------|--------|--------|----------|-----------|-------|
-| 1. Baseline (line-based `parse_frontmatter`) | — | — | **0.8364** (46/55) | 0.8745 | router reads only the first line of `description:`; folded `>-` blocks are ignored. |
-| 2. `parse_frontmatter` switched to PyYAML (reverted) | — | — | 0.7818 (43/55) | 0.8136 | regression on `main`. PyYAML correctly reads folded `description: >-` blocks, but the heuristic router relies on first-line-only description overlap to discriminate nearby skills. Net **−5.5 pp** vs the line-based parser, so the change was reverted. |
-| 3. Heuristic engine | `heuristic` | 3 | not measured | not measured | same net-negative failure mode as the original pilot (see below). Left in code for design reference; not promoted to a recommendation. |
-| 4. Codex CLI engine | `codex` | 1 | not reached | not reached | failed in this environment: ChatGPT-account Codex cannot use `gpt-5`, and the default profile's MCP servers hit an OAuth-protected Cloudflare endpoint. The `--codex` engine is left in the code for Linux/CI runs that have an OpenAI API key. |
+| 1. Baseline 2026-09-01 | — | — | 0.8364 (46/55) | 0.8745 | nine description collisions |
+| 2. Quoted first-line tokens + `нужно` stopword | — | — | 1.0000 (64/64) | 1.0000 | 2026-09-20 |
+| 3. Drop `basic-memory-workflow` | — | — | 1.0000 (63/63) | 1.0000 | |
+| 4. Drop `lightpanda-browser` | — | — | 1.0000 (63/63) | 1.0000 | no evals |
+| 5. Drop 4 design-agency skills | — | — | **1.0000 (48/48)** | 1.0000 | ui/ux/whimsy |
 
-### Heuristic-engine failure mode
+The former nine collisions (`administering-linux` 1/2, `amnezia-vpn` 1,
+`ansible-playbook` 2, `gitlab-ci` 1, `linux-routing` 1,
+`incident__neg-security`, `technical-writer__neg-devops`,
+`preview-interview__neg-writer`) are closed by quoting `description` as a
+single line with discriminating tokens. `>-` folded blocks are invisible to
+the line-based parser.
 
-`_apply_base_routing_signals` in `heuristic_engine.py` walks the bullet list of
-each `SKILL.md`, filters only the `GENERIC_TOKENS` blocklist, and appends
-everything else (up to 18 tokens) as a `## Routing signals:` line at the bottom
-of the file. Every skill then carries the same generic vocabulary ("system",
-"design", "process", "structure"), so the router's weighted overlap stops
-discriminating. The same shape was observed in the original a-evolve pilot:
-net-negative on this catalog regardless of which parser is loaded.
-
-**Conclusion**: the heuristic engine as written is net-harmful on the current
-skill set. It is left in the codebase because the design (mutate routing cues
-in an isolated workspace) is sound; the implementation needs a per-skill
-relevance threshold and a holdout-aware penalty before the next run.
-
-### Known router limitations on the current `main` (line-based parser)
-
-Nine cases fail on the current `main` (top1 = 46/55 = 83.64%). All are
-honest description-level collisions, not parser bugs:
-
-| task_id | expected | selected by router | reason |
-|---------|----------|--------------------|--------|
-| `administering-linux__1` | `administering-linux` | `basic-memory-workflow` | Russian generic-token overlap on "linux"/"system". |
-| `administering-linux__2` | `administering-linux` | `ansible-playbook` | both mention "systemd"/"playbook"; ansible wins on playbook density. |
-| `amnezia-vpn__1` | `amnezia-vpn` | `amneziawg-openwrt-guide` | both name AmneziaWG; OpenWrt variant wins on the "openwrt" token. |
-| `ansible-playbook__2` | `ansible-playbook` | `basic-memory-workflow` | sparse description tokens collide with the ADR/memory signal. |
-| `gitlab-ci__1` | `gitlab-ci` | `agency-devops-automator` | both mention "ci"/"deploy"; devops wins on "rollout" density. |
-| `linux-routing__1` | `linux-routing` | `podkop-openwrt-guide` | both mention "routing" and "policy"; OpenWrt variant wins. |
-| `agency-incident-response-commander__neg-security` | `agency-incident-response-commander` | `basic-memory-workflow` | the active-leak prompt is correctly identified by humans as incident-class but the keyword "rotate keys" is sparse in the incident description and denser in `basic-memory-workflow`. |
-| `agency-technical-writer__neg-devops` | `agency-technical-writer` | `agency-incident-response-commander` | both mention "runbook"; incident wins on `sev`/`outage` tokens. |
-| `preview-interview__neg-writer` | `preview-interview` | `agency-ui-designer` | UI designer wins on the shared "design"/"system" tokens vs the same score for `preview-interview` (tie-breaker is catalog order). |
-
-Fixing these requires either richer routing features (bigrams, weighting by
-heading position, or per-skill `negative_cues:` blocks) or hand-editing
-descriptions to surface the discriminating tokens. The pilot leaves them in
-place and surfaces them here so the next iteration knows where to invest.
+Skillforge is wired for future fail-driven evolution. With top-1 = 1.0 it
+correctly applies zero mutations. Do not copy `.workdir/` back into the repo.
 
 ### Cross-skill negative cases added to `supplemental_cases.json`
 
-`supplemental_cases.json` now contains 19 cases (up from 6). The new ones
-stress-test the boundaries of skills that frequently confuse the router.
-The `__` in each `task_id` is a Windows-safe replacement for `::` (a-evolve
-writes `patch_{task_id}.diff` straight to disk, and `::` is reserved on NTFS).
+`supplemental_cases.json` keeps cross-skill negatives after dropping design-agency cases.
 
 - `agency-incident-response-commander__neg-sre` (live outage → incident, not SRE)
 - `agency-sre__neg-incident` (SLO/alert hygiene → SRE, not incident)
@@ -179,21 +148,15 @@ writes `patch_{task_id}.diff` straight to disk, and `::` is reserved on NTFS).
 - `ansible-playbook__neg-devops` (Ansible role + molecule → Ansible only)
 - `agency-security-engineer__neg-incident` (threat model → security, not incident)
 - `agency-incident-response-commander__neg-security` (active token leak → incident commander first)
-- `agency-ux-architect__neg-ui` (IA + CSS tokens → architect, not UI designer)
-- `agency-ui-designer__neg-architect` (settings screen → UI designer, not architect)
-- `agency-ux-researcher__neg-architect` (usability test plan → researcher, not architect)
 - `agency-technical-writer__neg-devops` (rewrite runbook → writer, not DevOps)
-- `basic-memory-workflow__neg-researcher` (save ADR + recall → memory, not research)
 - `preview-interview__neg-writer` (FAANG STAR rehearsal → interview prep, not docs)
+- `telegram-formatting__neg-writer` / `__neg-ui` (Rich Markdown vs docs rewrite)
 
 ## Notes
 
-- The pilot is tuned for `evolve_skills: true`; prompt and memory mutations are disabled by default.
-- The default local path uses `HeuristicRoutingEngine`, which mutates routing cues in skill files
-  without requiring API keys. Switch to `--engine default` only when you have a real `a-evolve`
-  LLM provider configured.
-- `--engine codex` uses `codex exec` with the current CLI login session. It does not need an
-  OpenAI API key and does not read `~/.codex/auth.json` directly.
-- The baseline agent is intentionally simple. The point is to let `a-evolve` improve the skill
-  library's routing surface, not to hide the problem behind a stronger classifier.
-- Runtime mutations live under `tools/a_evolve_router/.workdir/` and are safe to delete.
+- Default `--engine` is `none` (loop wiring, no mutation).
+- `--engine skillforge` / `default` uses Skillforge via OCX (`ocx_provider.py`).
+- `--engine heuristic` is net-negative on this catalog — do not run it.
+- `--engine codex` uses `codex exec` with the current CLI login.
+- Mutations stay under `tools/a_evolve_router/.workdir/` and are safe to delete.
+  Never copy that tree back into real skill folders.

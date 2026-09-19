@@ -11,7 +11,7 @@
     {
       "name": "all-skills",
       "displayName": "All Skills (Full Bundle)",
-      "description": "Complete collection of all 32 DevOps, SRE, AI tooling, Linux, and OpenWrt skills",
+      "description": "Complete collection of all 26 DevOps, SRE, AI tooling, Linux, and OpenWrt skills",
       "version": "1.0.0",
       "source": "./",
       "strict": false,
@@ -27,8 +27,8 @@
     },
     {
       "name": "agency-skills",
-      "displayName": "Agency Engineering & Product Bundle",
-      "description": "10 specialised agency skills: DevOps, SRE, incident response, security, database optimization, technical writing, UI/UX design, research, and delight",
+      "displayName": "Agency Engineering Bundle",
+      "description": "6 specialised agency skills: DevOps, SRE, incident response, security, database optimization, and technical writing",
       "version": "1.0.0",
       "source": "./",
       "strict": true,
@@ -39,11 +39,7 @@
         "./agency-incident-response-commander",
         "./agency-security-engineer",
         "./agency-sre",
-        "./agency-technical-writer",
-        "./agency-ui-designer",
-        "./agency-ux-architect",
-        "./agency-ux-researcher",
-        "./agency-whimsy-injector"
+        "./agency-technical-writer"
       ],
       "tags": [
         "agency",
@@ -51,8 +47,6 @@
         "sre",
         "security",
         "database",
-        "ui",
-        "ux",
         "docs"
       ]
     },
@@ -85,30 +79,25 @@
     {
       "name": "ai-tools",
       "displayName": "AI Tooling, Proxies & Automation Bundle",
-      "description": "10 skills covering LiteLLM, OmniRoute, Open WebUI, Open Terminal, Lightpanda, ELK, memory, OpenCodex, and Telegram formatting",
+      "description": "7 skills covering LiteLLM, OmniRoute, Open WebUI, Open Terminal, ELK, OpenCodex, and interview prep",
       "version": "1.0.0",
       "source": "./",
       "strict": true,
       "category": "ai-tools",
       "skills": [
-        "./basic-memory-workflow",
-        "./lightpanda-browser",
         "./litellm-guide",
         "./omniroute-guide",
         "./open-webui-guide",
         "./open-terminal-guide",
         "./elk-kibana-dashboards",
         "./preview-interview",
-        "./opencodex-guide",
-        "./telegram-formatting"
+        "./opencodex-guide"
       ],
       "tags": [
         "litellm",
         "omniroute",
         "open-webui",
-        "lightpanda",
-        "opencodex",
-        "telegram"
+        "opencodex"
       ]
     },
     {
@@ -248,63 +237,6 @@
       ]
     },
     {
-      "name": "agency-ui-designer",
-      "displayName": "Agency UI Designer",
-      "description": "Visual hierarchy, UI component systems, typography, spacing scales, accessibility, and responsive layout polish",
-      "source": "./agency-ui-designer",
-      "strict": false,
-      "category": "design",
-      "tags": [
-        "ui",
-        "design-systems",
-        "css",
-        "typography",
-        "accessibility"
-      ]
-    },
-    {
-      "name": "agency-ux-architect",
-      "displayName": "Agency UX Architect",
-      "description": "Information architecture, user journey flows, layout systems, component wireframing, and implementation UX",
-      "source": "./agency-ux-architect",
-      "strict": false,
-      "category": "design",
-      "tags": [
-        "ux",
-        "information-architecture",
-        "user-flows",
-        "wireframing"
-      ]
-    },
-    {
-      "name": "agency-ux-researcher",
-      "displayName": "Agency UX Researcher",
-      "description": "User research plans, interview scripts, usability testing protocols, feedback synthesis, and persona development",
-      "source": "./agency-ux-researcher",
-      "strict": false,
-      "category": "design",
-      "tags": [
-        "ux-research",
-        "user-interviews",
-        "usability-testing",
-        "personas"
-      ]
-    },
-    {
-      "name": "agency-whimsy-injector",
-      "displayName": "Agency Whimsy Injector",
-      "description": "Delight engineering, micro-interactions, witty copy personality, playful empty states, and Easter eggs",
-      "source": "./agency-whimsy-injector",
-      "strict": false,
-      "category": "design",
-      "tags": [
-        "delight",
-        "micro-interactions",
-        "personality",
-        "copywriting"
-      ]
-    },
-    {
       "name": "administering-linux",
       "displayName": "Linux Host Administration",
       "description": "Linux system administration, systemd service management, journald logs, disk/RAM troubleshooting, and SSH hardening",
@@ -411,35 +343,6 @@
         "nftables",
         "pbr",
         "linux-networking"
-      ]
-    },
-    {
-      "name": "basic-memory-workflow",
-      "displayName": "Basic Project Memory Workflow",
-      "description": "Operating model for project memory: recall context, ADRs, meeting notes, stable facts, and knowledge retention",
-      "source": "./basic-memory-workflow",
-      "strict": false,
-      "category": "ai-tools",
-      "tags": [
-        "memory",
-        "knowledge",
-        "adr",
-        "ai-workflow"
-      ]
-    },
-    {
-      "name": "lightpanda-browser",
-      "displayName": "Lightpanda Headless Browser",
-      "description": "Lightpanda headless browser runtime for fast rendered extraction, CDP automation, semantic DOM trees, and MCP browsing",
-      "source": "./lightpanda-browser",
-      "strict": false,
-      "category": "ai-tools",
-      "tags": [
-        "lightpanda",
-        "headless-browser",
-        "scraping",
-        "cdp",
-        "mcp"
       ]
     },
     {

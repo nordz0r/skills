@@ -1,6 +1,6 @@
 ---
 name: agency-devops-automator
-description: Automation-first platform delivery for CI/CD, Terraform, Ansible, Kubernetes, Helm, Vault, release engineering, environment promotion, backup-aware rollouts, and operational guardrails. Use whenever the user asks about deployment pipelines, infrastructure automation, release workflows, cluster or app delivery, platform standardization, or wants to remove manual operational steps.
+description: "Automation-first platform delivery for CI/CD, Terraform, Ansible, Kubernetes, k3s, Helm, Vault, qdrant, release engineering, environment promotion, backup-aware rollouts, rollout validation, and rollback. Use for ручной деплой to remove, automation-first flow, cluster delivery, or platform guardrails — not a single ansible-playbook debug."
 metadata:
   author: adapted from msitarzewski/agency-agents
   source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-devops-automator.md

@@ -4,11 +4,11 @@
 
 Коллекция переиспользуемых skills для `Claude Code`, `Codex` и других агентных CLI. Репозиторий распространяется через `npx skills add nordz0r/skills` и оформлен так, чтобы его было легко читать людям, индексировать каталогам и находить через встроенный skill discovery.
 
-> English summary: reusable skills for Claude Code, Codex, and AI agents. Covers DevOps, SRE, incident response, security, UX, Playwright browser automation, Lightpanda browser automation, Open WebUI, Open Terminal, OmniRoute AI router, Ollama Search, Qdrant code search, Nextcloud (files + Collectives wiki), OpenWrt, and project memory workflows.
+> English summary: reusable skills for Claude Code, Codex, and AI agents. Covers DevOps, SRE, incident response, security, UX, Open WebUI, Open Terminal, OmniRoute AI router, Nextcloud (files + Collectives wiki), OpenWrt.
 
 **Каталоги и discovery:** [skills.sh](https://skills.sh) · [SkillsMP](https://skillsmp.com)
 
-**Ключевые слова для поиска:** Claude Code skills, Codex skills, AI agent skills, skills.sh, SkillsMP, DevOps, SRE, incident response, security review, technical writing, UX research, UI design, Playwright, Lightpanda, browser automation, rendered extraction, CDP, MCP, headless browser for AI, E2E testing, screenshot testing, responsive testing, Open WebUI, Open Terminal, OmniRoute, AI router, LLM proxy, combo routing, auto-combo, Ollama Search, Qdrant code search, Nextcloud, WebDAV, OCS API, Collectives, wiki, база знаний, Linux, systemd, Docker, Docker Compose, GitLab CI, Ansible, AmneziaVPN, AmneziaWG, policy routing, iproute2, nftables, OpenWrt, Podkop, zapret, basic-memory, project memory.
+**Ключевые слова для поиска:** Claude Code skills, Codex skills, AI agent skills, skills.sh, SkillsMP, DevOps, SRE, incident response, security review, technical writing, UX research, UI design, Open WebUI, Open Terminal, OmniRoute, AI router, LLM proxy, combo routing, auto-combo, Nextcloud, WebDAV, OCS API, Collectives, wiki, база знаний, Linux, systemd, Docker, Docker Compose, GitLab CI, Ansible, AmneziaVPN, AmneziaWG, policy routing, iproute2, nftables, OpenWrt, Podkop, zapret.
 
 ## Что внутри
 
@@ -32,10 +32,6 @@
 | [agency-security-engineer](agency-security-engineer/) | Threat modeling, auth, secrets, hardening, cloud and Kubernetes security | security, threat model, authn, authz, secrets, hardening |
 | [agency-database-optimizer](agency-database-optimizer/) | PostgreSQL/MySQL/MariaDB, schema design, indexing, EXPLAIN, migrations | postgres, mysql, mariadb, indexing, explain, slow query |
 | [agency-technical-writer](agency-technical-writer/) | README, runbook, migration guide, architecture note, operator docs | readme, runbook, migration guide, docs, contributor guide |
-| [agency-ui-designer](agency-ui-designer/) | Visual hierarchy, components, states, accessibility, responsive polish | ui design, design system, typography, spacing, responsive |
-| [agency-ux-architect](agency-ux-architect/) | IA, flows, layout systems, theming foundations, implementation-ready UX | ux architecture, ia, flow, layout system, screen structure |
-| [agency-ux-researcher](agency-ux-researcher/) | Research plans, interview guides, usability tests, validation | ux research, usability test, interview guide, discovery |
-| [agency-whimsy-injector](agency-whimsy-injector/) | Delight, product personality, playful copy, micro-interactions | delight, micro-interactions, personality, playful ui |
 | [preview-interview](preview-interview/) | Подготовка к интервью: разбор вопросов, структурирование ответов, mock-сессии | interview, prep, mock interview, behavioral, technical interview, resume |
 
 ### Linux, Docker, GitLab, Ansible и host routing
@@ -53,11 +49,8 @@
 
 | Skill | Фокус | Trigger keywords |
 |------|-------|------------------|
-| [basic-memory-workflow](basic-memory-workflow/) | Работа с project memory: recall context, ADR, meeting notes, stable facts | basic-memory, project memory, recall context, adr, summary |
-| [lightpanda-browser](lightpanda-browser/) | Lightpanda как runtime для rendered extraction, CDP automation и MCP browsing под Win/Linux/macOS/WSL | lightpanda, rendered extraction, cdp, mcp, semantic tree, markdown dump, wsl |
 | [litellm-guide](litellm-guide/) | LiteLLM: SDK, proxy/gateway, providers, routing, API, MCP/A2A, troubleshooting и repo development | litellm, proxy, gateway, providers, routing, virtual keys, mcp, openai-compatible |
 | [opencodex-guide](opencodex-guide/) | OpenCodex: account pools, provider routing, CLI management | opencodex, ocx, proxy, llm proxy |
-| [telegram-formatting](telegram-formatting/) | Telegram Rich Markdown: syntax, banners, inline images, delivery | telegram, formatting, rich-messages, bot-api, placehold, media |
 | [omniroute-guide](omniroute-guide/) | OmniRoute: AI router/proxy, 237 providers, combo/auto routing, MCP (94 tools), A2A, resilience, dashboard, CLI setup | omniroute, ai router, llm proxy, combo routing, auto-combo, mcp, a2a, circuit breaker, provider fallback |
 | [open-webui-guide](open-webui-guide/) | Open WebUI: architecture, auth, functions, pipelines, API, RAG, scaling | open webui, pipelines, rag, oauth, ldap, jwt, docker-compose |
 | [open-terminal-guide](open-terminal-guide/) | Open Terminal: self-hosted terminal REST API for AI agents | open terminal, terminal api, /execute, /files, sandbox api |
@@ -65,6 +58,12 @@
 | [nextcloud-collectives](nextcloud-collectives/) | Nextcloud Collectives (wiki) через OCS API и WebDAV: коллективы, страницы, markdown, поиск, теги, вложения, шары, корзина, версии | collectives, nextcloud wiki, коллектив, база знаний, wiki-страница, readme.md |
 | [elk-kibana-dashboards](elk-kibana-dashboards/) | Elasticsearch и Kibana: анализ логов, дашборды, Lens/TSVB, KQL/Lucene, DSL aggregations | elasticsearch, kibana, elk, kql, lucene, lens, tsvb, dashboard, logs |
 | [atlassian](atlassian/) | Jira (задачи, JQL, workflow, спринты, worklog), Confluence (страницы, CQL, метки, красивые статьи в storage format), Bitbucket Server/DC (PR, коммиты). Cloud + Data Center | jira, confluence, bitbucket, atlassian, jql, cql, задача, тикет, спринт, wiki-страница |
+
+### Telegram
+
+| Skill | Фокус | Trigger keywords |
+|------|-------|------------------|
+| [telegram-formatting](telegram-formatting/) | Telegram Rich Markdown: syntax, banners, inline images, delivery | telegram, formatting, rich-messages, bot-api, placehold, media |
 
 ### OpenWrt, networking и anti-censorship
 
@@ -85,13 +84,13 @@
 claude plugin marketplace add nordz0r/skills
 
 # 2. Установить бандл или отдельные плагины:
-claude plugin install all-skills@nord-skills       # Все 32 скилла
-claude plugin install agency-skills@nord-skills    # Только Agency (10 скиллов)
+claude plugin install all-skills@nord-skills       # Все 26 скиллов
+claude plugin install agency-skills@nord-skills    # Agency engineering (6 скиллов)
 claude plugin install infra-linux@nord-skills      # Linux, Docker, CI/CD, Ansible
-claude plugin install ai-tools@nord-skills         # LiteLLM, OmniRoute, WebUI, Playwright
+claude plugin install ai-tools@nord-skills         # LiteLLM, OmniRoute, WebUI, OpenCodex
 claude plugin install nextcloud@nord-skills        # Nextcloud: файлы + Collectives wiki
 claude plugin install openwrt-routing@nord-skills  # OpenWrt (AmneziaWG, Podkop, zapret)
-claude plugin install litellm-guide@nord-skills    # Конкретный скилл
+claude plugin install telegram-formatting@nord-skills  # Telegram Rich Markdown
 
 # Внутри интерактивной сессии Claude Code:
 /plugin marketplace add nordz0r/skills
@@ -190,8 +189,8 @@ hermes skills update open-webui-guide --force
 
 ```text
 Используй agency-devops-automator и собери CI/CD для k3s с rollback.
-Используй agency-ui-designer и agency-ux-architect для редизайна админки.
-Используй basic-memory-workflow и проверь project memory перед изменениями.
+Используй agency-technical-writer и перепиши устаревший runbook.
+Используй telegram-formatting для Rich Markdown ответа в Telegram.
 ```
 
 ### 2. Автоподбор по смыслу
@@ -236,22 +235,23 @@ python3 -m tools.a_evolve_router.evaluate_baseline --split all
 
 Полный локальный прогон через `a-evolve` описан в [`tools/a_evolve_router/README.md`](tools/a_evolve_router/README.md). Обычно используют `--reset-workspace`, чтобы каждый запуск начинался с чистой копии текущих skills.
 
-**Текущие метрики** (пилот 2026-09-01, 31 skill / 55 кейсов):
+**Текущие метрики** (2026-09-20, 26 skill / 48 кейсов):
 
 | Состояние | top1 acc | avg_score |
 |-----------|----------|-----------|
-| Baseline (line-based `parse_frontmatter`) | **0.8364** (46/55) | 0.8745 |
-| После `parse_frontmatter` → PyYAML (откачено) | 0.7818 (43/55) | 0.8136 |
-| После `heuristic` engine (3 цикла) | не измерено | не измерено |
+| Пилот 2026-09-01 | 0.8364 (46/55) | 0.8745 |
+| Quoted `description` + stopword `нужно` | 1.0000 (64/64) | 1.0000 |
+| После удаления `basic-memory` / `lightpanda` | 1.0000 (63/63) | 1.0000 |
+| После удаления 4 design-agency | **1.0000 (48/48)** | 1.0000 |
 
-PyYAML-вариант парсера корректно читает `description: >-`, но регрессирует top-1 на −5.5 п.п., потому что эвристический роутер полагается на first-line-only overlap для различения соседних skills — фикс откачен, описание в [pilot README](tools/a_evolve_router/README.md). Эвристический движок `a-evolve` остаётся в коде как reference implementation, но в текущем виде нетто-вреден.
+Роутер читает только первую строку `description:`. Свёрнутые `>-` блоки для него пустые — держи quoted one-liner. Heuristic engine по-прежнему нетто-вреден. Skillforge (`--engine skillforge`) мутирует только изолированный `.workdir/`.
 
 ## Структура репозитория
 
 ```text
 skills/
 ├── .claude-plugin/
-│   ├── marketplace.json  # Каталог маркетплейса Claude Code (бандлы + 32 плагина)
+│   ├── marketplace.json  # Каталог маркетплейса Claude Code (бандлы + отдельные скиллы)
 │   └── plugin.json       # Корневой манифест плагина для прямой установки
 ├── .agents/plugins/
 │   └── marketplace.json  # Каталог маркетплейса OpenAI Codex / ChatGPT plugins

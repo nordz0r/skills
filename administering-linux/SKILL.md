@@ -1,13 +1,6 @@
 ---
 name: administering-linux
-description: >-
-  Практическая Linux-админка для systemd-хостов: сервисы, journald, процессы,
-  диски, пользователи, SSH, пакеты, сеть на уровне хоста и разбор инцидентов.
-  Используй этот skill при любых задачах по Linux-серверу: systemctl, unit
-  files, journalctl, top/ps, df/du/lsblk, useradd, sshd_config, apt/dnf,
-  netplan, ss/ip, cron/timers, OOM, load average, failed units. Триггеры:
-  linux admin, systemd, journald, sshd, unit file, journalctl, disk full,
-  oom killer, failed service, ubuntu server, debian, rhel, rocky.
+description: "Практическая Linux-админка systemd-хоста: journalctl, systemctl, unit, drop-in, failed-service after reboot, OOM, df, ssh, Ubuntu Debian. Не Docker и не Ansible. Триггеры: journalctl, unit file, drop-in, oom killer, disk full, sshd, ubuntu server, failed unit, vendor unit, host troubleshooting."
 ---
 
 # Administering Linux

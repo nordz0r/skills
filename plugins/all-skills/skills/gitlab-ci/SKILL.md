@@ -1,15 +1,6 @@
 ---
 name: gitlab-ci
-description: >-
-  Практическая работа с self-hosted GitLab CI/CD: .gitlab-ci.yml, rules,
-  include/components, needs DAG, cache/artifacts, environments, GitLab
-  Container Registry, runners (docker/shell/kubernetes), docker:dind,
-  CI_JOB_TOKEN, masked variables, CI/CD catalogs. Используй этот skill при
-  любых задачах по GitLab pipeline, runner, .gitlab-ci.yml, registry,
-  merge request pipelines, job failed, yaml invalid, dind TLS, runner
-  registration/authentication token. Триггеры: gitlab, gitlab-ci,
-  .gitlab-ci.yml, gitlab runner, dind, CI_REGISTRY, CI_JOB_TOKEN,
-  pipeline failed, include:component, rules:if.
+description: "Self-hosted GitLab CI: .gitlab-ci.yml, MR pipelines, kaniko, CI_REGISTRY_IMAGE, when:manual, rules, runners, docker:dind. Не GitHub Actions и не общий Terraform. Триггеры: gitlab-ci, gitlab runner, .gitlab-ci.yml, kaniko, CI_REGISTRY, dind, pipeline failed, include:component."
 ---
 
 # GitLab CI

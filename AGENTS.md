@@ -30,10 +30,8 @@ skills/
 ├── scripts/                          # validate-skills.js + sync-codex-plugins.js
 ├── agency-*/                         # 10 English meta-skills, each with evals/evals.json
 ├── tools/a_evolve_router/            # A-Evolve routing benchmark over skill evals
-├── basic-memory-workflow/            # Local basic-memory operating workflow
 ├── litellm-guide/                    # LiteLLM SDK/proxy/provider/repo guide
 ├── omniroute-guide/                  # OmniRoute AI router/proxy/MCP/A2A guide
-├── lightpanda-browser/               # Lightpanda browser automation runtime
 ├── elk-kibana-dashboards/            # Elasticsearch/Kibana dashboards and log analysis
 ├── preview-interview/                # Interview preparation workflow
 ├── nextcloud-admin/                  # Nextcloud OCS API + WebDAV
@@ -61,21 +59,18 @@ skills/
 - `agency-security-engineer`
 - `agency-database-optimizer`
 - `agency-technical-writer`
-- `agency-ui-designer`
-- `agency-ux-architect`
-- `agency-ux-researcher`
-- `agency-whimsy-injector`
 
-All 10 `agency-*` skills currently follow the same pattern:
+All 6 remaining `agency-*` skills follow the same pattern:
 
 - `SKILL.md`
 - `evals/evals.json`
 - no `references/`
 - no `scripts/`
 
+Design agency skills (`agency-ui-designer`, `agency-ux-architect`, `agency-ux-researcher`, `agency-whimsy-injector`) were removed 2026-09-20.
+
 ### Domain and workflow skills
 
-- `basic-memory-workflow`
 - `administering-linux`
 - `docker-ops`
 - `gitlab-ci`
@@ -84,7 +79,6 @@ All 10 `agency-*` skills currently follow the same pattern:
 - `linux-routing`
 - `nextcloud-admin`
 - `nextcloud-collectives`
-- `lightpanda-browser`
 - `litellm-guide`
 - `omniroute-guide`
 - `open-terminal-guide`
@@ -104,11 +98,10 @@ All 10 `agency-*` skills currently follow the same pattern:
 | Trigger wording for a skill | `<skill>/SKILL.md` frontmatter | `description` is the main auto-trigger surface for agents |
 | Frontmatter example | Any `SKILL.md` | `name` must match directory name; `metadata` is optional |
 | Eval prompt examples | `<skill>/evals/evals.json`, `agency-*/evals/evals.json` | Useful for trigger QA and smoke tests |
-| OpenClaw metadata example | `lightpanda-browser/SKILL.md`, `litellm-guide/` | Remaining `metadata.openclaw` / agent metadata examples |
-| Script patterns | `lightpanda-browser/scripts/` | Node executors and setup helpers |
+| OpenClaw metadata example | `litellm-guide/` | Remaining `metadata.openclaw` / agent metadata examples |
+| Script patterns | `atlassian/scripts/` | Python REST helpers; previously Lightpanda Node executors |
 | Largest reference set | `open-webui-guide/references/` | 11 files; best example of deep multi-file documentation |
 | Routing benchmark | `tools/a_evolve_router/` | Baseline/evolution loop for skill trigger wording |
-| Memory workflow conventions | `basic-memory-workflow/SKILL.md` | How this environment expects project memory to be used |
 | OpenWrt skill patterns | `amneziawg-openwrt-guide/`, `podkop-openwrt-guide/`, `zapret-openwrt-guide/` | Good templates for Russian infra/network docs |
 | Linux host / CI skills | `administering-linux/`, `docker-ops/`, `gitlab-ci/`, `ansible-playbook/`, `amnezia-vpn/`, `linux-routing/` | Operator-focused RU guides; AWG on Linux is `amnezia-vpn`, OpenWrt AWG stays in `amneziawg-openwrt-guide` |
 
@@ -120,7 +113,7 @@ All 10 `agency-*` skills currently follow the same pattern:
 <skill-name>/
 ├── SKILL.md
 ├── evals/         # optional; used heavily by agency-* skills
-├── scripts/       # optional; currently present in lightpanda-browser and atlassian
+├── scripts/       # optional; currently present in atlassian
 └── references/    # optional; one topic per file
 ```
 
@@ -163,10 +156,8 @@ metadata: {...}   # optional
 - Repo-level discovery matters: `README.md` and `README.en.md` are part of search/catalog visibility, not just human docs.
 - Runtime auto-triggering still depends primarily on each skill's `SKILL.md`, especially `description`.
 - `tools/a_evolve_router` tests routing quality from `<skill>/evals/evals.json` against isolated workspace copies; it is safe to delete `.workdir/`.
-- Env-based configuration is common for integration skills: `NEXTCLOUD_URL`, `LIGHTPANDA_CDP_URL`, and similar variables are documented in-skill.
-- `lightpanda-browser` ships executable `scripts/` (Node executors for fetch/serve/MCP runtime resolution).
+- Env-based configuration is common for integration skills: `NEXTCLOUD_URL` and similar variables are documented in-skill.
 - `open-webui-guide` has the deepest reference tree and is the best template for a large guide.
-- `basic-memory-workflow` is a workflow skill, not a product/API guide.
 
 ### Codex plugin layout (generated)
 
@@ -208,16 +199,16 @@ npx skills add nordz0r/skills -s litellm-guide -g
 
 ## NOTES
 
-- Current inventory: 32 skills total.
-- `agency-*` accounts for 10 of those skills.
+- Current inventory: 26 skills total.
+- `agency-*` accounts for 6 remaining engineering skills (design four removed 2026-09-20).
 - `open-webui-guide` has 11 reference files and is still the largest single documentation set.
 - `litellm-guide` has 6 reference files, an OpenAI agent metadata file, and evals for `a_evolve_router`.
 - `omniroute-guide` has 11 reference files and evals for `a_evolve_router`; second-largest reference set after `open-webui-guide`.
-- `lightpanda-browser` has 5 reference files, 3 Node scripts, an OpenAI agent metadata file, and a root `package.json`.
-- `basic-memory-workflow` has only `SKILL.md`; no `references/`, `scripts/`, or `evals/`.
+- `telegram-formatting` is a standalone skill (not in `ai-tools`); grouping `Telegram` in `skills.sh.json`.
+- Removed design agency skills (2026-09-20): `agency-ui-designer`, `agency-ux-architect`, `agency-ux-researcher`, `agency-whimsy-injector`.
+- Removed `lightpanda-browser` (2026-09-20): unused in this estate; Playwright skill already gone.
+- Removed `basic-memory-workflow` (2026-09-20): project memory moved to OpenViking (`ov`) and graft.
 - Removed in September 2026 after a skills.sh security-audit review (unremediated MEDIUM warnings): `playwright-skill` (arbitrary JS executor + auto npm installs), `ollama-search`, `qdrant-codebase-search` (`npx -y` runtime code fetch). Stale entries persist on skills.sh with their install counts.
-- `atlassian` is vendored from [langpingxue/atlassian-skills](https://github.com/langpingxue/atlassian-skills) (MIT): 18 Python modules under `scripts/` (Jira/Confluence/Bitbucket REST), 2 local reference files (JQL/CQL cookbook, Confluence storage-format formatting), plus `.env.example`. It is the only skill with a `requirements.txt` — document `pip install -r requirements.txt` when using it.
-- `skills.sh.json` at the repo root is the Hermes Skills Hub category manifest (`groupings[].title/skills`); groupings mirror the `.claude-plugin/marketplace.json` bundles plus a standalone `atlassian` grouping. Every name must be an existing skill directory.
 - Hermes Agent compatibility: skills sit at the repo root, so `hermes skills install nordz0r/skills/<name>` works directly (verified live on v0.21.0, including skills absent from skills.sh); as a tap the repo needs `"path": ""` in `$HERMES_HOME/skills/.hub/taps.json` (the `tap add` CLI defaults to `skills/`). Hermes walks its large default taps before user taps, so tap skills may not surface in `search`/`browse` right away. Install/update commands are documented in both READMEs (section 4).
 - skills.sh listing is install-telemetry-driven (no GitHub crawler): a skill appears on the repo page after its first `npx skills add` install and never disappears on rename — stale entries (e.g. the old `pbr-openwrt-guide` name) persist with their install counts.
 - `scripts/validate-skills.js` rejects `: ` inside plain (unquoted) frontmatter scalars: strict YAML 1.2 parsers — including the one in `npx skills` — treat it as a nested mapping and skip the skill (this is how `agency-ui-designer` silently dropped out of installs in 2026).

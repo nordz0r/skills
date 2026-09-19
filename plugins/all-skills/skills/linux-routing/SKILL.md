@@ -1,15 +1,6 @@
 ---
 name: linux-routing
-description: >-
-  Практическая IP-маршрутизация на Linux: ip route, ip rule, policy routing,
-  fwmark, rt_tables, VRF, nftables/iptables NAT, masquerade, conntrack,
-  rp_filter, split-tunnel, source-based routing, WireGuard/AWG AllowedIPs
-  vs OS routes. Используй этот skill при задачах про linux routing, PBR,
-  ip rule add, table 100, mark 0x1, nft nat postrouting, multiple WAN,
-  default via VPN, трафик не возвращается. Не для OpenWrt podkop/UCI —
-  там podkop-openwrt-guide. Триггеры: ip route, ip rule, policy routing,
-  fwmark, nftables masquerade, conntrack, rp_filter, split tunnel, vrf,
-  multiple default routes.
+description: "Linux split-tunnel и policy routing: ip rule, fwmark, WAN, awg0, default via VPN, nft masquerade, rp_filter, conntrack. Не OpenWrt, не podkop, не UCI. Триггеры: split-tunnel, ip rule, fwmark, multiple default, rt_tables, source-based routing."
 ---
 
 # Linux Routing

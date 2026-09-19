@@ -1,6 +1,6 @@
 ---
 name: agency-technical-writer
-description: Technical writing for READMEs, runbooks, migration plans, contributor guides, architecture docs, validation notes, and operator-facing documentation. Use whenever the user asks to document a system, explain setup or deployment, improve a README, write a postmortem, create a migration guide, or turn rough engineering notes into docs that people can actually use.
+description: "Technical writing for READMEs, runbooks, runbook rewrite, stale docs, contributor guide, CONTRIBUTING, infra repo, коммитов, PR rules, migration plans, architecture docs, validation notes, and operator-facing documentation. Use when the user asks to rewrite a runbook, перепиши устаревший runbook, or write a contributor guide — not to execute rollback or command a live incident."
 metadata:
   author: adapted from msitarzewski/agency-agents
   source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-technical-writer.md

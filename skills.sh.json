@@ -2,18 +2,14 @@
   "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
   "groupings": [
     {
-      "title": "Agency Engineering & Product",
+      "title": "Agency Engineering",
       "skills": [
         "agency-database-optimizer",
         "agency-devops-automator",
         "agency-incident-response-commander",
         "agency-security-engineer",
         "agency-sre",
-        "agency-technical-writer",
-        "agency-ui-designer",
-        "agency-ux-architect",
-        "agency-ux-researcher",
-        "agency-whimsy-injector"
+        "agency-technical-writer"
       ]
     },
     {
@@ -30,16 +26,13 @@
     {
       "title": "AI Tooling, Proxies & Automation",
       "skills": [
-        "basic-memory-workflow",
-        "lightpanda-browser",
         "litellm-guide",
         "omniroute-guide",
         "open-webui-guide",
         "open-terminal-guide",
         "elk-kibana-dashboards",
         "preview-interview",
-        "opencodex-guide",
-        "telegram-formatting"
+        "opencodex-guide"
       ]
     },
     {
@@ -61,6 +54,12 @@
       "title": "Atlassian",
       "skills": [
         "atlassian"
+      ]
+    },
+    {
+      "title": "Telegram",
+      "skills": [
+        "telegram-formatting"
       ]
     }
   ]

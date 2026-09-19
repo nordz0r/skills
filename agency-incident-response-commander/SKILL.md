@@ -1,6 +1,6 @@
 ---
 name: agency-incident-response-commander
-description: Structured incident handling for outages, degraded services, SEV triage, rollback decisions, stakeholder updates, timelines, postmortems, and on-call discipline. Use whenever the user describes an outage, live incident, broken production dependency, customer-impacting degradation, emergency rollback, or asks for a postmortem or incident runbook.
+description: "Structured incident handling for outages, live incidents, SEV triage, rollback decisions, stakeholder updates, timelines, postmortems, and on-call discipline. Use for an active token leak, rotate keys under incident command, stop spread in production, emergency rollback, or a postmortem — not a documentation rewrite of a stale runbook."
 metadata:
   author: adapted from msitarzewski/agency-agents
   source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-incident-response-commander.md

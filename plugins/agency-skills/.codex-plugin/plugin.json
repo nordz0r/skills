@@ -1,7 +1,7 @@
 {
   "name": "agency-skills",
   "version": "1.0.0",
-  "description": "10 specialised agency skills: DevOps, SRE, incident response, security, database optimization, technical writing, UI/UX design, research, and delight",
+  "description": "6 specialised agency skills: DevOps, SRE, incident response, security, database optimization, and technical writing",
   "author": {
     "name": "NorD",
     "url": "https://github.com/nordz0r/skills"
@@ -15,15 +15,13 @@
     "sre",
     "security",
     "database",
-    "ui",
-    "ux",
     "docs"
   ],
   "skills": "./skills/",
   "interface": {
-    "displayName": "Agency Engineering & Product Bundle",
-    "shortDescription": "10 specialised agency skills: DevOps, SRE, incident response, security, database optimization, technical writing, UI/UX design, research, and delight",
-    "longDescription": "10 specialised agency skills: DevOps, SRE, incident response, security, database optimization, technical writing, UI/UX design, research, and delight",
+    "displayName": "Agency Engineering Bundle",
+    "shortDescription": "6 specialised agency skills: DevOps, SRE, incident response, security, database optimization, and technical writing",
+    "longDescription": "6 specialised agency skills: DevOps, SRE, incident response, security, database optimization, and technical writing",
     "developerName": "NorD",
     "category": "Developer Tools",
     "capabilities": [

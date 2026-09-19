@@ -1,33 +1,5 @@
 [
   {
-    "task_id": "agency-ui-designer__supp-train-1",
-    "prompt": "Наша ops dashboard работает, но выглядит как Excel: таблицы тяжело сканировать, визуальная иерархия слабая, на мобильном всё ломается.",
-    "expected_skill": "agency-ui-designer",
-    "expected_output": "Ответ должен уверенно маршрутизировать visual hierarchy, table readability, dashboard redesign и mobile cleanup к UI skill.",
-    "split": "train"
-  },
-  {
-    "task_id": "agency-ui-designer__supp-holdout-1",
-    "prompt": "Internal control panel feels cramped and visually weak: unreadable data table, poor scanability, broken mobile layout. Нужен redesign без ребрендинга.",
-    "expected_skill": "agency-ui-designer",
-    "expected_output": "Ответ должен отличать screen redesign и readability problems от incident, security или data concerns.",
-    "split": "holdout"
-  },
-  {
-    "task_id": "agency-whimsy-injector__supp-train-1",
-    "prompt": "Нужно придумать loading и empty states для аналитического dashboard так, чтобы продукт был менее стерильным, но без полного редизайна.",
-    "expected_skill": "agency-whimsy-injector",
-    "expected_output": "Ответ должен выбирать delight/personality для already-working UI instead of full visual redesign.",
-    "split": "train"
-  },
-  {
-    "task_id": "agency-whimsy-injector__supp-holdout-1",
-    "prompt": "Базовый интерфейс уже в порядке, но ему не хватает personality: micro-copy, playful success moments и subtle micro-interactions без clown mode.",
-    "expected_skill": "agency-whimsy-injector",
-    "expected_output": "Ответ должен удерживать фокус на personality, delight и restraint, а не на layout cleanup.",
-    "split": "holdout"
-  },
-  {
     "task_id": "agency-database-optimizer__supp-train-1",
     "prompt": "Reporting dashboard тормозит не из-за верстки: query по orders делает join и sort, нужен EXPLAIN ANALYZE и index strategy.",
     "expected_skill": "agency-database-optimizer",
@@ -84,38 +56,10 @@
     "split": "holdout"
   },
   {
-    "task_id": "agency-ux-architect__neg-ui",
-    "prompt": "Нужно спроектировать IA для нового onboarding flow и подготовить CSS tokens для design system.",
-    "expected_skill": "agency-ux-architect",
-    "expected_output": "Architecture/IA skill, не pixel-level visual redesign (agency-ui-designer).",
-    "split": "train"
-  },
-  {
-    "task_id": "agency-ui-designer__neg-architect",
-    "prompt": "Конкретный settings screen нечитабельный: хочу визуально переделать таблицу и spacing.",
-    "expected_skill": "agency-ui-designer",
-    "expected_output": "Visual/UI skill для конкретного экрана, не architecture/IA work.",
-    "split": "holdout"
-  },
-  {
-    "task_id": "agency-ux-researcher__neg-architect",
-    "prompt": "Спланируй usability test для нового checkout: hypothesis, interview guide и метрики.",
-    "expected_skill": "agency-ux-researcher",
-    "expected_output": "Research planning, не architecture и не visual design.",
-    "split": "train"
-  },
-  {
     "task_id": "agency-technical-writer__neg-devops",
     "prompt": "У нас есть runbook для rollback, но он устарел. Перепиши его с актуальными шагами.",
     "expected_skill": "agency-technical-writer",
     "expected_output": "Документация/runbook, не настройка CI/CD.",
-    "split": "train"
-  },
-  {
-    "task_id": "basic-memory-workflow__neg-researcher",
-    "prompt": "Запомни, что мы решили использовать Postgres для нового сервиса, и проверь прошлые ADR.",
-    "expected_skill": "basic-memory-workflow",
-    "expected_output": "Memory recall/save, не UX research.",
     "split": "train"
   },
   {
@@ -150,7 +94,7 @@
     "task_id": "telegram-formatting__neg-ui",
     "prompt": "В Telegram-сообщении нужен placehold-баннер и inline photo, не редизайн админки. Как вставить ![](url) в rich bubble через sendRichMessage?",
     "expected_skill": "telegram-formatting",
-    "expected_output": "Telegram media/banner policy, not agency-ui-designer screen redesign.",
+    "expected_output": "Telegram media/banner policy, not a visual admin-panel redesign.",
     "split": "holdout"
   }
 ]
