@@ -1,14 +1,14 @@
 ---
 name: telegram-formatting
-description: "Telegram Rich Markdown formatting: syntax, limits, delivery."
-version: 3.0.0
+description: "Telegram Rich Markdown formatting: syntax, limits, delivery, banners, inline images."
+version: 3.1.0
 author: NorD (nordz0r), Hermes Agent
 license: MIT
 platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [telegram, formatting, rich-messages, markdown, bot-api]
-    related_skills: [telegram-bot-management]
+    related_skills: [telegram-bot-management, telegram-cron-image-conventions]
 ---
 
 # Telegram Formatting Skill
@@ -17,16 +17,20 @@ metadata:
 gateway сам выбирает путь доставки — legacy MarkdownV2 или Rich Messages
 (`sendRichMessage`, Bot API 10.x). Агент не вызывает Bot API напрямую, не
 эскейпит текст и не режет сообщения. Скилл описывает синтаксис Rich Markdown,
-триггеры rich-пути, лимиты и типовые ошибки.
+триггеры rich-пути, лимиты, политику картинок и типовые ошибки.
 
 ## When to Use
 
 - Готовишь любой ответ, который уйдёт в Telegram через gateway.
 - Выбираешь, как подать контент: таблица, чек-лист, код, спойлер, формула.
 - Текст длинный или структурный — решаешь, что отправить сообщением, а что файлом.
+- Нужен баннер секции, inline-картинка или `MEDIA:`-файл.
 
-Don't use for: настройку gateway (`hermes config`), отправку сообщений из
-скриптов (`hermes send`), доставку файлов (это `MEDIA:`, см. ниже).
+Don't use for: настройку gateway (`hermes config`), вызов Bot API из скриптов
+напрямую. Доставка локальных файлов — через `MEDIA:` (см. ниже). `hermes send`
+остаётся MarkdownV2/HTML; живые no_agent cron-скрипты с прямым
+`sendRichMessage` — исключение (см. Pitfalls). Практические cron-примеры:
+skill `telegram-cron-image-conventions`.
 
 ## How Delivery Works
 
@@ -134,6 +138,62 @@ inline-форматирование; медиа — только отдельн�
   Галереи — `<tg-collage>`/`<tg-slideshow>`; повторно загруженные файлы —
   ссылки вида `tg://photo?id=…` (в паре с полем `media` у InputRichMessage).
 
+### Когда картинку не берём
+
+- Короткий фактический ответ без сравнения, схемы, инвентаря или карточки.
+- Картинка не добавляет смысла — только шум. Текст остаётся текстом.
+
+### placehold.co vs генерация
+
+| Нужно | Чем |
+|---|---|
+| Баннер-заголовок дайджеста / секции | `placehold.co` |
+| Схема, сравнение, иллюстрация смысла | генерация → публичный HTTPS → `![]()` |
+
+**Баннер placehold.co** — только заголовок, не «рисунок»:
+
+```markdown
+![Software Updates](https://placehold.co/1200x300/0f172a/38bdf8/png?text=Software+Updates&font=montserrat)
+```
+
+- Размеры: `1200x300` (верх дайджеста) или `1200x500` (секция).
+- `text=`: ASCII `[A-Za-z0-9 ._|-]`, 1–80 символов; без почты, PII, секретов.
+- Язык подписи на баннере — чисто RU или чисто EN, без транслита.
+- Отдельный блок + пустая строка вокруг; не стакать два placehold подряд.
+- Алерт/откат: можно красную палитру (`450a0a` / `f87171`).
+
+**Генерация** (OCX `POST /v1/images/generations`):
+
+1. Primary: `google-antigravity/gemini-3.1-flash-image`
+2. Fallback: `xai/grok-4.6` (если primary недоступен / квота)
+3. GPT / DALL·E (`gpt-image-*`, `dall-e-*`) — **только если ID есть в**
+   `/v1/models`; иначе не вызывать
+
+Не генератор: `gemini-3.8-flash` (text/vision). После генерации:
+
+1. Залей файл на публичный hotlink (uguu: `POST https://uguu.se/upload.php`,
+   field `files[]` → `https://…/id.jpg`; проверь `image/*` и SOI JPEG).
+2. Вставь в **то же** rich-сообщение: `![](https://…)` или
+   `![](url "caption")` отдельным блоком.
+3. Локальный файл для native photo — `MEDIA:/abs/path` своей строкой.
+   Путь ФС и `file://` внутри `![]()` запрещены. URL вида
+   `file/botTOKEN/…` в текст не класть (утечка токена).
+
+### Brand custom emoji
+
+Для известных брендов в дайджестах:
+
+```html
+<tg-emoji emoji-id="…">fallback</tg-emoji> BrandName
+```
+
+- Только из явной карты (не угадывать ID).
+- Имя бренда после иконки обязательно.
+- Не трогать code fences, URL, email, уже вставленные `<tg-emoji>`.
+
+Практические примеры cron (software-update, GLM): skill
+`telegram-cron-image-conventions`.
+
 ## Procedure
 
 1. Разметь контент: таблицы, чек-листы, `<details>`, формулы — оформляй их
@@ -146,6 +206,10 @@ inline-форматирование; медиа — только отдельн�
    подписей и таблиц.
 4. Команды и пути — в code fence или inline code; важные для копирования
    данные не клади внутрь rich-таблиц (их неудобно копировать из клиента).
+5. Картинки: нет смысла → без медиа; баннер секции → placehold; схема/
+   сравнение → generate (Gemini → Grok) → uguu → `![](https://…)`.
+   Локальный файл → `MEDIA:/abs`, не внутрь `![]()`. Completion: в ответе
+   нет FS-путей внутри markdown-image и нет `file/bot` URL.
 
 ## Pitfalls
 
@@ -164,8 +228,10 @@ inline-форматирование; медиа — только отдельн�
    подсветку.
 7. **Capability latch**: если `sendRichMessage` недоступен (старый PTB),
    адаптер выключает rich до конца сессии — не жди rich-рендера повторно.
-8. **`hermes send` (скрипты, cron) не использует rich** — только
-   MarkdownV2/HTML-путь с лимитом 4 096; для rich нужен живой ответ агента.
+8. **`hermes send` не использует rich** — только MarkdownV2/HTML с лимитом
+   4 096. Исключение: живые no_agent cron-скрипты, которые зовут
+   `sendRichMessage` напрямую (software-update, GLM, dd-host) — они идут
+   мимо gateway и мимо `hermes send`.
 9. **Конфиг читается на старте gateway**: смена `rich_messages`/
    `rich_drafts` требует рестарта gateway извне (из сессии рестарт заблокирован).
 
@@ -177,3 +243,5 @@ inline-форматирование; медиа — только отдельн�
   — не должно быть `sendRichMessage rejected` / `unsupported`.
 - Сообщение > 4 096 символов без rich-конструкций дошло по частям → добавь
   rich-конструкцию или файл.
+- Баннер placehold и `![](https://…)` приходят inline в том же rich-пузыре;
+  `MEDIA:/abs` уходит отдельным native photo.
