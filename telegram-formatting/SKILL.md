@@ -1,7 +1,7 @@
 ---
 name: telegram-formatting
-description: "Telegram Rich Markdown formatting: syntax, limits, delivery, banners, inline images."
-version: 3.1.0
+description: "Telegram Rich Markdown formatting: syntax, limits, delivery, banners, inline images. Use when preparing Telegram replies via gateway: GFM tables, task lists, details, sendRichMessage vs MarkdownV2, MEDIA vs HTTPS ![](), placehold.co banners, image generation, uguu hotlink, tg-collage, tg-emoji. Triggers: telegram, rich markdown, sendRichMessage, MarkdownV2, MEDIA, placehold, inline photo, banner, caption, checklist."
+version: 3.2.0
 author: NorD (nordz0r), Hermes Agent
 license: MIT
 platforms: [linux, macos, windows]

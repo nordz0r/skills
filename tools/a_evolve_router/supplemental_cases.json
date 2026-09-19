@@ -138,5 +138,19 @@
     "expected_skill": "nextcloud-collectives",
     "expected_output": "Wiki-страница коллектива через Collectives OCS API, не обычная загрузка файла в Files.",
     "split": "holdout"
+  },
+  {
+    "task_id": "telegram-formatting__neg-writer",
+    "prompt": "Ответ в Telegram разъехался: таблица стала пайпами, чекбоксы не интерактивные. Почини Rich Markdown и sendRichMessage — это не README.",
+    "expected_skill": "telegram-formatting",
+    "expected_output": "Formatting/delivery skill, not technical-writer docs rewrite.",
+    "split": "train"
+  },
+  {
+    "task_id": "telegram-formatting__neg-ui",
+    "prompt": "В Telegram-сообщении нужен placehold-баннер и inline photo, не редизайн админки. Как вставить ![](url) в rich bubble через sendRichMessage?",
+    "expected_skill": "telegram-formatting",
+    "expected_output": "Telegram media/banner policy, not agency-ui-designer screen redesign.",
+    "split": "holdout"
   }
 ]
