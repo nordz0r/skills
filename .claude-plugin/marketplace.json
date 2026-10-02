@@ -11,7 +11,7 @@
     {
       "name": "all-skills",
       "displayName": "All Skills (Full Bundle)",
-      "description": "Complete collection of all 26 DevOps, SRE, AI tooling, Linux, and OpenWrt skills",
+      "description": "Complete collection of all 25 DevOps, SRE, AI tooling, Linux, and OpenWrt skills",
       "version": "1.0.0",
       "source": "./",
       "strict": false,
@@ -79,14 +79,13 @@
     {
       "name": "ai-tools",
       "displayName": "AI Tooling, Proxies & Automation Bundle",
-      "description": "7 skills covering LiteLLM, OmniRoute, Open WebUI, Open Terminal, ELK, OpenCodex, and interview prep",
+      "description": "6 skills covering LiteLLM, Open WebUI, Open Terminal, ELK, OpenCodex, and interview prep",
       "version": "1.0.0",
       "source": "./",
       "strict": true,
       "category": "ai-tools",
       "skills": [
         "./litellm-guide",
-        "./omniroute-guide",
         "./open-webui-guide",
         "./open-terminal-guide",
         "./elk-kibana-dashboards",
@@ -95,7 +94,6 @@
       ],
       "tags": [
         "litellm",
-        "omniroute",
         "open-webui",
         "opencodex"
       ]
@@ -358,21 +356,6 @@
         "ai-gateway",
         "routing",
         "openai-compatible"
-      ]
-    },
-    {
-      "name": "omniroute-guide",
-      "displayName": "OmniRoute AI Router Guide",
-      "description": "OmniRoute multi-provider AI proxy/router, 237 providers, combo/auto-routing, 94 MCP tools, A2A, and circuit breaking",
-      "source": "./omniroute-guide",
-      "strict": false,
-      "category": "ai-tools",
-      "tags": [
-        "omniroute",
-        "ai-router",
-        "llm-proxy",
-        "mcp",
-        "a2a"
       ]
     },
     {

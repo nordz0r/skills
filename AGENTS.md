@@ -31,7 +31,6 @@ skills/
 ├── agency-*/                         # 10 English meta-skills, each with evals/evals.json
 ├── tools/a_evolve_router/            # A-Evolve routing benchmark over skill evals
 ├── litellm-guide/                    # LiteLLM SDK/proxy/provider/repo guide
-├── omniroute-guide/                  # OmniRoute AI router/proxy/MCP/A2A guide
 ├── elk-kibana-dashboards/            # Elasticsearch/Kibana dashboards and log analysis
 ├── preview-interview/                # Interview preparation workflow
 ├── nextcloud-admin/                  # Nextcloud OCS API + WebDAV
@@ -80,7 +79,6 @@ Design agency skills (`agency-ui-designer`, `agency-ux-architect`, `agency-ux-re
 - `nextcloud-admin`
 - `nextcloud-collectives`
 - `litellm-guide`
-- `omniroute-guide`
 - `open-terminal-guide`
 - `open-webui-guide`
 - `elk-kibana-dashboards`
@@ -199,14 +197,14 @@ npx skills add nordz0r/skills -s litellm-guide -g
 
 ## NOTES
 
-- Current inventory: 26 skills total.
+- Current inventory: 25 skills total.
 - `agency-*` accounts for 6 remaining engineering skills (design four removed 2026-09-20).
 - `open-webui-guide` has 11 reference files and is still the largest single documentation set.
 - `litellm-guide` has 6 reference files, an OpenAI agent metadata file, and evals for `a_evolve_router`.
-- `omniroute-guide` has 11 reference files and evals for `a_evolve_router`; second-largest reference set after `open-webui-guide`.
 - `telegram-formatting` is a standalone skill (not in `ai-tools`); grouping `Telegram` in `skills.sh.json`.
 - Removed design agency skills (2026-09-20): `agency-ui-designer`, `agency-ux-architect`, `agency-ux-researcher`, `agency-whimsy-injector`.
 - Removed `lightpanda-browser` (2026-09-20): unused in this estate; Playwright skill already gone.
+- Removed `omniroute-guide` (2026-10-03): OmniRoute is retired in this estate and will not return.
 - Removed `basic-memory-workflow` (2026-09-20): project memory moved to OpenViking (`ov`) and graft.
 - Removed in September 2026 after a skills.sh security-audit review (unremediated MEDIUM warnings): `playwright-skill` (arbitrary JS executor + auto npm installs), `ollama-search`, `qdrant-codebase-search` (`npx -y` runtime code fetch). Stale entries persist on skills.sh with their install counts.
 - Hermes Agent compatibility: skills sit at the repo root, so `hermes skills install nordz0r/skills/<name>` works directly (verified live on v0.21.0, including skills absent from skills.sh); as a tap the repo needs `"path": ""` in `$HERMES_HOME/skills/.hub/taps.json` (the `tap add` CLI defaults to `skills/`). Hermes walks its large default taps before user taps, so tap skills may not surface in `search`/`browse` right away. Install/update commands are documented in both READMEs (section 4).
