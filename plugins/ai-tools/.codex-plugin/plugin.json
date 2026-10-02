@@ -1,7 +1,7 @@
 {
   "name": "ai-tools",
   "version": "1.0.0",
-  "description": "7 skills covering LiteLLM, OmniRoute, Open WebUI, Open Terminal, ELK, OpenCodex, and interview prep",
+  "description": "6 skills covering LiteLLM, Open WebUI, Open Terminal, ELK, OpenCodex, and interview prep",
   "author": {
     "name": "NorD",
     "url": "https://github.com/nordz0r/skills"
@@ -11,15 +11,14 @@
   "license": "MIT",
   "keywords": [
     "litellm",
-    "omniroute",
     "open-webui",
     "opencodex"
   ],
   "skills": "./skills/",
   "interface": {
     "displayName": "AI Tooling, Proxies & Automation Bundle",
-    "shortDescription": "7 skills covering LiteLLM, OmniRoute, Open WebUI, Open Terminal, ELK, OpenCodex, and interview prep",
-    "longDescription": "7 skills covering LiteLLM, OmniRoute, Open WebUI, Open Terminal, ELK, OpenCodex, and interview prep",
+    "shortDescription": "6 skills covering LiteLLM, Open WebUI, Open Terminal, ELK, OpenCodex, and interview prep",
+    "longDescription": "6 skills covering LiteLLM, Open WebUI, Open Terminal, ELK, OpenCodex, and interview prep",
     "developerName": "NorD",
     "category": "Productivity",
     "capabilities": [
