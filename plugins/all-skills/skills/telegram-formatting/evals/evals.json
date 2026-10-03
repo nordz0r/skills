@@ -12,6 +12,24 @@
       "prompt": "Нужен баннер placehold.co для дайджеста и правило, когда генерировать картинку (Gemini/Grok) для Telegram Rich Markdown, а когда оставить текст.",
       "expected_output": "Должен выбрать telegram-formatting: placehold vs generate, когда картинку не берём, jpg.wtf / fallback pixhost, не UI-редизайн.",
       "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Загружаю сгенерированную схему для Telegram: jpg.wtf ответил HTTP 200, но в JSON \"status\":\"err\" (или curl вышел по --max-time). Что делать дальше, чтобы картинка дошла?",
+      "expected_output": "Должен выбрать telegram-formatting: нет status ok + url или таймаут/ошибка curl → fallback pixhost (--max-time 30, прямой imgN URL); pixhost тоже упал → MEDIA:/abs/path; из ответа jpg.wtf только jq -r .url, delete_url не выводить.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "curl -sI на ссылку картинки https://jpg.wtf/<hash> отдаёт 302 вместо 200. Можно вставить её в ![]() в Telegram rich-сообщении?",
+      "expected_output": "Должен выбрать telegram-formatting: редирект не принимаем — URL должен отдавать 200 + image/* без редиректа; брать прямой www.jpg.wtf/<hash>.png (или imgN.pixhost.to), нет Content-Length / > 5 МБ → MEDIA:.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Хочу показать в Telegram скриншот внутренней админки с токеном и email клиентов inline через ![](). Залить на jpg.wtf или pixhost?",
+      "expected_output": "Должен выбрать telegram-formatting: оба хостинга публичные — скриншот с PII/секретами/внутренними системами только через MEDIA:/abs/path, без загрузки на jpg.wtf/pixhost.",
+      "files": []
     }
   ]
 }
