@@ -1,7 +1,7 @@
 ---
 name: telegram-formatting
 description: "Telegram Rich Markdown formatting: syntax, limits, delivery, banners, inline images. Use when preparing Telegram replies via gateway: GFM tables, task lists, details, sendRichMessage vs MarkdownV2, MEDIA vs HTTPS ![](), placehold.co banners, image generation, jpg.wtf hotlink, pixhost fallback, tg-collage, tg-emoji. Triggers: telegram, rich markdown, sendRichMessage, MarkdownV2, MEDIA, placehold, inline photo, banner, caption, checklist."
-version: 3.3.0
+version: 3.3.1
 author: NorD (nordz0r), Hermes Agent
 license: MIT
 platforms: [linux, macos, windows]
@@ -172,23 +172,35 @@ inline-форматирование; медиа — только отдельн�
 Не генератор: `gemini-3.8-flash` (text/vision). После генерации:
 
 1. Опубликуй файл по публичному HTTPS (порядок хостингов):
+   - **Приватность:** оба хостинга публичные. Скриншоты с персональными
+     данными, токенами/секретами или внутренними системами — **только
+     `MEDIA:`**, никогда не на jpg.wtf/pixhost.
    - **Primary — jpg.wtf** (хостинг Лепры, origin и CDN в РФ; анонимно,
      без ключа и капчи, до 30 МБ):
-     `curl -s -F file=@файл https://jpg.wtf/api/upload.php` → JSON
+     `curl -s --max-time 30 -F file=@файл https://jpg.wtf/api/upload.php |
+     jq -r 'select(.status=="ok") | .url // empty'` → `url` из JSON
      `{"status":"ok","url":"https://www.jpg.wtf/<hash>.png","delete_url":…}`.
-     Бери `url` как есть (`www.`-хост отдаёт `image/*` без редиректа, а
-     голый `jpg.wtf/<hash>` отвечает 302). `delete_url` в чат не класть.
+     Извлекай только `.url`, весь JSON не выводи: `delete_url` не должен
+     попасть ни в логи, ни в вывод, ни в чат. Бери `url` как есть
+     (`www.`-хост отдаёт `image/*` без редиректа, а голый `jpg.wtf/<hash>`
+     отвечает 302).
    - **Fallback — pixhost** (анонимный API, без ключа, до 10 МБ):
-     `curl -s -H 'Accept: application/json' -F img=@файл -F content_type=0
-     -F max_th_size=150 https://api.pixhost.to/images` → `th_url`
+     `curl -s --max-time 30 -H 'Accept: application/json' -F img=@файл
+     -F content_type=0 -F max_th_size=150 https://api.pixhost.to/images` →
+     `th_url`
      `https://tN.pixhost.to/thumbs/…`; прямой URL =
      `https://imgN.pixhost.to/images/…` (замени `tN`→`imgN`, `thumbs`→`images`).
+   - **Правило fallback:** jpg.wtf может ответить HTTP 200 с
+     `"status":"err"`. Нет `status` == `ok` вместе с `url` (пустой вывод
+     `jq`), или curl упал / вышел по таймауту → pixhost. pixhost тоже
+     упал → `MEDIA:`.
    - Не использовать: uguu (с dd отвечает 502), 0x0.st (закрыт, ToS
      запрещает AI-картинки), telegra.ph/upload (выключен с 2024),
      хосты за Cloudflare без прокси (с dd обрыв на ~20 КБ).
-2. Проверь URL: `curl -sI` → `200`, `Content-Type: image/jpeg|png|webp`
-   без редиректа, размер ≤ 5 МБ (лимит Telegram на фото по URL). Больше
-   5 МБ (до 10 МБ) — только `MEDIA:`.
+2. Проверь URL: `curl -sI --max-time 30` → `200`, `Content-Type:
+   image/jpeg|png|webp` без редиректа, `Content-Length` ≤ 5 МБ (лимит
+   Telegram на фото по URL). Нет `Content-Length` или больше 5 МБ (до
+   10 МБ) — только `MEDIA:`.
 3. Вставь в **то же** rich-сообщение: `![](https://…)` или
    `![](url "caption")` отдельным блоком.
 4. Локальный файл для native photo — `MEDIA:/abs/path` своей строкой
@@ -224,7 +236,8 @@ inline-форматирование; медиа — только отдельн�
    данные не клади внутрь rich-таблиц (их неудобно копировать из клиента).
 5. Картинки: нет смысла → без медиа; баннер секции → placehold; схема/
    сравнение → generate (Gemini → Grok) → jpg.wtf (fallback pixhost) →
-   `![](https://…)`.
+   `![](https://…)`. Скриншот с PII/секретами/внутренними системами →
+   только `MEDIA:`.
    Локальный файл → `MEDIA:/abs`, не внутрь `![]()`. Completion: в ответе
    нет FS-путей внутри markdown-image и нет `file/bot` URL.
 
