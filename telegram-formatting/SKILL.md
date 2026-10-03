@@ -1,7 +1,7 @@
 ---
 name: telegram-formatting
-description: "Telegram Rich Markdown formatting: syntax, limits, delivery, banners, inline images. Use when preparing Telegram replies via gateway: GFM tables, task lists, details, sendRichMessage vs MarkdownV2, MEDIA vs HTTPS ![](), placehold.co banners, image generation, uguu hotlink, tg-collage, tg-emoji. Triggers: telegram, rich markdown, sendRichMessage, MarkdownV2, MEDIA, placehold, inline photo, banner, caption, checklist."
-version: 3.2.0
+description: "Telegram Rich Markdown formatting: syntax, limits, delivery, banners, inline images. Use when preparing Telegram replies via gateway: GFM tables, task lists, details, sendRichMessage vs MarkdownV2, MEDIA vs HTTPS ![](), placehold.co banners, image generation, jpg.wtf hotlink, pixhost fallback, tg-collage, tg-emoji. Triggers: telegram, rich markdown, sendRichMessage, MarkdownV2, MEDIA, placehold, inline photo, banner, caption, checklist."
+version: 3.3.0
 author: NorD (nordz0r), Hermes Agent
 license: MIT
 platforms: [linux, macos, windows]
@@ -171,13 +171,29 @@ inline-форматирование; медиа — только отдельн�
 
 Не генератор: `gemini-3.8-flash` (text/vision). После генерации:
 
-1. Залей файл на публичный hotlink (uguu: `POST https://uguu.se/upload.php`,
-   field `files[]` → `https://…/id.jpg`; проверь `image/*` и SOI JPEG).
-2. Вставь в **то же** rich-сообщение: `![](https://…)` или
+1. Опубликуй файл по публичному HTTPS (порядок хостингов):
+   - **Primary — jpg.wtf** (хостинг Лепры, origin и CDN в РФ; анонимно,
+     без ключа и капчи, до 30 МБ):
+     `curl -s -F file=@файл https://jpg.wtf/api/upload.php` → JSON
+     `{"status":"ok","url":"https://www.jpg.wtf/<hash>.png","delete_url":…}`.
+     Бери `url` как есть (`www.`-хост отдаёт `image/*` без редиректа, а
+     голый `jpg.wtf/<hash>` отвечает 302). `delete_url` в чат не класть.
+   - **Fallback — pixhost** (анонимный API, без ключа, до 10 МБ):
+     `curl -s -H 'Accept: application/json' -F img=@файл -F content_type=0
+     -F max_th_size=150 https://api.pixhost.to/images` → `th_url`
+     `https://tN.pixhost.to/thumbs/…`; прямой URL =
+     `https://imgN.pixhost.to/images/…` (замени `tN`→`imgN`, `thumbs`→`images`).
+   - Не использовать: uguu (с dd отвечает 502), 0x0.st (закрыт, ToS
+     запрещает AI-картинки), telegra.ph/upload (выключен с 2024),
+     хосты за Cloudflare без прокси (с dd обрыв на ~20 КБ).
+2. Проверь URL: `curl -sI` → `200`, `Content-Type: image/jpeg|png|webp`
+   без редиректа, размер ≤ 5 МБ (лимит Telegram на фото по URL). Больше
+   5 МБ (до 10 МБ) — только `MEDIA:`.
+3. Вставь в **то же** rich-сообщение: `![](https://…)` или
    `![](url "caption")` отдельным блоком.
-3. Локальный файл для native photo — `MEDIA:/abs/path` своей строкой.
-   Путь ФС и `file://` внутри `![]()` запрещены. URL вида
-   `file/botTOKEN/…` в текст не класть (утечка токена).
+4. Локальный файл для native photo — `MEDIA:/abs/path` своей строкой
+   (аварийный путь без хостинга). Путь ФС и `file://` внутри `![]()`
+   запрещены. URL вида `file/botTOKEN/…` в текст не класть (утечка токена).
 
 ### Brand custom emoji
 
@@ -207,7 +223,8 @@ inline-форматирование; медиа — только отдельн�
 4. Команды и пути — в code fence или inline code; важные для копирования
    данные не клади внутрь rich-таблиц (их неудобно копировать из клиента).
 5. Картинки: нет смысла → без медиа; баннер секции → placehold; схема/
-   сравнение → generate (Gemini → Grok) → uguu → `![](https://…)`.
+   сравнение → generate (Gemini → Grok) → jpg.wtf (fallback pixhost) →
+   `![](https://…)`.
    Локальный файл → `MEDIA:/abs`, не внутрь `![]()`. Completion: в ответе
    нет FS-путей внутри markdown-image и нет `file/bot` URL.
 
