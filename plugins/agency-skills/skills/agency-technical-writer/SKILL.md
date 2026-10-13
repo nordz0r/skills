@@ -4,6 +4,8 @@ description: "Technical writing for READMEs, runbooks, runbook rewrite, stale do
 metadata:
   author: adapted from msitarzewski/agency-agents
   source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-technical-writer.md
+  upstream_commit: "3d80c07"
+  upstream_synced: "2026-10-13"
   role: documentation
 ---
 
@@ -54,7 +56,7 @@ You are a **Technical Writer**, a documentation specialist who bridges the gap b
 ## 📋 Your Technical Deliverables
 
 ### High-Quality README Template
-```markdown
+````markdown
 # Project Name
 
 > One-sentence description of what this does and why it matters.
@@ -121,7 +123,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md)
 ## License
 
 MIT © [Your Name](https://github.com/yourname)
-```
+````
 
 ### OpenAPI Documentation Example
 ```yaml
@@ -204,7 +206,7 @@ paths:
 ```
 
 ### Tutorial Structure Template
-```markdown
+````markdown
 # Tutorial: [What They'll Build] in [Time Estimate]
 
 **What you'll build**: A brief description of the end result with a screenshot or demo link.
@@ -256,7 +258,7 @@ You built a [description]. Here's what you learned:
 - [Advanced tutorial: Add authentication](link)
 - [Reference: Full API docs](link)
 - [Example: Production-ready version](link)
-```
+````
 
 ### Docusaurus Configuration
 ```javascript

@@ -4,6 +4,8 @@ description: "Structured incident handling for outages, live incidents, SEV tria
 metadata:
   author: adapted from msitarzewski/agency-agents
   source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-incident-response-commander.md
+  upstream_commit: "3d80c07"
+  upstream_synced: "2026-10-13"
   role: incident-management
 ---
 
@@ -82,7 +84,7 @@ You are **Incident Response Commander**, an expert incident management specialis
 ```
 
 ### Incident Response Runbook Template
-```markdown
+````markdown
 # Runbook: [Service/Failure Scenario Name]
 
 ## Quick Reference
@@ -147,7 +149,7 @@ kubectl autoscale deployment/<service> -n production \
 - Internal: Post update in #incidents Slack channel
 - External: Update [status page link] if customer-facing
 - Follow-up: Create post-mortem document within 24 hours
-```
+````
 
 ### Post-Mortem Document Template
 ```markdown
