@@ -1,65 +1,59 @@
 ---
 name: docker-ops
-description: >-
-  Практическая работа с Docker Engine и Docker Compose v2: Dockerfile,
-  multi-stage, healthcheck, сети, volumes, bind mounts, логи, registry,
-  docker compose up/down/config, BuildKit, non-root USER, restart policy.
-  Используй этот skill при любых задачах по контейнерам на хосте: собрать
-  образ, написать compose.yaml, починить Restarting, разобрать docker logs,
-  docker inspect, overlay2, docker.sock, prune, CI image build. Триггеры:
-  docker, dockerfile, docker compose, compose.yaml, container, image build,
-  docker logs, healthcheck, bind mount, docker network, registry, dind.
+description: "Hands-on Docker Engine and Docker Compose v2: Dockerfile, multi-stage, healthcheck, networks, volumes, bind mounts, logs, registry, docker compose up/down/config, BuildKit, non-root USER, restart policy. Use for any container task on a host: build an image, write compose.yaml, fix Restarting, read docker logs, docker inspect, overlay2, docker.sock, prune, CI image build. Triggers: docker, dockerfile, docker compose, compose.yaml, container, image build, docker logs, healthcheck, bind mount, docker network, registry, dind."
 ---
 
 # Docker Ops
 
-Skill для Docker Engine и Compose v2 на Linux-хосте. Отдавай готовые
-`Dockerfile`/`compose.yaml` и команды проверки, не общие советы.
+Skill for Docker Engine and Compose v2 on a Linux host. Hand over ready
+`Dockerfile`/`compose.yaml` files and verification commands, not generic advice.
 
-Не используй как основной skill для Kubernetes, GitLab YAML или Ansible
-модуля `community.docker` — там `gitlab-ci` и `ansible-playbook`.
-GitLab `docker:dind` разбирай вместе с `gitlab-ci`.
+Do not use it as the primary skill for Kubernetes, GitLab YAML or the Ansible
+`community.docker` module — those are `gitlab-ci` and `ansible-playbook`.
+Handle GitLab `docker:dind` together with `gitlab-ci`.
 
-## Когда использовать
+## When to use
 
-- Написать или починить Dockerfile / compose.yaml.
-- Контейнер в `Restarting`, unhealthy, не резолвит DNS, не видит volume.
-- Сборка образа, теги, push в registry.
-- Сети, порты, bind mounts, named volumes, tmpfs.
-- Логи, `inspect`, `events`, disk от overlay2.
+- Write or fix a Dockerfile / compose.yaml.
+- Container is `Restarting`, unhealthy, cannot resolve DNS, cannot see a volume.
+- Image build, tags, push to a registry.
+- Networks, ports, bind mounts, named volumes, tmpfs.
+- Logs, `inspect`, `events`, disk used by overlay2.
 
 ## Workflow
 
-1. Уточни runtime: `docker version`, `docker compose version`. Compose v2 —
-   это `docker compose`, не `docker-compose`.
-2. Если есть compose — сначала `docker compose config` и `ps -a`.
-3. Симптом снимай с контейнера: `ps`, `logs --tail`, `inspect`, `health`.
-4. Код/конфиг меняй декларативно в Dockerfile/compose, не `docker exec` как
-   постоянный фикс.
-5. Проверка: контейнер healthy, порт слушает, volume на месте, тег не `latest`
-   в prod.
+1. Confirm the runtime: `docker version`, `docker compose version`. Compose v2 is
+   `docker compose`, not `docker-compose`.
+2. If there is a compose file, run `docker compose config` and `ps -a` first.
+3. Take symptoms from the container: `ps`, `logs --tail`, `inspect`, `health`.
+4. Change code/config declaratively in the Dockerfile/compose; `docker exec` is not
+   a permanent fix.
+5. Verify: container healthy, port listening, volume in place, no `latest` tag
+   in prod.
 
-## Правила
+## Rules
 
-- Теги фиксируй. `latest` только для локального эксперимента.
-- В prod — `USER` не root, `read_only` + `tmpfs` где можно, drop Linux caps.
-- Bind-mount конфигов: `:ro`. Данные — named volume или явный data-path.
-- Healthcheck обязателен, если от него зависит `depends_on: condition`.
-- Секреты не в ENV в image history. `env_file`, tmpfs, Docker secrets.
-- `network_mode: host` — исключение, не дефолт.
+- Pin tags. `latest` only for local experiments.
+- In prod: non-root `USER`, `read_only` + `tmpfs` where possible, drop Linux caps.
+- Config bind mounts: `:ro`. Data: a named volume or an explicit data path.
+- A healthcheck is mandatory when `depends_on: condition` relies on it.
+- No secrets in ENV baked into image history. Use `env_file`, tmpfs, Docker secrets.
+- `network_mode: host` is the exception, not the default.
 
 ## Companion skills
 
-- Хост systemd/journald/диск → `administering-linux`.
-- Сборка в GitLab CI / dind / registry → `gitlab-ci`.
-- Раскатка compose через Ansible → `ansible-playbook`.
-- Amnezia-контейнеры `/opt/amnezia` → `amnezia-vpn`.
+- Host systemd/journald/disk → `administering-linux`.
+- Builds in GitLab CI / dind / registry → `gitlab-ci`.
+- Rolling out compose via Ansible → `ansible-playbook`.
+- Amnezia containers `/opt/amnezia` → `amnezia-vpn`.
 
 ## References
 
-- `references/compose-and-dockerfile.md` — шаблоны Dockerfile и Compose.
-- `references/debug.md` — диагностика контейнеров, сетей, диска, daemon.
+- `references/compose-and-dockerfile.md` — Dockerfile and Compose templates.
+- `references/debug.md` — diagnosing containers, networks, disk, the daemon.
 
 <!-- A-EVOLVE-ROUTING-SIGNALS:START -->
 ## Routing signals: docker dockerfile compose.yaml docker compose healthcheck bind mount overlay2 registry image build container logs inspect restarting dind buildkit
 <!-- A-EVOLVE-ROUTING-SIGNALS:END -->
+
+Russian version: [`references/README.ru.md`](references/README.ru.md).

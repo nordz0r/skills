@@ -1,43 +1,33 @@
 ---
 name: podkop-openwrt-guide
-description: >-
-  Полная русскоязычная справка по Podkop на OpenWrt. Используй этот skill при
-  любых задачах по `itdoginfo/podkop`: установка, обновление, миграция
-  `/etc/config/podkop`, настройка selective/domain routing через `sing-box`,
-  работа с `dnsmasq`, `nft/tproxy`, LuCI UI, proxy URL-строками (vless,
-  trojan, ss, hysteria2, socks), community/user lists, selector/urltest,
-  exclusion, Clash API/YACD dashboard, BadWAN мониторинг, FakeIP,
-  диагностикой сервиса и разработкой `podkop`, `luci-app-podkop`,
-  `fe-app-podkop`. Триггеры: podkop, luci-app-podkop, sing-box on OpenWrt,
-  fakeip, proxy_string, community lists, selective routing, clash api, yacd,
-  urltest, selector, exclusion.
+description: "Complete guide to Podkop on OpenWrt. Use for any itdoginfo/podkop task: install, update, migrating /etc/config/podkop, selective/domain routing via sing-box, dnsmasq, nft/tproxy, LuCI UI, proxy URL strings (vless, trojan, ss, hysteria2, socks), community/user lists, selector/urltest, exclusion, Clash API/YACD dashboard, BadWAN monitoring, FakeIP, service diagnostics and development of podkop, luci-app-podkop, fe-app-podkop. Triggers: podkop, luci-app-podkop, sing-box on OpenWrt, fakeip, proxy_string, community lists, selective routing, clash api, yacd, urltest, selector, exclusion."
 ---
 
 # Podkop OpenWrt Guide
 
-Podkop — orchestration-слой над `sing-box` для OpenWrt: управляет селективной маршрутизацией, правит `dnsmasq`, собирает правила/списки, генерирует NFTable-правила для tproxy и предоставляет LuCI UI.
+Podkop is an orchestration layer over `sing-box` for OpenWrt: it manages selective routing, edits `dnsmasq`, assembles rules/lists, generates NFTable rules for tproxy and provides a LuCI UI.
 
-Используй этот skill, когда нужно не просто "что-то поменять в конфиге", а понять, как Podkop связывает `UCI`, `dnsmasq`, `sing-box`, `nft` и сервисный lifecycle.
+Use this skill when you need more than "change something in the config": when you need to understand how Podkop ties together `UCI`, `dnsmasq`, `sing-box`, `nft` and the service lifecycle.
 
-## Когда использовать
+## When to use
 
-- Установка или обновление Podkop на роутере с OpenWrt.
-- Миграция конфига после несовместимого релиза.
-- Настройка proxy-строк, selector/urltest групп, raw outbound JSON.
-- Работа с community lists, user domains/subnets, remote/local lists.
-- Настройка mixed proxy, YACD dashboard, Clash API, FakeIP.
-- Конфигурация типов соединений: proxy, vpn, block, exclusion.
-- Настройка BadWAN мониторинга интерфейсов, DNS (UDP/DoT/DoH), NTP exclusion.
-- Диагностика поломок `sing-box`, `dnsmasq`, `nft`, dashboard или LuCI.
-- Разработка shell-бэкенда, LuCI UI или TypeScript frontend в репозитории `itdoginfo/podkop`.
-- Анализ конфликтов с `https-dns-proxy`, `nextdns`, `passwall`, `Getdomains`.
+- Installing or updating Podkop on an OpenWrt router.
+- Migrating the config after an incompatible release.
+- Configuring proxy strings, selector/urltest groups, raw outbound JSON.
+- Working with community lists, user domains/subnets, remote/local lists.
+- Configuring mixed proxy, YACD dashboard, Clash API, FakeIP.
+- Connection types: proxy, vpn, block, exclusion.
+- BadWAN interface monitoring, DNS (UDP/DoT/DoH), NTP exclusion.
+- Diagnosing `sing-box`, `dnsmasq`, `nft`, dashboard or LuCI breakage.
+- Developing the shell backend, LuCI UI or TypeScript frontend in the `itdoginfo/podkop` repo.
+- Analysing conflicts with `https-dns-proxy`, `nextdns`, `passwall`, `Getdomains`.
 
-## Архитектура (высокоуровнево)
+## Architecture (high level)
 
 ```
 UCI config (/etc/config/podkop)
        ↓
-  /usr/bin/podkop (оркестратор)
+  /usr/bin/podkop (orchestrator)
        ↓
   ┌────┴────┬──────────┬──────────┬──────────┐
   ↓         ↓          ↓          ↓          ↓
@@ -45,53 +35,55 @@ helpers   nft.sh    sing-box   dnsmasq   ip rule/
 rulesets           config_*   redirect  rt table
 ```
 
-Трафик: клиент → NFTable (mark 0x00100000) → tproxy (127.0.0.1:1602) → sing-box → outbound (proxy/vpn/block/direct). DNS: dnsmasq → 127.0.0.42:53 (sing-box DNS inbound) → FakeIP (198.18.0.0/15) для доменного роутинга.
+Traffic: client → NFTable (mark 0x00100000) → tproxy (127.0.0.1:1602) → sing-box → outbound (proxy/vpn/block/direct). DNS: dnsmasq → 127.0.0.42:53 (sing-box DNS inbound) → FakeIP (198.18.0.0/15) for domain routing.
 
-## Быстрый выбор workflow
+## Quick workflow picker
 
-- Задача про живой роутер → `references/operations.md`.
-- Задача про кодовую базу и сборку → `references/repo-map.md`, затем `references/build-and-dev.md`.
-- Задача про корректность proxy-строки → `references/proxy-strings.md`.
+- Live router task → `references/operations.md`.
+- Codebase and build task → `references/repo-map.md`, then `references/build-and-dev.md`.
+- Proxy string correctness → `references/proxy-strings.md`.
 
-Открывай только нужный reference, не загружай все файлы сразу.
+Open only the reference you need; do not load all files at once.
 
 ## Safety Notes
 
-- Podkop меняет системные сервисы и конфиги роутера. Перед установкой или миграцией делай backup `/etc/config/podkop` и понимай путь отката.
-- Не запускай удалённый install/update script без фиксации версии и ручной проверки содержимого.
-- Remote domain/subnet lists и community data — это внешний ввод. Не считай их автоматически доверенными.
+- Podkop changes system services and router configs. Before install or migration back up `/etc/config/podkop` and know the rollback path.
+- Do not run a remote install/update script without pinning the version and reviewing its contents.
+- Remote domain/subnet lists and community data are external input. Do not treat them as trusted automatically.
 
 ## Router Workflow
 
-1. Зафиксируй версию OpenWrt и свободное место во flash.
-2. Забэкапь `/etc/config/podkop`, конфиг `sing-box` и, если рискованно, `dnsmasq`.
-3. Проверь ограничения: OpenWrt `24.10+`, `sing-box` ≥ 1.12.0, HTTP-only dashboard, нет IPv6, конфликтующие пакеты.
-4. Для установки/обновления — upstream-скрипт, для миграции — раздел в `operations.md`.
-5. Для диагностики — CLI Podkop (`global_check`, `check_proxy`), потом `nft`, `dnsmasq`, логи `sing-box`.
+1. Record the OpenWrt version and free flash space.
+2. Back up `/etc/config/podkop`, the `sing-box` config and, if risky, `dnsmasq`.
+3. Check constraints: OpenWrt `24.10+`, `sing-box` ≥ 1.12.0, HTTP-only dashboard, no IPv6, conflicting packages.
+4. Install/update with the upstream script; for migration see the section in `operations.md`.
+5. Diagnose with the Podkop CLI (`global_check`, `check_proxy`), then `nft`, `dnsmasq`, `sing-box` logs.
 
 ## Development Workflow
 
-- Shell-бэкенд: `podkop/files/usr/bin/podkop` + библиотеки `podkop/files/usr/lib/*.sh`.
-- LuCI пакет: `luci-app-podkop/` (собранные JS + RPC ACL + меню).
-- Frontend-исходники: `fe-app-podkop/` (TypeScript, vitest, eslint, prettier).
-- Release pipeline: Docker (`Dockerfile-ipk`, `Dockerfile-apk`), CI ShellCheck для shell.
+- Shell backend: `podkop/files/usr/bin/podkop` + libraries `podkop/files/usr/lib/*.sh`.
+- LuCI package: `luci-app-podkop/` (built JS + RPC ACL + menu).
+- Frontend sources: `fe-app-podkop/` (TypeScript, vitest, eslint, prettier).
+- Release pipeline: Docker (`Dockerfile-ipk`, `Dockerfile-apk`), CI ShellCheck for shell.
 
-## На что обращать внимание
+## Things to watch
 
-- Podkop меняет `dnsmasq` и `sing-box`; без бэкапа легко потерять рабочий маршрутинг.
-- Проект в активной разработке, документация может отставать от кода.
-- После обновлений чисти LuCI cache и проверяй конфиг.
-- Dashboard (YACD) работает только по HTTP, не через HTTPS или доменное имя.
-- Конфиг `0.7.0+` несовместим со старыми схемами — нужна миграция.
+- Podkop changes `dnsmasq` and `sing-box`; without a backup it is easy to lose working routing.
+- The project is under active development; docs may lag behind the code.
+- After updates clear the LuCI cache and check the config.
+- The dashboard (YACD) only works over HTTP, not HTTPS or a domain name.
+- Config `0.7.0+` is incompatible with older schemas — a migration is required.
 - `sing-box` ≥ 1.12.0, `jq` ≥ 1.7.1, `coreutils-base64` ≥ 9.7.
 
 ## References
 
-- `references/operations.md`: полная эксплуатация — установка, миграция, конфиг-модель, все CLI-команды, Clash API, архитектура трафика.
-- `references/repo-map.md`: структура репозитория, shell-библиотеки, LuCI-компоненты, зоны ответственности.
-- `references/build-and-dev.md`: frontend/backend workflow, CI и release build.
-- `references/proxy-strings.md`: форматы URL-схем, параметры, валидация.
+- `references/operations.md`: full operations — install, migration, config model, all CLI commands, Clash API, traffic architecture.
+- `references/repo-map.md`: repository structure, shell libraries, LuCI components, areas of responsibility.
+- `references/build-and-dev.md`: frontend/backend workflow, CI and release build.
+- `references/proxy-strings.md`: URL scheme formats, parameters, validation.
 
 <!-- A-EVOLVE-ROUTING-SIGNALS:START -->
 ## Routing signals: podkop openwrt sing-box selective routing fakeip clash api selector urltest proxy strings luci dns router
 <!-- A-EVOLVE-ROUTING-SIGNALS:END -->
+
+Russian version: [`references/README.ru.md`](references/README.ru.md).

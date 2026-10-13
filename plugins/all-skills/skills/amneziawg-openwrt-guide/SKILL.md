@@ -1,72 +1,67 @@
 ---
 name: amneziawg-openwrt-guide
-description: >-
-  Полная русскоязычная справка по `amneziawg-openwrt`. Используй этот skill
-  при любых задачах по AmneziaWG на OpenWrt: установка пакетов
-  `amneziawg-tools`, `kmod-amneziawg`, `luci-proto-amneziawg`, настройка
-  `proto amneziawg`, UCI/LuCI-конфигурация интерфейсов и peers, генерация
-  ключей, QR, watchdog, сборка пакетов и отладка kernel/userspace fallback.
-  Триггеры: amneziawg, amnezia, awg, luci-proto-amneziawg, kmod-amneziawg,
-  amneziawg-tools, amneziawg-go, openwrt awg.
+description: "Complete guide to amneziawg-openwrt. Use for any AmneziaWG task on OpenWrt: installing amneziawg-tools, kmod-amneziawg, luci-proto-amneziawg, configuring proto amneziawg, UCI/LuCI interface and peer config, key generation, QR, watchdog, package builds and kernel/userspace fallback debugging. Triggers: amneziawg, amnezia, awg, luci-proto-amneziawg, kmod-amneziawg, amneziawg-tools, amneziawg-go, openwrt awg."
 ---
 
 # AmneziaWG OpenWrt Guide
 
-Этот skill описывает именно интеграцию протокола AmneziaWG в OpenWrt, а не "весь Amnezia-продукт". Репозиторий содержит kernel module, userspace tools, `netifd` helper и LuCI UI.
+This skill covers the integration of the AmneziaWG protocol into OpenWrt, not "the whole Amnezia product". The repository contains a kernel module, userspace tools, a `netifd` helper and a LuCI UI.
 
-Используй его, когда нужно понять, как поднять `proto 'amneziawg'`, как устроены peer sections, как работает fallback на userspace и где чинить LuCI/RPC часть.
+Use it to understand how to bring up `proto 'amneziawg'`, how peer sections work, how the userspace fallback works, and where to fix the LuCI/RPC part.
 
-## Когда использовать
+## When to use
 
-- Настройка интерфейса AmneziaWG на OpenWrt.
-- Разбор UCI schema или полей LuCI формы.
-- Отладка handshakes, endpoint resolution, key generation, status page.
-- Сборка пакетов в OpenWrt SDK/Buildroot.
-- Работа с `kmod-amneziawg`, `amneziawg-tools`, `luci-proto-amneziawg`.
-- Проверка, почему не загрузился kernel module и включился userspace fallback.
+- Configuring an AmneziaWG interface on OpenWrt.
+- Understanding the UCI schema or LuCI form fields.
+- Debugging handshakes, endpoint resolution, key generation, the status page.
+- Building packages in the OpenWrt SDK/Buildroot.
+- Working with `kmod-amneziawg`, `amneziawg-tools`, `luci-proto-amneziawg`.
+- Finding out why the kernel module did not load and the userspace fallback kicked in.
 
-## Быстрый выбор workflow
+## Quick workflow picker
 
-- Если задача про роутер и UCI/LuCI: начни с `references/uci-model.md`.
-- Если задача про устройство репозитория: открой `references/architecture.md`.
-- Если задача про сборку, совместимость или диагностику: открой `references/build-and-debug.md`.
+- Router and UCI/LuCI task: start with `references/uci-model.md`.
+- Repository layout task: open `references/architecture.md`.
+- Build, compatibility or diagnostics task: open `references/build-and-debug.md`.
 
-Открывай только нужный reference, потому что upstream почти не объясняет workflow словами и важные детали спрятаны в коде.
+Open only the reference you need: upstream barely explains the workflow in prose and the important details are hidden in the code.
 
 ## Router Workflow
 
-1. Уточни, нужен ли kernel mode или допустим userspace fallback.
-2. Проверь, какие пакеты реально стоят на роутере: `amneziawg-tools`, `luci-proto-amneziawg`, `kmod-amneziawg`.
-3. Сверь UCI-модель интерфейса и peer sections.
-4. Если проблема в endpoint/динамическом DNS, проверь `persistent_keepalive` и watchdog workflow.
-5. Если задача про LuCI, проверь JS форму, RPC ucode и status page вместе.
+1. Clarify whether kernel mode is required or the userspace fallback is acceptable.
+2. Check which packages are actually installed on the router: `amneziawg-tools`, `luci-proto-amneziawg`, `kmod-amneziawg`.
+3. Check the interface UCI model and peer sections.
+4. If the problem is the endpoint/dynamic DNS, check `persistent_keepalive` and the watchdog workflow.
+5. For LuCI tasks, check the JS form, the RPC ucode and the status page together.
 
 ## Development Workflow
 
-- `amneziawg-tools/` дает бинарник `awg`, `netifd` helper и watchdog.
-- `kmod-amneziawg/` патчит in-tree WireGuard sources OpenWrt и потому очень чувствителен к смене kernel layout.
-- `luci-proto-amneziawg/` содержит форму протокола, RPC методы, ACL и страницу статуса.
-- При любых изменениях нужно держать в голове и runtime на роутере, и packaging в Buildroot.
+- `amneziawg-tools/` provides the `awg` binary, the `netifd` helper and the watchdog.
+- `kmod-amneziawg/` patches OpenWrt's in-tree WireGuard sources and is therefore very sensitive to kernel layout changes.
+- `luci-proto-amneziawg/` contains the protocol form, RPC methods, ACL and the status page.
+- Any change must account for both the runtime on the router and the packaging in Buildroot.
 
-## На что обращать внимание
+## Things to watch
 
-- Репозиторий не поставляет "полный клиент Amnezia", а только OpenWrt integration layer.
-- Userspace fallback требует `amneziawg-go`, но этот бинарник upstream-репозиторий не кладет.
-- QR generation требует установленный `qrencode`.
-- Изменения kernel patch легко ломаются на новых версиях OpenWrt/kernel tree.
+- The repository does not ship a "full Amnezia client", only the OpenWrt integration layer.
+- The userspace fallback needs `amneziawg-go`, but the upstream repository does not ship that binary.
+- QR generation needs `qrencode` installed.
+- Kernel patch changes break easily on new OpenWrt/kernel trees.
 
 ## Security Notes
 
-- Ставь пакеты и бинарники только из проверенного feed, релизного артефакта или зафиксированного commit/tag, а не из непроверенного зеркала.
-- Для `amneziawg-go`, kernel patches и LuCI-компонентов фиксируй версию и сверяй источник перед обновлением.
-- Не подмешивай в UCI/LuCI значения, которые пришли из недоверенного внешнего источника, без ручной проверки.
+- Install packages and binaries only from a verified feed, a release artifact or a pinned commit/tag, not from an unverified mirror.
+- For `amneziawg-go`, kernel patches and LuCI components, pin the version and check the source before updating.
+- Do not feed values from an untrusted external source into UCI/LuCI without manual review.
 
 ## References
 
-- `references/architecture.md`: роли пакетов и карта ключевых файлов.
-- `references/uci-model.md`: интерфейс `proto amneziawg`, peer sections, опции и их смысл.
-- `references/build-and-debug.md`: сборка, kernel/userspace fallback, watchdog и runtime-диагностика.
+- `references/architecture.md`: package roles and a map of key files.
+- `references/uci-model.md`: the `proto amneziawg` interface, peer sections, options and their meaning.
+- `references/build-and-debug.md`: builds, kernel/userspace fallback, watchdog and runtime diagnostics.
 
 <!-- A-EVOLVE-ROUTING-SIGNALS:START -->
 ## Routing signals: amneziawg awg openwrt luci uci peer interface handshake endpoint keys qr watchdog kernel userspace vpn router
 <!-- A-EVOLVE-ROUTING-SIGNALS:END -->
+
+Russian version: [`references/README.ru.md`](references/README.ru.md).

@@ -1,33 +1,33 @@
 ---
 name: ansible-playbook
-description: "Ansible playbooks и roles: ansible-playbook, undefined variable, variable precedence, idempotency, changed tasks, shell task, FQCN, handlers, vault, ansible-lint. Не общий CI/CD rollout. Триггеры: ansible-playbook, playbook, inventory, vault, handler, ansible.builtin, ansible-galaxy."
+description: "Ansible playbooks and roles: ansible-playbook, undefined variable, variable precedence, idempotency, changed tasks, shell task, FQCN, handlers, vault, ansible-lint. Not generic CI/CD rollout. Triggers: ansible-playbook, playbook, inventory, vault, handler, ansible.builtin, ansible-galaxy."
 ---
 
 # Ansible Playbook
 
-Пиши идемпотентные playbooks и roles. Сначала `--check --diff`, потом apply.
+Write idempotent playbooks and roles. `--check --diff` first, then apply.
 
-Не подменяй этот skill Docker-only или GitLab YAML. Для контейнеров внутри
-задачи используй `community.docker` здесь; для `.gitlab-ci.yml` — `gitlab-ci`.
+Do not replace this skill with Docker-only or GitLab YAML work. For containers inside
+the task use `community.docker` here; for `.gitlab-ci.yml` use `gitlab-ci`.
 
-## Когда использовать
+## When to use
 
-- Написать/ревью playbook, role, inventory, group_vars.
+- Write/review a playbook, role, inventory, group_vars.
 - Task failed, undefined var, wrong host, module missing.
-- Vault, секреты, `no_log`.
-- Перевести ручные shell-команды в модули.
+- Vault, secrets, `no_log`.
+- Turn manual shell commands into modules.
 
 ## Workflow
 
-1. Найди существующий inventory и роли. Не плоди второй стиль в одном репо.
-2. Цель сформулируй как состояние: пакет present, unit enabled, файл 0644.
-3. FQCN обязателен: `ansible.builtin.copy`, не `copy`.
-4. Секреты только в vault. `no_log: true` на задачах с паролями.
-5. Проверка: `ansible-lint`, затем
+1. Find the existing inventory and roles. Do not introduce a second style into one repo.
+2. State the goal as a state: package present, unit enabled, file 0644.
+3. FQCN is mandatory: `ansible.builtin.copy`, not `copy`.
+4. Secrets only in vault. `no_log: true` on tasks with passwords.
+5. Verify: `ansible-lint`, then
    `ansible-playbook -i inventory play.yml --check --diff`.
-6. Apply узко: `--limit`, `--tags`. Не гоняй весь prod «на всякий случай».
+6. Apply narrowly: `--limit`, `--tags`. Do not run all of prod "just in case".
 
-## Каркас
+## Skeleton
 
 ```yaml
 ---
@@ -61,21 +61,21 @@ description: "Ansible playbooks и roles: ansible-playbook, undefined variable, 
       tags: [config]
 ```
 
-## Правила
+## Rules
 
-- Каждая задача с `name:`.
-- Не используй `shell`/`command`, если есть модуль.
-- `changed_when`/`failed_when` для command-обёрток.
-- Не `latest` для пакетов на проде — фиксируй версию, если среда это умеет.
-- `serial:` и `max_fail_percentage` для rolling.
-- Не логируй vault-значения.
+- Every task has a `name:`.
+- Do not use `shell`/`command` when a module exists.
+- `changed_when`/`failed_when` for command wrappers.
+- No `latest` for packages in prod — pin the version if the environment supports it.
+- `serial:` and `max_fail_percentage` for rolling updates.
+- Never log vault values.
 
 ## Companion skills
 
-- Unit/journal на одном хосте без автоматизации → `administering-linux`.
-- Compose-файл как артефакт → `docker-ops`.
-- Запуск playbook из GitLab job → `gitlab-ci`.
-- Общий delivery/rollback framing → `agency-devops-automator`.
+- Unit/journal on a single host without automation → `administering-linux`.
+- Compose file as an artifact → `docker-ops`.
+- Running a playbook from a GitLab job → `gitlab-ci`.
+- General delivery/rollback framing → `agency-devops-automator`.
 
 ## References
 
@@ -85,3 +85,5 @@ description: "Ansible playbooks и roles: ansible-playbook, undefined variable, 
 <!-- A-EVOLVE-ROUTING-SIGNALS:START -->
 ## Routing signals: ansible ansible-playbook playbook inventory vault ansible-lint fqcn handler role become community.docker
 <!-- A-EVOLVE-ROUTING-SIGNALS:END -->
+
+Russian version: [`references/README.ru.md`](references/README.ru.md).
