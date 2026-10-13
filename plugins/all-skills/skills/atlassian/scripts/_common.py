@@ -283,8 +283,9 @@ class AtlassianConfig:
         api_token = os.getenv(f"{prefix}_API_TOKEN")
         pat_token = os.getenv(f"{prefix}_PAT_TOKEN")
         api_version = os.getenv(f"{prefix}_API_VERSION")
-        ssl_verify_str = os.getenv(f"{prefix}_SSL_VERIFY", "true").lower()  # local fix: verify TLS by default
-        ssl_verify = ssl_verify_str in ("true", "1", "yes")
+        # local fix: TLS verification is on unless explicitly disabled (false/0/no/off, case-insensitive)
+        ssl_verify_str = os.getenv(f"{prefix}_SSL_VERIFY", "true").strip().lower()
+        ssl_verify = ssl_verify_str not in ("false", "0", "no", "off")
 
         config = cls(
             url=url or "",
