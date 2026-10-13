@@ -1,53 +1,44 @@
 ---
 name: zapret-openwrt-guide
-description: >-
-  Полная русскоязычная справка по проекту zapret-openwrt: Anti-DPI утилита
-  для OpenWrt роутеров. Используй этот скилл при любых вопросах о
-  zapret-openwrt: архитектура проекта, конфигурация, стратегии обхода DPI,
-  веб-интерфейс LuCI, скрипты, обновление, диагностика, custom.d хуки,
-  списки хостов, nfqws параметры, сервис-менеджмент через procd. Также
-  используй при разработке: добавлении новых стратегий, модификации UI,
-  написании custom.d скриптов, отладке проблем. Триггеры: zapret, nfqws,
-  DPI desync, обход блокировок, антиблокировка, стратегии zapret, hostlist,
-  autohostlist.
+description: "Complete guide to zapret-openwrt, an anti-DPI tool for OpenWrt routers. Use for any zapret-openwrt question: project architecture, configuration, DPI bypass strategies, LuCI web UI, scripts, updates, diagnostics, custom.d hooks, host lists, nfqws parameters, procd service management. Also use for development: adding strategies, changing the UI, writing custom.d scripts, debugging. Triggers: zapret, nfqws, DPI desync, обход блокировок, антиблокировка, zapret strategies, hostlist, autohostlist, стратегии zapret, роутер, блокировки."
 ---
 
-# Zapret-OpenWrt: Полная справка
+# Zapret-OpenWrt: Complete Guide
 
-## Что такое Zapret
+## What Zapret is
 
-Zapret — это Anti-DPI (Deep Packet Inspection) утилита для OpenWrt роутеров. Это **не VPN** — zapret не меняет IP-адрес и не скрывает трафик. Вместо этого он модифицирует сетевые пакеты, чтобы обойти системы глубокой инспекции пакетов (DPI).
+Zapret is an anti-DPI (Deep Packet Inspection) tool for OpenWrt routers. It is **not a VPN** — zapret does not change your IP address and does not hide traffic. Instead it modifies network packets to get past deep packet inspection systems.
 
-**Репозиторий:** https://github.com/remittor/zapret-openwrt
+**Repository:** https://github.com/remittor/zapret-openwrt
 **Upstream:** https://github.com/bol-van/zapret
-**Текущая версия:** v72.20260226
+**Current version:** v72.20260226
 
-## Архитектура проекта
+## Project architecture
 
-Проект состоит из двух пакетов:
+The project consists of two packages:
 
-| Пакет | Назначение |
+| Package | Purpose |
 |-------|-----------|
-| `zapret` | Основной пакет: демон nfqws, конфиги, скрипты, ipset-списки |
-| `luci-app-zapret` | Веб-интерфейс для управления через LuCI |
+| `zapret` | Main package: the nfqws daemon, configs, scripts, ipset lists |
+| `luci-app-zapret` | Web UI for management via LuCI |
 
-### Структура на роутере
+### Layout on the router
 
 ```
 /opt/zapret/
-├── nfq/nfqws              # Основной демон DPI desync
-├── ip2net/ip2net           # Конвертер IP в подсети
-├── mdig/mdig               # DNS-утилита
-├── config                  # Рабочий конфиг (runtime)
-├── config.default          # Шаблон по умолчанию
-├── def-cfg.sh              # Стратегии и дефолты
-├── sync_config.sh          # Синхронизация UCI -> config
-├── restore-def-cfg.sh      # Сброс настроек
-├── update-pkg.sh           # Обновление пакетов
-├── dwc.sh                  # DPI-чекер
-├── comfunc.sh              # Общие функции
-├── init.d.sh               # Init-скрипт (procd)
-├── ipset/                  # Списки хостов и IP
+├── nfq/nfqws              # Main DPI desync daemon
+├── ip2net/ip2net           # IP-to-subnet converter
+├── mdig/mdig               # DNS utility
+├── config                  # Working config (runtime)
+├── config.default          # Default template
+├── def-cfg.sh              # Strategies and defaults
+├── sync_config.sh          # UCI -> config sync
+├── restore-def-cfg.sh      # Reset settings
+├── update-pkg.sh           # Package updates
+├── dwc.sh                  # DPI checker
+├── comfunc.sh              # Shared functions
+├── init.d.sh               # Init script (procd)
+├── ipset/                  # Host and IP lists
 │   ├── zapret-hosts-google.txt
 │   ├── zapret-hosts-user.txt
 │   ├── zapret-hosts-user-exclude.txt
@@ -56,196 +47,198 @@ Zapret — это Anti-DPI (Deep Packet Inspection) утилита для OpenWr
 │   ├── zapret-ip-user.txt
 │   ├── zapret-ip-user-exclude.txt
 │   └── cust[1-4].txt
-├── files/fake/             # Шаблоны поддельных пакетов (.bin)
-└── init.d/openwrt/custom.d/  # Пользовательские скрипты хуки
+├── files/fake/             # Fake packet templates (.bin)
+└── init.d/openwrt/custom.d/  # User hook scripts
     ├── 10-script.sh
     ├── 20-script.sh
-    ├── 50-script.sh        # Пример: Discord/STUN
+    ├── 50-script.sh        # Example: Discord/STUN
     ├── 60-script.sh
     └── 90-script.sh
 ```
 
-### Конфигурационная система
+### Configuration system
 
-Zapret использует **двойную систему конфигурации:**
+Zapret uses a **dual configuration system:**
 
-1. **UCI конфиг** (`/etc/config/zapret`) — хранит настройки, редактируемые через LuCI
-2. **Основной конфиг** (`/opt/zapret/config`) — используется демоном nfqws
+1. **UCI config** (`/etc/config/zapret`) — stores the settings edited via LuCI
+2. **Main config** (`/opt/zapret/config`) — used by the nfqws daemon
 
-При каждом старте/рестарте вызывается `sync_config.sh`, который синхронизирует значения из UCI в основной конфиг.
+On every start/restart `sync_config.sh` runs and syncs the UCI values into the main config.
 
 ---
 
-## Быстрый старт
+## Quick start
 
-1. Установить пакеты `zapret` и `luci-app-zapret`
-2. Открыть LuCI: **Services -> Zapret -> Service**
-3. Нажать **Reset settings** и выбрать стратегию (рекомендуется `v6_by_StressOzz` или `v7_by_StressOzz`)
-4. Нажать **Enable** и **Start**
-5. Проверить работу через **Diagnostics -> Sites check**
+1. Install the `zapret` and `luci-app-zapret` packages
+2. Open LuCI: **Services -> Zapret -> Service**
+3. Click **Reset settings** and choose a strategy (`v6_by_StressOzz` or `v7_by_StressOzz` recommended)
+4. Click **Enable** and **Start**
+5. Verify via **Diagnostics -> Sites check**
 
 ## Safety Notes
 
-- Zapret меняет системные конфиги и сервисы роутера, поэтому перед обновлением или сменой стратегии нужен backup и план отката.
-- Данные, скачиваемые updater/dwc-скриптами из GitHub и внешних диагностических источников, считай недоверенным вводом до проверки.
-- Для production предпочитай pinned release/tag и ручную валидацию артефактов, а не слепое обновление “до последнего”.
-- Если нужна максимальная предсказуемость, скачивай release-артефакты и hostlists на доверенной машине, проверяй checksums/содержимое и только потом переноси их на роутер.
+- Zapret changes router system configs and services, so a backup and a rollback plan are needed before an update or a strategy change.
+- Treat data downloaded by the updater/dwc scripts from GitHub and external diagnostic sources as untrusted input until verified.
+- In production prefer a pinned release/tag and manual artifact validation over blind "update to latest".
+- For maximum predictability download release artifacts and hostlists on a trusted machine, verify checksums/contents, and only then move them to the router.
 
 ---
 
-## Конфигурация
+## Configuration
 
-Подробная справка по всем параметрам конфигурации: прочитай файл `references/config.md` в директории этого скилла.
+Full reference for all config parameters: read `references/config.md` in this skill's directory.
 
-Ключевые группы параметров:
+Key parameter groups:
 - **Firewall**: FWTYPE, POSTNAT, FLOWOFFLOAD, INIT_APPLY_FW
-- **Сеть**: DISABLE_IPV4, DISABLE_IPV6, FILTER_TTL_EXPIRED_ICMP
+- **Network**: DISABLE_IPV4, DISABLE_IPV6, FILTER_TTL_EXPIRED_ICMP
 - **NFQWS**: NFQWS_ENABLE, NFQWS_PORTS_TCP/UDP, NFQWS_OPT, connbytes (PKT_OUT/IN)
-- **Фильтрация**: MODE_FILTER (hostlist/autohostlist), FILTER_MARK
+- **Filtering**: MODE_FILTER (hostlist/autohostlist), FILTER_MARK
 - **AutoHostList**: RETRANS_THRESHOLD, FAIL_THRESHOLD, FAIL_TIME
-- **Логирование**: DAEMON_LOG_ENABLE, DAEMON_LOG_SIZE_MAX, DAEMON_LOG_FILE
-- **Прочее**: WS_USER, DISABLE_CUSTOM, DESYNC_MARK
+- **Logging**: DAEMON_LOG_ENABLE, DAEMON_LOG_SIZE_MAX, DAEMON_LOG_FILE
+- **Other**: WS_USER, DISABLE_CUSTOM, DESYNC_MARK
 
-## Стратегии DPI-обхода
+## DPI bypass strategies
 
-Подробное описание всех стратегий: прочитай файл `references/strategies.md` в директории этого скилла.
+Full description of all strategies: read `references/strategies.md` in this skill's directory.
 
-Доступные стратегии (определены в `def-cfg.sh`):
+Available strategies (defined in `def-cfg.sh`):
 
-| Стратегия | Порты TCP | Порты UDP | Особенности |
+| Strategy | TCP ports | UDP ports | Notes |
 |-----------|-----------|-----------|-------------|
-| empty | 80,443 | 443 | Пустая, без desync |
+| empty | 80,443 | 443 | Empty, no desync |
 | v1_by_StressOzz | 80,443 | 443 | fake,multidisorder + QUIC fake |
 | v2_by_StressOzz | 80,443 | 443 | fake,fakeddisorder + seqovl |
-| v3_by_StressOzz | 80,443 | 443 | Как v2, другой TLS-шаблон (t2.bin) |
-| v4_by_StressOzz | 80,443 | 443 | fake,multisplit + 3 секции --new |
+| v3_by_StressOzz | 80,443 | 443 | Like v2, different TLS template (t2.bin) |
+| v4_by_StressOzz | 80,443 | 443 | fake,multisplit + 3 --new sections |
 | v5_by_StressOzz | 80,443 | 443 | ip-id=zero + multisplit |
-| v6_by_StressOzz | 80,443,2053,2083,2087,2096,8443 | 443,19294-19344,50000-50100 | Discord + STUN поддержка |
-| v7_by_StressOzz | 80,443,2053,2083,2087,2096,8443 | 443,19294-19344,50000-50100 | Улучшенная v6, больше repeats |
-| v9_by_StressOzz | 80,443,2053,2083,2087,2096,8443 | 443,19294-19344,50000-50100 | hostfakesplit вариант |
+| v6_by_StressOzz | 80,443,2053,2083,2087,2096,8443 | 443,19294-19344,50000-50100 | Discord + STUN support |
+| v7_by_StressOzz | 80,443,2053,2083,2087,2096,8443 | 443,19294-19344,50000-50100 | Improved v6, more repeats |
+| v9_by_StressOzz | 80,443,2053,2083,2087,2096,8443 | 443,19294-19344,50000-50100 | hostfakesplit variant |
 | ALT7_by_Flowseal | 80,443 | 443 | ip-id=zero, multisplit + seqovl |
-| TLS_AUTO_ALT3_by_Flowseal | 80,443 | 443 | fooling=ts, больше repeats |
+| TLS_AUTO_ALT3_by_Flowseal | 80,443 | 443 | fooling=ts, more repeats |
 
-**Стратегия по умолчанию:** `v6_by_StressOzz`
+**Default strategy:** `v6_by_StressOzz`
 
-## Веб-интерфейс LuCI
+## LuCI web UI
 
-Подробная справка по UI: прочитай файл `references/ui.md` в директории этого скилла.
+Full UI reference: read `references/ui.md` in this skill's directory.
 
-LuCI-интерфейс доступен по пути **Services -> Zapret** и содержит 5 страниц:
+The LuCI UI lives at **Services -> Zapret** and has 5 pages:
 
-1. **Service** (`service.js`) — управление сервисом, статус, кнопки enable/disable/start/stop/restart/reset, диагностика, обновление
-2. **Settings** (`settings.js`) — настройки в 5 вкладках: Main settings, NFQWS options, AutoHostList, Host lists, custom.d
-3. **Log** (`dmnlog.js`) — просмотр логов демонов в реальном времени (polling каждую секунду)
-4. **Diagnostics** (`diagnost.js`) — DPI check и Sites check через `dwc.sh`
-5. **Updater** (`updater.js`) — проверка и установка обновлений с GitHub
+1. **Service** (`service.js`) — service control, status, enable/disable/start/stop/restart/reset buttons, diagnostics, updates
+2. **Settings** (`settings.js`) — settings in 5 tabs: Main settings, NFQWS options, AutoHostList, Host lists, custom.d
+3. **Log** (`dmnlog.js`) — live daemon logs (polled every second)
+4. **Diagnostics** (`diagnost.js`) — DPI check and Sites check via `dwc.sh`
+5. **Updater** (`updater.js`) — check for and install updates from GitHub
 
-## Скрипты
+## Scripts
 
-Подробная справка по скриптам: прочитай файл `references/scripts.md` в директории этого скилла.
+Full scripts reference: read `references/scripts.md` in this skill's directory.
 
-| Скрипт | Назначение |
+| Script | Purpose |
 |--------|-----------|
-| `comfunc.sh` | Общие функции: пути, PID, валидация конфига, init_before_start |
-| `init.d.sh` | Procd init-скрипт (START=21, USE_PROCD=1) |
-| `sync_config.sh` | UCI -> config синхронизация при start/restart |
-| `def-cfg.sh` | Определения стратегий и дефолтных значений |
-| `restore-def-cfg.sh` | Сброс конфигурации к умолчаниям |
-| `update-pkg.sh` | Обновление пакетов с GitHub (опции: -c, -p, -u, -f, -t) |
-| `dwc.sh` | DPI-чекер (TCP 16-20 тест, проверка сайтов) |
-| `script-exec.sh` | Запуск скриптов в фоне с логированием |
-| `renew-cfg.sh` | Обновление конфига при загрузке |
-| `uci-def-cfg.sh` | Создание UCI-конфига при установке |
+| `comfunc.sh` | Shared functions: paths, PID, config validation, init_before_start |
+| `init.d.sh` | Procd init script (START=21, USE_PROCD=1) |
+| `sync_config.sh` | UCI -> config sync on start/restart |
+| `def-cfg.sh` | Strategy definitions and default values |
+| `restore-def-cfg.sh` | Reset the config to defaults |
+| `update-pkg.sh` | Package updates from GitHub (options: -c, -p, -u, -f, -t) |
+| `dwc.sh` | DPI checker (TCP 16-20 test, site checks) |
+| `script-exec.sh` | Run scripts in the background with logging |
+| `renew-cfg.sh` | Refresh the config at boot |
+| `uci-def-cfg.sh` | Create the UCI config at install time |
 
-## Списки хостов и IP
+## Host and IP lists
 
-| Файл | Назначение | Формат |
+| File | Purpose | Format |
 |------|-----------|--------|
-| `zapret-hosts-google.txt` | YouTube/Google домены (дефолт) | По одному домену на строку |
-| `zapret-hosts-user.txt` | Пользовательские домены `<HOSTLIST>` | По одному домену на строку |
-| `zapret-hosts-user-exclude.txt` | Исключения из обработки | По одному домену на строку |
-| `zapret-hosts-auto.txt` | Автоматически обнаруженные хосты | Заполняется при autohostlist |
-| `zapret-ip-exclude.txt` | Исключаемые IP-адреса/подсети | IP или CIDR (128.199.0.0/16) |
-| `zapret-ip-user.txt` | Пользовательские IP | IP или CIDR |
-| `zapret-ip-user-exclude.txt` | Исключаемые пользовательские IP | IP или CIDR |
-| `cust[1-4].txt` | Кастомные файлы (до 4 штук) | Произвольный |
+| `zapret-hosts-google.txt` | YouTube/Google domains (default) | One domain per line |
+| `zapret-hosts-user.txt` | User domains `<HOSTLIST>` | One domain per line |
+| `zapret-hosts-user-exclude.txt` | Exclusions | One domain per line |
+| `zapret-hosts-auto.txt` | Automatically detected hosts | Filled by autohostlist |
+| `zapret-ip-exclude.txt` | Excluded IPs/subnets | IP or CIDR (128.199.0.0/16) |
+| `zapret-ip-user.txt` | User IPs | IP or CIDR |
+| `zapret-ip-user-exclude.txt` | Excluded user IPs | IP or CIDR |
+| `cust[1-4].txt` | Custom files (up to 4) | Free-form |
 
-### Плейсхолдеры в NFQWS_OPT
+### Placeholders in NFQWS_OPT
 
-- `<HOSTLIST>` — подставляет `--hostlist` и `--hostlist-exclude` из стандартных списков, работает в режимах hostlist и autohostlist
-- `<HOSTLIST_NOAUTO>` — то же, но `zapret-hosts-auto.txt` добавляется как обычный (не авто) список
+- `<HOSTLIST>` — expands to `--hostlist` and `--hostlist-exclude` from the standard lists; works in hostlist and autohostlist modes
+- `<HOSTLIST_NOAUTO>` — the same, but `zapret-hosts-auto.txt` is added as a regular (non-auto) list
 
-## Custom.d скрипты
+## Custom.d scripts
 
-Хуки выполняются при старте/стопе сервиса в порядке номера:
-- `10-script.sh` — ранний init
-- `20-script.sh` — ранняя основная фаза
-- `50-script.sh` — основная фаза (пример: Discord/STUN4ALL)
-- `60-script.sh` — поздняя основная фаза
-- `90-script.sh` — финальная фаза
+Hooks run on service start/stop in numeric order:
+- `10-script.sh` — early init
+- `20-script.sh` — early main phase
+- `50-script.sh` — main phase (example: Discord/STUN4ALL)
+- `60-script.sh` — late main phase
+- `90-script.sh` — final phase
 
-Включаются через параметр `DISABLE_CUSTOM=0` (в UI: вкладка custom.d -> "Use custom.d scripts").
+Enabled with `DISABLE_CUSTOM=0` (UI: custom.d tab -> "Use custom.d scripts").
 
-## Сборка и CI/CD
+## Build and CI/CD
 
-Сборка выполняется через GitHub Actions (`.github/workflows/build.yml`):
-- Триггер: push тега `v[0-9]+*` или ручной запуск
-- Матрица: 30+ архитектур (ARM, MIPS, x86_64, RISC-V)
-- Две ветки OpenWrt: IPK (v24.10.x) и APK (v25.12.x)
-- Релизы публикуются на gh-pages как JSON для автообновления
+Builds run on GitHub Actions (`.github/workflows/build.yml`):
+- Trigger: pushing a `v[0-9]+*` tag or a manual run
+- Matrix: 30+ architectures (ARM, MIPS, x86_64, RISC-V)
+- Two OpenWrt lines: IPK (v24.10.x) and APK (v25.12.x)
+- Releases are published to gh-pages as JSON for auto-update
 
-## Решение проблем
+## Troubleshooting
 
-Подробный troubleshooting: прочитай файл `references/troubleshooting.md` в директории этого скилла.
+Full troubleshooting: read `references/troubleshooting.md` in this skill's directory.
 
-**Быстрые проверки:**
-1. Статус сервиса: LuCI -> Services -> Zapret -> Service (или `service zapret status`)
-2. DPI-проверка: Diagnostics -> DPI check
-3. Логи: включить DAEMON_LOG_ENABLE=1, смотреть на вкладке Log
-4. Проверка сайтов: Diagnostics -> Sites check с выбором DNS
+**Quick checks:**
+1. Service status: LuCI -> Services -> Zapret -> Service (or `service zapret status`)
+2. DPI check: Diagnostics -> DPI check
+3. Logs: enable DAEMON_LOG_ENABLE=1, watch the Log tab
+4. Site checks: Diagnostics -> Sites check with a chosen DNS
 
-## Для разработчиков
+## For developers
 
-### Структура исходников
+### Source layout
 
 ```
 zapret-openwrt/
-├── zapret/                     # Основной пакет
+├── zapret/                     # Main package
 │   ├── Makefile                # OpenWrt SDK build
-│   ├── config.default          # Шаблон конфига
-│   ├── *.sh                    # Shell-скрипты
-│   ├── custom.d/               # Хуки custom.d
-│   ├── files/fake/             # .bin шаблоны пакетов
-│   ├── ipset/                  # Списки хостов/IP
-│   └── patches/                # Патчи для upstream
-└── luci-app-zapret/            # LuCI пакет
+│   ├── config.default          # Config template
+│   ├── *.sh                    # Shell scripts
+│   ├── custom.d/               # custom.d hooks
+│   ├── files/fake/             # .bin packet templates
+│   ├── ipset/                  # Host/IP lists
+│   └── patches/                # Patches for upstream
+└── luci-app-zapret/            # LuCI package
     ├── Makefile
     ├── htdocs/luci-static/resources/view/zapret/
-    │   ├── env.js              # Пути и константы
-    │   ├── tools.js            # Утилиты, RPC, диалоги
-    │   ├── service.js          # Страница управления сервисом
-    │   ├── settings.js         # Страница настроек
-    │   ├── diagnost.js         # Диагностика
-    │   ├── updater.js          # Обновление
-    │   ├── dmnlog.js           # Просмотр логов
-    │   └── styles.css          # Стили
+    │   ├── env.js              # Paths and constants
+    │   ├── tools.js            # Utilities, RPC, dialogs
+    │   ├── service.js          # Service page
+    │   ├── settings.js         # Settings page
+    │   ├── diagnost.js         # Diagnostics
+    │   ├── updater.js          # Updater
+    │   ├── dmnlog.js           # Log viewer
+    │   └── styles.css          # Styles
     └── root/usr/share/
-        ├── luci/menu.d/        # Определение меню
-        └── rpcd/acl.d/         # ACL-правила
+        ├── luci/menu.d/        # Menu definition
+        └── rpcd/acl.d/         # ACL rules
 ```
 
-### Добавление новой стратегии
+### Adding a strategy
 
-1. Добавить блок `if [ "$strat" = "имя_стратегии" ]` в `def-cfg.sh`
-2. Определить порты TCP/UDP и NFQWS_OPT с параметрами desync
-3. Стратегия автоматически появится в UI на странице Service -> Reset settings
+1. Add an `if [ "$strat" = "strategy_name" ]` block to `def-cfg.sh`
+2. Define TCP/UDP ports and NFQWS_OPT with desync parameters
+3. The strategy appears in the UI automatically under Service -> Reset settings
 
-### Ключевые файлы для UI-разработки
+### Key files for UI development
 
-- `env.js` — все пути, имена файлов, URL-ы (загружается первым)
-- `tools.js` — RPC-вызовы, POLLER, fileEditDialog, longstrEditDialog, decode_svc_info
-- Каждая страница — отдельный view, наследующий `view.extend()` или `baseclass.extend()`
+- `env.js` — all paths, file names, URLs (loaded first)
+- `tools.js` — RPC calls, POLLER, fileEditDialog, longstrEditDialog, decode_svc_info
+- Each page is a separate view extending `view.extend()` or `baseclass.extend()`
 
 <!-- A-EVOLVE-ROUTING-SIGNALS:START -->
 ## Routing signals: zapret openwrt dpi desync nfqws hostlist autohostlist luci uci firewall nftables troubleshooting anti-censorship router
 <!-- A-EVOLVE-ROUTING-SIGNALS:END -->
+
+Russian version: [`references/README.ru.md`](references/README.ru.md).

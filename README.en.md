@@ -18,7 +18,7 @@
   <a href="https://github.com/nordz0r/skills/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/nordz0r/skills?style=flat-square&logo=github"></a>
 </p>
 
-26 skills for `Claude Code`, `Codex`, `Hermes` and other agents that read `SKILL.md`: DevOps and SRE, Linux and Docker, LiteLLM and Open WebUI, Nextcloud and Atlassian, OpenWrt, Telegram and animated diagrams. Each skill is a folder with `SKILL.md` plus optional `references/`, `scripts/` and `evals/`. Most domain guides are in Russian; `agency-*` skills are in English.
+26 skills for `Claude Code`, `Codex`, `Hermes` and other agents that read `SKILL.md`: DevOps and SRE, Linux and Docker, LiteLLM and Open WebUI, Nextcloud and Atlassian, OpenWrt, Telegram and animated diagrams. Each skill is a folder with `SKILL.md` plus optional `references/`, `scripts/` and `evals/`. `SKILL.md` files are in English; translated skills keep the Russian original in `references/README.ru.md`.
 
 ## ⚡ Quick start
 
