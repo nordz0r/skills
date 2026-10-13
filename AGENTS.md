@@ -162,6 +162,8 @@ metadata: {...}   # optional
 - `.claude-plugin/marketplace.json` is the single source of truth for bundle grouping.
 - `node scripts/sync-codex-plugins.js` derives `.agents/plugins/marketplace.json` and `plugins/<bundle>/.codex-plugin/plugin.json` + `plugins/<bundle>/skills/<skill-name>/` copies from it.
 - `plugins/` is fully derived: sync wipes and rebuilds it. Never hand-edit anything under `plugins/`.
+- Sync copies these skill subdirs: `references`, `scripts`, `agents`, `evals`, `assets`, `lib`, `examples`.
+- README assets (banner SVGs, GIFs) live in `.github/assets/`; `.github/social-preview.png` is the 1280×640 social card (upload it in repo Settings).
 - Adding a skill or re-bundling means: edit `.claude-plugin/marketplace.json`, re-run the sync script, commit both source and generated artifacts.
 - `scripts/validate-skills.js` runs the sync in `--check` mode and fails if the generated layout drifted.
 

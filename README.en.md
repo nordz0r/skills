@@ -1,88 +1,46 @@
-# Skills for Claude Code, Codex, and AI Agents
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".github/assets/banner-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset=".github/assets/banner-light.svg">
+    <img alt="nordz0r/skills — skills for AI agents" src=".github/assets/banner-light.svg" width="100%">
+  </picture>
+</p>
 
-[Русская версия](README.md)
+<p align="center"><a href="README.md">Русский</a> · <b>English</b></p>
 
-Reusable skills for `Claude Code`, `Codex`, and other agentic CLIs. This repository is distributed via `npx skills add nordz0r/skills` and organized for both human readability and catalog discovery.
+<p align="center">
+  <a href="#catalog"><img alt="skills" src="https://img.shields.io/badge/skills-26-58a6ff?style=flat-square"></a>
+  <img alt="Claude Code" src="https://img.shields.io/badge/Claude_Code-plugin-d97757?style=flat-square">
+  <img alt="Codex" src="https://img.shields.io/badge/Codex-plugin-10a37f?style=flat-square">
+  <img alt="Hermes" src="https://img.shields.io/badge/Hermes-skills-8957e5?style=flat-square">
+  <img alt="npx skills" src="https://img.shields.io/badge/npx_skills-OpenClaw-555?style=flat-square">
+  <a href="https://skills.sh/nordz0r/skills"><img alt="skills.sh" src="https://skills.sh/b/nordz0r/skills"></a>
+  <a href="https://github.com/nordz0r/skills/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/nordz0r/skills?style=flat-square&logo=github"></a>
+</p>
 
-Most domain guides live inside each skill directory. The main repository README is Russian-first; this English companion exists for repo-level discoverability in catalogs and search.
+26 skills for `Claude Code`, `Codex`, `Hermes` and other agents that read `SKILL.md`: DevOps and SRE, Linux and Docker, LiteLLM and Open WebUI, Nextcloud and Atlassian, OpenWrt, Telegram and animated diagrams. Each skill is a folder with `SKILL.md` plus optional `references/`, `scripts/` and `evals/`. Most domain guides are in Russian; `agency-*` skills are in English.
 
-**Catalogs and discovery:** [skills.sh](https://skills.sh) · [SkillsMP](https://skillsmp.com)
+## ⚡ Quick start
 
-**Search keywords:** Claude Code skills, Codex skills, AI agent skills, DevOps, SRE, incident response, security review, UX research, UI design, technical writing, Open WebUI, Open Terminal, LiteLLM, LLM proxy, Nextcloud, WebDAV, OCS API, Collectives, wiki, knowledge base, Linux, systemd, Docker, Docker Compose, GitLab CI, Ansible, AmneziaVPN, AmneziaWG, policy routing, iproute2, nftables, OpenWrt, Podkop, zapret.
+```bash
+npx skills add nordz0r/skills
+```
 
-## Repository at a glance
+Other agents, one command each:
 
-| Item | Value |
-|------|-------|
-| Format | Each skill has its own directory with `SKILL.md` and optional `references/`, `scripts/`, and `evals/` |
-| Distribution | `npx skills add nordz0r/skills` |
-| Primary audiences | `Claude Code`, `Codex`, OpenClaw, and other tools that understand `SKILL.md`-style skills |
-| Auto-trigger source of truth | `name` and especially `description` inside each `SKILL.md` |
-| Languages | Russian-first repo README with an English companion; skill bodies may be written in Russian or English depending on the domain |
+| Agent | Command |
+|---|---|
+| Claude Code | `claude plugin marketplace add nordz0r/skills && claude plugin install all-skills@nord-skills` |
+| Codex | `codex plugin marketplace add nordz0r/skills && codex plugin add all-skills@nord-skills` |
+| Hermes Agent | `hermes skills install nordz0r/skills/<skill>` |
+| One skill via `npx` | `npx skills add nordz0r/skills -s pr-lens-diagrams -g` |
 
-## Skill index
-
-### Engineering, platform, and product work
-
-| Skill | Scope | Keywords |
-|------|-------|----------|
-| [agency-devops-automator](agency-devops-automator/) | CI/CD, Terraform, Ansible, Kubernetes, Helm, Vault, rollout and rollback | devops, ci/cd, deploy, kubernetes, helm, ansible, vault |
-| [agency-sre](agency-sre/) | Reliability engineering, SLO/SLI, alerts, observability, scaling | sre, slo, sli, alerts, reliability, observability |
-| [agency-incident-response-commander](agency-incident-response-commander/) | Incident handling, SEV triage, rollback decisions, postmortems | incident, outage, sev, rollback, postmortem |
-| [agency-security-engineer](agency-security-engineer/) | Threat modeling, auth, secrets, hardening, cloud and Kubernetes security | security, threat model, authn, authz, secrets |
-| [agency-database-optimizer](agency-database-optimizer/) | PostgreSQL, MySQL, MariaDB, indexing, EXPLAIN, migrations | postgres, mysql, mariadb, indexing, explain |
-| [agency-technical-writer](agency-technical-writer/) | READMEs, runbooks, migration guides, architecture notes | readme, runbook, migration guide, docs |
-| [preview-interview](preview-interview/) | Interview preparation: question banks, answer structuring, mock sessions | interview, prep, mock interview, behavioral, technical interview, resume |
-
-### Linux, Docker, GitLab, Ansible, and host routing
-
-| Skill | Scope | Keywords |
-|------|-------|----------|
-| [administering-linux](administering-linux/) | systemd, journald, disks, SSH, packages, host troubleshooting | linux, systemd, journalctl, sshd, disk full, oom, apt, dnf |
-| [docker-ops](docker-ops/) | Dockerfile, Compose v2, healthchecks, networks, volumes, registry | docker, dockerfile, compose.yaml, healthcheck, docker logs |
-| [gitlab-ci](gitlab-ci/) | `.gitlab-ci.yml`, rules, runners, dind, GitLab Registry | gitlab, gitlab-ci, runner, CI_REGISTRY, CI_JOB_TOKEN, rules |
-| [ansible-playbook](ansible-playbook/) | playbooks, roles, inventory, vault, `--check --diff`, FQCN | ansible, playbook, vault, ansible-lint, inventory, handler |
-| [amnezia-vpn](amnezia-vpn/) | AmneziaVPN/AWG on Linux and Docker, not OpenWrt UCI | amnezia, amneziawg, awg-quick, /opt/amnezia, Jc, handshake |
-| [linux-routing](linux-routing/) | `ip rule`/`ip route`, fwmark, nft NAT, split-tunnel, conntrack | policy routing, fwmark, rt_tables, nftables, masquerade, rp_filter |
-
-### AI tooling, knowledge workflows, and integrations
-
-| Skill | Scope | Keywords |
-|------|-------|----------|
-| [litellm-guide](litellm-guide/) | LiteLLM SDK, proxy/gateway, providers, routing, APIs, MCP/A2A, troubleshooting, and repo development | litellm, proxy, gateway, providers, routing, virtual keys, mcp, openai-compatible |
-| [opencodex-guide](opencodex-guide/) | OpenCodex CLI guide: account pools, routing, models | opencodex, ocx, proxy, llm proxy |
-| [open-webui-guide](open-webui-guide/) | Open WebUI architecture, auth, functions, pipelines, API, RAG, scaling | open webui, pipelines, rag, oauth, ldap, jwt |
-| [open-terminal-guide](open-terminal-guide/) | Open Terminal self-hosted REST API for AI agents | open terminal, terminal api, /execute, sandbox api |
-| [nextcloud-admin](nextcloud-admin/) | Nextcloud administration via OCS API and WebDAV | nextcloud, webdav, ocs api, file sharing |
-| [nextcloud-collectives](nextcloud-collectives/) | Nextcloud Collectives wiki via OCS API and WebDAV: collectives, markdown pages, page tree, search, tags, attachments, public shares, trash, versions | collectives, nextcloud wiki, knowledge base, wiki page, readme.md |
-| [elk-kibana-dashboards](elk-kibana-dashboards/) | Elasticsearch and Kibana: log analysis, dashboards, Lens/TSVB, KQL/Lucene, DSL aggregations | elasticsearch, kibana, elk, kql, lucene, lens, tsvb, dashboard, logs |
-| [atlassian](atlassian/) | Jira (issues, JQL, workflows, sprints, worklogs), Confluence (pages, CQL, labels, rich storage-format articles), Bitbucket Server/DC (PRs, commits). Cloud + Data Center | jira, confluence, bitbucket, atlassian, jql, cql, issue, ticket, sprint, wiki page |
-
-### Telegram
-
-| Skill | Scope | Keywords |
-|------|-------|----------|
-| [telegram-formatting](telegram-formatting/) | Telegram Rich Markdown: syntax, banners, inline images, delivery | telegram, formatting, rich-messages, bot-api, placehold, media |
-
-### Diagrams
-
-| Skill | Focus | Trigger keywords |
-|------|-------|------------------|
-| [pr-lens-diagrams](pr-lens-diagrams/) | Animated architecture and data-flow diagrams via PR Lens → SVG, GIF, MP4 | pr lens, diagram, architecture, data flow, animated svg, gif |
-
-### OpenWrt, networking, and anti-censorship
-
-| Skill | Scope | Keywords |
-|------|-------|----------|
-| [amneziawg-openwrt-guide](amneziawg-openwrt-guide/) | AmneziaWG on OpenWrt: packages, UCI/LuCI, peers, QR, watchdog | amneziawg, awg, luci-proto-amneziawg, openwrt. Linux/Docker AWG → `amnezia-vpn` |
-| [podkop-openwrt-guide](podkop-openwrt-guide/) | Podkop plus sing-box on OpenWrt: selective routing, FakeIP, Clash API | podkop, sing-box, fakeip, clash api, urltest. Linux PBR → `linux-routing` |
-| [zapret-openwrt-guide](zapret-openwrt-guide/) | zapret-openwrt: DPI desync, nfqws, hostlists, LuCI, troubleshooting | zapret, nfqws, dpi desync, autohostlist |
-
-## Install and Setup
+<details>
+<summary><b>Detailed install: bundles, flags, Hermes tap, updates</b></summary>
 
 This repository is structured for universal integration: install it directly as an official **Claude Code Plugin / Marketplace** or via **`npx skills`** for `Codex`, `OpenClaw`, and other AI agents.
 
-### 1. Claude Code (Plugin Marketplace)
+#### 1. Claude Code (Plugin Marketplace)
 
 ```bash
 # 1. Register marketplace in Claude Code
@@ -103,7 +61,7 @@ claude plugin install pr-lens-diagrams@nord-skills     # PR Lens animated diagra
 /plugin install all-skills@nord-skills
 ```
 
-### 2. OpenAI Codex (Plugins — same packages as ChatGPT)
+#### 2. OpenAI Codex (Plugins — same packages as ChatGPT)
 
 Codex CLI reads this repository as a **plugin marketplace**: `.agents/plugins/marketplace.json` sits at the repo root, and each bundle is a standalone plugin with its own `.codex-plugin/plugin.json` manifest and skills under `skills/`. Plugins are browsable via `/plugins` in an interactive Codex session or in the ChatGPT desktop app.
 
@@ -125,7 +83,7 @@ Installed skills become available in new sessions and are invoked by name (`open
 
 > The plugin layout is generated by `scripts/sync-codex-plugins.js` from `.claude-plugin/marketplace.json`: do not hand-edit `plugins/`, change the source and re-sync instead.
 
-### 3. OpenClaw and Agent CLIs (`npx skills`)
+#### 3. OpenClaw and Agent CLIs (`npx skills`)
 
 ```bash
 # List available skills
@@ -150,7 +108,7 @@ npx skills add nordz0r/skills -s litellm-guide -g
 
 Restart the agent session after installation when possible. Many CLIs only load the available skill list on startup.
 
-### 4. Hermes Agent (`hermes skills`)
+#### 4. Hermes Agent (`hermes skills`)
 
 The repository is compatible with Hermes Agent (Nous Research): skills install straight from GitHub and update through the built-in hub lifecycle.
 
@@ -187,7 +145,92 @@ hermes skills update open-webui-guide --force
 
 On install Hermes copies `SKILL.md` plus only the files it references (`references/`, `scripts/`); private repos need `GITHUB_TOKEN`. Without a token the GitHub API is limited to 60 requests/hour.
 
-## How to use
+</details>
+
+## 🗺️ How it fits together
+
+<p align="center">
+  <img alt="How a skill reaches an agent: repository → marketplace, plugins, skills.sh → Claude Code, Codex, Agent CLI, Hermes → agent with the skill" src=".github/assets/repo-flow.gif" width="100%">
+</p>
+
+The skill folders and `.claude-plugin/marketplace.json` are the source of truth. `scripts/sync-codex-plugins.js` derives `plugins/` for Codex, `skills.sh.json` groups skills for catalogs, and Hermes installs a skill straight from its folder. The diagram was drawn with [`pr-lens-diagrams`](pr-lens-diagrams/) (labels in Russian).
+
+<a id="catalog"></a>
+## 📦 Catalog
+
+### 🛠️ Engineering & product work
+
+| | Skill | What it does |
+|---|---|---|
+| 🚀 | [`agency-devops-automator`](agency-devops-automator/) | CI/CD, Terraform, Kubernetes, Helm, Vault, rollout and rollback |
+| 📈 | [`agency-sre`](agency-sre/) | SLO/SLI, alerts, observability, capacity |
+| 🚨 | [`agency-incident-response-commander`](agency-incident-response-commander/) | SEV triage, rollback, postmortem, comms |
+| 🔐 | [`agency-security-engineer`](agency-security-engineer/) | Threat modeling, auth, secrets, hardening |
+| 🗄️ | [`agency-database-optimizer`](agency-database-optimizer/) | PostgreSQL/MySQL: schema, indexes, EXPLAIN, migrations |
+| ✍️ | [`agency-technical-writer`](agency-technical-writer/) | README, runbooks, migration guides, operator docs |
+| 🎤 | [`preview-interview`](preview-interview/) | Interview prep and mock sessions |
+
+### 🐧 Linux, Docker, CI/CD
+
+| | Skill | What it does |
+|---|---|---|
+| 🖥️ | [`administering-linux`](administering-linux/) | systemd, journald, disks, SSH, packages |
+| 🐳 | [`docker-ops`](docker-ops/) | Dockerfile, Compose v2, healthchecks, networks, volumes |
+| 🦊 | [`gitlab-ci`](gitlab-ci/) | `.gitlab-ci.yml`, rules, runners, dind, Registry |
+| 📜 | [`ansible-playbook`](ansible-playbook/) | Playbooks, roles, inventory, vault, `--check --diff` |
+| 🛡️ | [`amnezia-vpn`](amnezia-vpn/) | AmneziaVPN/AWG on Linux and Docker |
+| 🧭 | [`linux-routing`](linux-routing/) | Policy routing, fwmark, nftables NAT, split tunnel |
+
+### 🤖 AI tooling & integrations
+
+| | Skill | What it does |
+|---|---|---|
+| 🔀 | [`litellm-guide`](litellm-guide/) | LiteLLM: SDK, proxy, providers, routing, MCP |
+| 🧩 | [`opencodex-guide`](opencodex-guide/) | OpenCodex: account pools, routing, CLI |
+| 💬 | [`open-webui-guide`](open-webui-guide/) | Open WebUI: auth, pipelines, RAG, API, scaling |
+| ⌨️ | [`open-terminal-guide`](open-terminal-guide/) | Open Terminal: terminal REST API for agents |
+| ☁️ | [`nextcloud-admin`](nextcloud-admin/) | Nextcloud via OCS API and WebDAV |
+| 📚 | [`nextcloud-collectives`](nextcloud-collectives/) | Nextcloud Collectives wiki: pages, search, tags |
+| 🔎 | [`elk-kibana-dashboards`](elk-kibana-dashboards/) | Elasticsearch/Kibana: logs, dashboards, KQL |
+| 🧷 | [`atlassian`](atlassian/) | Jira, Confluence, Bitbucket: Cloud and Data Center |
+
+### ✈️ Telegram & diagrams
+
+| | Skill | What it does |
+|---|---|---|
+| 📨 | [`telegram-formatting`](telegram-formatting/) | Telegram Rich Markdown: syntax, banners, images |
+| 🎞️ | [`pr-lens-diagrams`](pr-lens-diagrams/) | Animated diagrams via PR Lens → SVG, GIF, MP4 |
+
+### 📡 OpenWrt & networking
+
+| | Skill | What it does |
+|---|---|---|
+| 🔒 | [`amneziawg-openwrt-guide`](amneziawg-openwrt-guide/) | AmneziaWG on OpenWrt: UCI/LuCI, peers, watchdog |
+| 🧦 | [`podkop-openwrt-guide`](podkop-openwrt-guide/) | Podkop + sing-box: selective routing, FakeIP |
+| 🕳️ | [`zapret-openwrt-guide`](zapret-openwrt-guide/) | zapret: DPI desync, nfqws, hostlists |
+
+## ✨ Showcase
+
+### 🎞️ pr-lens-diagrams — animated diagrams
+
+The agent writes a `graph.json`; the skill validates it, renders it with [PR Lens](https://github.com/coldteadotai/pr-lens) and records seamless GIF and MP4 loops. Below is the output for [`examples/bots.graph.json`](pr-lens-diagrams/examples/bots.graph.json); the diagram above was made the same way.
+
+<p align="center"><img alt="pr-lens-diagrams example: orchestrator and bot groups" src=".github/assets/pr-lens-example.gif" width="100%"></p>
+
+```bash
+bash pr-lens-diagrams/scripts/pr-lens-build.sh graph.json out/   # → out/architecture.{svg,gif,mp4}
+```
+
+### 📨 telegram-formatting — Telegram Rich Markdown
+
+Tables, checklists, `<details>`, banners and inline images in bot replies: where `sendRichMessage` works and where MarkdownV2 is needed, how to deliver an image, and what to do when an image host is down. Ships with evals.
+
+### 🔀 litellm-guide — LiteLLM from SDK to proxy
+
+SDK, proxy/gateway, providers, routing, virtual keys, MCP/A2A, and developing inside the LiteLLM repo. Six reference files plus evals for the routing benchmark.
+
+<details>
+<summary><b>How to invoke skills and how auto-routing is tested</b></summary>
 
 ### Explicit invocation
 
@@ -199,7 +242,7 @@ Use agency-technical-writer and rewrite a stale runbook.
 Use telegram-formatting for a Telegram Rich Markdown reply.
 ```
 
-### Automatic triggering
+#### Automatic triggering
 
 Automatic triggering usually depends on `description` inside `SKILL.md`. To improve matching:
 
@@ -207,22 +250,7 @@ Automatic triggering usually depends on `description` inside `SKILL.md`. To impr
 - include concrete product or technology names
 - call the skill explicitly when the outcome must be deterministic
 
-## Why this README helps discovery
-
-README is not the runtime trigger source, but it improves repository-level search and catalog indexing.
-
-- It exposes all skill names, domains, and keywords in one place.
-- Every skill has a direct link from the root README.
-- The Russian main README includes an English abstract for mixed-language search.
-- `SKILL.md` remains the source of truth for Claude Code and Codex auto-triggering.
-
-When adding a new skill, keep these three layers in sync:
-
-1. Directory name
-2. `name` and `description` in `SKILL.md`
-3. Entries in `README.md` and `README.en.md`
-
-## Experimental skill routing
+### Routing benchmark
 
 The repository includes [`tools/a_evolve_router`](tools/a_evolve_router/), a small benchmark for checking whether `SKILL.md` wording routes user prompts to the right skill. It reads eval cases from top-level `<skill>/evals/evals.json`, adds ambiguous stress cases from `supplemental_cases.json`, and runs against an isolated workspace copy so real skill directories are not mutated during the experiment.
 
@@ -252,7 +280,36 @@ The full local `a-evolve` workflow is documented in [`tools/a_evolve_router/READ
 
 The router still reads only the first `description:` line, so folded `>-` blocks look empty — keep a quoted one-liner. The heuristic engine remains net-negative. Skillforge (`--engine skillforge`) mutates only the isolated `.workdir/`.
 
-## Repository structure
+</details>
+
+## ⭐ Star History
+
+<p align="center">
+  <a href="https://www.star-history.com/#nordz0r/skills&Date">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=nordz0r/skills&type=Date&theme=dark">
+      <img alt="Star History" src="https://api.star-history.com/svg?repos=nordz0r/skills&type=Date" width="640">
+    </picture>
+  </a>
+</p>
+
+## 🤝 Contributing
+
+New skills and fixes go through pull requests.
+
+1. A `kebab-case` folder with `SKILL.md`; frontmatter `name` matches the folder, `description` is a concrete quoted one-liner.
+2. Register the skill in `.claude-plugin/marketplace.json`, `skills.sh.json` and both READMEs.
+3. Regenerate plugins and validate:
+   ```bash
+   node scripts/sync-codex-plugins.js
+   node scripts/validate-skills.js
+   ```
+4. Never hand-edit `plugins/`; it is generated.
+
+Agent-facing details live in [`AGENTS.md`](AGENTS.md).
+
+<details>
+<summary><b>Repository structure</b></summary>
 
 ```text
 skills/
@@ -280,3 +337,12 @@ skills/
     ├── scripts/          # optional: bash scripts or automation helpers
     └── references/       # optional: in-depth domain documentation
 ```
+
+</details>
+
+---
+
+<p align="center">
+  <b>Found a skill useful? A ⭐ helps others find this repo.</b><br>
+  <a href="https://github.com/nordz0r/skills/stargazers"><img alt="Star nordz0r/skills" src="https://img.shields.io/github/stars/nordz0r/skills?style=social"></a>
+</p>
