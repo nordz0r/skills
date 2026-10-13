@@ -117,6 +117,8 @@ Design agency skills (`agency-ui-designer`, `agency-ux-architect`, `agency-ux-re
 
 ### Frontmatter
 
+Follow the Agent Skills spec (https://agentskills.io/specification): top-level keys only `name`, `description`, `license`, `compatibility`, `metadata`, `allowed-tools`; `name` ≤64 chars `[a-z0-9-]`, matches the folder, no `anthropic`/`claude`; `description` ≤1024 chars, no XML tags; `metadata` is string→string (the `metadata.hermes` map is the only tolerated nested block); body <500 lines; one `SKILL.md` per skill, translations under `references/`. `scripts/validate-skills.js` enforces all of this.
+
 ```yaml
 ---
 name: skill-name
@@ -200,7 +202,7 @@ npx skills add nordz0r/skills -s litellm-guide -g
 ## NOTES
 
 - Current inventory: 26 skills total.
-- `pr-lens-diagrams` is a standalone skill (bilingual: `SKILL.md` RU + `SKILL.en.md` EN companion) with `scripts/` (setup/build/record) and `examples/`; grouping `Diagrams` in `skills.sh.json`.
+- `pr-lens-diagrams` is a standalone skill (`SKILL.md` in English, Russian text in `references/README.ru.md`) with `scripts/` (setup/build/record) and `examples/`; grouping `Diagrams` in `skills.sh.json`.
 - `agency-*` accounts for 6 remaining engineering skills (design four removed 2026-09-20).
 - `open-webui-guide` has 11 reference files and is still the largest single documentation set.
 - `litellm-guide` has 6 reference files, an OpenAI agent metadata file, and evals for `a_evolve_router`.
