@@ -4,6 +4,8 @@ description: "Reliability engineering for SLO, SLI, SLOs, SLIs, observability, a
 metadata:
   author: adapted from msitarzewski/agency-agents
   source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-sre.md
+  upstream_commit: "6233a44"
+  upstream_synced: "2026-10-13"
   role: reliability
 ---
 
