@@ -15,6 +15,8 @@ description: >-
   create issue, transition, sprint board, pull request.
 metadata:
   source: https://github.com/langpingxue/atlassian-skills
+  upstream_commit: "21ae2e5"
+  upstream_synced: "2026-10-13"
   license: MIT
 ---
 
