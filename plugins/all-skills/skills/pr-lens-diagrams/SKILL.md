@@ -25,7 +25,7 @@ bash scripts/pr-lens-build.sh my.graph.json out/   # → out/architecture.{svg,g
 ```
 
 - Start from `examples/bots.graph.json` (4 lanes, 12 nodes, 12 edges, 1 flow).
-- The build validates, renders (`dark` by default, `light` as the 3rd arg), records frames with Playwright at `deviceScaleFactor: 2`, and encodes a non-dithered GIF and an MP4 (`crf 18`).
+- The build validates, renders (`dark` by default; `light` or `both` as the 3rd arg), records frames with Playwright at `deviceScaleFactor: 2`, and encodes a non-dithered GIF and an MP4 (`crf 18`).
 - Env: `PR_LENS_HOME`, `FPS` (20), `MIN_WIDTH` (1600), `PR_LENS_CLI_VERSION`, `PLAYWRIGHT_VERSION`.
 - `npx skills add coldteadotai/pr-lens` crashes on Node 20 (`fs/promises` has no `glob`); not required. Version-matched docs: `npx pr-lens skill` / `npx pr-lens skill references` inside `$PR_LENS_HOME`.
 - **Never publish without explicit user consent**: `pr-lens canvas push` puts the diagram on prlens.dev behind a view link anyone holding it can open.
@@ -54,7 +54,8 @@ Required: `schemaVersion, kind: "graph", title, lenses, provenance, lanes, nodes
 - Short labels: subtitle ~20 chars on a narrow card, ~45 on a wide one.
 - `hero` only for 1–2 key paths; rare edges `muted`; no labels on obvious edges.
 - Data-flow width ≈ 320 px per participant; keep ≤ 6–7 participants.
-- Dark theme on `#0d1117` reads best in chats.
+- Theme choice: 3rd arg `dark` (default, reads best in chats), `light`, or `both` (writes `<lens>-dark.*` and `<lens>-light.*`). Pick `both` when the target page switches themes (GitHub `<picture>`, nopaste, docs sites); match the reader's theme when only one image fits.
+- Palette: `PALETTE=github` (default renderer colours, dark ground `#0d1117`, light `#ffffff`) or `PALETTE=nopaste` (paste.goldfinches.ru colours: dark `#212427`/accent `#8ab4f8`, light `#e6ddd2`/accent `#176b62`). Diff colours (added/modified/removed) are never changed.
 - Record at DPR 2, CSS width ≥ viewBox width and ≥ 1600 px, 20 fps.
 - GIF: `palettegen=max_colors=128:stats_mode=diff` + `paletteuse=dither=none:diff_mode=rectangle`, lanczos to CSS width (~1 MB for 11 s). MP4 at full 2x.
 - Telegram and most chats don't animate SVG — send GIF/MP4. GitHub PR comments do show animated SVG.

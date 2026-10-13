@@ -15,7 +15,7 @@ bash scripts/pr-lens-build.sh my.graph.json out/   # → out/architecture.{svg,g
 
 Начинайте с копии `examples/bots.graph.json`: в ней 4 колонки, 12 узлов, 12 связей и один поток.
 
-- `pr-lens-build.sh` проверяет документ (`pr-lens validate`), рендерит его в нужной теме (`dark` по умолчанию, `light` третьим аргументом) и записывает кадры через Playwright с `deviceScaleFactor: 2`. Из кадров собираются GIF без дизеринга и MP4 (`crf 18`).
+- `pr-lens-build.sh` проверяет документ (`pr-lens validate`), рендерит его в нужной теме (`dark` по умолчанию, `light` или `both` третьим аргументом) и записывает кадры через Playwright с `deviceScaleFactor: 2`. Из кадров собираются GIF без дизеринга и MP4 (`crf 18`).
 - Переменные окружения: `PR_LENS_HOME`, `FPS` (20), `MIN_WIDTH` (1600), `PR_LENS_CLI_VERSION`, `PLAYWRIGHT_VERSION`.
 - `npx skills add coldteadotai/pr-lens` на Node 20 падает: `fs/promises` не экспортирует `glob`. Этот скилл официальный не требует. Справку по установленной версии CLI выдаёт `npx pr-lens skill` и `npx pr-lens skill references`; запускать в `$PR_LENS_HOME`.
 - **Не публиковать без явного согласия пользователя.** `pr-lens canvas push` выкладывает схему на prlens.dev, и ссылку на просмотр может открыть любой, у кого она есть.
@@ -50,7 +50,8 @@ bash scripts/pr-lens-build.sh my.graph.json out/   # → out/architecture.{svg,g
 - **Подписи короткие:** на узкой карточке subtitle до ~20 символов, на широкой до ~45.
 - **`hero` только для 1–2 главных путей.** Редкие связи делайте `muted`. Подписи у очевидных связей (оркестратор → группа) не нужны.
 - **Ширина data-flow** растёт примерно на 320 px за участника. 6 участников ≈ 1940 px, больше будет мелко. Держите до 6–7 участников.
-- **Тема:** по умолчанию `dark` на фоне `#0d1117`, в чатах тёмные схемы читаются лучше.
+- **Тема:** по умолчанию `dark`, в чатах тёмные схемы читаются лучше. `both` собирает `<lens>-dark.*` и `<lens>-light.*` для страниц с переключением темы (GitHub `<picture>`, nopaste).
+- **Палитра:** `PALETTE=github` (по умолчанию: тёмный фон `#0d1117`, светлый `#ffffff`) или `PALETTE=nopaste` (цвета paste.goldfinches.ru: тёмная `#212427`/акцент `#8ab4f8`, светлая `#e6ddd2`/акцент `#176b62`). Цвета diff не меняются.
 - **Запись:** `deviceScaleFactor: 2`, ширина CSS не меньше ширины viewBox и не меньше 1600 px, 20 fps.
 - **GIF:** `palettegen=max_colors=128:stats_mode=diff` + `paletteuse=dither=none:diff_mode=rectangle`, масштаб `lanczos` до ширины CSS. Текст получается чистым, 11 с архитектуры весят ≈ 1 МБ. MP4 пишется в полном 2x.
 - В Telegram и большинстве чатов SVG-анимация не видна, отправляйте GIF или MP4. В комментарии к GitHub PR анимированный SVG показывается.
