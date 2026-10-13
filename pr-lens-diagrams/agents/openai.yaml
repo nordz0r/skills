@@ -1,0 +1,4 @@
+interface:
+  display_name: "PR Lens Diagrams"
+  short_description: "Animated architecture and data-flow diagrams via PR Lens: SVG, GIF, MP4."
+  default_prompt: "Use $pr-lens-diagrams to draw an animated architecture or data-flow diagram."

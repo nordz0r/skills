@@ -64,6 +64,12 @@ Most domain guides live inside each skill directory. The main repository README 
 |------|-------|----------|
 | [telegram-formatting](telegram-formatting/) | Telegram Rich Markdown: syntax, banners, inline images, delivery | telegram, formatting, rich-messages, bot-api, placehold, media |
 
+### Diagrams
+
+| Skill | Focus | Trigger keywords |
+|------|-------|------------------|
+| [pr-lens-diagrams](pr-lens-diagrams/) | Animated architecture and data-flow diagrams via PR Lens → SVG, GIF, MP4 | pr lens, diagram, architecture, data flow, animated svg, gif |
+
 ### OpenWrt, networking, and anti-censorship
 
 | Skill | Scope | Keywords |
@@ -83,13 +89,14 @@ This repository is structured for universal integration: install it directly as 
 claude plugin marketplace add nordz0r/skills
 
 # 2. Install bundle or individual plugins:
-claude plugin install all-skills@nord-skills       # Complete 25 skills collection
+claude plugin install all-skills@nord-skills       # Complete 26 skills collection
 claude plugin install agency-skills@nord-skills    # Agency engineering bundle
 claude plugin install infra-linux@nord-skills      # Linux, Docker, CI/CD, Ansible
 claude plugin install ai-tools@nord-skills         # LiteLLM, WebUI, OpenCodex
 claude plugin install nextcloud@nord-skills        # Nextcloud: files + Collectives wiki
 claude plugin install openwrt-routing@nord-skills  # OpenWrt (AmneziaWG, Podkop, zapret)
 claude plugin install telegram-formatting@nord-skills  # Telegram Rich Markdown
+claude plugin install pr-lens-diagrams@nord-skills     # PR Lens animated diagrams
 
 # Inside an active Claude Code interactive session:
 /plugin marketplace add nordz0r/skills

@@ -60,6 +60,12 @@
       "skills": [
         "telegram-formatting"
       ]
+    },
+    {
+      "title": "Diagrams",
+      "skills": [
+        "pr-lens-diagrams"
+      ]
     }
   ]
 }
