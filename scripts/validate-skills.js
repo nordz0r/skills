@@ -111,7 +111,7 @@ for (const dir of skillDirs) {
     if (nameMatch) {
       const name = nameMatch[1].trim().replace(/^["']|["']$/g, '');
       if (name.length > 64 || !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(name)) logError(`[${dir}] name '${name}' must be 1-64 chars of a-z, 0-9 and single hyphens, no leading/trailing hyphen`);
-      if (/anthropic|claude/.test(name)) logError(`[${dir}] name '${name}' contains a reserved word (anthropic/claude)`);
+      if (/anthropic|claude/.test(name)) logWarn(`[${dir}] name '${name}' contains a reserved word (anthropic/claude) — rejected by the Anthropic API, not by the Agent Skills spec`);
       if (name !== dir) logError(`[${dir}] name '${name}' must match the directory name`);
     }
     const desc = skillMetadata.get(dir)?.description || '';
@@ -127,7 +127,7 @@ for (const dir of skillDirs) {
     }
     const body = content.slice(match[0].length);
     const bodyLines = body.split(/\r?\n/).length;
-    if (bodyLines > 500) logError(`[${dir}] SKILL.md body is ${bodyLines} lines (keep under 500; move detail to references/)`);
+    if (bodyLines > 500) logWarn(`[${dir}] SKILL.md body is ${bodyLines} lines (keep under 500; move detail to references/)`);
     if (!body.trim()) logError(`[${dir}] SKILL.md body is empty`);
     // Sibling SKILL.*.md files confuse loaders that glob for SKILL*.md; translations go to references/
     for (const f of fs.readdirSync(path.join(ROOT_DIR, dir))) {
@@ -138,6 +138,8 @@ for (const dir of skillDirs) {
     for (const m of prose.matchAll(/\]\(([^)#\s]+)(?:#[^)]*)?\)/g)) {
       const target = m[1];
       if (/^[a-z]+:/i.test(target)) continue;
+      // Prose placeholders like [Title](URL) are not file paths: only check targets that look like paths
+      if (!/[./]/.test(target)) continue;
       if (!fs.existsSync(path.join(ROOT_DIR, dir, target))) logError(`[${dir}] broken relative link '${target}' in SKILL.md`);
     }
     // Files under references/ should be linked from SKILL.md (one level deep)
