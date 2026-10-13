@@ -599,7 +599,7 @@ AtlassianCredentials(
     jira_api_token: Optional[str] = None,
     jira_pat_token: Optional[str] = None,
     jira_api_version: Optional[str] = None,  # '2' or '3', auto-detected if not set
-    jira_ssl_verify: bool = False,
+    jira_ssl_verify: bool = True,
     
     # Confluence
     confluence_url: Optional[str] = None,
@@ -607,7 +607,7 @@ AtlassianCredentials(
     confluence_api_token: Optional[str] = None,
     confluence_pat_token: Optional[str] = None,
     confluence_api_version: Optional[str] = None,
-    confluence_ssl_verify: bool = False,
+    confluence_ssl_verify: bool = True,
     
     # Bitbucket
     bitbucket_url: Optional[str] = None,
@@ -615,7 +615,7 @@ AtlassianCredentials(
     bitbucket_api_token: Optional[str] = None,
     bitbucket_pat_token: Optional[str] = None,
     bitbucket_api_version: Optional[str] = None,
-    bitbucket_ssl_verify: bool = False
+    bitbucket_ssl_verify: bool = True
 )
 ```
 

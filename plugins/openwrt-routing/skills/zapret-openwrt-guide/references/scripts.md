@@ -231,7 +231,9 @@ unzip -l /tmp/zapret-pkg.zip    # внутри должны быть тольк�
 | Менеджер | Формат | Команды |
 |----------|--------|---------|
 | opkg | .ipk | `opkg remove`, `opkg install` |
-| apk | .apk | `apk del`, `apk add --allow-untrusted` |
+| apk | .apk | `apk del`, `apk add --allow-untrusted` (upstream behaviour) |
+
+> ⚠️ Security: `--allow-untrusted` skips APK signature checks. Run the updater only after verifying the ZIP checksum against the release notes (see above); never pipe it from the network or run it unattended.
 
 ---
 
