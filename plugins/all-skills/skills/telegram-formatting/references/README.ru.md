@@ -267,4 +267,4 @@ inline-форматирование; медиа — только отдельн�
 
 ## References
 
-- [`references/adapter-internals.md`](references/adapter-internals.md) — gateway adapter internals (load only when debugging delivery).
+- [`adapter-internals.md`](adapter-internals.md) — gateway adapter internals (load only when debugging delivery).
