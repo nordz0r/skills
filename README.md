@@ -150,7 +150,11 @@ hermes skills update open-webui-guide --force
 ## 🗺️ Как это устроено
 
 <p align="center">
-  <img alt="Как skill попадает в агента: репозиторий → marketplace, plugins, skills.sh → Claude Code, Codex, Agent CLI, Hermes → агент с навыком" src=".github/assets/repo-flow.gif" width="100%">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".github/assets/architecture-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset=".github/assets/architecture-light.svg">
+    <img alt="Как skill попадает в агента: папки skills и marketplace.json → sync-codex-plugins.js, plugins/, skills.sh.json → Claude Code, Codex, npx skills, Hermes" src=".github/assets/architecture-light.svg" width="100%">
+  </picture>
 </p>
 
 Источник истины — папки skills и `.claude-plugin/marketplace.json`. Скрипт `scripts/sync-codex-plugins.js` собирает из них `plugins/` для Codex, `skills.sh.json` группирует skills для каталогов, Hermes ставит skill прямо из папки. Схема нарисована skill'ом [`pr-lens-diagrams`](pr-lens-diagrams/).
