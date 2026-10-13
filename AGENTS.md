@@ -197,7 +197,8 @@ npx skills add nordz0r/skills -s litellm-guide -g
 
 ## NOTES
 
-- Current inventory: 25 skills total.
+- Current inventory: 26 skills total.
+- `pr-lens-diagrams` is a standalone skill (bilingual: `SKILL.md` RU + `SKILL.en.md` EN companion) with `scripts/` (setup/build/record) and `examples/`; grouping `Diagrams` in `skills.sh.json`.
 - `agency-*` accounts for 6 remaining engineering skills (design four removed 2026-09-20).
 - `open-webui-guide` has 11 reference files and is still the largest single documentation set.
 - `litellm-guide` has 6 reference files, an OpenAI agent metadata file, and evals for `a_evolve_router`.

@@ -11,7 +11,7 @@
     {
       "name": "all-skills",
       "displayName": "All Skills (Full Bundle)",
-      "description": "Complete collection of all 25 DevOps, SRE, AI tooling, Linux, and OpenWrt skills",
+      "description": "Complete collection of all 26 DevOps, SRE, AI tooling, Linux, and OpenWrt skills",
       "version": "1.0.0",
       "source": "./",
       "strict": false,
@@ -520,6 +520,21 @@
         "rich-messages",
         "markdown",
         "bot-api"
+      ]
+    },
+    {
+      "name": "pr-lens-diagrams",
+      "displayName": "PR Lens Animated Diagrams",
+      "description": "Animated architecture and data-flow diagrams with PR Lens: graph.json → SVG, seamless GIF and MP4",
+      "source": "./pr-lens-diagrams",
+      "strict": false,
+      "category": "ai-tools",
+      "tags": [
+        "diagrams",
+        "pr-lens",
+        "architecture",
+        "data-flow",
+        "gif"
       ]
     }
   ]

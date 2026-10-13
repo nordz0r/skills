@@ -31,6 +31,7 @@
     "./podkop-openwrt-guide",
     "./zapret-openwrt-guide",
     "./opencodex-guide",
-    "./telegram-formatting"
+    "./telegram-formatting",
+    "./pr-lens-diagrams"
   ]
 }

@@ -1,0 +1,423 @@
+{
+  "schemaVersion": "0.2.0",
+  "kind": "graph",
+  "id": "bots-example",
+  "generatedAt": "2026-10-13T13:50:00.000Z",
+  "title": "Боты: оркестратор и роли",
+  "summary": "Boss раздаёт задачи группам ботов; прод Hermes только через Мост; отчёты у Писаря.",
+  "lenses": [
+    "architecture",
+    "data-flow"
+  ],
+  "layout": {
+    "direction": "right",
+    "laneOrder": [
+      "you",
+      "orch",
+      "work",
+      "out"
+    ],
+    "rank": {
+      "andrey": 0,
+      "boss": 1,
+      "jev": 2,
+      "ping": 5,
+      "research": 2,
+      "code": 3,
+      "content": 4,
+      "infra": 5,
+      "pisar": 5,
+      "gldf": 6,
+      "bridge": 6,
+      "hermes": 7
+    }
+  },
+  "provenance": {
+    "repo": {
+      "owner": "example",
+      "name": "bots",
+      "host": "github.com"
+    },
+    "base": {
+      "sha": "0000000000000000000000000000000000000000",
+      "ref": "main"
+    },
+    "head": {
+      "sha": "0000000000000000000000000000000000000000",
+      "ref": "main"
+    },
+    "generator": {
+      "name": "manual",
+      "version": "1.0.0"
+    }
+  },
+  "lanes": [
+    {
+      "id": "you",
+      "label": "Андрей",
+      "subtitle": "Telegram",
+      "order": 0
+    },
+    {
+      "id": "orch",
+      "label": "Оркестрация",
+      "subtitle": "Boss",
+      "order": 1
+    },
+    {
+      "id": "work",
+      "label": "Исполнители",
+      "subtitle": "боты по ролям",
+      "order": 2
+    },
+    {
+      "id": "out",
+      "label": "Прод и отчёты",
+      "subtitle": "dd · gldf.ru",
+      "order": 3
+    }
+  ],
+  "nodes": [
+    {
+      "id": "andrey",
+      "label": "Андрей",
+      "kind": "external",
+      "delta": "unchanged",
+      "lane": "you",
+      "subtitle": "ставит задачи",
+      "files": [],
+      "badges": []
+    },
+    {
+      "id": "ping",
+      "label": "Пинг в Telegram",
+      "kind": "service",
+      "delta": "unchanged",
+      "lane": "you",
+      "subtitle": "сообщает о затыках",
+      "files": [],
+      "badges": []
+    },
+    {
+      "id": "boss",
+      "label": "Boss",
+      "kind": "service",
+      "delta": "unchanged",
+      "lane": "orch",
+      "subtitle": "раздаёт задачи по ролям",
+      "files": [],
+      "badges": []
+    },
+    {
+      "id": "jev",
+      "label": "Jev",
+      "kind": "service",
+      "delta": "unchanged",
+      "lane": "orch",
+      "subtitle": "AI по умолчанию для всех",
+      "files": [],
+      "badges": []
+    },
+    {
+      "id": "research",
+      "label": "Ресёрч",
+      "kind": "service",
+      "delta": "unchanged",
+      "lane": "work",
+      "subtitle": "Ресёрчер, Упоминания, Дайджест",
+      "files": [],
+      "badges": []
+    },
+    {
+      "id": "code",
+      "label": "Код",
+      "kind": "service",
+      "delta": "unchanged",
+      "lane": "work",
+      "subtitle": "Разработчик, Инженер, Архитектор, PR-ревью",
+      "files": [],
+      "badges": []
+    },
+    {
+      "id": "content",
+      "label": "Контент",
+      "kind": "service",
+      "delta": "unchanged",
+      "lane": "work",
+      "subtitle": "Редактор, Alt-тексты, Кадры",
+      "files": [],
+      "badges": []
+    },
+    {
+      "id": "infra",
+      "label": "Инфра",
+      "kind": "service",
+      "delta": "unchanged",
+      "lane": "work",
+      "subtitle": "DevOps, Сетевик, Метрики, Win-ПК",
+      "files": [],
+      "badges": []
+    },
+    {
+      "id": "bridge",
+      "label": "Мост к Hermes",
+      "kind": "service",
+      "delta": "unchanged",
+      "lane": "out",
+      "subtitle": "канал к dd",
+      "files": [],
+      "badges": []
+    },
+    {
+      "id": "pisar",
+      "label": "Писарь",
+      "kind": "service",
+      "delta": "unchanged",
+      "lane": "out",
+      "subtitle": "Wiki-1, отчёты от всех",
+      "files": [],
+      "badges": []
+    },
+    {
+      "id": "gldf",
+      "label": "gldf.ru",
+      "kind": "external",
+      "delta": "unchanged",
+      "lane": "out",
+      "subtitle": "публичные отчёты",
+      "files": [],
+      "badges": []
+    },
+    {
+      "id": "hermes",
+      "label": "Hermes",
+      "kind": "app",
+      "delta": "unchanged",
+      "lane": "out",
+      "subtitle": "прод на dd",
+      "files": [],
+      "badges": []
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "from": "andrey",
+      "to": "boss",
+      "kind": "http",
+      "delta": "unchanged",
+      "label": "задача",
+      "emphasis": "hero",
+      "animated": true,
+      "files": []
+    },
+    {
+      "id": "e1",
+      "from": "boss",
+      "to": "research",
+      "kind": "call",
+      "delta": "unchanged",
+      "emphasis": "normal",
+      "animated": true,
+      "files": []
+    },
+    {
+      "id": "e2",
+      "from": "boss",
+      "to": "code",
+      "kind": "call",
+      "delta": "unchanged",
+      "emphasis": "normal",
+      "animated": true,
+      "files": []
+    },
+    {
+      "id": "e3",
+      "from": "boss",
+      "to": "content",
+      "kind": "call",
+      "delta": "unchanged",
+      "emphasis": "normal",
+      "animated": true,
+      "files": []
+    },
+    {
+      "id": "e4",
+      "from": "boss",
+      "to": "infra",
+      "kind": "call",
+      "delta": "unchanged",
+      "emphasis": "normal",
+      "animated": true,
+      "files": []
+    },
+    {
+      "id": "e5",
+      "from": "boss",
+      "to": "jev",
+      "kind": "call",
+      "delta": "unchanged",
+      "label": "AI",
+      "emphasis": "muted",
+      "animated": true,
+      "files": []
+    },
+    {
+      "id": "e6",
+      "from": "boss",
+      "to": "ping",
+      "kind": "event",
+      "delta": "unchanged",
+      "label": "затык",
+      "emphasis": "muted",
+      "animated": true,
+      "files": []
+    },
+    {
+      "id": "e7",
+      "from": "ping",
+      "to": "andrey",
+      "kind": "event",
+      "delta": "unchanged",
+      "label": "уведомление",
+      "emphasis": "muted",
+      "animated": true,
+      "files": []
+    },
+    {
+      "id": "e8",
+      "from": "infra",
+      "to": "bridge",
+      "kind": "call",
+      "delta": "unchanged",
+      "label": "изменения Hermes",
+      "emphasis": "normal",
+      "animated": true,
+      "files": []
+    },
+    {
+      "id": "e9",
+      "from": "bridge",
+      "to": "hermes",
+      "kind": "rpc",
+      "delta": "unchanged",
+      "label": "прод",
+      "emphasis": "hero",
+      "animated": true,
+      "files": []
+    },
+    {
+      "id": "e10",
+      "from": "content",
+      "to": "pisar",
+      "kind": "data",
+      "delta": "unchanged",
+      "label": "отчёты",
+      "emphasis": "muted",
+      "animated": true,
+      "files": []
+    },
+    {
+      "id": "e11",
+      "from": "pisar",
+      "to": "gldf",
+      "kind": "http",
+      "delta": "unchanged",
+      "label": "публикует",
+      "emphasis": "normal",
+      "animated": true,
+      "files": []
+    }
+  ],
+  "flows": [
+    {
+      "id": "hermes-change",
+      "title": "Задача до прода Hermes",
+      "delta": "unchanged",
+      "participants": [
+        {
+          "node": "andrey",
+          "label": "Андрей"
+        },
+        {
+          "node": "boss",
+          "label": "Boss"
+        },
+        {
+          "node": "infra",
+          "label": "Инфра"
+        },
+        {
+          "node": "bridge",
+          "label": "Мост"
+        },
+        {
+          "node": "hermes",
+          "label": "Hermes"
+        },
+        {
+          "node": "pisar",
+          "label": "Писарь"
+        }
+      ],
+      "messages": [
+        {
+          "id": "m1",
+          "from": "andrey",
+          "to": "boss",
+          "label": "задача",
+          "kind": "sync",
+          "delta": "unchanged"
+        },
+        {
+          "id": "m2",
+          "from": "boss",
+          "to": "infra",
+          "label": "DevOps",
+          "kind": "sync",
+          "delta": "unchanged"
+        },
+        {
+          "id": "m5",
+          "from": "infra",
+          "to": "bridge",
+          "label": "изменение",
+          "kind": "sync",
+          "delta": "unchanged"
+        },
+        {
+          "id": "m6",
+          "from": "bridge",
+          "to": "hermes",
+          "label": "деплой",
+          "kind": "sync",
+          "delta": "unchanged"
+        },
+        {
+          "id": "m7",
+          "from": "hermes",
+          "to": "bridge",
+          "label": "готово",
+          "kind": "return",
+          "delta": "unchanged"
+        },
+        {
+          "id": "m8",
+          "from": "infra",
+          "to": "pisar",
+          "label": "отчёт",
+          "kind": "async",
+          "delta": "unchanged"
+        },
+        {
+          "id": "m9",
+          "from": "boss",
+          "to": "andrey",
+          "label": "итог",
+          "kind": "return",
+          "delta": "unchanged"
+        }
+      ]
+    }
+  ]
+}
