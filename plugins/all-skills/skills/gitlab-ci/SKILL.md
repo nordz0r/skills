@@ -1,36 +1,36 @@
 ---
 name: gitlab-ci
-description: "Self-hosted GitLab CI: .gitlab-ci.yml, MR pipelines, kaniko, CI_REGISTRY_IMAGE, when:manual, rules, runners, docker:dind. Не GitHub Actions и не общий Terraform. Триггеры: gitlab-ci, gitlab runner, .gitlab-ci.yml, kaniko, CI_REGISTRY, dind, pipeline failed, include:component."
+description: "Self-hosted GitLab CI: .gitlab-ci.yml, MR pipelines, kaniko, CI_REGISTRY_IMAGE, when:manual, rules, runners, docker:dind. Not GitHub Actions and not generic Terraform. Triggers: gitlab-ci, gitlab runner, .gitlab-ci.yml, kaniko, CI_REGISTRY, dind, pipeline failed, include:component, пайплайн, сборка, раннер, гитлаб."
 ---
 
 # GitLab CI
 
-Skill для GitLab CI/CD, особенно self-hosted. Пиши YAML и команды runner'а,
-которые можно сразу катить.
+Skill for GitLab CI/CD, especially self-hosted. Write YAML and runner commands
+that can be rolled out right away.
 
-Не используй для GitHub Actions (`gh-actions`) и не подменяй собой
-`docker-ops`, если задача только про Dockerfile без pipeline.
+Do not use it for GitHub Actions (`gh-actions`), and do not use it instead of
+`docker-ops` when the task is only about a Dockerfile without a pipeline.
 
-## Когда использовать
+## When to use
 
-- Собрать или починить `.gitlab-ci.yml`.
-- Job failed, YAML invalid, runner offline, dind не видит docker.sock.
+- Build or fix `.gitlab-ci.yml`.
+- Job failed, YAML invalid, runner offline, dind cannot see docker.sock.
 - Registry login, tag, push.
 - include/templates/components, rules, workflow, needs.
-- Runner: executor docker/shell/k8s, tags, privileged, tokens.
+- Runner: docker/shell/k8s executor, tags, privileged, tokens.
 
 ## Workflow
 
-1. Зафиксируй GitLab и runner: версия инстанса, executor, tags, protected.
-2. Читай pipeline как DAG: `stages` vs `needs`, `rules`, `workflow:rules`.
-3. Не используй deprecated `only:`/`except:` — только `rules:`.
-4. Образы и теги пинь. `image: docker:latest` не годится.
-5. Секреты — masked/protected CI variables, Vault, file-type variables.
-   Не `CI_JOB_TOKEN` в чужой проект без явной job token allowlist.
-6. Проверка: pipeline editor / `glab ci lint`, затем пустой MR pipeline,
-   затем deploy job с `when: manual` на prod.
+1. Pin down GitLab and the runner: instance version, executor, tags, protected.
+2. Read the pipeline as a DAG: `stages` vs `needs`, `rules`, `workflow:rules`.
+3. Do not use deprecated `only:`/`except:` — `rules:` only.
+4. Pin images and tags. `image: docker:latest` is not acceptable.
+5. Secrets: masked/protected CI variables, Vault, file-type variables.
+   No `CI_JOB_TOKEN` into another project without an explicit job token allowlist.
+6. Verify: pipeline editor / `glab ci lint`, then an empty MR pipeline,
+   then a deploy job with `when: manual` for prod.
 
-## Минимальный каркас
+## Minimal skeleton
 
 ```yaml
 workflow:
@@ -54,15 +54,17 @@ include:
 
 ## Companion skills
 
-- Dockerfile/compose внутри job → `docker-ops`.
-- Деплой хоста через Ansible из job → `ansible-playbook`.
-- Обвязка delivery/rollback как процесс → `agency-devops-automator`.
+- Dockerfile/compose inside a job → `docker-ops`.
+- Host deploy via Ansible from a job → `ansible-playbook`.
+- Delivery/rollback as a process → `agency-devops-automator`.
 
 ## References
 
-- `references/pipelines.md` — YAML-паттерны: build, dind, rules, cache.
+- `references/pipelines.md` — YAML patterns: build, dind, rules, cache.
 - `references/runners.md` — runner tokens, executors, dind, registry.
 
 <!-- A-EVOLVE-ROUTING-SIGNALS:START -->
 ## Routing signals: gitlab gitlab-ci .gitlab-ci.yml runner dind CI_REGISTRY CI_JOB_TOKEN rules include component artifacts cache pipeline job failed
 <!-- A-EVOLVE-ROUTING-SIGNALS:END -->
+
+Russian version: [`references/README.ru.md`](references/README.ru.md).
