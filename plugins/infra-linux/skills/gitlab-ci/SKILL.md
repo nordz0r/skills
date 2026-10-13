@@ -1,6 +1,6 @@
 ---
 name: gitlab-ci
-description: "Self-hosted GitLab CI: .gitlab-ci.yml, MR pipelines, kaniko, CI_REGISTRY_IMAGE, when:manual, rules, runners, docker:dind. Not GitHub Actions and not generic Terraform. Triggers: gitlab-ci, gitlab runner, .gitlab-ci.yml, kaniko, CI_REGISTRY, dind, pipeline failed, include:component."
+description: "Self-hosted GitLab CI: .gitlab-ci.yml, MR pipelines, kaniko, CI_REGISTRY_IMAGE, when:manual, rules, runners, docker:dind. Not GitHub Actions and not generic Terraform. Triggers: gitlab-ci, gitlab runner, .gitlab-ci.yml, kaniko, CI_REGISTRY, dind, pipeline failed, include:component, пайплайн, сборка, раннер, гитлаб."
 ---
 
 # GitLab CI

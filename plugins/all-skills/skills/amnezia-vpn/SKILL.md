@@ -1,6 +1,6 @@
 ---
 name: amnezia-vpn
-description: "Amnezia VPN and AmneziaWG on Linux/VPS/Docker, not OpenWrt: handshake, awg show, amneziawg-go, kernel module, Jc/H1, /opt/amnezia, Ubuntu VPS, UDP. Triggers: amneziawg, awg-quick, amneziawg-go, amnezia docker, VPS VPN, handshake."
+description: "Amnezia VPN and AmneziaWG on Linux/VPS/Docker, not OpenWrt: handshake, awg show, amneziawg-go, kernel module, Jc/H1, /opt/amnezia, Ubuntu VPS, UDP. Triggers: amneziawg, awg-quick, amneziawg-go, amnezia docker, VPS VPN, handshake, впн, амнезия, сервер VPN, рукопожатие."
 ---
 
 # Amnezia VPN (Linux / Docker)

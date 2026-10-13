@@ -1,6 +1,6 @@
 ---
 name: zapret-openwrt-guide
-description: "Complete guide to zapret-openwrt, an anti-DPI tool for OpenWrt routers. Use for any zapret-openwrt question: project architecture, configuration, DPI bypass strategies, LuCI web UI, scripts, updates, diagnostics, custom.d hooks, host lists, nfqws parameters, procd service management. Also use for development: adding strategies, changing the UI, writing custom.d scripts, debugging. Triggers: zapret, nfqws, DPI desync, обход блокировок, антиблокировка, zapret strategies, hostlist, autohostlist."
+description: "Complete guide to zapret-openwrt, an anti-DPI tool for OpenWrt routers. Use for any zapret-openwrt question: project architecture, configuration, DPI bypass strategies, LuCI web UI, scripts, updates, diagnostics, custom.d hooks, host lists, nfqws parameters, procd service management. Also use for development: adding strategies, changing the UI, writing custom.d scripts, debugging. Triggers: zapret, nfqws, DPI desync, обход блокировок, антиблокировка, zapret strategies, hostlist, autohostlist, стратегии zapret, роутер, блокировки."
 ---
 
 # Zapret-OpenWrt: Complete Guide

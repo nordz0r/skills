@@ -1,6 +1,6 @@
 ---
 name: amneziawg-openwrt-guide
-description: "Complete guide to amneziawg-openwrt. Use for any AmneziaWG task on OpenWrt: installing amneziawg-tools, kmod-amneziawg, luci-proto-amneziawg, configuring proto amneziawg, UCI/LuCI interface and peer config, key generation, QR, watchdog, package builds and kernel/userspace fallback debugging. Triggers: amneziawg, amnezia, awg, luci-proto-amneziawg, kmod-amneziawg, amneziawg-tools, amneziawg-go, openwrt awg."
+description: "Complete guide to amneziawg-openwrt. Use for any AmneziaWG task on OpenWrt: installing amneziawg-tools, kmod-amneziawg, luci-proto-amneziawg, configuring proto amneziawg, UCI/LuCI interface and peer config, key generation, QR, watchdog, package builds and kernel/userspace fallback debugging. Triggers: amneziawg, amnezia, awg, luci-proto-amneziawg, kmod-amneziawg, amneziawg-tools, amneziawg-go, openwrt awg, роутер, впн на роутере, амнезия, туннель."
 ---
 
 # AmneziaWG OpenWrt Guide

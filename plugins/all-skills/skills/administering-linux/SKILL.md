@@ -1,6 +1,6 @@
 ---
 name: administering-linux
-description: "Hands-on Linux administration of a systemd host: journalctl, systemctl, unit, drop-in, failed-service after reboot, OOM, df, ssh, Ubuntu Debian. Not Docker and not Ansible. Triggers: journalctl, unit file, drop-in, oom killer, disk full, sshd, ubuntu server, failed unit, vendor unit, host troubleshooting."
+description: "Hands-on Linux administration of a systemd host: journalctl, systemctl, unit, drop-in, failed-service after reboot, OOM, df, ssh, Ubuntu Debian. Not Docker and not Ansible. Triggers: journalctl, unit file, drop-in, oom killer, disk full, sshd, ubuntu server, failed unit, vendor unit, host troubleshooting, сервер, диск заполнен, служба не стартует, логи, линукс."
 ---
 
 # Administering Linux

@@ -1,6 +1,6 @@
 ---
 name: podkop-openwrt-guide
-description: "Complete guide to Podkop on OpenWrt. Use for any itdoginfo/podkop task: install, update, migrating /etc/config/podkop, selective/domain routing via sing-box, dnsmasq, nft/tproxy, LuCI UI, proxy URL strings (vless, trojan, ss, hysteria2, socks), community/user lists, selector/urltest, exclusion, Clash API/YACD dashboard, BadWAN monitoring, FakeIP, service diagnostics and development of podkop, luci-app-podkop, fe-app-podkop. Triggers: podkop, luci-app-podkop, sing-box on OpenWrt, fakeip, proxy_string, community lists, selective routing, clash api, yacd, urltest, selector, exclusion."
+description: "Complete guide to Podkop on OpenWrt. Use for any itdoginfo/podkop task: install, update, migrating /etc/config/podkop, selective/domain routing via sing-box, dnsmasq, nft/tproxy, LuCI UI, proxy URL strings (vless, trojan, ss, hysteria2, socks), community/user lists, selector/urltest, exclusion, Clash API/YACD dashboard, BadWAN monitoring, FakeIP, service diagnostics and development of podkop, luci-app-podkop, fe-app-podkop. Triggers: podkop, luci-app-podkop, sing-box on OpenWrt, fakeip, proxy_string, community lists, selective routing, clash api, yacd, urltest, selector, exclusion, роутер, обход блокировок, прокси, списки доменов."
 ---
 
 # Podkop OpenWrt Guide

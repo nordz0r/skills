@@ -1,6 +1,6 @@
 ---
 name: telegram-formatting
-description: "Telegram Rich Markdown formatting: syntax, limits, delivery, banners, inline images. Use when preparing Telegram replies via gateway: GFM tables, task lists, details, sendRichMessage vs MarkdownV2, MEDIA vs HTTPS ![](), placehold.co banners, image generation, jpg.wtf hotlink, pixhost fallback, tg-collage, tg-emoji. Triggers: telegram, rich markdown, sendRichMessage, MarkdownV2, MEDIA, placehold, inline photo, banner, caption, checklist."
+description: "Telegram Rich Markdown formatting: syntax, limits, delivery, banners, inline images. Use when preparing Telegram replies via gateway: GFM tables, task lists, details, sendRichMessage vs MarkdownV2, MEDIA vs HTTPS ![](), placehold.co banners, image generation, jpg.wtf hotlink, pixhost fallback, tg-collage, tg-emoji. Triggers: telegram, rich markdown, sendRichMessage, MarkdownV2, MEDIA, placehold, inline photo, banner, caption, checklist, телеграм, форматирование, таблица, баннер, картинка."
 license: MIT
 metadata:
   version: "3.3.1"
@@ -13,269 +13,272 @@ metadata:
 
 # Telegram Formatting Skill
 
-Как агенту готовить текст для Telegram: пиши обычный GitHub-Flavored Markdown,
-gateway сам выбирает путь доставки — legacy MarkdownV2 или Rich Messages
-(`sendRichMessage`, Bot API 10.x). Агент не вызывает Bot API напрямую, не
-эскейпит текст и не режет сообщения. Скилл описывает синтаксис Rich Markdown,
-триггеры rich-пути, лимиты, политику картинок и типовые ошибки.
+How an agent prepares text for Telegram: write plain GitHub-Flavored Markdown;
+the gateway picks the delivery path itself — legacy MarkdownV2 or Rich Messages
+(`sendRichMessage`, Bot API 10.x). The agent does not call the Bot API directly,
+does not escape text and does not split messages. This skill covers Rich
+Markdown syntax, rich-path triggers, limits, image policy and common mistakes.
 
 ## When to Use
 
-- Готовишь любой ответ, который уйдёт в Telegram через gateway.
-- Выбираешь, как подать контент: таблица, чек-лист, код, спойлер, формула.
-- Текст длинный или структурный — решаешь, что отправить сообщением, а что файлом.
-- Нужен баннер секции, inline-картинка или `MEDIA:`-файл.
+- You are preparing any reply that will go to Telegram via the gateway.
+- You are choosing how to present content: table, checklist, code, spoiler, formula.
+- The text is long or structured — deciding what goes as a message and what as a file.
+- You need a section banner, an inline image or a `MEDIA:` file.
 
-Don't use for: настройку gateway (`hermes config`), вызов Bot API из скриптов
-напрямую. Доставка локальных файлов — через `MEDIA:` (см. ниже). `hermes send`
-остаётся MarkdownV2/HTML; живые no_agent cron-скрипты с прямым
-`sendRichMessage` — исключение (см. Pitfalls). Практические cron-примеры:
-skill `telegram-cron-image-conventions`.
+Don't use for: gateway configuration (`hermes config`), calling the Bot API
+directly from scripts. Local files are delivered via `MEDIA:` (see below).
+`hermes send` stays MarkdownV2/HTML; live no_agent cron scripts calling
+`sendRichMessage` directly are the exception (see Pitfalls). Practical cron
+examples: skill `telegram-cron-image-conventions`.
 
 ## How Delivery Works
 
-Один текст агента — два пути доставки, выбор делает gateway:
+One agent text — two delivery paths; the gateway chooses:
 
 | | MarkdownV2 (default) | Rich Messages |
 |---|---|---|
-| Когда | обычный текст | есть rich-конструкция (ниже) |
-| Лимит | 4 096 символов | 32 768 символов |
-| Синтаксис | Markdown → конвертация в MarkdownV2 | твой GFM уходит как Rich Markdown |
-| Заголовки `#`, таблицы | сплющиваются | рендерятся нативно |
+| When | plain text | a rich construct is present (below) |
+| Limit | 4,096 characters | 32,768 characters |
+| Syntax | Markdown → converted to MarkdownV2 | your GFM is sent as Rich Markdown |
+| `#` headings, tables | flattened | rendered natively |
 
-Rich-путь включается автоматически, если в тексте есть хотя бы одно из:
+The rich path is enabled automatically if the text contains at least one of:
 
-- **GFM-таблица** — строка-разделитель вида `|---|---|`
-- **Task list** — `- [ ]` или `- [x]` в начале строки
-- **`<details>`-блок** — теги `<details>`, `<summary>`
+- **GFM table** — a separator row like `|---|---|`
+- **Task list** — `- [ ]` or `- [x]` at the start of a line
+- **`<details>` block** — `<details>`, `<summary>` tags
 - **Block math** — `$$...$$`
 
-Следствие: **обычный текст (жирный, списки, код) всегда идёт по MarkdownV2** —
-заголовки `##` в нём не станут section headings. Чтобы получить богатый рендер,
-включи в ответ хотя бы одну rich-конструкцию (таблицу, task list, details).
+Consequence: **plain text (bold, lists, code) always goes via MarkdownV2** —
+`##` headings in it will not become section headings. To get a rich render,
+include at least one rich construct (table, task list, details).
 
-Правила текста:
+Text rules:
 
-- Пиши чистый GFM. Не экранируй символы под MarkdownV2 — на MDv2-пути это
-  делает gateway, а на rich-пути твои `\` уйдут в текст как есть.
-- Rich Markdown совместим с GFM «где возможно», поэтому `**bold**` и
-  `*italic*` безопасны на обоих путях. Однострочные переносы gateway
-  нормализует в жёсткие переводы строк.
+- Write clean GFM. Do not escape characters for MarkdownV2 — on the MDv2 path
+  the gateway does it, and on the rich path your `\` end up in the text as is.
+- Rich Markdown is GFM-compatible "where possible", so `**bold**` and
+  `*italic*` are safe on both paths. The gateway normalizes single line breaks
+  into hard line breaks.
 
 ## Rich Markdown Cheat Sheet
 
-Полный синтаксис поля `markdown` в `InputRichMessage`:
+Full syntax of the `markdown` field in `InputRichMessage`:
 
 ```
 **bold**  __bold__  *italic*  _italic_  ~~strike~~  ==marked==  ||spoiler||
-`inline code`   [текст](https://…)   [письмо](mailto:u@x.ru)   [тел](tel:+7…)
-[упоминание](tg://user?id=123)   $inline math$   ```lang …``` (блок кода)
-$$E=mc^2$$  или  ```math …```   ---  (разделитель)
+`inline code`   [text](https://…)   [email](mailto:u@x.ru)   [phone](tel:+7…)
+[mention](tg://user?id=123)   $inline math$   ```lang …``` (code block)
+$$E=mc^2$$  or  ```math …```   ---  (divider)
 
 # H1 … ###### H6
-- / * / +  маркированный список;   1. 2. нумерованный
-- [ ] незавершённое дело;  - [x] завершённое
-> цитата (пустая строка `>` между абзацами разделяет)
-![](https://…/photo.jpg)  медиа-блок;  ![](url "подпись")  с caption
-| Кол1 | Кол2 |  GFM-таблица с выравниванием `|:---|---:|`
-Сноска[^id] … [^id]: расшифровка
+- / * / +  bulleted list;   1. 2. numbered
+- [ ] open task;  - [x] done task
+> quote (an empty `>` line between paragraphs separates them)
+![](https://…/photo.jpg)  media block;  ![](url "caption")  with caption
+| Col1 | Col2 |  GFM table with alignment `|:---|---:|`
+Footnote[^id] … [^id]: explanation
 ```
 
-Автодетект сущностей (без разметки): URL, e-mail, телефоны, номера карт,
+Entity autodetection (no markup): URLs, e-mails, phone numbers, card numbers,
 `#hashtag`, `$cashtag`, `/command`, `@username`.
 
-HTML-теги для того, у чего нет markdown-синтаксиса:
+HTML tags for things that have no markdown syntax:
 
-- `<u>`, `<ins>` — подчёркнутый; `<sub>`, `<sup>` — индексы
-- `<a name="anchor"></a>` — якорь для внутренних ссылок
-- `<aside>цитата<cite>Автор</cite></aside>` — pull quote
-- `<details open><summary>Заголовок</summary>…</details>` — сворачиваемый блок
-- `<tg-map lat="41.9" long="12.5" zoom="14"/>` — карта
-- `<tg-collage>` / `<tg-slideshow>` — галереи из `![]()` или `<img>`
-- `<tg-button type="url" url="…" style="success">Текст</tg-button>` и
-  `<tg-button-row align="center">` — inline-кнопки (типы: `url`,
+- `<u>`, `<ins>` — underline; `<sub>`, `<sup>` — sub/superscript
+- `<a name="anchor"></a>` — anchor for internal links
+- `<aside>quote<cite>Author</cite></aside>` — pull quote
+- `<details open><summary>Title</summary>…</details>` — collapsible block
+- `<tg-map lat="41.9" long="12.5" zoom="14"/>` — map
+- `<tg-collage>` / `<tg-slideshow>` — galleries from `![]()` or `<img>`
+- `<tg-button type="url" url="…" style="success">Text</tg-button>` and
+  `<tg-button-row align="center">` — inline buttons (types: `url`,
   `callback_data`, `web_app`, `login_url`, `switch_inline_query*`,
-  `copy_text`, `disabled`; стили: `primary`, `success`, `danger`, `link`)
+  `copy_text`, `disabled`; styles: `primary`, `success`, `danger`, `link`)
 - `<tg-emoji emoji-id="…">👍</tg-emoji>`, `<tg-time unix="…" format="t">`
-- `<tg-thinking>…</tg-thinking>` — только в черновиках стриминга (см. ниже)
+- `<tg-thinking>…</tg-thinking>` — only in streaming drafts (see below)
 
-Ограничения парсера: markdown внутри блочных HTML-тегов не парсится, кроме
-`<details>`, `<tg-collage>`, `<tg-slideshow>`; в ячейках таблиц — только
-inline-форматирование; медиа — только отдельным блоком и только HTTP(S).
+Parser limits: markdown inside block HTML tags is not parsed, except
+`<details>`, `<tg-collage>`, `<tg-slideshow>`; table cells allow only inline
+formatting; media only as a separate block and only HTTP(S).
 
 ## Streaming & Drafts
 
-При `streaming.enabled` + `rich_drafts: true` (на dd включено) черновик в ЛС
-стримится через `sendRichMessageDraft`: пользователь видит живой предпросмотр
-с анимацией, черновик живёт ~30 секунд и заменяется финальным
-`sendRichMessage`. `<tg-thinking>` допустим только в черновике — визуальный
-индикатор «агент думает».
+With `streaming.enabled` + `rich_drafts: true` (enabled on dd) the draft in DMs
+is streamed via `sendRichMessageDraft`: the user sees a live animated preview;
+the draft lives ~30 seconds and is replaced by the final `sendRichMessage`.
+`<tg-thinking>` is allowed only in a draft — a visual "agent is thinking"
+indicator.
 
-Для агента это значит: не пиши «сообщение ниже — черновик» и не рассчитывай,
-что промежуточный текст останется в чате; финализирует gateway. В группах
-стриминг деградирует до редактирования (`edit`).
+For the agent this means: don't write "the message below is a draft" and don't
+expect intermediate text to stay in the chat; the gateway finalizes. In groups
+streaming degrades to editing (`edit`).
 
 ## Limits
 
-| Лимит | Значение |
+| Limit | Value |
 |---|---|
-| Текст rich-сообщения | 32 768 UTF-8 символов |
-| Блоки (включая вложенные, строки таблиц, пункты списков) | 500 |
-| Вложенность форматирования и блоков | 16 уровней |
-| Медиа-вложения | 50 |
-| Колонок в таблице | 20 |
-| Обычное сообщение (MarkdownV2) | 4 096 символов |
+| Rich message text | 32,768 UTF-8 characters |
+| Blocks (incl. nested, table rows, list items) | 500 |
+| Formatting and block nesting | 16 levels |
+| Media attachments | 50 |
+| Table columns | 20 |
+| Regular message (MarkdownV2) | 4,096 characters |
 
 ## Long Content & Media
 
-- До ~30 000 символов структурного текста — отправляй сообщением (rich-путь
-  поднимает лимит с 4 096).
-- Больше (длинные отчёты, логи, дампы) — файлом: положи на диск и укажи
-  `MEDIA:/абсолютный/путь` в ответе; в сообщении дай краткую выжимку. Подробный
-  отчёт может дублироваться приложением `.md`/`.pdf`.
-- Медиа в тексте: `![](https://…)` (photo/video/audio/ogg-voice/animation/
-  document определяется по MIME и расширению), `"подпись"` после URL — caption.
-  Галереи — `<tg-collage>`/`<tg-slideshow>`; повторно загруженные файлы —
-  ссылки вида `tg://photo?id=…` (в паре с полем `media` у InputRichMessage).
+- Up to ~30,000 characters of structured text — send as a message (the rich
+  path raises the limit from 4,096).
+- More (long reports, logs, dumps) — as a file: put it on disk and add
+  `MEDIA:/absolute/path` in the reply; give a short summary in the message. A
+  detailed report may be duplicated as an `.md`/`.pdf` attachment.
+- Media in text: `![](https://…)` (photo/video/audio/ogg-voice/animation/
+  document is detected by MIME and extension), `"caption"` after the URL.
+  Galleries — `<tg-collage>`/`<tg-slideshow>`; re-uploaded files — links like
+  `tg://photo?id=…` (paired with the `media` field of InputRichMessage).
 
-### Когда картинку не берём
+### When not to use an image
 
-- Короткий фактический ответ без сравнения, схемы, инвентаря или карточки.
-- Картинка не добавляет смысла — только шум. Текст остаётся текстом.
+- A short factual answer with no comparison, diagram, inventory or card.
+- The image adds no meaning — only noise. Text stays text.
 
-### placehold.co vs генерация
+### placehold.co vs generation
 
-| Нужно | Чем |
+| Need | Use |
 |---|---|
-| Баннер-заголовок дайджеста / секции | `placehold.co` |
-| Схема, сравнение, иллюстрация смысла | генерация → публичный HTTPS → `![]()` |
+| Digest / section header banner | `placehold.co` |
+| Diagram, comparison, illustration of meaning | generation → public HTTPS → `![]()` |
 
-**Баннер placehold.co** — только заголовок, не «рисунок»:
+**placehold.co banner** — a header only, not a "picture":
 
 ```markdown
 ![Software Updates](https://placehold.co/1200x300/0f172a/38bdf8/png?text=Software+Updates&font=montserrat)
 ```
 
-- Размеры: `1200x300` (верх дайджеста) или `1200x500` (секция).
-- `text=`: ASCII `[A-Za-z0-9 ._|-]`, 1–80 символов; без почты, PII, секретов.
-- Язык подписи на баннере — чисто RU или чисто EN, без транслита.
-- Отдельный блок + пустая строка вокруг; не стакать два placehold подряд.
-- Алерт/откат: можно красную палитру (`450a0a` / `f87171`).
+- Sizes: `1200x300` (top of a digest) or `1200x500` (section).
+- `text=`: ASCII `[A-Za-z0-9 ._|-]`, 1–80 characters; no email, PII, secrets.
+- Banner caption language — pure RU or pure EN, no transliteration.
+- Separate block with an empty line around it; don't stack two placeholds.
+- Alert/rollback: a red palette is OK (`450a0a` / `f87171`).
 
-**Генерация** (OCX `POST /v1/images/generations`):
+**Generation** (OCX `POST /v1/images/generations`):
 
 1. Primary: `google-antigravity/gemini-3.1-flash-image`
-2. Fallback: `xai/grok-4.6` (если primary недоступен / квота)
-3. GPT / DALL·E (`gpt-image-*`, `dall-e-*`) — **только если ID есть в**
-   `/v1/models`; иначе не вызывать
+2. Fallback: `xai/grok-4.6` (if primary is unavailable / out of quota)
+3. GPT / DALL·E (`gpt-image-*`, `dall-e-*`) — **only if the ID is present in**
+   `/v1/models`; otherwise don't call
 
-Не генератор: `gemini-3.8-flash` (text/vision). После генерации:
+Not a generator: `gemini-3.8-flash` (text/vision). After generation:
 
-1. Опубликуй файл по публичному HTTPS (порядок хостингов):
-   - **Приватность:** оба хостинга публичные. Скриншоты с персональными
-     данными, токенами/секретами или внутренними системами — **только
-     `MEDIA:`**, никогда не на jpg.wtf/pixhost.
-   - **Primary — jpg.wtf** (хостинг Лепры, origin и CDN в РФ; анонимно,
-     без ключа и капчи, до 30 МБ):
-     `curl -s --max-time 30 -F file=@файл https://jpg.wtf/api/upload.php |
-     jq -r 'select(.status=="ok") | .url // empty'` → `url` из JSON
+1. Publish the file over public HTTPS (hosting order):
+   - **Privacy:** both hosts are public. Screenshots with personal data,
+     tokens/secrets or internal systems — **only `MEDIA:`**, never
+     jpg.wtf/pixhost.
+   - **Primary — jpg.wtf** (Leprosorium hosting, origin and CDN in Russia;
+     anonymous, no key or captcha, up to 30 MB):
+     `curl -s --max-time 30 -F file=@file https://jpg.wtf/api/upload.php |
+     jq -r 'select(.status=="ok") | .url // empty'` → `url` from the JSON
      `{"status":"ok","url":"https://www.jpg.wtf/<hash>.png","delete_url":…}`.
-     Извлекай только `.url`, весь JSON не выводи: `delete_url` не должен
-     попасть ни в логи, ни в вывод, ни в чат. Бери `url` как есть
-     (`www.`-хост отдаёт `image/*` без редиректа, а голый `jpg.wtf/<hash>`
-     отвечает 302).
-   - **Fallback — pixhost** (анонимный API, без ключа, до 10 МБ):
-     `curl -s --max-time 30 -H 'Accept: application/json' -F img=@файл
+     Extract only `.url`, never print the whole JSON: `delete_url` must not
+     reach logs, output or the chat. Use `url` as is (the `www.` host serves
+     `image/*` without a redirect, while bare `jpg.wtf/<hash>` returns 302).
+   - **Fallback — pixhost** (anonymous API, no key, up to 10 MB):
+     `curl -s --max-time 30 -H 'Accept: application/json' -F img=@file
      -F content_type=0 -F max_th_size=150 https://api.pixhost.to/images` →
      `th_url`
-     `https://tN.pixhost.to/thumbs/…`; прямой URL =
-     `https://imgN.pixhost.to/images/…` (замени `tN`→`imgN`, `thumbs`→`images`).
-   - **Правило fallback:** jpg.wtf может ответить HTTP 200 с
-     `"status":"err"`. Нет `status` == `ok` вместе с `url` (пустой вывод
-     `jq`), или curl упал / вышел по таймауту → pixhost. pixhost тоже
-     упал → `MEDIA:`.
-   - Не использовать: uguu (с dd отвечает 502), 0x0.st (закрыт, ToS
-     запрещает AI-картинки), telegra.ph/upload (выключен с 2024),
-     хосты за Cloudflare без прокси (с dd обрыв на ~20 КБ).
-2. Проверь URL: `curl -sI --max-time 30` → `200`, `Content-Type:
-   image/jpeg|png|webp` без редиректа, `Content-Length` ≤ 5 МБ (лимит
-   Telegram на фото по URL). Нет `Content-Length` или больше 5 МБ (до
-   10 МБ) — только `MEDIA:`.
-3. Вставь в **то же** rich-сообщение: `![](https://…)` или
-   `![](url "caption")` отдельным блоком.
-4. Локальный файл для native photo — `MEDIA:/abs/path` своей строкой
-   (аварийный путь без хостинга). Путь ФС и `file://` внутри `![]()`
-   запрещены. URL вида `file/botTOKEN/…` в текст не класть (утечка токена).
+     `https://tN.pixhost.to/thumbs/…`; direct URL =
+     `https://imgN.pixhost.to/images/…` (replace `tN`→`imgN`, `thumbs`→`images`).
+   - **Fallback rule:** jpg.wtf may answer HTTP 200 with `"status":"err"`.
+     No `status` == `ok` together with `url` (empty `jq` output), or curl
+     failed / timed out → pixhost. pixhost failed too → `MEDIA:`.
+   - Do not use: uguu (502 from dd), 0x0.st (closed, ToS forbids AI images),
+     telegra.ph/upload (disabled since 2024), hosts behind Cloudflare without
+     a proxy (from dd the connection drops at ~20 KB).
+2. Check the URL: `curl -sI --max-time 30` → `200`, `Content-Type:
+   image/jpeg|png|webp` without a redirect, `Content-Length` ≤ 5 MB (Telegram
+   limit for photos by URL). No `Content-Length` or more than 5 MB (up to
+   10 MB) — `MEDIA:` only.
+3. Insert into the **same** rich message: `![](https://…)` or
+   `![](url "caption")` as a separate block.
+4. Local file for a native photo — `MEDIA:/abs/path` on its own line
+   (emergency path without hosting). Filesystem paths and `file://` inside
+   `![]()` are forbidden. Never put `file/botTOKEN/…` URLs into text (token leak).
 
 ### Brand custom emoji
 
-Для известных брендов в дайджестах:
+For well-known brands in digests:
 
 ```html
 <tg-emoji emoji-id="…">fallback</tg-emoji> BrandName
 ```
 
-- Только из явной карты (не угадывать ID).
-- Имя бренда после иконки обязательно.
-- Не трогать code fences, URL, email, уже вставленные `<tg-emoji>`.
+- Only from an explicit map (never guess IDs).
+- The brand name after the icon is mandatory.
+- Don't touch code fences, URLs, emails, already inserted `<tg-emoji>`.
 
-Практические примеры cron (software-update, GLM): skill
+Practical cron examples (software-update, GLM): skill
 `telegram-cron-image-conventions`.
 
 ## Procedure
 
-1. Разметь контент: таблицы, чек-листы, `<details>`, формулы — оформляй их
-   нативным GFM/HTML, они сами поднимут rich-путь. Completion: каждая
-   конструкция синтаксически закрыта (таблица с разделителем, `</details>`).
-2. Мобильный формат: короткие абзацы, `- ` списки вместо простыней, `key:
-   value` для мелких структурированных данных. Completion: абзацы ≤ 4 строк.
-3. Проверь объём: ≤ 30 000 символов — сообщением; больше — выжимка +
-   `MEDIA:`-файл. Completion: текст не превысит лимит после добавления
-   подписей и таблиц.
-4. Команды и пути — в code fence или inline code; важные для копирования
-   данные не клади внутрь rich-таблиц (их неудобно копировать из клиента).
-5. Картинки: нет смысла → без медиа; баннер секции → placehold; схема/
-   сравнение → generate (Gemini → Grok) → jpg.wtf (fallback pixhost) →
-   `![](https://…)`. Скриншот с PII/секретами/внутренними системами →
-   только `MEDIA:`.
-   Локальный файл → `MEDIA:/abs`, не внутрь `![]()`. Completion: в ответе
-   нет FS-путей внутри markdown-image и нет `file/bot` URL.
+1. Mark up content: tables, checklists, `<details>`, formulas — format them
+   with native GFM/HTML; they raise the rich path themselves. Completion: every
+   construct is syntactically closed (table with separator, `</details>`).
+2. Mobile format: short paragraphs, `- ` lists instead of walls of text,
+   `key: value` for small structured data. Completion: paragraphs ≤ 4 lines.
+3. Check the size: ≤ 30,000 characters — as a message; more — summary +
+   `MEDIA:` file. Completion: the text won't exceed the limit after adding
+   captions and tables.
+4. Commands and paths — in a code fence or inline code; don't put data meant
+   for copying inside rich tables (hard to copy from the client).
+5. Images: no meaning → no media; section banner → placehold; diagram/
+   comparison → generate (Gemini → Grok) → jpg.wtf (fallback pixhost) →
+   `![](https://…)`. Screenshot with PII/secrets/internal systems →
+   `MEDIA:` only.
+   Local file → `MEDIA:/abs`, not inside `![]()`. Completion: the reply has
+   no FS paths inside a markdown image and no `file/bot` URLs.
 
 ## Pitfalls
 
-1. **Не эскейпь ничего сам.** `\.` и `\*` предназначены для ручного
-   MarkdownV2; gateway конвертирует сам, а на rich-пути слэши уйдут в текст.
-2. **Rich-триггеры — только 4 конструкции.** Обычный ответ со списками и
-   жирным уйдёт по MarkdownV2: заголовки не отрисуются, таблица сплющится.
-   Хочешь нативный рендер — добавь rich-конструкцию.
-3. **Превью ссылок на rich-пути не отключается** — `disable_link_previews`
-   действует только на MarkdownV2.
-4. **`$$math$$` внутри `<details>`** — краш Telegram Desktop; адаптер сам
-   уведёт такое сообщение с rich-пути. Не комбинируй.
-5. **CJK-текст** искажается на rich-пути (баг Telegram Desktop/macOS);
-   адаптер отфильтрует — сообщение уйдёт обычным MarkdownV2.
-6. **Язык кода**: ` ```python ` на MDv2-пути теряет язык; rich сохраняет
-   подсветку.
-7. **Capability latch**: если `sendRichMessage` недоступен (старый PTB),
-   адаптер выключает rich до конца сессии — не жди rich-рендера повторно.
-8. **`hermes send` не использует rich** — только MarkdownV2/HTML с лимитом
-   4 096. Исключение: живые no_agent cron-скрипты, которые зовут
-   `sendRichMessage` напрямую (software-update, GLM, dd-host) — они идут
-   мимо gateway и мимо `hermes send`.
-9. **Конфиг читается на старте gateway**: смена `rich_messages`/
-   `rich_drafts` требует рестарта gateway извне (из сессии рестарт заблокирован).
+1. **Don't escape anything yourself.** `\.` and `\*` are for hand-written
+   MarkdownV2; the gateway converts on its own, and on the rich path the
+   slashes end up in the text.
+2. **Only 4 constructs trigger rich.** A regular reply with lists and bold
+   goes via MarkdownV2: headings won't render, a table gets flattened. Want a
+   native render — add a rich construct.
+3. **Link previews can't be disabled on the rich path** — `disable_link_previews`
+   only applies to MarkdownV2.
+4. **`$$math$$` inside `<details>`** crashes Telegram Desktop; the adapter
+   moves such a message off the rich path itself. Don't combine them.
+5. **CJK text** is garbled on the rich path (Telegram Desktop/macOS bug);
+   the adapter filters it — the message goes via plain MarkdownV2.
+6. **Code language**: ` ```python ` loses the language on the MDv2 path; rich
+   keeps highlighting.
+7. **Capability latch**: if `sendRichMessage` is unavailable (old PTB), the
+   adapter disables rich for the rest of the session — don't expect a rich
+   render again.
+8. **`hermes send` does not use rich** — only MarkdownV2/HTML with the 4,096
+   limit. Exception: live no_agent cron scripts that call `sendRichMessage`
+   directly (software-update, GLM, dd-host) — they bypass the gateway and
+   `hermes send`.
+9. **Config is read at gateway start**: changing `rich_messages`/
+   `rich_drafts` requires restarting the gateway externally (restart from a
+   session is blocked).
 
 ## Verification
 
-- Отправь себе ответ с GFM-таблицей и `- [x]` — таблица должна отрисоваться
-  нативно, а не код-блоком; чекбокс — интерактивным.
-- В `~/.hermes/logs/gateway.log`: `grep -iE "rich|sendRich|rejected" | tail`
-  — не должно быть `sendRichMessage rejected` / `unsupported`.
-- Сообщение > 4 096 символов без rich-конструкций дошло по частям → добавь
-  rich-конструкцию или файл.
-- Баннер placehold и `![](https://…)` приходят inline в том же rich-пузыре;
-  `MEDIA:/abs` уходит отдельным native photo.
+- Send yourself a reply with a GFM table and `- [x]` — the table must render
+  natively, not as a code block; the checkbox must be interactive.
+- In `~/.hermes/logs/gateway.log`: `grep -iE "rich|sendRich|rejected" | tail`
+  — there must be no `sendRichMessage rejected` / `unsupported`.
+- A message > 4,096 characters without rich constructs arrived in parts → add
+  a rich construct or a file.
+- A placehold banner and `![](https://…)` arrive inline in the same rich
+  bubble; `MEDIA:/abs` goes as a separate native photo.
 
 ## References
 
 - [`references/adapter-internals.md`](references/adapter-internals.md) — gateway adapter internals (load only when debugging delivery).
+
+Russian version: [`references/README.ru.md`](references/README.ru.md).

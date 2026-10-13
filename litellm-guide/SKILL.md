@@ -1,6 +1,6 @@
 ---
 name: litellm-guide
-description: "LiteLLM reference and workflow: Python SDK, OpenAI-compatible proxy/gateway, config.yaml, model_list, providers, Router/load balancing/fallbacks, virtual keys, budgets, spend tracking, logging, guardrails, MCP/A2A, troubleshooting and development in the LiteLLM repo. Use when asked how to call models through LiteLLM, set up or debug LiteLLM Proxy, add a provider or model, understand the API/endpoints/docs, tell provider errors from gateway errors, work with model_prices_and_context_window.json, or safely change LiteLLM backend/UI/tests code."
+description: "LiteLLM reference and workflow: Python SDK, OpenAI-compatible proxy/gateway, config.yaml, model_list, providers, Router/load balancing/fallbacks, virtual keys, budgets, spend tracking, logging, guardrails, MCP/A2A, troubleshooting and development in the LiteLLM repo. Use when asked how to call models through LiteLLM, set up or debug LiteLLM Proxy, add a provider or model, understand the API/endpoints/docs, tell provider errors from gateway errors, work with model_prices_and_context_window.json, or safely change LiteLLM backend/UI/tests code. Triggers (RU): шлюз LLM, провайдер, модель, прокси."
 ---
 
 # LiteLLM Guide

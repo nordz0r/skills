@@ -1,6 +1,6 @@
 ---
 name: ansible-playbook
-description: "Ansible playbooks and roles: ansible-playbook, undefined variable, variable precedence, idempotency, changed tasks, shell task, FQCN, handlers, vault, ansible-lint. Not generic CI/CD rollout. Triggers: ansible-playbook, playbook, inventory, vault, handler, ansible.builtin, ansible-galaxy."
+description: "Ansible playbooks and roles: ansible-playbook, undefined variable, variable precedence, idempotency, changed tasks, shell task, FQCN, handlers, vault, ansible-lint. Not generic CI/CD rollout. Triggers: ansible-playbook, playbook, inventory, vault, handler, ansible.builtin, ansible-galaxy, плейбук, инвентарь, роль, ансибл."
 ---
 
 # Ansible Playbook

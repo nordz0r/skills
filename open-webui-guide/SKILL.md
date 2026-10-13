@@ -1,6 +1,6 @@
 ---
 name: open-webui-guide
-description: "Detailed Open WebUI guide: architecture, authentication, functions, pipelines, API, RAG, scaling, debugging and hidden features. Use for any Open WebUI question — how it works, how to deploy it, configure auth (OAuth, LDAP, JWT), write a function or pipeline, connect a model (Ollama, OpenAI), set up RAG/knowledge bases, scale to production, debug a problem. Also use when writing code for Open WebUI: functions (filter, pipe, action), pipelines, configs, docker-compose."
+description: "Detailed Open WebUI guide: architecture, authentication, functions, pipelines, API, RAG, scaling, debugging and hidden features. Use for any Open WebUI question — how it works, how to deploy it, configure auth (OAuth, LDAP, JWT), write a function or pipeline, connect a model (Ollama, OpenAI), set up RAG/knowledge bases, scale to production, debug a problem. Also use when writing code for Open WebUI: functions (filter, pipe, action), pipelines, configs, docker-compose. Triggers (RU): веб-интерфейс, чат, база знаний, модель."
 ---
 
 # Open WebUI — Complete Guide

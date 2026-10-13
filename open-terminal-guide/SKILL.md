@@ -1,6 +1,6 @@
 ---
 name: open-terminal-guide
-description: "Complete guide to Open Terminal, a self-hosted terminal REST API for AI agents. Use for any Open Terminal question: API endpoints, deployment (Docker, bare metal), configuration, Open WebUI integration, architecture, debugging, writing client code for Open Terminal. Also use when working on the open-terminal codebase: project structure, runner.py, main.py, MCP server, Jupyter notebooks. Triggers: open-terminal, open terminal, remote terminal API, /execute, /files, sandbox API, terminal sessions, Open WebUI terminal."
+description: "Complete guide to Open Terminal, a self-hosted terminal REST API for AI agents. Use for any Open Terminal question: API endpoints, deployment (Docker, bare metal), configuration, Open WebUI integration, architecture, debugging, writing client code for Open Terminal. Also use when working on the open-terminal codebase: project structure, runner.py, main.py, MCP server, Jupyter notebooks. Triggers: open-terminal, open terminal, remote terminal API, /execute, /files, sandbox API, terminal sessions, Open WebUI terminal, терминал, выполнить команду, песочница."
 ---
 
 # Open Terminal — Complete Guide

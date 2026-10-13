@@ -140,7 +140,7 @@ metadata: {...}   # optional
 
 - Root docs are bilingual: Russian primary, English companion.
 - `agency-*` content is English.
-- `SKILL.md` files are English (skills.sh/agent discovery standard). The Russian original of a translated skill is kept in `references/README.ru.md`. Not yet translated: `nextcloud-admin`, `nextcloud-collectives`, `telegram-formatting`.
+- `SKILL.md` files are English (skills.sh/agent discovery standard). The Russian original of a translated skill is kept in `references/README.ru.md`.
 - Some `description` fields deliberately keep Russian trigger words (A-Evolve routing benchmark).
 - Do not assume "all docs are Russian" anymore.
 

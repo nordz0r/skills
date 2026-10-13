@@ -1,6 +1,6 @@
 ---
 name: docker-ops
-description: "Hands-on Docker Engine and Docker Compose v2: Dockerfile, multi-stage, healthcheck, networks, volumes, bind mounts, logs, registry, docker compose up/down/config, BuildKit, non-root USER, restart policy. Use for any container task on a host: build an image, write compose.yaml, fix Restarting, read docker logs, docker inspect, overlay2, docker.sock, prune, CI image build. Triggers: docker, dockerfile, docker compose, compose.yaml, container, image build, docker logs, healthcheck, bind mount, docker network, registry, dind."
+description: "Hands-on Docker Engine and Docker Compose v2: Dockerfile, multi-stage, healthcheck, networks, volumes, bind mounts, logs, registry, docker compose up/down/config, BuildKit, non-root USER, restart policy. Use for any container task on a host: build an image, write compose.yaml, fix Restarting, read docker logs, docker inspect, overlay2, docker.sock, prune, CI image build. Triggers: docker, dockerfile, docker compose, compose.yaml, container, image build, docker logs, healthcheck, bind mount, docker network, registry, dind, контейнер, образ, логи, докер."
 ---
 
 # Docker Ops

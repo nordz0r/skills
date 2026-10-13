@@ -1,6 +1,6 @@
 ---
 name: linux-routing
-description: "Linux split-tunnel and policy routing: ip rule, fwmark, WAN, awg0, default via VPN, nft masquerade, rp_filter, conntrack. Not OpenWrt, not podkop, not UCI. Triggers: split-tunnel, ip rule, fwmark, multiple default, rt_tables, source-based routing."
+description: "Linux split-tunnel and policy routing: ip rule, fwmark, WAN, awg0, default via VPN, nft masquerade, rp_filter, conntrack. Not OpenWrt, not podkop, not UCI. Triggers: split-tunnel, ip rule, fwmark, multiple default, rt_tables, source-based routing, маршрутизация, таблица маршрутов, раздельный туннель."
 ---
 
 # Linux Routing
