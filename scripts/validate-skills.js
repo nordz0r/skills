@@ -85,7 +85,7 @@ for (const dir of skillDirs) {
   } else {
     const name = nameMatch[1].trim().replace(/^["']|["']$/g, '');
     if (name !== dir) {
-      logWarn(`[${dir}] SKILL.md frontmatter name '${name}' differs from directory name '${dir}'`);
+      // reported as an error by the spec checks below
     }
   }
 
@@ -97,6 +97,56 @@ for (const dir of skillDirs) {
       name: nameMatch ? nameMatch[1].trim().replace(/^["']|["']$/g, '') : dir,
       description: description
     });
+  }
+
+  // 2b. Agent Skills spec checks (https://agentskills.io/specification,
+  //     Anthropic best practices, Codex/Hermes loaders).
+  {
+    const ALLOWED_TOP = new Set(['name', 'description', 'license', 'compatibility', 'metadata', 'allowed-tools']);
+    const topKeys = frontmatter.split(/\r?\n/).map(l => l.match(/^([A-Za-z][A-Za-z0-9_-]*):/)).filter(Boolean).map(m => m[1]);
+    for (const k of topKeys) {
+      if (!ALLOWED_TOP.has(k)) logError(`[${dir}] frontmatter field '${k}' is not in the Agent Skills spec — move it under 'metadata' (string values)`);
+    }
+    if (!content.startsWith('---\n') && !content.startsWith('---\r\n')) logError(`[${dir}] SKILL.md must start with '---' at byte 0`);
+    if (nameMatch) {
+      const name = nameMatch[1].trim().replace(/^["']|["']$/g, '');
+      if (name.length > 64 || !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(name)) logError(`[${dir}] name '${name}' must be 1-64 chars of a-z, 0-9 and single hyphens, no leading/trailing hyphen`);
+      if (/anthropic|claude/.test(name)) logError(`[${dir}] name '${name}' contains a reserved word (anthropic/claude)`);
+      if (name !== dir) logError(`[${dir}] name '${name}' must match the directory name`);
+    }
+    const desc = skillMetadata.get(dir)?.description || '';
+    if (desc.length > 1024) logError(`[${dir}] description is ${desc.length} chars (max 1024)`);
+    if (/<[A-Za-z/][^>]*>/.test(desc)) logError(`[${dir}] description must not contain XML/HTML tags`);
+    // metadata: string->string map; the Hermes namespace map (metadata.hermes) is the one tolerated exception
+    const metaBlock = frontmatter.match(/^metadata:\s*\r?\n((?:[ \t]+.*(?:\r?\n|$))*)/m);
+    if (metaBlock) {
+      for (const line of metaBlock[1].split(/\r?\n/)) {
+        const m = line.match(/^  ([A-Za-z0-9_.-]+):\s*(.*)$/);
+        if (m && m[2] === '' && m[1] !== 'hermes') logError(`[${dir}] metadata.${m[1]} must be a string value (spec: string->string map)`);
+      }
+    }
+    const body = content.slice(match[0].length);
+    const bodyLines = body.split(/\r?\n/).length;
+    if (bodyLines > 500) logError(`[${dir}] SKILL.md body is ${bodyLines} lines (keep under 500; move detail to references/)`);
+    if (!body.trim()) logError(`[${dir}] SKILL.md body is empty`);
+    // Sibling SKILL.*.md files confuse loaders that glob for SKILL*.md; translations go to references/
+    for (const f of fs.readdirSync(path.join(ROOT_DIR, dir))) {
+      if (/^SKILL\..+\.md$/i.test(f)) logError(`[${dir}] '${f}' — keep a single SKILL.md; put translations in references/ (e.g. references/README.ru.md)`);
+    }
+    // Relative links in SKILL.md must resolve (code spans/blocks ignored)
+    const prose = body.replace(/```[\s\S]*?```/g, '').replace(/`[^`\n]*`/g, '');
+    for (const m of prose.matchAll(/\]\(([^)#\s]+)(?:#[^)]*)?\)/g)) {
+      const target = m[1];
+      if (/^[a-z]+:/i.test(target)) continue;
+      if (!fs.existsSync(path.join(ROOT_DIR, dir, target))) logError(`[${dir}] broken relative link '${target}' in SKILL.md`);
+    }
+    // Files under references/ should be linked from SKILL.md (one level deep)
+    const refDir = path.join(ROOT_DIR, dir, 'references');
+    if (fs.existsSync(refDir)) {
+      for (const f of fs.readdirSync(refDir)) {
+        if (!content.includes(`references/${f}`)) logWarn(`[${dir}] references/${f} is not referenced from SKILL.md`);
+      }
+    }
   }
 
   // 3. Check agents/openai.yaml

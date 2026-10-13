@@ -1,11 +1,11 @@
 ---
 name: telegram-formatting
 description: "Telegram Rich Markdown formatting: syntax, limits, delivery, banners, inline images. Use when preparing Telegram replies via gateway: GFM tables, task lists, details, sendRichMessage vs MarkdownV2, MEDIA vs HTTPS ![](), placehold.co banners, image generation, jpg.wtf hotlink, pixhost fallback, tg-collage, tg-emoji. Triggers: telegram, rich markdown, sendRichMessage, MarkdownV2, MEDIA, placehold, inline photo, banner, caption, checklist."
-version: 3.3.1
-author: NorD (nordz0r), Hermes Agent
 license: MIT
-platforms: [linux, macos, windows]
 metadata:
+  version: "3.3.1"
+  author: "NorD (nordz0r), Hermes Agent"
+  platforms: "linux,macos,windows"
   hermes:
     tags: [telegram, formatting, rich-messages, markdown, bot-api]
     related_skills: [telegram-bot-management, telegram-cron-image-conventions]
@@ -275,3 +275,7 @@ inline-форматирование; медиа — только отдельн�
   rich-конструкцию или файл.
 - Баннер placehold и `![](https://…)` приходят inline в том же rich-пузыре;
   `MEDIA:/abs` уходит отдельным native photo.
+
+## References
+
+- [`references/adapter-internals.md`](references/adapter-internals.md) — gateway adapter internals (load only when debugging delivery).

@@ -1,80 +1,70 @@
 ---
 name: pr-lens-diagrams
-description: "Анимированные диаграммы архитектуры и потоков данных через PR Lens (@coldtea/pr-lens-cli): пишем graph.json руками, валидируем, рендерим анимированный SVG и записываем бесшовный GIF/MP4 для чатов (Telegram). Use when asked to draw a diagram, схему, архитектуру, связи сервисов или ботов, sequence/data-flow, animated diagram. Triggers: pr lens, prlens, диаграмма, схема, нарисуй, architecture diagram, data flow, animated svg, gif."
-version: 1.0.0
-author: NorD (nordz0r)
+description: "Animated architecture and data-flow diagrams with PR Lens (@coldtea/pr-lens-cli): hand-write graph.json, validate it, render an animated SVG and record a seamless GIF/MP4 for chats (Telegram). Use when asked to draw a diagram, схему, архитектуру, связи сервисов или ботов, sequence/data-flow, animated diagram. Triggers: pr lens, prlens, диаграмма, схема, нарисуй, architecture diagram, data flow, animated svg, gif."
 license: MIT
-platforms: [linux, macos]
 metadata:
+  version: "1.0.0"
+  author: "NorD (nordz0r)"
+  platforms: "linux,macos"
   hermes:
     tags: [diagrams, pr-lens, architecture, data-flow, svg, gif]
 ---
 
 # PR Lens diagrams
 
-English version: [SKILL.en.md](SKILL.en.md).
+Russian version: [references/README.ru.md](references/README.ru.md).
 
-[PR Lens](https://github.com/coldteadotai/pr-lens) (MIT, сайт https://prlens.dev) превращает JSON-документ графа в самодостаточный **анимированный SVG** без скриптов. Анимация сделана на SMIL `<animateMotion>`. Ключ модели нужен только команде `analyze`, которая строит граф по git diff. Произвольную схему агент пишет сам, ключ для этого не нужен.
+[PR Lens](https://github.com/coldteadotai/pr-lens) (MIT, https://prlens.dev) renders a JSON graph document into a self-contained **animated SVG** (SMIL `<animateMotion>`, no scripts). A model key is only needed for `analyze` (graph from a git diff); for an arbitrary diagram the agent writes the JSON itself.
 
-## Быстрый старт
+## Quick start
 
 ```bash
-# зависимости: Node >= 20.11, npm, ffmpeg; Chromium ставит setup-скрипт
-bash scripts/pr-lens-setup.sh                      # в $PR_LENS_HOME (по умолчанию ~/.cache/pr-lens-diagrams)
+# deps: Node >= 20.11, npm, ffmpeg; Chromium is installed by the setup script
+bash scripts/pr-lens-setup.sh                      # into $PR_LENS_HOME (default ~/.cache/pr-lens-diagrams)
 bash scripts/pr-lens-build.sh my.graph.json out/   # → out/architecture.{svg,gif,mp4}, out/data-flow.{svg,gif,mp4}
 ```
 
-Начинайте с копии `examples/bots.graph.json`: в ней 4 колонки, 12 узлов, 12 связей и один поток.
+- Start from `examples/bots.graph.json` (4 lanes, 12 nodes, 12 edges, 1 flow).
+- The build validates, renders (`dark` by default, `light` as the 3rd arg), records frames with Playwright at `deviceScaleFactor: 2`, and encodes a non-dithered GIF and an MP4 (`crf 18`).
+- Env: `PR_LENS_HOME`, `FPS` (20), `MIN_WIDTH` (1600), `PR_LENS_CLI_VERSION`, `PLAYWRIGHT_VERSION`.
+- `npx skills add coldteadotai/pr-lens` crashes on Node 20 (`fs/promises` has no `glob`); not required. Version-matched docs: `npx pr-lens skill` / `npx pr-lens skill references` inside `$PR_LENS_HOME`.
+- **Never publish without explicit user consent**: `pr-lens canvas push` puts the diagram on prlens.dev behind a view link anyone holding it can open.
 
-- `pr-lens-build.sh` проверяет документ (`pr-lens validate`), рендерит его в нужной теме (`dark` по умолчанию, `light` третьим аргументом) и записывает кадры через Playwright с `deviceScaleFactor: 2`. Из кадров собираются GIF без дизеринга и MP4 (`crf 18`).
-- Переменные окружения: `PR_LENS_HOME`, `FPS` (20), `MIN_WIDTH` (1600), `PR_LENS_CLI_VERSION`, `PLAYWRIGHT_VERSION`.
-- `npx skills add coldteadotai/pr-lens` на Node 20 падает: `fs/promises` не экспортирует `glob`. Этот скилл официальный не требует. Справку по установленной версии CLI выдаёт `npx pr-lens skill` и `npx pr-lens skill references`; запускать в `$PR_LENS_HOME`.
-- **Не публиковать без явного согласия пользователя.** `pr-lens canvas push` выкладывает схему на prlens.dev, и ссылку на просмотр может открыть любой, у кого она есть.
+## Document (schemaVersion 0.2.0)
 
-## Документ (schemaVersion 0.2.0)
+Required: `schemaVersion, kind: "graph", title, lenses, provenance, lanes, nodes`; plus `edges`, `flows`.
+- `provenance` is required even without a repo (dummy owner/name, 40-zero sha).
+- `lanes` are **columns, left to right** by `order`; there is no "top" — the leftmost lane is the start.
+- Node kinds: `service|app|module|function|route|job|queue|datastore|cache|external|ui|config|test|package|other`. Edge kinds: `call|http|rpc|event|queue|data|dependency|render|other`; `emphasis: normal|hero|muted`; `animated: true`.
+- Use `delta: "unchanged"` everywhere for a plain diagram.
+- `layout: { direction, laneOrder, rank }` are hints, never coordinates.
 
-Обязательные поля: `schemaVersion`, `kind: "graph"`, `title`, `lenses`, `provenance`, `lanes`, `nodes`. Связи задаются в `edges`, потоки в `flows`.
+## How the animation works
 
-- `provenance` обязателен даже без репозитория: подойдут условные owner/name и sha из 40 нулей.
-- `lanes` — **колонки слева направо** по `order`. «Наверх» узел не поставить: верх схемы — это левая колонка.
-- `nodes[].kind`: `service|app|module|function|route|job|queue|datastore|cache|external|ui|config|test|package|other`.
-- `edges[].kind`: `call|http|rpc|event|queue|data|dependency|render|other`.
-- `edges[].emphasis`: `normal|hero|muted`. `animated: true` запускает бегущую точку.
-- `delta` (`added|modified|removed|unchanged`) раскрашивает изменения. Для обычной схемы везде ставим `unchanged`.
-- `layout`: `{ "direction": "right", "laneOrder": [...], "rank": { "<node>": N } }`. Это подсказки, не абсолютные координаты.
+1. Architecture: `animated` edges carry a dot (1.6 s). `hero` edges carry a 3-dot train (2.1 s, 0.7 s spacing) plus glow. Seamless loop = LCM(1.6, 0.7) = **11.2 s**.
+2. Data-flow: add `"data-flow"` to `lenses` and `flows[]` (participants = node ids; messages `sync|async|return|self`). Steps light up in array order; loop length = `dur` in the SVG (7 steps → 9.8 s, max 16 s).
+3. `walkthrough` and `payload` only play on a prlens.dev canvas.
+4. Rasterizers (resvg, cairosvg, rsvg) ignore SMIL; capture in a browser with `pauseAnimations()` + `setCurrentTime(t)` (`scripts/record.mjs`).
 
-## Как устроена анимация
+## Beauty and quality lessons
 
-1. **Архитектура.** По связи с `animated: true` бежит точка, цикл 1,6 с. Связь с `emphasis: "hero"` получает «поезд» из трёх точек (2,1 с, интервал 0,7 с) и свечение. Узор повторяется через НОК(1,6; 0,7) = **11,2 с**, поэтому петля такой длины бесшовная.
-2. **Поток (data-flow).** Нужно `"data-flow"` в `lenses` и `flows[]`: в `participants` id узлов, в `messages` шаги с kind `sync|async|return|self`. Шаги загораются по порядку массива. Длина петли берётся из `dur="…s"` в SVG: для 7 шагов это 9,8 с, максимум 16 с.
-3. **Тур (`walkthrough`) и примеры трафика (`payload`)** проигрываются только на канвасе prlens.dev. Локально их нет.
-4. Растеризаторы (resvg, cairosvg, rsvg) анимацию не видят и дают статичный PNG. Кадры нужно снимать в браузере: `pauseAnimations()` + `setCurrentTime(t)`, это делает `scripts/record.mjs`.
+- ≤ 10–12 nodes, ~12 edges. Merge similar things into group nodes; list members in `subtitle`. Express "everyone → X" in X's subtitle or via one aggregate node.
+- 3–4 lanes, flow left → right (input → orchestrator → workers → output), no empty or overloaded lanes.
+- One card per row: same-rank nodes in a lane are seated side by side, narrow and truncated. Give each node in a lane its own `layout.rank`. Rank is a floor (≥ predecessor + 1), so use a staircase 0,1,2,3…; rows are shared across lanes, so give linked neighbours the same rank for straight edges.
+- Short labels: subtitle ~20 chars on a narrow card, ~45 on a wide one.
+- `hero` only for 1–2 key paths; rare edges `muted`; no labels on obvious edges.
+- Data-flow width ≈ 320 px per participant; keep ≤ 6–7 participants.
+- Dark theme on `#0d1117` reads best in chats.
+- Record at DPR 2, CSS width ≥ viewBox width and ≥ 1600 px, 20 fps.
+- GIF: `palettegen=max_colors=128:stats_mode=diff` + `paletteuse=dither=none:diff_mode=rectangle`, lanczos to CSS width (~1 MB for 11 s). MP4 at full 2x.
+- Telegram and most chats don't animate SVG — send GIF/MP4. GitHub PR comments do show animated SVG.
+- Before delivery, crop a GIF frame at 1:1 and look at it; downscaled previews hide blur.
+- `render` output names carry a hash; the build copies them to stable `<lens>.svg`.
 
-## Уроки по красоте и качеству
+## Agent workflow
 
-- **Не больше 10–12 узлов и ~12 связей.** Однородные сущности объединяйте в узлы-группы, состав группы перечисляйте в `subtitle` через запятую. 25 узлов и 59 связей превращаются в кашу.
-- «Все → X» не рисуйте отдельными связями: напишите это в `subtitle` узла X или заведите один сводный узел.
-- **3–4 колонки**, поток слева направо: вход → оркестратор → исполнители → результат. Без пустых и перегруженных колонок.
-- **Карточки по одной в ряд.** Если в колонке два узла с одинаковым рангом, PR Lens ставит их парой, карточки сужаются и подписи обрезаются многоточием. Лечится через `layout.rank` с отдельным рангом для каждого узла колонки.
-  - Ранг — это «пол»: узел не встанет выше того, кто в него ведёт (ранг ≥ ранг источника + 1). Поэтому ранги задаём лесенкой 0, 1, 2, 3…
-  - Ряды общие для всех колонок. Связанным узлам соседних колонок давайте один ранг, тогда связь пойдёт прямо.
-- **Подписи короткие:** на узкой карточке subtitle до ~20 символов, на широкой до ~45.
-- **`hero` только для 1–2 главных путей.** Редкие связи делайте `muted`. Подписи у очевидных связей (оркестратор → группа) не нужны.
-- **Ширина data-flow** растёт примерно на 320 px за участника. 6 участников ≈ 1940 px, больше будет мелко. Держите до 6–7 участников.
-- **Тема:** по умолчанию `dark` на фоне `#0d1117`, в чатах тёмные схемы читаются лучше.
-- **Запись:** `deviceScaleFactor: 2`, ширина CSS не меньше ширины viewBox и не меньше 1600 px, 20 fps.
-- **GIF:** `palettegen=max_colors=128:stats_mode=diff` + `paletteuse=dither=none:diff_mode=rectangle`, масштаб `lanczos` до ширины CSS. Текст получается чистым, 11 с архитектуры весят ≈ 1 МБ. MP4 пишется в полном 2x.
-- В Telegram и большинстве чатов SVG-анимация не видна, отправляйте GIF или MP4. В комментарии к GitHub PR анимированный SVG показывается.
-- **Перед сдачей проверьте кадры:** вырежьте кусок кадра GIF в натуральном размере и посмотрите глазами. Уменьшенное превью скрывает мутность.
-  ```bash
-  ffmpeg -i out/architecture.gif -vf "select=eq(n\,60),crop=800:500:0:0" -frames:v 1 check.png
-  ```
-- Имена SVG в выводе `render` содержат хеш и меняются при каждом рендере. `pr-lens-build.sh` копирует их в стабильные `<lens>.svg`.
-
-## Порядок работы агента
-
-1. Выпишите сущности и сгруппируйте их до 10–12 узлов. Решите, какие 1–2 пути главные (`hero`).
-2. Скопируйте `examples/bots.graph.json` и правьте его: `lanes`, `nodes` с `layout.rank` лесенкой, `edges`, при необходимости `flows`.
-3. Запустите `bash scripts/pr-lens-build.sh graph.json out/`. Если `validate` назовёт поле с ошибкой, исправьте его.
-4. Проверьте кадры: нет обрезанных подписей, пар карточек и пересечений. При необходимости поправьте ранги и подписи.
-5. Отдайте пользователю GIF или MP4, исходник `graph.json` и SVG.
+1. List the entities and group them down to 10–12 nodes. Decide which 1–2 paths are the main ones (`hero`).
+2. Copy `examples/bots.graph.json` and edit it: `lanes`, `nodes` with a `layout.rank` staircase, `edges`, and `flows` if needed.
+3. Run `bash scripts/pr-lens-build.sh graph.json out/`. If `validate` names a wrong field, fix it.
+4. Check the frames: no truncated labels, no paired cards, no crossings. Adjust ranks and labels if needed.
+5. Hand the user the GIF or MP4, the `graph.json` source and the SVG.
