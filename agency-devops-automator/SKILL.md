@@ -4,6 +4,8 @@ description: "Automation-first platform delivery for CI/CD, Terraform, Ansible, 
 metadata:
   author: adapted from msitarzewski/agency-agents
   source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-devops-automator.md
+  upstream_commit: "b02fa83"
+  upstream_synced: "2026-10-13"
   role: platform-automation
 ---
 
@@ -172,14 +174,22 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu" {
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = "2"
   metric_name         = "CPUUtilization"
-  namespace           = "AWS/ApplicationELB"
-  period              = "120"
+  namespace           = "AWS/EC2"
+  dimensions = {
+    AutoScalingGroupName = aws_autoscaling_group.app.name
+  }
+  # Matches EC2 basic monitoring's five-minute publication interval.
+  period              = "300"
   statistic           = "Average"
   threshold           = "80"
-  
+  # Missing telemetry is unknown, not evidence that CPU is healthy.
+  treat_missing_data  = "missing"
+
   alarm_actions = [aws_sns_topic.alerts.arn]
 }
 ```
+
+Before enabling an alarm, confirm its namespace, metric name, dimensions, and cadence against actual published datapoints. `CPUUtilization` belongs to [AWS/EC2](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/viewing_metrics_with_cloudwatch.html), and `AutoScalingGroupName` selects this application's instances. `AWS/ApplicationELB` publishes load-balancer metrics, not instance CPU. Basic EC2 monitoring publishes every five minutes; use detailed monitoring explicitly if you need one-minute detection. Treat missing data as unknown and monitor telemetry loss separately.
 
 ### Monitoring and Alerting Configuration
 ```yaml
