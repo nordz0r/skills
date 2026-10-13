@@ -47,7 +47,7 @@ const CATEGORY_TO_CODEX = {
 // top-level files with code/doc/config extensions copied as-is (so playwright-
 // skill's run.js and atlassian's requirements.txt keep working). Everything
 // else is skipped to avoid junk leakage into plugins/.
-const COPY_DIRS = new Set(['references', 'scripts', 'agents', 'evals', 'assets', 'lib']);
+const COPY_DIRS = new Set(['references', 'scripts', 'agents', 'evals', 'assets', 'lib', 'examples']);
 const COPY_FILES = new Set(['SKILL.md', 'package.json', 'package-lock.json', 'requirements.txt', '.env.example']);
 const COPY_EXTRA = new Set(['.js', '.mjs', '.cjs', '.sh', '.md']);
 const SKIP_DIRS = new Set(['node_modules', '__pycache__', '.venv', 'tmp']);
