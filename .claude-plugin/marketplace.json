@@ -509,8 +509,8 @@
     },
     {
       "name": "telegram-formatting",
-      "displayName": "Telegram Rich Markdown Formatting",
-      "description": "Telegram Rich Markdown formatting: syntax, limits, delivery, and Bot API message structures",
+      "displayName": "Telegram Rich Markdown and HTML",
+      "description": "Telegram Rich Markdown and Rich HTML, tg-rich-messages builder, Bot API payloads, delivery and media",
       "source": "./telegram-formatting",
       "strict": false,
       "category": "ai-tools",

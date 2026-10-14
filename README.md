@@ -53,7 +53,7 @@ claude plugin install infra-linux@nord-skills      # Linux, Docker, CI/CD, Ansib
 claude plugin install ai-tools@nord-skills         # LiteLLM, WebUI, OpenCodex
 claude plugin install nextcloud@nord-skills        # Nextcloud: файлы + Collectives wiki
 claude plugin install openwrt-routing@nord-skills  # OpenWrt (AmneziaWG, Podkop, zapret)
-claude plugin install telegram-formatting@nord-skills  # Telegram Rich Markdown
+claude plugin install telegram-formatting@nord-skills  # Telegram Rich Markdown/HTML
 claude plugin install pr-lens-diagrams@nord-skills     # PR Lens animated diagrams
 
 # Внутри интерактивной сессии Claude Code:
@@ -202,7 +202,7 @@ hermes skills update open-webui-guide --force
 
 | | Skill | Что делает |
 |---|---|---|
-| 📨 | [`telegram-formatting`](telegram-formatting/) | Telegram Rich Markdown: синтаксис, баннеры, картинки |
+| 📨 | [`telegram-formatting`](telegram-formatting/) | Telegram Rich Markdown/HTML, Bot API и картинки |
 | 🎞️ | [`pr-lens-diagrams`](pr-lens-diagrams/) | Анимированные схемы через PR Lens → SVG, GIF, MP4 |
 
 ### 📡 OpenWrt и сеть
@@ -225,9 +225,9 @@ hermes skills update open-webui-guide --force
 bash pr-lens-diagrams/scripts/pr-lens-build.sh graph.json out/   # → out/architecture.{svg,gif,mp4}
 ```
 
-### 📨 telegram-formatting — Rich Markdown для Telegram
+### 📨 telegram-formatting — Rich Markdown и HTML для Telegram
 
-Таблицы, чек-листы, `<details>`, баннеры и инлайн-картинки в ответах бота: где работает `sendRichMessage`, а где нужен MarkdownV2, как доставить изображение и что делать, если хостинг картинок недоступен. Есть evals.
+Таблицы и чек-листы в ответах gateway, Rich HTML для прямого Bot API и TypeScript-builder `tg-rich-messages`: как выбирать путь доставки, валидировать payload, передавать медиа и не раскрывать приватные изображения. Есть evals.
 
 ### 🔀 litellm-guide — LiteLLM от SDK до прокси
 

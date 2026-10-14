@@ -53,7 +53,7 @@ claude plugin install infra-linux@nord-skills      # Linux, Docker, CI/CD, Ansib
 claude plugin install ai-tools@nord-skills         # LiteLLM, WebUI, OpenCodex
 claude plugin install nextcloud@nord-skills        # Nextcloud: files + Collectives wiki
 claude plugin install openwrt-routing@nord-skills  # OpenWrt (AmneziaWG, Podkop, zapret)
-claude plugin install telegram-formatting@nord-skills  # Telegram Rich Markdown
+claude plugin install telegram-formatting@nord-skills  # Telegram Rich Markdown/HTML
 claude plugin install pr-lens-diagrams@nord-skills     # PR Lens animated diagrams
 
 # Inside an active Claude Code interactive session:
@@ -202,7 +202,7 @@ The skill folders and `.claude-plugin/marketplace.json` are the source of truth.
 
 | | Skill | What it does |
 |---|---|---|
-| 📨 | [`telegram-formatting`](telegram-formatting/) | Telegram Rich Markdown: syntax, banners, images |
+| 📨 | [`telegram-formatting`](telegram-formatting/) | Telegram Rich Markdown/HTML, Bot API, builder and images |
 | 🎞️ | [`pr-lens-diagrams`](pr-lens-diagrams/) | Animated diagrams via PR Lens → SVG, GIF, MP4 |
 
 ### 📡 OpenWrt & networking
@@ -225,9 +225,9 @@ The agent writes a `graph.json`; the skill validates it, renders it with [PR Len
 bash pr-lens-diagrams/scripts/pr-lens-build.sh graph.json out/   # → out/architecture.{svg,gif,mp4}
 ```
 
-### 📨 telegram-formatting — Telegram Rich Markdown
+### 📨 telegram-formatting — Telegram Rich Markdown and HTML
 
-Tables, checklists, `<details>`, banners and inline images in bot replies: where `sendRichMessage` works and where MarkdownV2 is needed, how to deliver an image, and what to do when an image host is down. Ships with evals.
+Gateway tables and checklists, direct Bot API Rich HTML and the `tg-rich-messages` TypeScript builder: choose delivery paths, validate payloads, handle media and avoid publishing private images. Includes evals.
 
 ### 🔀 litellm-guide — LiteLLM from SDK to proxy
 

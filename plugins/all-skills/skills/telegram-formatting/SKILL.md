@@ -1,9 +1,9 @@
 ---
 name: telegram-formatting
-description: "Telegram Rich Markdown formatting: syntax, limits, delivery, banners, inline images. Use when preparing Telegram replies via gateway: GFM tables, task lists, details, sendRichMessage vs MarkdownV2, MEDIA vs HTTPS ![](), placehold.co banners, image generation, jpg.wtf hotlink, pixhost fallback, tg-collage, tg-emoji. Triggers: telegram, rich markdown, sendRichMessage, MarkdownV2, MEDIA, placehold, inline photo, banner, caption, checklist, телеграм, форматирование, таблица, баннер, картинка."
+description: "Telegram Rich Markdown and Rich HTML formatting, tg-rich-messages TypeScript builder, sendRichMessage payloads and validation. Use when preparing Telegram gateway replies or implementing rich bot messages: GFM tables, task lists, details, advanced HTML tables and lists, buttons, references, media captions and credits, MarkdownV2 vs Rich Messages, MEDIA vs HTTPS images, placehold.co banners, jpg.wtf and pixhost fallback. Triggers: telegram, rich markdown, rich html, tg-rich-messages, sendRichMessage, MarkdownV2, MEDIA, inline photo, caption, checklist, телеграм, форматирование, таблица, баннер, картинка."
 license: MIT
 metadata:
-  version: "3.3.1"
+  version: "3.4.0"
   author: "NorD (nordz0r), Hermes Agent"
   platforms: "linux,macos,windows"
   hermes:
@@ -13,11 +13,11 @@ metadata:
 
 # Telegram Formatting Skill
 
-How an agent prepares text for Telegram: write plain GitHub-Flavored Markdown;
-the gateway picks the delivery path itself — legacy MarkdownV2 or Rich Messages
-(`sendRichMessage`, Bot API 10.x). The agent does not call the Bot API directly,
-does not escape text and does not split messages. This skill covers Rich
-Markdown syntax, rich-path triggers, limits, image policy and common mistakes.
+Prepare Telegram content in the format supported by the sender. For a Hermes
+gateway reply, write plain GitHub-Flavored Markdown and let the gateway choose
+MarkdownV2 or Rich Messages. For an explicitly requested bot integration, use
+Rich HTML or the `tg-rich-messages` TypeScript builder. These are different
+delivery contracts: Rich HTML is not `sendMessage(parse_mode="HTML")`.
 
 ## When to Use
 
@@ -25,51 +25,74 @@ Markdown syntax, rich-path triggers, limits, image policy and common mistakes.
 - You are choosing how to present content: table, checklist, code, spoiler, formula.
 - The text is long or structured — deciding what goes as a message and what as a file.
 - You need a section banner, an inline image or a `MEDIA:` file.
+- You are building Rich HTML with advanced tables, lists, media or buttons.
+- You need a validated `InputRichMessage` payload from `tg-rich-messages`.
 
-Don't use for: gateway configuration (`hermes config`), calling the Bot API
-directly from scripts. Local files are delivered via `MEDIA:` (see below).
-`hermes send` stays MarkdownV2/HTML; live no_agent cron scripts calling
-`sendRichMessage` directly are the exception (see Pitfalls). Practical cron
-examples: skill `telegram-cron-image-conventions`.
+Don't use for gateway administration, bot credentials or callback-handler
+implementation. Do not call the Bot API just to deliver an ordinary agent
+reply. Local-file delivery via `MEDIA:` is a gateway convention, not Telegram
+markup. See [Rich HTML and builder reference](references/rich-html.md) for
+explicit bot integrations and [the runnable example](examples/rich-message.mjs).
 
-## How Delivery Works
+## InputRichMessage Contract
+
+`InputRichMessage` requires exactly **one** of `markdown`, `html` or `blocks`.
+Send it as `rich_message` to `sendRichMessage`, not as `text` with a parse mode.
+Optional `is_rtl` selects right-to-left display; `skip_entity_detection`
+disables automatic entity detection. Uploaded media references require the
+separate `media` field. The builder emits `html`; it does not parse Markdown,
+upload files or send requests.
+
+## Hermes Gateway Profile
+
+The routing rules below describe the locally installed Hermes v0.22.0 adapter
+tree (install stamp commit `e06df9c2eae6901f4c88f464e0ae6e753c0428b8`,
+`dirty: true`). The commit is only its baseline; local modifications may affect
+behavior. This is not a claim about every Hermes release. Rich delivery is
+opt-in and can still be declined by capability, content-shape, size or other
+eligibility guards.
 
 One agent text — two delivery paths; the gateway chooses:
 
 | | MarkdownV2 (default) | Rich Messages |
 |---|---|---|
-| When | plain text | a rich construct is present (below) |
+| When | ordinary prose | recognized rich constructs, if eligible |
 | Limit | 4,096 characters | 32,768 characters |
-| Syntax | Markdown → converted to MarkdownV2 | your GFM is sent as Rich Markdown |
-| `#` headings, tables | flattened | rendered natively |
+| Syntax | gateway converts Markdown | Rich Markdown |
+| `#` headings, tables | may be flattened | rendered structurally |
 
-The rich path is enabled automatically if the text contains at least one of:
+In the local v0.22.0 adapter, rich triggers include:
 
-- **GFM table** — a separator row like `|---|---|`
-- **Task list** — `- [ ]` or `- [x]` at the start of a line
-- **`<details>` block** — `<details>`, `<summary>` tags
-- **Block math** — `$$...$$`
+- GFM pipe table;
+- task list with `-` or `*`, checkbox state space, `x` or `X`;
+- `<details>` / `<summary>` tags or block math `$$`;
+- `PRLENS:` line, standalone HTTPS Markdown image, or `<tg-emoji emoji-id=…>`.
 
-Consequence: **plain text (bold, lists, code) always goes via MarkdownV2** —
-`##` headings in it will not become section headings. To get a rich render,
-include at least one rich construct (table, task list, details).
+These constructs request rich rendering; they do not guarantee it. The adapter
+also requires opt-in and API support, and applies safety/size guards. Ordinary
+prose, bold, lists, code and headings alone do not trigger this path. Never add
+meaningless markup just to force transport.
 
 Text rules:
 
-- Write clean GFM. Do not escape characters for MarkdownV2 — on the MDv2 path
-  the gateway does it, and on the rich path your `\` end up in the text as is.
+- Do not pre-escape a gateway reply as MarkdownV2; the gateway converts it.
+  Ordinary Markdown escaping is still valid for literal Markdown punctuation.
+  In direct HTML, escape text and attribute values or use the builder.
 - Rich Markdown is GFM-compatible "where possible", so `**bold**` and
   `*italic*` are safe on both paths. The gateway normalizes single line breaks
   into hard line breaks.
 
 ## Rich Markdown Cheat Sheet
 
-Full syntax of the `markdown` field in `InputRichMessage`:
+Common syntax of the `markdown` field in `InputRichMessage`
+([official specification](https://core.telegram.org/bots/api/rich-messages.md#rich-markdown-style)):
 
-```
+````markdown
 **bold**  __bold__  *italic*  _italic_  ~~strike~~  ==marked==  ||spoiler||
 `inline code`   [text](https://…)   [email](mailto:u@x.ru)   [phone](tel:+7…)
 [mention](tg://user?id=123)   $inline math$   ```lang …``` (code block)
+![👍](tg://emoji?id=5368324170671202286)
+![date/time](tg://time?unix=1647531900&format=wDT)
 $$E=mc^2$$  or  ```math …```   ---  (divider)
 
 # H1 … ###### H6
@@ -79,16 +102,26 @@ $$E=mc^2$$  or  ```math …```   ---  (divider)
 ![](https://…/photo.jpg)  media block;  ![](url "caption")  with caption
 | Col1 | Col2 |  GFM table with alignment `|:---|---:|`
 Footnote[^id] … [^id]: explanation
-```
+````
 
 Entity autodetection (no markup): URLs, e-mails, phone numbers, card numbers,
 `#hashtag`, `$cashtag`, `/command`, `@username`.
 
-HTML tags for things that have no markdown syntax:
+Rich HTML extensions (usable in Rich Markdown where supported):
 
 - `<u>`, `<ins>` — underline; `<sub>`, `<sup>` — sub/superscript
 - `<a name="anchor"></a>` — anchor for internal links
+- `<a href="#anchor">Jump</a>`; `<tg-reference name="note">Text</tg-reference>`
+  with `<a href="#note">Note</a>` — anchors and referenced text
 - `<aside>quote<cite>Author</cite></aside>` — pull quote
+- `<blockquote expandable>Quote<cite>Author</cite></blockquote>` — expandable quote
+- `<footer>Source note</footer>`, `<br>`, `<tg-math>` / `<tg-math-block>`
+- `<ol start="3" type="a" reversed>` and per-item `value` / `type`;
+  `<input type="checkbox" checked>` inside `<li>`
+- `<table bordered striped compact>` with `<caption>`, cell `colspan` /
+  `rowspan`, `align` and `valign` — beyond GFM tables
+- `<figure>` + `<figcaption>` + `<cite>` — media captions and credit;
+  `tg-spoiler` on visual media; `<tg-document src="https://…">` for documents
 - `<details open><summary>Title</summary>…</details>` — collapsible block
 - `<tg-map lat="41.9" long="12.5" zoom="14"/>` — map
 - `<tg-collage>` / `<tg-slideshow>` — galleries from `![]()` or `<img>`
@@ -99,21 +132,28 @@ HTML tags for things that have no markdown syntax:
 - `<tg-emoji emoji-id="…">👍</tg-emoji>`, `<tg-time unix="…" format="t">`
 - `<tg-thinking>…</tg-thinking>` — only in streaming drafts (see below)
 
-Parser limits: markdown inside block HTML tags is not parsed, except
-`<details>`, `<tg-collage>`, `<tg-slideshow>`; table cells allow only inline
-formatting; media only as a separate block and only HTTP(S).
+See [the full HTML/builder reference](references/rich-html.md) for supported
+attributes, button prerequisites and examples. `tg://emoji` and `tg://time`
+are inline entities, not HTTP media. Time formats match `r|w?[dD]?[tT]?`:
+`r` is relative and cannot be combined; `wDT` is weekday, long date, long time.
+Use real custom emoji IDs with emoji fallback text; never invent IDs.
+
+Parser limits: Markdown inside block HTML tags is not parsed, except
+`<details>`, `<tg-collage>`, `<tg-slideshow>`; use HTML children in other block
+tags. Inline tags can contain Markdown. Table cells allow only inline
+formatting. Media are separate blocks with HTTP(S) URLs, or explicit
+`tg://photo|video|document|audio?id=…` references backed by `media`.
 
 ## Streaming & Drafts
 
-With `streaming.enabled` + `rich_drafts: true` (enabled on dd) the draft in DMs
-is streamed via `sendRichMessageDraft`: the user sees a live animated preview;
-the draft lives ~30 seconds and is replaced by the final `sendRichMessage`.
-`<tg-thinking>` is allowed only in a draft — a visual "agent is thinking"
-indicator.
+In the documented Hermes profile, `streaming.enabled` + `rich_drafts: true`
+allows rich draft streaming in private chats when the SDK/API supports it.
+`<tg-thinking>` is draft-only: never put it in the final payload. Drafts are
+temporary previews, not persisted messages; the sender must deliver a final
+message. Group fallback and draft refresh timing depend on the adapter.
 
-For the agent this means: don't write "the message below is a draft" and don't
-expect intermediate text to stay in the chat; the gateway finalizes. In groups
-streaming degrades to editing (`edit`).
+Do not claim a draft is the final delivered reply. The HTML builder's
+`thinking()` only emits markup; it neither starts streaming nor finalizes it.
 
 ## Limits
 
@@ -125,6 +165,13 @@ streaming degrades to editing (`edit`).
 | Media attachments | 50 |
 | Table columns | 20 |
 | Regular message (MarkdownV2) | 4,096 characters |
+
+Text includes custom emoji fallback text and raw formula source; the limit is
+characters, not UTF-8 bytes. For the builder, explicitly call `validate()`
+before `toInputRichMessage()`: neither serialization method validates for you.
+Its text count is approximate and its depth walk is not a complete check of
+inline formatting. Passing validation is not proof of server acceptance or
+identical rendering across clients.
 
 ## Long Content & Media
 
@@ -222,9 +269,9 @@ Practical cron examples (software-update, GLM): skill
 
 ## Procedure
 
-1. Mark up content: tables, checklists, `<details>`, formulas — format them
-   with native GFM/HTML; they raise the rich path themselves. Completion: every
-   construct is syntactically closed (table with separator, `</details>`).
+1. Choose the contract: gateway GFM, or explicitly requested Rich HTML/builder.
+   Use native constructs for the content; close tags, fences and table syntax.
+   For a bot payload, use exactly one input field and validate before sending.
 2. Mobile format: short paragraphs, `- ` lists instead of walls of text,
    `key: value` for small structured data. Completion: paragraphs ≤ 4 lines.
 3. Check the size: ≤ 30,000 characters — as a message; more — summary +
@@ -241,44 +288,58 @@ Practical cron examples (software-update, GLM): skill
 
 ## Pitfalls
 
-1. **Don't escape anything yourself.** `\.` and `\*` are for hand-written
-   MarkdownV2; the gateway converts on its own, and on the rich path the
-   slashes end up in the text.
-2. **Only 4 constructs trigger rich.** A regular reply with lists and bold
-   goes via MarkdownV2: headings won't render, a table gets flattened. Want a
-   native render — add a rich construct.
-3. **Link previews can't be disabled on the rich path** — `disable_link_previews`
-   only applies to MarkdownV2.
-4. **`$$math$$` inside `<details>`** crashes Telegram Desktop; the adapter
-   moves such a message off the rich path itself. Don't combine them.
-5. **CJK text** is garbled on the rich path (Telegram Desktop/macOS bug);
-   the adapter filters it — the message goes via plain MarkdownV2.
-6. **Code language**: ` ```python ` loses the language on the MDv2 path; rich
-   keeps highlighting.
-7. **Capability latch**: if `sendRichMessage` is unavailable (old PTB), the
-   adapter disables rich for the rest of the session — don't expect a rich
-   render again.
-8. **`hermes send` does not use rich** — only MarkdownV2/HTML with the 4,096
-   limit. Exception: live no_agent cron scripts that call `sendRichMessage`
-   directly (software-update, GLM, dd-host) — they bypass the gateway and
-   `hermes send`.
-9. **Config is read at gateway start**: changing `rich_messages`/
-   `rich_drafts` requires restarting the gateway externally (restart from a
-   session is blocked).
+1. **Escaping depends on the contract.** Do not pre-escape gateway GFM as
+   MarkdownV2. Direct Rich HTML needs escaped data; builder strings are escaped
+   automatically. `unsafeRawInline()` is only for trusted HTML, never user data.
+2. **Rich syntax does not guarantee rich transport.** The local Hermes trigger
+   set is listed above; opt-in, SDK capability, content guards and send mode
+   still decide eligibility.
+3. **Link previews, CJK and math guards are adapter-specific.** Local Hermes
+   v0.22.0 passes `disable_link_previews` to rich sends. CJK normally falls back
+   to MarkdownV2; `allow_cjk_rich_messages` opts in. Details/math crash guards
+   apply to matching shapes; the Rich spec itself supports math inside details.
+4. **Code language:** use a language fence in Markdown or nested
+   `<pre><code class="language-python">…</code></pre>` in HTML. Standalone
+   `<code>` cannot declare a language; fallback conversion may lose it.
+5. **Capability latch:** in the snapshot, missing-method/404 capability errors
+   disable rich for the adapter lifetime. A transient or payload error is not
+   the same as a permanent capability failure.
+6. **HTML modes differ:** Rich HTML tables, media and details are not supported
+   by regular `sendMessage(parse_mode="HTML")`. Callback buttons also require
+   a functioning bot handler; markup alone does not implement an action.
+7. **`hermes send` is separate:** the local standalone CLI sender uses regular
+   Telegram send, not the gateway's rich-send path. Do not transfer one path's
+   limits or formatting behavior to the other.
+8. **Drafts depend on API/profile:** both rich messages and rich-draft settings
+   are opt-in in the local adapter. A draft is temporary; the caller must send
+   the final message. Streaming transport/group behavior is adapter-specific.
+9. Gateway configuration changes may require an external restart; check the
+   installed adapter rather than assuming a session can reload it.
 
 ## Verification
 
-- Send yourself a reply with a GFM table and `- [x]` — the table must render
-  natively, not as a code block; the checkbox must be interactive.
-- In `~/.hermes/logs/gateway.log`: `grep -iE "rich|sendRich|rejected" | tail`
-  — there must be no `sendRichMessage rejected` / `unsupported`.
-- A message > 4,096 characters without rich constructs arrived in parts → add
-  a rich construct or a file.
-- A placehold banner and `![](https://…)` arrive inline in the same rich
-  bubble; `MEDIA:/abs` goes as a separate native photo.
+- For HTML generation, copy [the example](examples/rich-message.mjs) into a
+  consuming project with the pinned package installed; run it there. Expect JSON
+  containing `html`, with no token, request or automatic send. The builder's
+  `validate()` is not a complete server/client validation.
+- For end-to-end delivery, send an authorized message with a meaningful GFM
+  table and task list. Check native table/checkbox rendering in the target
+  client; do not assume checkboxes implement a mutable task workflow.
+- Inspect the gateway log for rich rejection, capability fallback and ordinary
+  splitting. A long message delivered in parts is not proof of rich delivery.
+- Check the image is inline in the same rich bubble; `MEDIA:/abs` is a separate
+  attachment. Payload generation alone does not verify client rendering.
 
 ## References
 
-- [`references/adapter-internals.md`](references/adapter-internals.md) — gateway adapter internals (load only when debugging delivery).
+- [`references/adapter-internals.md`](references/adapter-internals.md) — archived Hermes v0.18.2 adapter snapshot, not current truth for v0.22.0.
+- [Rich HTML and tg-rich-messages](references/rich-html.md) — advanced syntax,
+  safe builder usage and runnable example; based on upstream v0.4.0.
+- [Telegram Rich Messages](https://core.telegram.org/bots/api/rich-messages.md)
+  and [InputRichMessage](https://core.telegram.org/bots/api/types/inputrichmessage.md)
+  — authoritative formatting and input contract.
+- [tg-rich-messages v0.4.0 source](https://github.com/vdistortion/tg-rich-messages/tree/b0715933db1658d70808ce42b022761d12e41128)
+  — reviewed baseline; HTML builder, not gateway routing logic.
+
 
 Russian version: [`references/README.ru.md`](references/README.ru.md).

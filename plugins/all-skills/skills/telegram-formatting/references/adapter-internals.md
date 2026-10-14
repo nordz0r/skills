@@ -1,6 +1,6 @@
-# Rich Message Adapter Internals (Hermes v0.18.2)
+# Rich Message Adapter Internals (Hermes v0.18.2 snapshot)
 
-Reference from the live adapter at `plugins/platforms/telegram/adapter.py` (9110 lines).
+Historical reference from that adapter version's `plugins/platforms/telegram/adapter.py`; do not use as a description of newer runtime behavior. The locally installed Hermes v0.22.0 is separately identified in `SKILL.md` and must be checked for current behavior.
 
 ## Config Reading
 
