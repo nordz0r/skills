@@ -150,7 +150,11 @@ On install Hermes copies `SKILL.md` plus only the files it references (`referenc
 ## 🗺️ How it fits together
 
 <p align="center">
-  <img alt="How a skill reaches an agent: repository → marketplace, plugins, skills.sh → Claude Code, Codex, Agent CLI, Hermes → agent with the skill" src=".github/assets/repo-flow.gif" width="100%">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".github/assets/architecture-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset=".github/assets/architecture-light.svg">
+    <img alt="How a skill reaches an agent: skill folders and marketplace.json → sync-codex-plugins.js, plugins/, skills.sh.json → Claude Code, Codex, npx skills, Hermes" src=".github/assets/architecture-light.svg" width="100%">
+  </picture>
 </p>
 
 The skill folders and `.claude-plugin/marketplace.json` are the source of truth. `scripts/sync-codex-plugins.js` derives `plugins/` for Codex, `skills.sh.json` groups skills for catalogs, and Hermes installs a skill straight from its folder. The diagram was drawn with [`pr-lens-diagrams`](pr-lens-diagrams/) (labels in Russian).

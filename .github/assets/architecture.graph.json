@@ -1,0 +1,224 @@
+{
+ "schemaVersion": "0.2.0",
+ "kind": "graph",
+ "id": "skills-architecture",
+ "generatedAt": "2026-10-13T18:00:00.000Z",
+ "title": "How a skill reaches an agent",
+ "summary": "Skill folders and marketplace.json are the source of truth; sync-codex-plugins.js builds plugins/ for Codex, skills.sh.json groups skills, Hermes installs from the folder.",
+ "lenses": [
+  "architecture"
+ ],
+ "layout": {
+  "direction": "right",
+  "laneOrder": [
+   "src",
+   "dist",
+   "agent"
+  ],
+  "rank": {
+   "skill": 0,
+   "mkt": 1,
+   "sync": 2,
+   "plugins": 2,
+   "ssh": 3,
+   "claude": 1,
+   "codex": 2,
+   "npx": 3,
+   "hermes": 0
+  }
+ },
+ "provenance": {
+  "repo": {
+   "owner": "nordz0r",
+   "name": "skills",
+   "host": "github.com"
+  },
+  "base": {
+   "sha": "0000000000000000000000000000000000000000",
+   "ref": "main"
+  },
+  "head": {
+   "sha": "0000000000000000000000000000000000000000",
+   "ref": "main"
+  },
+  "generator": {
+   "name": "manual",
+   "version": "1.0.0"
+  }
+ },
+ "lanes": [
+  {
+   "id": "src",
+   "label": "Repository",
+   "subtitle": "source of truth",
+   "order": 0
+  },
+  {
+   "id": "dist",
+   "label": "Distribution",
+   "subtitle": "generated / catalogs",
+   "order": 1
+  },
+  {
+   "id": "agent",
+   "label": "Agents",
+   "subtitle": "install",
+   "order": 2
+  }
+ ],
+ "nodes": [
+  {
+   "id": "skill",
+   "label": "Skill folders",
+   "kind": "package",
+   "delta": "unchanged",
+   "lane": "src",
+   "subtitle": "SKILL.md, references/, scripts/",
+   "files": [],
+   "badges": []
+  },
+  {
+   "id": "mkt",
+   "label": "marketplace.json",
+   "kind": "config",
+   "delta": "unchanged",
+   "lane": "src",
+   "subtitle": ".claude-plugin/",
+   "files": [],
+   "badges": []
+  },
+  {
+   "id": "sync",
+   "label": "sync-codex-plugins.js",
+   "kind": "job",
+   "delta": "unchanged",
+   "lane": "src",
+   "subtitle": "builds plugins/",
+   "files": [],
+   "badges": []
+  },
+  {
+   "id": "plugins",
+   "label": "plugins/",
+   "kind": "package",
+   "delta": "unchanged",
+   "lane": "dist",
+   "subtitle": "Codex marketplace",
+   "files": [],
+   "badges": []
+  },
+  {
+   "id": "ssh",
+   "label": "skills.sh.json",
+   "kind": "config",
+   "delta": "unchanged",
+   "lane": "dist",
+   "subtitle": "catalog groups",
+   "files": [],
+   "badges": []
+  },
+  {
+   "id": "claude",
+   "label": "Claude Code",
+   "kind": "app",
+   "delta": "unchanged",
+   "lane": "agent",
+   "subtitle": "plugin marketplace",
+   "files": [],
+   "badges": []
+  },
+  {
+   "id": "codex",
+   "label": "Codex",
+   "kind": "app",
+   "delta": "unchanged",
+   "lane": "agent",
+   "subtitle": "codex plugin marketplace add",
+   "files": [],
+   "badges": []
+  },
+  {
+   "id": "npx",
+   "label": "npx skills",
+   "kind": "app",
+   "delta": "unchanged",
+   "lane": "agent",
+   "subtitle": "skills.sh / OpenClaw",
+   "files": [],
+   "badges": []
+  },
+  {
+   "id": "hermes",
+   "label": "Hermes",
+   "kind": "app",
+   "delta": "unchanged",
+   "lane": "agent",
+   "subtitle": "installs from the folder",
+   "files": [],
+   "badges": []
+  }
+ ],
+ "edges": [
+  {
+   "id": "e0",
+   "from": "skill",
+   "to": "sync",
+   "kind": "data",
+   "delta": "unchanged",
+   "emphasis": "normal",
+   "animated": true,
+   "files": []
+  },
+  {
+   "id": "e1",
+   "from": "sync",
+   "to": "plugins",
+   "kind": "data",
+   "delta": "unchanged",
+   "emphasis": "hero",
+   "animated": true,
+   "files": []
+  },
+  {
+   "id": "e2",
+   "from": "mkt",
+   "to": "claude",
+   "kind": "dependency",
+   "delta": "unchanged",
+   "emphasis": "hero",
+   "animated": true,
+   "files": []
+  },
+  {
+   "id": "e3",
+   "from": "plugins",
+   "to": "codex",
+   "kind": "dependency",
+   "delta": "unchanged",
+   "emphasis": "normal",
+   "animated": true,
+   "files": []
+  },
+  {
+   "id": "e4",
+   "from": "ssh",
+   "to": "npx",
+   "kind": "dependency",
+   "delta": "unchanged",
+   "emphasis": "normal",
+   "animated": true,
+   "files": []
+  },
+  {
+   "id": "e5",
+   "from": "skill",
+   "to": "hermes",
+   "kind": "data",
+   "delta": "unchanged",
+   "emphasis": "normal",
+   "animated": true,
+   "files": []
+  }
+ ],
+ "flows": []
+}
