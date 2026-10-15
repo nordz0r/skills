@@ -184,7 +184,7 @@ The skill folders and `.claude-plugin/marketplace.json` are the source of truth.
 | 📜 | [`ansible-playbook`](ansible-playbook/) | Playbooks, roles, inventory, vault, `--check --diff` |
 | 🛡️ | [`amnezia-vpn`](amnezia-vpn/) | AmneziaVPN/AWG on Linux and Docker |
 | 🛰️ | [`xray-reality`](xray-reality/) | Xray VLESS + REALITY/XHTTP: server, clients, versions |
-| 🔐 | [`vpn-setup`](vpn-setup/) | Self-hosted VPN playbook: AWG vs Xray, verify, troubleshoot |
+| 🔌 | [`vpn-setup`](vpn-setup/) | Self-hosted VPN playbook: AWG vs Xray, verify, troubleshoot |
 | 🧭 | [`linux-routing`](linux-routing/) | Policy routing, fwmark, nftables NAT, split tunnel |
 
 ### 🤖 AI tooling & integrations

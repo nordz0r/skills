@@ -184,7 +184,7 @@ hermes skills update open-webui-guide --force
 | 📜 | [`ansible-playbook`](ansible-playbook/) | Playbooks, roles, inventory, vault, `--check --diff` |
 | 🛡️ | [`amnezia-vpn`](amnezia-vpn/) | AmneziaVPN/AWG на Linux и в Docker |
 | 🛰️ | [`xray-reality`](xray-reality/) | Xray VLESS + REALITY/XHTTP: сервер, клиенты, версии |
-| 🔐 | [`vpn-setup`](vpn-setup/) | Плейбук своего VPN: выбор AWG/Xray, проверка, траблшутинг |
+| 🔌 | [`vpn-setup`](vpn-setup/) | Плейбук своего VPN: выбор AWG/Xray, проверка, траблшутинг |
 | 🧭 | [`linux-routing`](linux-routing/) | Policy routing, fwmark, nftables NAT, split-tunnel |
 
 ### 🤖 AI-инструменты и интеграции
