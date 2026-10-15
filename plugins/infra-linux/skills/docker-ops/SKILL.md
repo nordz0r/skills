@@ -45,7 +45,7 @@ Handle GitLab `docker:dind` together with `gitlab-ci`.
 - Host systemd/journald/disk → `administering-linux`.
 - Builds in GitLab CI / dind / registry → `gitlab-ci`.
 - Rolling out compose via Ansible → `ansible-playbook`.
-- Amnezia containers `/opt/amnezia` → `amnezia-vpn`.
+- Amnezia containers `/opt/amnezia`: container ops stay here; AWG/Xray config values → `amnezia-vpn`.
 
 ## References
 

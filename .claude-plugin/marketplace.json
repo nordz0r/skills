@@ -53,7 +53,7 @@
     {
       "name": "infra-linux",
       "displayName": "Linux, Containers & CI/CD Bundle",
-      "description": "6 host administration, containerization, CI/CD, Ansible, Amnezia VPN, and policy routing skills",
+      "description": "8 host administration, containerization, CI/CD, Ansible, Amnezia VPN, Xray Reality, VPN setup, and policy routing skills",
       "version": "1.0.0",
       "source": "./",
       "strict": true,
@@ -315,14 +315,17 @@
     },
     {
       "name": "amnezia-vpn",
-      "displayName": "AmneziaVPN & AWG on Linux",
-      "description": "AmneziaVPN and AmneziaWG server/client setup on Linux and Docker (not OpenWrt UCI)",
+      "displayName": "AmneziaWG & Xray optimal config",
+      "description": "Optimal AmneziaWG 1.0–3.1 and Xray VLESS (REALITY/XHTTP/FinalMask/VLESS Encryption) configuration: parameter recipes, vpn:// and vless:// keys, validation, compatibility (not install, not OpenWrt UCI)",
       "source": "./amnezia-vpn",
       "strict": false,
       "category": "infrastructure",
       "tags": [
         "amnezia",
         "amneziawg",
+        "xray",
+        "vless",
+        "reality",
         "vpn",
         "wireguard",
         "linux"

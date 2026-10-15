@@ -9,7 +9,7 @@
 <p align="center"><a href="README.md">Русский</a> · <b>English</b></p>
 
 <p align="center">
-  <a href="#catalog"><img alt="skills" src="https://img.shields.io/badge/skills-26-58a6ff?style=flat-square"></a>
+  <a href="#catalog"><img alt="skills" src="https://img.shields.io/badge/skills-28-58a6ff?style=flat-square"></a>
   <img alt="Claude Code" src="https://img.shields.io/badge/Claude_Code-plugin-d97757?style=flat-square">
   <img alt="Codex" src="https://img.shields.io/badge/Codex-plugin-10a37f?style=flat-square">
   <img alt="Hermes" src="https://img.shields.io/badge/Hermes-skills-8957e5?style=flat-square">
@@ -182,7 +182,7 @@ The skill folders and `.claude-plugin/marketplace.json` are the source of truth.
 | 🐳 | [`docker-ops`](docker-ops/) | Dockerfile, Compose v2, healthchecks, networks, volumes |
 | 🦊 | [`gitlab-ci`](gitlab-ci/) | `.gitlab-ci.yml`, rules, runners, dind, Registry |
 | 📜 | [`ansible-playbook`](ansible-playbook/) | Playbooks, roles, inventory, vault, `--check --diff` |
-| 🛡️ | [`amnezia-vpn`](amnezia-vpn/) | AmneziaVPN/AWG on Linux and Docker |
+| 🛡️ | [`amnezia-vpn`](amnezia-vpn/) | AmneziaWG and Xray (VLESS+REALITY/XHTTP): optimal configuration, recipes, keys, validation |
 | 🧭 | [`linux-routing`](linux-routing/) | Policy routing, fwmark, nftables NAT, split tunnel |
 
 ### 🤖 AI tooling & integrations
@@ -273,7 +273,7 @@ python3 -m tools.a_evolve_router.evaluate_baseline --split all
 
 The full local `a-evolve` workflow is documented in [`tools/a_evolve_router/README.md`](tools/a_evolve_router/README.md). Use `--reset-workspace` for clean reruns from the current skill catalog.
 
-**Current metrics** (2026-09-20, 26 skills / 48 cases):
+**Metrics — historical snapshot as of 2026-09-20** (26 skills / 48 cases):
 
 | State | top1 acc | avg_score |
 |-------|----------|-----------|

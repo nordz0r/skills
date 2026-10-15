@@ -1,60 +1,20 @@
-<!-- Russian original of SKILL.md (frontmatter omitted). Paths are relative to the skill root. Canonical English version: ../SKILL.md -->
+# AmneziaWG и Xray: оптимальная конфигурация — по-русски
 
-# Amnezia VPN (Linux / Docker)
+Только конфигурация: выбор параметров, серверные/клиентские конфиги, ключи, проверка.
+Установка, Docker, systemd, подготовка VPS и запуск — вне скилла.
 
-Skill про Amnezia на Linux-сервере и Docker-стеке приложения.
-Это не OpenWrt-интеграция: UCI/LuCI/`kmod-amneziawg` на роутере —
-`amneziawg-openwrt-guide`.
+## Порядок действий агента
 
-Селективный routing на OpenWrt через podkop — `podkop-openwrt-guide`.
-Policy routing на Linux-хосте — `linux-routing`.
+1. Собрать ограничения: движок и версия сервера, все клиенты и их версии, сеть (UDP, DPI, мобильная/CGNAT, CDN, блок IP).
+2. Протокол: UDP проходит → AmneziaWG (`awg-config.md`); UDP режут/зондирование/белые SNI → Xray VLESS+REALITY+Vision (`xray-config.md`); нужен CDN → XHTTP (`xray-xhttp-finalmask.md`); оба — AWG основной, Xray на TCP/443 резерв.
+3. Версия = минимальная общая у сервера и всех клиентов (`awg-protocol.md`, `versions-compat.md`).
+4. AWG: shared-набор на сервер, sender-набор на устройство, MTU, рецепт сценария (`awg-config.md`).
+5. Xray: транспорт → flow → донор → fingerprint → режим XHTTP → FinalMask / VLESS Encryption по необходимости → sniffing/routing.
+6. Ключи `vpn://` / `vless://` — `key-formats.md`.
+7. Проверка — `config-checklist.md`; ошибки — `troubleshooting.md`; вопросы — `faq.md`.
+8. Ключи, PSK, HeaderProtectionKey, UUID, ссылки — только плейсхолдеры.
 
-## Когда использовать
+Порт AWG в примерах — 443/udp (дефолт приложения Amnezia — 55424).
+Источники сверены 2026-10-15: amneziawg-go v3.1.20260828, kmod v3.1.20260906, amneziawg-tools v3.1.20260812, amnezia-client 5.0.3.0, Xray-core v26.10.10.
 
-- Поднять или чинить AmneziaVPN на VPS (официальный Docker-стек).
-- Linux AWG без GUI: `awg`, `awg-quick`, kernel module vs `amneziawg-go`.
-- Нет handshake, неверный Jc/Jmin/Jmax/S1/S2/H1-H4, порт закрыт.
-- Контейнеры `amnezia-*`, данные `/opt/amnezia`, docker logs.
-- Соседние протоколы стека: WireGuard, Xray/Reality, OpenVPN, Cloak, SS —
-  только в контексте Amnezia, не как отдельный продукт.
-
-## Workflow
-
-1. Раздели сценарий:
-   - GUI AmneziaVPN → Docker-контейнеры на VPS.
-   - Голый AWG → `awg0` + `awg-quick` / kernel module.
-   - OpenWrt роутер → другой skill.
-2. Не логируй PrivateKey, preshared key, obfuscation secrets целиком.
-   В ответах — плейсхолдеры.
-3. Handshake = ключи + одинаковые obfuscation params + UDP порт + endpoint.
-4. После изменений: `awg show` / `docker ps` / `ss -ulnp` / ping внутри туннеля.
-
-## Что есть в стеке
-
-Официальное приложение поднимает Docker на сервере. Данные обычно в
-`/opt/amnezia`. Контейнеры именуются с префиксом `amnezia-`.
-
-Голый AmneziaWG совместим с WireGuard по модели ключей, но пакеты не
-пройдут, если junk/header params не совпали на обеих сторонах.
-
-| Слой | Зачем |
-|------|--------|
-| `kmod amneziawg` | kernel datapath, низкий overhead |
-| `amneziawg-go` | userspace fallback, если модуля нет |
-| `awg` / `awg-quick` | как `wg` / `wg-quick` |
-
-## Companion skills
-
-- OpenWrt AWG → `amneziawg-openwrt-guide`.
-- Docker engine/compose синтаксис → `docker-ops`.
-- `ip rule`/nft для split-tunnel на Linux → `linux-routing`.
-- Host systemd/disk/ssh → `administering-linux`.
-
-## References
-
-- `references/linux-awg.md` — awg-quick, kernel/userspace, диагностика.
-- `references/docker-stack.md` — контейнеры AmneziaVPN на VPS.
-
-<!-- A-EVOLVE-ROUTING-SIGNALS:START -->
-## Routing signals: amnezia amneziavpn amneziawg awg-quick awg0 opt/amnezia docker vpn jc jmin jmax handshake amneziawg-go vps
-<!-- A-EVOLVE-ROUTING-SIGNALS:END -->
+## Routing signals: amnezia amneziavpn amneziawg awg jc jmin jmax h1 s1 i1 headerprotectionkey randomtrailers mtu xray vless reality xhttp vision finalmask vlessenc x25519 shortids fingerprint vpn-key obfuscation dpi config
