@@ -120,7 +120,6 @@ Shared-поля сервера и клиента: `id` (UUID), `flow`, публ�
 
 - REALITY только поверх RAW, XHTTP, gRPC.
 - VLESS/Trojan без TLS/REALITY/VLESS Encryption на публичный адрес запрещены (с v26.7.11).
-- `allowInsecure` удалён → `pinnedPeerCertSha256` / `verifyPeerCertByName`.
 - `xray x25519` печатает `PrivateKey`, `Password (PublicKey)`, `Hash32`; клиент принимает `password` (алиас `publicKey`).
 - `fingerprint` `unsafe`/`hellogolang` отклоняются REALITY.
 - `minClientVer` / `maxClientVer` / `maxTimeDiff` на сервере — жёсткий отсев старых клиентов; явно задавай, только если все клиенты свежие.

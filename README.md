@@ -9,7 +9,7 @@
 <p align="center"><b>Русский</b> · <a href="README.en.md">English</a></p>
 
 <p align="center">
-  <a href="#каталог"><img alt="skills" src="https://img.shields.io/badge/skills-28-58a6ff?style=flat-square"></a>
+  <a href="#каталог"><img alt="skills" src="https://img.shields.io/badge/skills-26-58a6ff?style=flat-square"></a>
   <img alt="Claude Code" src="https://img.shields.io/badge/Claude_Code-plugin-d97757?style=flat-square">
   <img alt="Codex" src="https://img.shields.io/badge/Codex-plugin-10a37f?style=flat-square">
   <img alt="Hermes" src="https://img.shields.io/badge/Hermes-skills-8957e5?style=flat-square">
