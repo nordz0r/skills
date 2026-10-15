@@ -10,7 +10,8 @@ OpenWrt — `amneziawg-openwrt-guide` / `podkop-openwrt-guide`; policy routing �
 2. Сервер: приложение Amnezia → `docker-stack.md`; голый AWG → `linux-awg.md`; голый Xray → `xray-server.md`.
 3. Параметры: `awg-protocol.md`, `xray-versions.md`, `xray-xhttp-finalmask.md`.
 4. Клиенты и минимальные версии, проверка, траблшутинг — `vpn-setup.md`, `xray-troubleshooting.md`.
-5. Вопросы-ответы — `faq.md` (перенос FAQ architect.vai-rice.space со статусами проверки).
+5. Проверка конфигов — `config-checklist.md`; сторонние инструменты и их security-ревью — `third-party-tools.md`.
+6. Вопросы-ответы — `faq.md` (перенос FAQ architect.vai-rice.space со статусами проверки).
 
 Ключи, PSK, HeaderProtectionKey, UUID, ссылки `vpn://`/`vless://` — только плейсхолдеры.
 

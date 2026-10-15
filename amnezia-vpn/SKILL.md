@@ -40,6 +40,8 @@ router-wide sing-box routing → `podkop-openwrt-guide`; Linux policy routing �
 - `references/xray-xhttp-finalmask.md` — XHTTP modes, FinalMask, Hysteria 2.
 - `references/xray-versions.md` — Xray features by version.
 - `references/xray-troubleshooting.md` — Xray errors and checks.
+- `references/config-checklist.md` — config validation checklist (AWG `.conf`, `vpn://`, `vless://`, Xray JSON), each rule verified.
+- `references/third-party-tools.md` — Architect generator and awg-containers-and-tools: useful tricks, security review.
 - `references/faq.md` — FAQ (from the architect.vai-rice.space generator), every item verified/corrected/flagged.
 
 Sources verified 2026-10-15: amneziawg-go v3.1.20260828, kmod v3.1.20260906, amneziawg-tools v3.1.20260812, amnezia-client 5.0.3.0, Xray-core v26.10.10.
