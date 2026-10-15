@@ -63,6 +63,7 @@ config amneziawg_awg0
   option route_allowed_ips '1'
   option persistent_keepalive '25'
   list allowed_ips '0.0.0.0/0'
+  list allowed_ips '::/0'           # иначе IPv6 идёт мимо туннеля (утечка)
 ```
 
 Чтение без секретов: `uci show network | grep -vE 'private_key|preshared_key|header_protection_key'`.
