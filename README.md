@@ -182,7 +182,7 @@ hermes skills update open-webui-guide --force
 | 🐳 | [`docker-ops`](docker-ops/) | Dockerfile, Compose v2, healthcheck, сети, тома |
 | 🦊 | [`gitlab-ci`](gitlab-ci/) | `.gitlab-ci.yml`, rules, runners, dind, Registry |
 | 📜 | [`ansible-playbook`](ansible-playbook/) | Playbooks, roles, inventory, vault, `--check --diff` |
-| 🛡️ | [`amnezia-vpn`](amnezia-vpn/) | AmneziaVPN/AWG и Xray (VLESS+REALITY/XHTTP): сервер, Docker, клиенты, проверка |
+| 🛡️ | [`amnezia-vpn`](amnezia-vpn/) | AmneziaWG и Xray (VLESS+REALITY/XHTTP): оптимальная конфигурация, рецепты, ключи, проверка |
 | 🧭 | [`linux-routing`](linux-routing/) | Policy routing, fwmark, nftables NAT, split-tunnel |
 
 ### 🤖 AI-инструменты и интеграции

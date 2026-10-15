@@ -182,7 +182,7 @@ The skill folders and `.claude-plugin/marketplace.json` are the source of truth.
 | 🐳 | [`docker-ops`](docker-ops/) | Dockerfile, Compose v2, healthchecks, networks, volumes |
 | 🦊 | [`gitlab-ci`](gitlab-ci/) | `.gitlab-ci.yml`, rules, runners, dind, Registry |
 | 📜 | [`ansible-playbook`](ansible-playbook/) | Playbooks, roles, inventory, vault, `--check --diff` |
-| 🛡️ | [`amnezia-vpn`](amnezia-vpn/) | AmneziaVPN/AWG and Xray (VLESS+REALITY/XHTTP): server, Docker, clients, verification |
+| 🛡️ | [`amnezia-vpn`](amnezia-vpn/) | AmneziaWG and Xray (VLESS+REALITY/XHTTP): optimal configuration, recipes, keys, validation |
 | 🧭 | [`linux-routing`](linux-routing/) | Policy routing, fwmark, nftables NAT, split tunnel |
 
 ### 🤖 AI tooling & integrations

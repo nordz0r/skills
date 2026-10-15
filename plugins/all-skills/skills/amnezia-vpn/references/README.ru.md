@@ -1,23 +1,20 @@
-# Amnezia VPN, AmneziaWG и Xray (Linux / Docker) — по-русски
+# AmneziaWG и Xray: оптимальная конфигурация — по-русски
 
-Единственный скилл по своему VPN на Linux-сервере: Docker-стек приложения Amnezia,
-голый AmneziaWG, голый Xray-core, клиенты, проверка, FAQ.
-OpenWrt — `amneziawg-openwrt-guide` / `podkop-openwrt-guide`; policy routing — `linux-routing`.
+Только конфигурация: выбор параметров, серверные/клиентские конфиги, ключи, проверка.
+Установка, Docker, systemd, подготовка VPS и запуск — вне скилла.
 
-## Порядок
+## Порядок действий агента
 
-1. Выбор протокола и план — `vpn-setup.md`.
-2. Сервер: приложение Amnezia → `docker-stack.md`; голый AWG → `linux-awg.md`; голый Xray → `xray-server.md`.
-3. Параметры: `awg-protocol.md`, `xray-versions.md`, `xray-xhttp-finalmask.md`.
-4. Клиенты и минимальные версии, проверка, траблшутинг — `vpn-setup.md`, `xray-troubleshooting.md`.
-5. Проверка конфигов — `config-checklist.md`; сторонние инструменты и их security-ревью — `third-party-tools.md`.
-6. Вопросы-ответы — `faq.md` (перенос FAQ architect.vai-rice.space со статусами проверки).
+1. Собрать ограничения: движок и версия сервера, все клиенты и их версии, сеть (UDP, DPI, мобильная/CGNAT, CDN, блок IP).
+2. Протокол: UDP проходит → AmneziaWG (`awg-config.md`); UDP режут/зондирование/белые SNI → Xray VLESS+REALITY+Vision (`xray-config.md`); нужен CDN → XHTTP (`xray-xhttp-finalmask.md`); оба — AWG основной, Xray на TCP/443 резерв.
+3. Версия = минимальная общая у сервера и всех клиентов (`awg-protocol.md`, `versions-compat.md`).
+4. AWG: shared-набор на сервер, sender-набор на устройство, MTU, рецепт сценария (`awg-config.md`).
+5. Xray: транспорт → flow → донор → fingerprint → режим XHTTP → FinalMask / VLESS Encryption по необходимости → sniffing/routing.
+6. Ключи `vpn://` / `vless://` — `key-formats.md`.
+7. Проверка — `config-checklist.md`; ошибки — `troubleshooting.md`; вопросы — `faq.md`.
+8. Ключи, PSK, HeaderProtectionKey, UUID, ссылки — только плейсхолдеры.
 
-Ключи, PSK, HeaderProtectionKey, UUID, ссылки `vpn://`/`vless://` — только плейсхолдеры.
+Порт AWG в примерах — 443/udp (дефолт приложения Amnezia — 55424).
+Источники сверены 2026-10-15: amneziawg-go v3.1.20260828, kmod v3.1.20260906, amneziawg-tools v3.1.20260812, amnezia-client 5.0.3.0, Xray-core v26.10.10.
 
-Сверка 2026-10-15: amneziawg-go v3.1.20260828, kmod v3.1.20260906, amneziawg-tools v3.1.20260812,
-amnezia-client 5.0.3.0, Xray-core v26.10.10.
-
-<!-- A-EVOLVE-ROUTING-SIGNALS:START -->
-## Routing signals: amnezia amneziavpn amneziawg awg-quick awg0 opt/amnezia docker vpn jc jmin jmax handshake amneziawg-go vps xray vless reality xhttp
-<!-- A-EVOLVE-ROUTING-SIGNALS:END -->
+## Routing signals: amnezia amneziavpn amneziawg awg jc jmin jmax h1 s1 i1 headerprotectionkey randomtrailers mtu xray vless reality xhttp vision finalmask vlessenc x25519 shortids fingerprint vpn-key obfuscation dpi config

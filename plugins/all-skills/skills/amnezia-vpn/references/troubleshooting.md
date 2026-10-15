@@ -1,24 +1,25 @@
-# Xray: проверка и траблшутинг
+# Траблшутинг конфигурации (AWG и Xray)
 
-Сверено 2026-10-15 по Xray-core v26.10.10 (тексты ошибок — из `infra/conf/*.go`, `proxy/vless/*`).
+Сверено 2026-10-15: amneziawg-go v3.1.20260828 (`uapi.go`, `receive.go`), kmod v3.1.20260906 (`netlink.c`, `junk.c`),
+Xray-core v26.10.10 (`infra/conf/*.go`, `proxy/vless/*`). Только ошибки конфига; сеть/хостинг — вне скилла.
 
-## Сервер
+Проверка синтаксиса без запуска туннеля: `xray run -test -c config.json`; для AWG — `config-checklist.md`.
 
-```bash
-xray run -test -c /usr/local/etc/xray/config.json   # синтаксис/семантика
-systemctl status xray --no-pager; journalctl -u xray -n 100 --no-pager
-ss -tlnp | grep :443                                # слушает ли
-curl -sI --http2 --tlsv1.3 https://<donor>          # донор живой с VPS
-```
+## AWG
 
-## Клиент
+| Симптом | Причина в конфиге |
+|---|---|
+| `Invalid argument` при подъёме | ключ версии новее движка; S1–S4 < 12 при `HeaderProtectionKey`; пересечение H; незнакомый тег I **[код]** |
+| нет handshake | не совпали H1–H4 / S1–S4 / `HeaderProtectionKey` / `RandomTrailers`; `Endpoint` ≠ `ListenPort`; ключи пиров перепутаны |
+| handshake есть, трафика нет | `AllowedIPs` (клиент/сервер), `Address` вне подсети, DNS |
+| тяжёлые сайты висят | MTU: 1280 (мобильные) / 1376 (десктоп) |
+| долгое подключение | меньше `Jc`, `Jmax`, короче I1–I5 |
+| `Message too long` на kmod | длинная цепочка I1–I5 (`-EMSGSIZE`) **[код]** |
+| периодические обрывы на 3.x | диапазоны таймеров (`RejectAfterTime` > `RekeyAfterTime`) |
+| сменили сервер — отвалились все | shared-параметры: сначала раздать новые клиентские конфиги |
+| работало и перестало | блок сигнатуры → сменить I1/H/S; блок IP — конфигом не лечится |
 
-```bash
-xray run -c client.json        # локальный socks/http inbound, напр. 127.0.0.1:10808
-curl -x socks5h://127.0.0.1:10808 -s https://ifconfig.me    # должен быть IP VPS
-```
-
-## Типовые ошибки
+## Xray
 
 | Симптом | Причина |
 |---|---|
@@ -36,4 +37,5 @@ curl -x socks5h://127.0.0.1:10808 -s https://ifconfig.me    # должен бы�
 | XHTTP 404 | не совпали `path`/`host` или режим/размещения паддинга |
 | работает, потом IP заблокирован | популярный/«палевный» донор, высокий трафик на один IP, свой домен в SNI; смени донора/IP, рассмотри XHTTP через CDN |
 
-Логи: `"log": {"loglevel": "debug"}` временно; не публикуй логи с UUID/IP клиентов.
+
+Логи — временно `"loglevel": "debug"`; в тикеты только с замаскированными UUID/ключами/IP.

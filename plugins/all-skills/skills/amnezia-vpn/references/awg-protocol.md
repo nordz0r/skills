@@ -66,7 +66,7 @@
 
 | Параметр | Значение в приложении |
 |---|---|
-| Порт AWG | 55424/udp |
+| Порт AWG | 55424/udp (в примерах скилла — 443/udp) |
 | MTU | 1280 (Android, iOS, macOS NE), 1376 (остальные) |
 | `Jc / Jmin / Jmax` | 3 / 10 / 30 (UI: размер junk ≥ 12) |
 | `S1–S4` | 12 (UI-пределы: S1, S2 ≤ 150; S3 ≤ 64) |
@@ -80,55 +80,4 @@
 `awg-quick` без `MTU` ставит MTU = MTU маршрута − 80 (обычно 1420) **[код]** `linux.bash`.
 Отдельного «MTU 1280 для 3.1» в протоколе нет: 1280 — дефолт мобильных клиентов Amnezia; при хвостах пакеты длиннее, поэтому меньший MTU снижает риск фрагментации **[вывод]**.
 
-## Шаблон (значения — пример, ключи — плейсхолдеры)
-
-```ini
-[Interface]
-PrivateKey = <client-private>
-Address = 10.8.1.2/32
-DNS = 1.1.1.1
-MTU = 1280
-# Пример для AWG 3.1 на обеих сторонах; серверная пара — linux-awg.md, «Конфиг awg-quick».
-# Только у клиента (sender-only, на сервер не нужны):
-Jc = 5
-Jmin = 40
-Jmax = 70
-# Shared — 1:1 с сервером:
-S1 = 24
-S2 = 37          # 24+56=80 ≠ 37
-S3 = 18
-S4 = 12
-H1 = 100000000-100100000
-H2 = 200000000-200100000
-H3 = 300000000-300100000
-H4 = 400000000-480000000
-# Только у клиента (sender-only):
-I1 = <r 2><b 0x858000010001000000000669636c6f756403636f6d0000010001c00c000100010000105a00044d583737>
-# AWG 3.0+, shared — тот же ключ на сервере:
-HeaderProtectionKey = <awg genkey>
-# AWG 3.0+, client-side:
-ContentPaddingAddition = 10-100
-# AWG 3.1, shared — включить и на сервере:
-RandomTrailers = on
-# AWG 3.1, локальное поведение (на сервере не обязательно):
-DisableCookies = on
-# Для AWG 2.0: убрать HeaderProtectionKey, ContentPaddingAddition, RandomTrailers, DisableCookies.
-
-[Peer]
-PublicKey = <server-public>
-PresharedKey = <psk>
-Endpoint = vpn.example.com:55424   # = ListenPort сервера
-AllowedIPs = 0.0.0.0/0, ::/0
-PersistentKeepalive = 25
-```
-
-`I1` — дефолт `amnezia-client` (DNS-ответ). Генераторы профилей мимикрии существуют
-(например, architect.vai-rice.space), но их выход проверяй сам: см. ограничения тегов выше.
-
-## Траблшутинг
-
-1. `Invalid argument` при подъёме → ключ новее версии устройства; S1–S4 < 12 при `HeaderProtectionKey`; пересечение H; незнакомый тег I. **[код]**
-2. Интерфейс есть, handshake нет → H1–H4/S1–S4/`HeaderProtectionKey`/`RandomTrailers` на обеих сторонах; затем UDP-порт, firewall, `Endpoint`.
-3. `awg show` на kmod падает с `Message too long` → атрибуты устройства (включая `I1–I5`) уходят в одном netlink-сообщении, при переполнении `netlink.c` возвращает `-EMSGSIZE` **[код]**; точный порог не измерен — сократи цепочку.
-4. Долгий старт → меньше `Jc`/`Jmax`.
-5. Периодические обрывы на 3.x → проверь диапазоны таймеров.
+Шаблоны конфигов и рецепты выбора — `awg-config.md`; разбор ошибок — `troubleshooting.md`.

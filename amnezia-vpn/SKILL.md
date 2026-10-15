@@ -1,53 +1,64 @@
 ---
 name: amnezia-vpn
-description: "Self-hosted VPN on Linux/VPS/Docker (not OpenWrt): AmneziaVPN Docker stack, AmneziaWG 1.0-3.1 (awg, awg-quick, amneziawg-go, kernel module, Jc/Jmin/Jmax, S1-S4, H1-H4, I1-I5, HeaderProtectionKey, RandomTrailers), Xray-core VLESS + REALITY / XHTTP / Vision (config.json, x25519, shortIds, target, vless:// links, FinalMask), vpn:// keys, protocol choice, clients and minimum versions, verification, troubleshooting, FAQ. Triggers: amneziawg, awg-quick, amnezia docker, xray, vless, reality, xhttp, VPS VPN, handshake, obfuscation, DPI, впн, амнезия, свой vpn, обход блокировок, рукопожатие."
+description: "Optimal configuration of AmneziaWG and Xray VPN (not installation or deployment). AmneziaWG 1.0-3.1 parameters and recipes: Jc/Jmin/Jmax, S1-S4, H1-H4, I1-I5 mimicry, HeaderProtectionKey, ContentPaddingAddition, RandomTrailers, DisableCookies, MTU, strong DPI / mobile / router kmod / old clients. Xray-core VLESS server and client config.json: transport choice (RAW, XHTTP modes, Hysteria 2), flow/Vision, REALITY target donor, serverNames, shortIds, fingerprint, FinalMask, VLESS Encryption, sniffing/routing. vpn:// and vless:// key formats, config validation checklist, versions and client compatibility, config troubleshooting, FAQ. Not OpenWrt UCI/LuCI. Triggers: amneziawg config, awg conf, jc jmin jmax, h1 h4, i1 i5, xray config, vless reality, xhttp mode, finalmask, vless encryption, vpn:// key, vless://, параметры обфускации, конфиг впн, оптимальные настройки, амнезия, рукопожатие."
 ---
 
-# Amnezia VPN, AmneziaWG and Xray (Linux / Docker)
+# AmneziaWG and Xray: optimal configuration
 
-One home for self-hosted VPN on a Linux server: the Amnezia app's Docker stack,
-bare AmneziaWG, bare Xray-core, clients and verification.
+Configuration only: choosing parameters, writing and validating server/client configs and keys.
+Installation, Docker, systemd, VPS prep and launch are out of scope.
 
-Not here: OpenWrt AWG (UCI/LuCI/`kmod-amneziawg`) → `amneziawg-openwrt-guide`;
-router-wide sing-box routing → `podkop-openwrt-guide`; Linux policy routing → `linux-routing`.
+Not here: OpenWrt AWG UCI/LuCI → `amneziawg-openwrt-guide`; router-wide sing-box → `podkop-openwrt-guide`;
+Linux policy routing → `linux-routing`.
 
-## Workflow
+## Procedure: choosing the optimal config
 
-1. Pick the protocol and plan → `references/vpn-setup.md`.
-2. Server:
-   - Amnezia app installs Docker containers → `references/docker-stack.md`.
-   - Bare AWG (`awg-quick`, kmod vs `amneziawg-go`) → `references/linux-awg.md`.
-   - Bare Xray-core → `references/xray-server.md`.
-3. Parameters: AWG → `references/awg-protocol.md`; Xray versions → `references/xray-versions.md`.
-4. Clients and minimum versions → `references/vpn-setup.md`.
-5. Verify, then troubleshoot (`vpn-setup.md`, `linux-awg.md`, `xray-troubleshooting.md`).
-6. Never log private keys, PSK, HeaderProtectionKey, UUIDs, `vpn://`/`vless://` links; use placeholders.
+1. **Collect constraints.** Server engine and version (amneziawg-go / kmod / Xray-core); every client app and version;
+   network: is UDP passing, is there DPI or active probing, mobile/CGNAT, CDN needed, IP/ASN blocked.
+   IP/ASN block or allow-lists → config cannot fix it; say so.
+2. **Pick the protocol.**
+   | Situation | Choice |
+   |---|---|
+   | UDP passes, full tunnel, phones/routers | AmneziaWG → `awg-config.md` |
+   | UDP cut, active probing, SNI allow-lists | Xray VLESS + REALITY + Vision (RAW) → `xray-config.md` |
+   | Need CDN / HTTP-shaped traffic | Xray VLESS + XHTTP → `xray-xhttp-finalmask.md` |
+   | Both available | AWG primary + Xray on TCP/443 as fallback |
+3. **Pick the version** = the lowest common version of server and all clients (`awg-protocol.md`, `versions-compat.md`).
+   Never put keys newer than the oldest client.
+4. **AWG:** shared set once per server (S1–S4, H1–H4, HeaderProtectionKey, RandomTrailers);
+   sender set per device (Jc/Jmin/Jmax, I1–I5, ContentPaddingAddition); MTU per network;
+   apply the scenario recipe (strong DPI, mobile, router kmod, old clients) in `awg-config.md`.
+5. **Xray:** transport → flow → REALITY donor → fingerprint → XHTTP mode → FinalMask/VLESS Encryption only if needed
+   → sniffing/routing (`xray-config.md`, `xray-xhttp-finalmask.md`).
+6. **Encode keys** if needed: `vpn://` / `vless://` (`key-formats.md`).
+7. **Validate** with `config-checklist.md` (and `xray run -test -c` for Xray JSON); on errors → `troubleshooting.md`.
+8. Report each choice with its source/version; mark inferences. Placeholders only — never print private keys,
+   PSK, HeaderProtectionKey, UUIDs or real `vpn://`/`vless://` links.
 
 ## Key rules
 
-- AWG: H1–H4, S1–S4, HeaderProtectionKey, RandomTrailers must match; Jc/Jmin/Jmax/I1–I5 are sender-only.
-- AWG: unknown key for the device version → interface does not come up; S1–S4 ≥ 12 with HeaderProtectionKey.
-- Xray: `flow` matches on both sides; Vision only over TLS/REALITY; REALITY only over RAW/XHTTP/gRPC.
-- Xray v26.7.11+: plain VLESS to a public address is rejected; `allowInsecure` removed.
+- AWG: H1–H4, S1–S4, HeaderProtectionKey, RandomTrailers must match; Jc/Jmin/Jmax, I1–I5, ContentPaddingAddition are sender-only.
+- AWG: unknown key for the engine version → interface fails; S1–S4 ≥ 12 with HeaderProtectionKey; H ranges must not overlap.
+- AWG port in examples: 443/udp (Amnezia app default is 55424).
+- Xray: Vision only over RAW + TLS/REALITY; REALITY only over RAW/XHTTP/gRPC; server flow only `""`/`xtls-rprx-vision`.
+- Xray v26.7.11+: plain VLESS to a public address is rejected; `allowInsecure` removed; unknown JSON fields are silently ignored.
 
 ## References
 
-- `references/vpn-setup.md` — protocol choice, VPS prep, clients + minimum versions, verification, troubleshooting by symptom.
-- `references/docker-stack.md` — Amnezia containers, ports, `/opt/amnezia` paths.
-- `references/linux-awg.md` — `awg-quick`, kernel/userspace, NAT, systemd, handshake diagnostics.
-- `references/awg-protocol.md` — AWG 1.0–3.1 parameters, what must match, Amnezia defaults, client versions.
-- `references/xray-server.md` — install, server/client JSON, `vless://`, donor rules.
-- `references/xray-xhttp-finalmask.md` — XHTTP modes, FinalMask, Hysteria 2.
-- `references/xray-versions.md` — Xray features by version.
-- `references/xray-troubleshooting.md` — Xray errors and checks.
-- `references/config-checklist.md` — config validation checklist (AWG `.conf`, `vpn://`, `vless://`, Xray JSON), each rule verified.
-- `references/third-party-tools.md` — Architect generator and awg-containers-and-tools: useful tricks, security review.
-- `references/faq.md` — FAQ (from the architect.vai-rice.space generator), every item verified/corrected/flagged.
+- `references/awg-protocol.md` — AWG 1.0–3.1 parameters, what must match, tags, Amnezia defaults, minimum client versions.
+- `references/awg-config.md` — AWG selection order, value generation, scenario recipes, MTU, I1–I5 mimicry, server/client templates.
+- `references/xray-config.md` — Xray selection order, server/client JSON, donor, fingerprint, VLESS Encryption, sniffing/routing.
+- `references/xray-xhttp-finalmask.md` — XHTTP modes and options, FinalMask, Hysteria 2.
+- `references/key-formats.md` — `vpn://` structure and editing, `vless://` parameters.
+- `references/versions-compat.md` — Xray features by version, client compatibility.
+- `references/config-checklist.md` — validation checklist (AWG `.conf`, `vpn://`, `vless://`, Xray JSON).
+- `references/troubleshooting.md` — config errors for AWG and Xray.
+- `references/faq.md` — configuration FAQ, each item verified/corrected/flagged.
 
 Sources verified 2026-10-15: amneziawg-go v3.1.20260828, kmod v3.1.20260906, amneziawg-tools v3.1.20260812, amnezia-client 5.0.3.0, Xray-core v26.10.10.
 
 <!-- A-EVOLVE-ROUTING-SIGNALS:START -->
-## Routing signals: amnezia amneziavpn amneziawg awg-quick awg0 opt/amnezia docker vpn jc jmin jmax handshake amneziawg-go vps xray vless reality xhttp vision x25519 shortids vpn-key obfuscation dpi
+## Routing signals: amnezia amneziavpn amneziawg awg jc jmin jmax h1 s1 i1 headerprotectionkey randomtrailers mtu xray vless reality xhttp vision finalmask vlessenc x25519 shortids fingerprint vpn-key obfuscation dpi config
 <!-- A-EVOLVE-ROUTING-SIGNALS:END -->
 
 Russian version: [`references/README.ru.md`](references/README.ru.md).

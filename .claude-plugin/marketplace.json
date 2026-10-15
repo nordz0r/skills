@@ -315,8 +315,8 @@
     },
     {
       "name": "amnezia-vpn",
-      "displayName": "AmneziaVPN, AWG & Xray self-hosted VPN",
-      "description": "Self-hosted VPN on Linux/Docker: AmneziaWG 1.0–3.1, Xray VLESS+REALITY/XHTTP, Amnezia Docker stack, clients, verification (not OpenWrt UCI)",
+      "displayName": "AmneziaWG & Xray optimal config",
+      "description": "Optimal AmneziaWG 1.0–3.1 and Xray VLESS (REALITY/XHTTP/FinalMask/VLESS Encryption) configuration: parameter recipes, vpn:// and vless:// keys, validation, compatibility (not install, not OpenWrt UCI)",
       "source": "./amnezia-vpn",
       "strict": false,
       "category": "infrastructure",

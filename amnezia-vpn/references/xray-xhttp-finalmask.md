@@ -30,9 +30,20 @@
 
 Vision (`flow`) с XHTTP не задаётся: XTLS требует TLS/REALITY «directly» (`proxy/vless/*`: «XTLS only supports TLS and REALITY directly for now»).
 
+### Выбор режима [рекомендация на основе `dialer.go`]
+
+| Сценарий | mode |
+|---|---|
+| XHTTP + REALITY напрямую | `auto` (→ `stream-one`) |
+| через CDN / обратный прокси, буферизующий запросы | `packet-up` (самый совместимый) |
+| CDN держит долгие запросы (H2) | `stream-up` — быстрее uplink |
+| uplink и downlink разными путями (CDN вверх, REALITY вниз) | `downloadSettings` + `stream-up`/`packet-up` |
+
+Паддинг оставляй дефолтным, пока нет признаков детекта; любые placement/key-поля меняй синхронно.
+
 ## FinalMask (`streamSettings.finalmask`)
 
-Обфускация под транспортом (аналог junk-пакетов AWG). Типы в v26.10.10:
+Обфускация под транспортом (аналог junk-пакетов AWG). Применяй, только когда базовый конфиг блокируется: маска не заменяет REALITY/TLS и добавляет требования к клиенту (v26.3.27+ для большинства TCP-масок). Типы в v26.10.10:
 TCP — `header-custom`, `fragment`, `sudoku`; UDP — `xmc`, `header-custom`, `mkcp-legacy`,
 `noise`, `salamander`, `sudoku`, `xdns`, `xicmp`, `realm`, `udphop`; плюс `header-*`
 (`dns`, `dtls`, `srtp`, `utp`, `wechat`, `wireguard`). Маска должна совпадать на обеих сторонах;

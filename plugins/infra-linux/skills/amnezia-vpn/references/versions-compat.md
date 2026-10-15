@@ -1,4 +1,4 @@
-# Xray-core: фичи по версиям
+# Версии и совместимость
 
 Сверено 2026-10-15: релизы `XTLS/Xray-core` (последний **v26.10.10**, 2026-10-10),
 `git log` ветки `main` (HEAD 0888beb, 2026-10-14), `core/core.go` = 26.10.10.
@@ -28,3 +28,24 @@
 - deprecated (работают с предупреждением): gRPC → XHTTP stream-up H2; WebSocket/HTTPUpgrade → XHTTP.
 
 Правило: сервер не старше клиента; перед апгрейдом читай release notes.
+
+## Протокол AWG ↔ клиенты
+
+Минимальные версии по версии протокола AWG и смысл версий — `awg-protocol.md` (единственный дом этой таблицы).
+
+| Клиент | Протокол | Минимум / актуальная |
+|---|---|---|
+| Amnezia VPN (все ОС) | AWG 1.5 / 2.0 / 3.0 / 3.1, Xray | 4.8.8.3 / 4.8.12.7 / 5.0.0.2 / 5.0.1.5; актуальная 5.0.3.0 |
+| AmneziaWG Android | AWG 2.0 / 3.1 | 2.0.0 / v3.1.20260814 |
+| AmneziaWG Windows | AWG 1.5–2.0 / 3.1 | 2.0.0 (H > 2³¹−1 — с 2.0.2) / 3.1.0 |
+| AmneziaWG iOS/macOS | AWG | релизов на GitHub нет — App Store |
+| Linux `awg-quick` | AWG 3.1 | amneziawg-tools v3.1.20260812 + kmod v3.1.20260906 или amneziawg-go v3.1.20260828 |
+| OpenWrt | AWG | пакет kmod-amneziawg той же версии, что tools |
+| v2rayN (Win/Linux/macOS) | Xray | 7.25.6 (2026-10-11) |
+| v2rayNG (Android) | Xray | 2.2.6 (2026-07-05) — проверь версию встроенного ядра |
+| sing-box / mihomo / Hiddify | VLESS+REALITY (XHTTP/FinalMask — смотри поддержку в их docs) | mihomo v1.19.32; Hiddify v4.1.1 (2026-03) |
+
+Сторонние клиенты (WireSock, wg-easy, Keenetic и т.п.) не сверялись — проверяй поддержку I1–I5/AWG 2.0+ по их документации.
+
+Amnezia VPN 5.0.3.0 при настройке Xray ожидает на сервере Xray v26.7.28 (`protocolConstants.h`) ✅.
+Конфиг собирай под минимальную версию ядра среди клиентов (незнакомые поля молча игнорируются).

@@ -3,7 +3,7 @@
 Основа — правила валидатора генератора Architect (`Vadim-Khristenko/Any-Tech-ARCHITECT`
 @ 0b9d3b7, 2026-10-08: `src/engines/awg/rules.ts`, `src/engines/keys/validate.ts`,
 `src/engines/xray/validate.ts`, `src/engines/xray/parse.ts`), каждое правило сверено
-с первоисточниками (версии — `awg-protocol.md`, `xray-versions.md`).
+с первоисточниками (версии — `awg-protocol.md`, `versions-compat.md`).
 Статусы: **E** — устройство/ядро отвергнет (ошибка), **W** — работает, но плохо/заметно,
 ✅ подтверждено кодом upstream, ✏️ исправлено относительно Architect, ❔ правило Architect без подтверждения.
 
@@ -64,7 +64,7 @@ AWG 3.x:
 
 ## Xray `config.json`
 
-Ошибки ядра и их причины — `xray-troubleshooting.md` (тексты из кода v26.10.10).
+Ошибки ядра и их причины — `troubleshooting.md` (тексты из кода v26.10.10).
 Дополнительно из Architect, сверено: `xver` ∈ 0/1/2 ✅; `shortIds` hex чётной длины ≤ 16 ✅;
 `spiderX` начинается с `/` ✅; `mldsa65Seed` 32 байта и ≠ `privateKey` ✅; `mldsa65Verify` из `xray mldsa65`;
 путь XHTTP начинается с `/` (❔ проверка Architect).

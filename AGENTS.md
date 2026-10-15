@@ -41,7 +41,7 @@ skills/
 ├── docker-ops/                       # Dockerfile + Compose v2
 ├── gitlab-ci/                        # GitLab CI/CD + runners
 ├── ansible-playbook/                 # Ansible playbooks / vault / lint
-├── amnezia-vpn/                      # Self-hosted VPN: AmneziaVPN/AWG + Xray on Linux/Docker
+├── amnezia-vpn/                      # Optimal AmneziaWG + Xray configuration (no install)
 ├── linux-routing/                    # iproute2 PBR + nftables
 ├── amneziawg-openwrt-guide/          # AmneziaWG on OpenWrt
 ├── podkop-openwrt-guide/             # Podkop / sing-box on OpenWrt

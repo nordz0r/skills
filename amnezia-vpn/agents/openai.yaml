@@ -1,4 +1,4 @@
 interface:
   display_name: "Amnezia VPN, AWG & Xray"
-  short_description: "- Свой VPN на Linux/Docker: AmneziaWG 1.0–3.1, Xray VLESS+REALITY/XHTTP, клиенты, проверка, FAQ"
-  default_prompt: "Use $amnezia-vpn to assist with self-hosted AmneziaWG / Xray VPN tasks."
+  short_description: "- Оптимальная конфигурация AmneziaWG 1.0–3.1 и Xray (REALITY/XHTTP/FinalMask): параметры, рецепты, ключи, проверка, FAQ"
+  default_prompt: "Use $amnezia-vpn to choose and validate an optimal AmneziaWG / Xray configuration."

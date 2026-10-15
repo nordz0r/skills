@@ -3,38 +3,50 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "На Ubuntu VPS нет handshake AmneziaWG: awg show пустой, UDP 443. Нужно отличить kernel module от amneziawg-go и проверить Jc/H1 params без OpenWrt.",
-      "expected_output": "Ответ должен выбрать amnezia-vpn, не amneziawg-openwrt-guide.",
+      "prompt": "AmneziaWG 3.1 на сервере, клиенты — Amnezia VPN 5.0.3 и старый AmneziaWG Windows 2.0.0. Какие параметры выбрать, чтобы работали все?",
+      "expected_output": "Выбирает amnezia-vpn: версия по минимальному клиенту (2.0), без HeaderProtectionKey/RandomTrailers, H ≤ 2147483647, ссылки на awg-config.md и awg-protocol.md.",
       "split": "train"
     },
     {
       "id": 2,
-      "prompt": "AmneziaVPN Docker стек в /opt/amnezia, контейнер amnezia-awg Restarting. Сними docker ps/logs и TUN/NET_ADMIN.",
-      "expected_output": "Ответ должен выбрать amnezia-vpn для Docker-стека Amnezia, не общий docker-ops как единственный skill.",
-      "split": "holdout"
+      "prompt": "Подбери оптимальные Jc/Jmin/Jmax, S1–S4, H1–H4 и I1 для AWG на мобильном интернете с сильным DPI, порт 443.",
+      "expected_output": "Рецепты из awg-config.md: MTU 1280, Jc 4–12, S ≥ 12 при HPK и без коллизий длин, непересекающиеся H, I1-мимикрия; плейсхолдеры вместо ключей.",
+      "split": "train"
     },
     {
       "id": 3,
-      "prompt": "Подними на Ubuntu VPS Xray VLESS Reality с xtls-rprx-vision на 443: config.json сервера и vless:// для клиента.",
-      "expected_output": "Ответ должен выбрать amnezia-vpn.",
+      "prompt": "Напиши config.json сервера Xray VLESS Reality с xtls-rprx-vision на 443 и vless:// для клиента. Как выбрать донора?",
+      "expected_output": "Шаблоны xray-config.md и key-formats.md, требования к донору (TLS1.3+H2, без редиректа), fingerprint chrome, плейсхолдеры ключей.",
       "split": "train"
     },
     {
       "id": 4,
       "prompt": "XHTTP через Reality отдаёт 404 — что сверить между клиентом и сервером?",
-      "expected_output": "Ответ должен выбрать amnezia-vpn.",
-      "split": "train"
+      "expected_output": "path/host, mode, placement/key-поля паддинга; без flow; troubleshooting.md.",
+      "split": "test"
     },
     {
       "id": 5,
-      "prompt": "Хочу свой VPN на VPS для обхода блокировок: AmneziaWG или Xray Reality, в каком порядке настроить и проверить?",
-      "expected_output": "Ответ должен выбрать amnezia-vpn.",
-      "split": "test"
+      "prompt": "Что выбрать для обхода блокировок: AmneziaWG или Xray Reality, и как оптимально настроить конфиг?",
+      "expected_output": "Следует процедуре SKILL.md: ограничения → протокол по таблице → версия → параметры → проверка по config-checklist.md; не уходит в установку.",
+      "split": "train"
     },
     {
       "id": 6,
       "prompt": "AWG 3.1: awg setconf отвечает Invalid argument после включения HeaderProtectionKey — что проверить?",
-      "expected_output": "Ответ должен выбрать amnezia-vpn.",
+      "expected_output": "S1–S4 ≥ 12, пересечение H, ключи новее движка, теги I; troubleshooting.md.",
+      "split": "test"
+    },
+    {
+      "id": 7,
+      "prompt": "Расшифруй мой vpn:// ключ Amnezia и поменяй в нём Jc и I1 без доступа к серверу.",
+      "expected_output": "key-formats.md: base64url+qCompress JSON; менять можно только sender-параметры, и в контейнере, и в last_config; ключи не печатать.",
+      "split": "train"
+    },
+    {
+      "id": 8,
+      "prompt": "Нужна ли VLESS Encryption поверх XHTTP через CDN и как задать decryption/encryption?",
+      "expected_output": "xray-config.md: xray vlessenc, mlkem768x25519plus.native.600s / 0rtt, не смешивать X25519 и ML-KEM пары.",
       "split": "test"
     }
   ]

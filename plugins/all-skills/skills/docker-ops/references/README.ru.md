@@ -42,7 +42,7 @@ GitLab `docker:dind` разбирай вместе с `gitlab-ci`.
 - Хост systemd/journald/диск → `administering-linux`.
 - Сборка в GitLab CI / dind / registry → `gitlab-ci`.
 - Раскатка compose через Ansible → `ansible-playbook`.
-- Amnezia-контейнеры `/opt/amnezia` → `amnezia-vpn`.
+- Amnezia-контейнеры `/opt/amnezia`: операции с контейнерами — здесь; параметры AWG/Xray → `amnezia-vpn`.
 
 ## References
 
