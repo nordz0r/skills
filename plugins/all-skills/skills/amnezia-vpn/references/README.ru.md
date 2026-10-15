@@ -15,6 +15,6 @@
 8. Ключи, PSK, HeaderProtectionKey, UUID, ссылки — только плейсхолдеры.
 
 Порт AWG в примерах — 443/udp (дефолт приложения Amnezia — 55424).
-Источники сверены 2026-10-15: amneziawg-go v3.1.20260828, kmod v3.1.20260906, amneziawg-tools v3.1.20260812, amnezia-client 5.0.3.0, Xray-core v26.10.10.
+Источники сверены 2026-10-15: amneziawg-go v3.1.20260828, kmod v3.1.20260906, amneziawg-tools v3.1.20260812, amnezia-client 5.0.3.0, Xray-core v26.10.10 (prerelease; стабильный v26.3.27, установка: `--version <tag>` / `--beta` в `XTLS/Xray-install`).
 
 ## Routing signals: amnezia amneziavpn amneziawg awg jc jmin jmax h1 s1 i1 headerprotectionkey randomtrailers mtu xray vless reality xhttp vision finalmask vlessenc x25519 shortids fingerprint vpn-key obfuscation dpi config

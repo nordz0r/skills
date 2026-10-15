@@ -55,7 +55,7 @@ Linux policy routing → `linux-routing`.
 - `references/troubleshooting.md` — config errors for AWG and Xray.
 - `references/faq.md` — configuration FAQ, each item verified/corrected/flagged.
 
-Sources verified 2026-10-15: amneziawg-go v3.1.20260828, kmod v3.1.20260906, amneziawg-tools v3.1.20260812, amnezia-client 5.0.3.0, Xray-core v26.10.10.
+Sources verified 2026-10-15: amneziawg-go v3.1.20260828, kmod v3.1.20260906, amneziawg-tools v3.1.20260812, amnezia-client 5.0.3.0, Xray-core v26.10.10 (prerelease; latest stable v26.3.27, install via `XTLS/Xray-install` with `--version <tag>` / `--beta`).
 
 <!-- A-EVOLVE-ROUTING-SIGNALS:START -->
 ## Routing signals: amnezia amneziavpn amneziawg awg jc jmin jmax h1 s1 i1 headerprotectionkey randomtrailers mtu xray vless reality xhttp vision finalmask vlessenc x25519 shortids fingerprint vpn-key obfuscation dpi config

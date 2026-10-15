@@ -53,7 +53,7 @@
     {
       "name": "infra-linux",
       "displayName": "Linux, Containers & CI/CD Bundle",
-      "description": "8 host administration, containerization, CI/CD, Ansible, Amnezia VPN, Xray Reality, VPN setup, and policy routing skills",
+      "description": "6 host administration, containerization, CI/CD, Ansible, Amnezia VPN, and policy routing skills",
       "version": "1.0.0",
       "source": "./",
       "strict": true,
