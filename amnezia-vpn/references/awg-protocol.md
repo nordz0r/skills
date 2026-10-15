@@ -75,7 +75,7 @@ I1 = <b 0xc0000000010800><r 64><t>
 [Peer]
 PublicKey = <server-public>
 PresharedKey = <psk>
-Endpoint = vpn.example.com:51820
+Endpoint = vpn.example.com:443
 AllowedIPs = 0.0.0.0/0, ::/0
 PersistentKeepalive = 25
 ```

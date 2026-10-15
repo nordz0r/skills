@@ -49,6 +49,8 @@ Policy routing на Linux-хосте — `linux-routing`.
 - Docker engine/compose синтаксис → `docker-ops`.
 - `ip rule`/nft для split-tunnel на Linux → `linux-routing`.
 - Host systemd/disk/ssh → `administering-linux`.
+- Xray VLESS+Reality (XHTTP, finalmask) → `xray-reality`.
+- Выбор протокола и чеклист подъёма VPN → `vpn-setup`.
 
 ## References
 
