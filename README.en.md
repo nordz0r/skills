@@ -184,7 +184,7 @@ The skill folders and `.claude-plugin/marketplace.json` are the source of truth.
 | 📜 | [`ansible-playbook`](ansible-playbook/) | Playbooks, roles, inventory, vault, `--check --diff` |
 | 🛡️ | [`amnezia-vpn`](amnezia-vpn/) | AmneziaVPN/AWG on Linux and Docker |
 | 🛰️ | [`xray-reality`](xray-reality/) | Xray VLESS + REALITY/XHTTP: server, clients, versions |
-| 🧭 | [`vpn-setup`](vpn-setup/) | Self-hosted VPN playbook: AWG vs Xray, verify, troubleshoot |
+| 🔐 | [`vpn-setup`](vpn-setup/) | Self-hosted VPN playbook: AWG vs Xray, verify, troubleshoot |
 | 🧭 | [`linux-routing`](linux-routing/) | Policy routing, fwmark, nftables NAT, split tunnel |
 
 ### 🤖 AI tooling & integrations
@@ -275,7 +275,7 @@ python3 -m tools.a_evolve_router.evaluate_baseline --split all
 
 The full local `a-evolve` workflow is documented in [`tools/a_evolve_router/README.md`](tools/a_evolve_router/README.md). Use `--reset-workspace` for clean reruns from the current skill catalog.
 
-**Current metrics** (2026-09-20, 26 skills / 48 cases):
+**Metrics — historical snapshot as of 2026-09-20** (26 skills / 48 cases; as of 2026-10-15 the catalog has 28 skills, not re-run yet):
 
 | State | top1 acc | avg_score |
 |-------|----------|-----------|

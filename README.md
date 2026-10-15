@@ -184,7 +184,7 @@ hermes skills update open-webui-guide --force
 | 📜 | [`ansible-playbook`](ansible-playbook/) | Playbooks, roles, inventory, vault, `--check --diff` |
 | 🛡️ | [`amnezia-vpn`](amnezia-vpn/) | AmneziaVPN/AWG на Linux и в Docker |
 | 🛰️ | [`xray-reality`](xray-reality/) | Xray VLESS + REALITY/XHTTP: сервер, клиенты, версии |
-| 🧭 | [`vpn-setup`](vpn-setup/) | Плейбук своего VPN: выбор AWG/Xray, проверка, траблшутинг |
+| 🔐 | [`vpn-setup`](vpn-setup/) | Плейбук своего VPN: выбор AWG/Xray, проверка, траблшутинг |
 | 🧭 | [`linux-routing`](linux-routing/) | Policy routing, fwmark, nftables NAT, split-tunnel |
 
 ### 🤖 AI-инструменты и интеграции
@@ -275,7 +275,7 @@ python3 -m tools.a_evolve_router.evaluate_baseline --split all
 
 Полный локальный прогон через `a-evolve` описан в [`tools/a_evolve_router/README.md`](tools/a_evolve_router/README.md). Обычно используют `--reset-workspace`, чтобы каждый запуск начинался с чистой копии текущих skills.
 
-**Текущие метрики** (2026-09-20, 26 skill / 48 кейсов):
+**Метрики — исторический снимок на 2026-09-20** (26 skill / 48 кейсов; на 2026-10-15 в каталоге 28 skill, прогон не обновлялся):
 
 | Состояние | top1 acc | avg_score |
 |-----------|----------|-----------|
