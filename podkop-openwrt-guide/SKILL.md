@@ -55,7 +55,7 @@ Open only the reference you need; do not load all files at once.
 
 1. Record the OpenWrt version and free flash space.
 2. Back up `/etc/config/podkop`, the `sing-box` config and, if risky, `dnsmasq`.
-3. Check constraints: OpenWrt `24.10+`, `sing-box` ≥ 1.12.0, HTTP-only dashboard, no IPv6, conflicting packages.
+3. Check constraints: OpenWrt `24.10+`, `sing-box` ≥ 1.12.0 (diagnostics want ≥ 1.12.4; xhttp links, urltest fallbacks and uTLS fallback need podkop-engine r11+), HTTP-only dashboard, no IPv6, conflicting packages.
 4. Install/update with the upstream script; for migration see the section in `operations.md`.
 5. Diagnose with the Podkop CLI (`global_check`, `check_proxy`), then `nft`, `dnsmasq`, `sing-box` logs.
 
@@ -73,7 +73,7 @@ Open only the reference you need; do not load all files at once.
 - After updates clear the LuCI cache and check the config.
 - The dashboard (YACD) only works over HTTP, not HTTPS or a domain name.
 - Config `0.7.0+` is incompatible with older schemas — a migration is required.
-- `sing-box` ≥ 1.12.0, `jq` ≥ 1.7.1, `coreutils-base64` ≥ 9.7.
+- `sing-box` ≥ 1.12.0, `jq` ≥ 1.7.1, `coreutils-base64` ≥ 9.7. Verified against podkop 0.7.24 (2026-10-11) on 2026-10-15.
 
 ## References
 

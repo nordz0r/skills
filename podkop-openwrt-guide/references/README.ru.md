@@ -52,7 +52,7 @@ rulesets           config_*   redirect  rt table
 
 1. Зафиксируй версию OpenWrt и свободное место во flash.
 2. Забэкапь `/etc/config/podkop`, конфиг `sing-box` и, если рискованно, `dnsmasq`.
-3. Проверь ограничения: OpenWrt `24.10+`, `sing-box` ≥ 1.12.0, HTTP-only dashboard, нет IPv6, конфликтующие пакеты.
+3. Проверь ограничения: OpenWrt `24.10+`, `sing-box` ≥ 1.12.0 (диагностика хочет ≥ 1.12.4; xhttp-ссылки, urltest fallback и uTLS fallback — только podkop-engine r11+), HTTP-only dashboard, нет IPv6, конфликтующие пакеты.
 4. Для установки/обновления — upstream-скрипт, для миграции — раздел в `operations.md`.
 5. Для диагностики — CLI Podkop (`global_check`, `check_proxy`), потом `nft`, `dnsmasq`, логи `sing-box`.
 
@@ -70,7 +70,7 @@ rulesets           config_*   redirect  rt table
 - После обновлений чисти LuCI cache и проверяй конфиг.
 - Dashboard (YACD) работает только по HTTP, не через HTTPS или доменное имя.
 - Конфиг `0.7.0+` несовместим со старыми схемами — нужна миграция.
-- `sing-box` ≥ 1.12.0, `jq` ≥ 1.7.1, `coreutils-base64` ≥ 9.7.
+- `sing-box` ≥ 1.12.0, `jq` ≥ 1.7.1, `coreutils-base64` ≥ 9.7. Сверено с podkop 0.7.24 (2026-10-11) 2026-10-15.
 
 ## References
 

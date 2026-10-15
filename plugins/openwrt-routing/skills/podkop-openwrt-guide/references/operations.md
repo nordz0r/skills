@@ -2,9 +2,13 @@
 
 ## Совместимость и ограничения
 
+Сверено 2026-10-15 с `itdoginfo/podkop` **0.7.24** (2026-10-11, HEAD da8bd40). Прошлая сверка скилла — ~0.7.14 (2026-03).
+
 - OpenWrt `24.10+`.
 - Минимум `25 MB` свободного flash; install script отдельно проверяет overlay.
-- `sing-box` ≥ 1.12.0, `jq` ≥ 1.7.1, `coreutils-base64` ≥ 9.7.
+- `sing-box` ≥ 1.12.0 (проверка при старте), `global_check` требует ≥ 1.12.4 (с 0.7.22); `jq` ≥ 1.7.1, `coreutils-base64` ≥ 9.7.
+- Поддерживается sing-box 1.14 (0.7.24: исправлен FakeIP для списков из нескольких правил).
+- **podkop-engine** (`FiyeroT/podkop-engine`, неофициальная сборка sing-box 1.13.x/1.14.x, ревизия r11+; последняя v1.14.2-r14, 2026-10-10) нужна для: ссылок с транспортом `xhttp`, `urltest_fallback_links`, `urltest_download_check`, `enable_utls_fallback`. Podkop определяет возможности ядра (`sing_box_has_feature`) и со стоковым sing-box эти опции игнорирует/скрывает, а xhttp-ссылку отвергает (fatal).
 - Проект в активной разработке, формат конфига может меняться между релизами.
 - Dashboard (YACD) работает только по HTTP. Не через HTTPS и не через доменное имя.
 - IPv6 пока не реализован.
@@ -58,6 +62,20 @@ sha256sum podkop-install.sh   # сравни с опубликованным has
 - определяет старый конфиг (v0.7.0) и предлагает бэкап/сброс;
 - устанавливает `podkop` и `luci-app-podkop`;
 - включает сервис Podkop.
+
+## Изменения 0.7.15 → 0.7.24 (важное для эксплуатации)
+
+- 0.7.15/16: действие `resolve` (`resolve_real_ip_for_routing`); SDK обновлён (сборки ipk 24.10 и apk 25.12).
+- 0.7.17: Discord — добавлен UDP 19000–20000 в nft-правило.
+- 0.7.18: hysteria2 — несколько портов и диапазоны портов в ссылке; для hy2 не ставится fingerprint.
+- 0.7.19: соединения с DNAT пропускаются в mangle-цепочке (проброс портов не ломается).
+- 0.7.20: проверка GitHub через `service_proxy_address` при загрузке списков через proxy.
+- 0.7.21: `chunk_size` импорта доменов/подсетей снижен до 1000 (ошибка «argument list too long»).
+- 0.7.22: проверка версии sing-box ≥ 1.12.4 в диагностике.
+- 0.7.23: urltest fallback/download check, uTLS fallback, xhttp-ссылки (всё — только с podkop-engine r11+); установка документирована через podkop.net/docs/install.
+- 0.7.24: FakeIP для списков из нескольких правил на sing-box 1.14.
+
+Свои патчи поверх `/usr/bin/podkop` при каждом обновлении нужно переносить заново (диффом против стокового файла той же версии).
 
 ## Миграция конфига 0.7.0
 
@@ -140,6 +158,7 @@ DNS-поток:
 | `badwan_reload_delay` | int | `2000` | Задержка перезагрузки при смене интерфейса (мс) |
 | `enable_yacd` | bool | `0` | Включить YACD dashboard (Clash API) |
 | `disable_quic` | bool | `0` | Блокировать QUIC-протокол |
+| `enable_utls_fallback` | bool | `0` | 0.7.23+, podkop-engine: если сервер не ответил на ClientHello с uTLS-отпечатком ссылки, пробовать `safari,randomized,edge,firefox,chrome` |
 | `update_interval` | string | `1d` | Интервал обновления списков: `1h`, `3h`, `12h`, `1d`, `3d` |
 | `download_lists_via_proxy` | bool | `0` | Скачивать списки через proxy |
 | `dont_touch_dhcp` | bool | `0` | Не менять конфиг dnsmasq |
@@ -174,6 +193,9 @@ DNS-поток:
 | `urltest_check_interval` | string | `3m` | Интервал health-check: `30s`, `1m`, `3m`, `5m` |
 | `urltest_tolerance` | int | `50` | Допустимая разница latency (мс, 50–1000) |
 | `urltest_testing_url` | string | `https://www.gstatic.com/generate_204` | URL для проверки связности |
+| `urltest_fallback_links` | list | — | 0.7.23+, podkop-engine: резервные ссылки, если все основные недоступны |
+| `urltest_download_check` | string | `default` | 0.7.23+, podkop-engine: `default` / `off` / `custom` — проверка скачиванием |
+| `urltest_download_url` | string | — | URL для `custom` |
 | `outbound_json` | string | — | Raw sing-box outbound JSON для типа `outbound` |
 | `enable_udp_over_tcp` | bool | `0` | UDP-over-TCP для SOCKS/Shadowsocks |
 
@@ -204,6 +226,7 @@ DNS-поток:
 | `fully_routed_ips` | list | Source IP, весь трафик которых идёт через этот outbound |
 | `mixed_proxy_enabled` | bool | Включить mixed inbound (HTTP/SOCKS5) для этой секции |
 | `mixed_proxy_port` | int | Порт mixed inbound (default: 2080) |
+| `resolve_real_ip_for_routing` | bool | 0.7.15+: добавить в route-правило секции действие `resolve` (реальный IP для маршрутизации по подсетям) |
 
 ### Community lists
 

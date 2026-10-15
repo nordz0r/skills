@@ -8,7 +8,9 @@ Zapret — это Anti-DPI (Deep Packet Inspection) утилита для OpenWr
 
 **Репозиторий:** https://github.com/remittor/zapret-openwrt
 **Upstream:** https://github.com/bol-van/zapret
-**Текущая версия:** v72.20260226
+**Текущая версия:** v72.20260307 (2026-03-07; nfqws/tpws — bol-van/zapret коммит ef637c4, между v72.10 и v72.12). Вариант zapret2: `v0.9.20260307` (bol-van/zapret2 d3b3011). Сверено 2026-10-15.
+**Ветки:** `zap1` (по умолчанию) — `zapret` + `luci-app-zapret`; `master` — `zapret2` + `luci-app-zapret2`.
+**После релиза (в remittor не выпущено на 2026-10-15):** апдейтер ставит `apk add --force-non-repository` (2026-04-22), фикс init для Image Builder, обновлён ipset-exclude. В апстриме bol-van v72.12 (фикс падения на armv7), v72.13 (2026-07-21: диапазон портов Discord media в init.d), фикс nfqws для partial root (2026-10-04) — **ещё не упакованы**; bol-van/zapret2 уже v1.0.5.2 (2026-09-15), а remittor поставляет 0.9.20260307.
 
 ## Архитектура проекта
 
@@ -179,7 +181,7 @@ LuCI-интерфейс доступен по пути **Services -> Zapret** и
 Сборка выполняется через GitHub Actions (`.github/workflows/build.yml`):
 - Триггер: push тега `v[0-9]+*` или ручной запуск
 - Матрица: 30+ архитектур (ARM, MIPS, x86_64, RISC-V)
-- Две ветки OpenWrt: IPK (v24.10.x) и APK (v25.12.x)
+- Две ветки OpenWrt: IPK (SDK v24.10.x) и APK (SDK v25.12.0 с v72.20260307)
 - Релизы публикуются на gh-pages как JSON для автообновления
 
 ## Решение проблем
