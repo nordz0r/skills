@@ -1,67 +1,43 @@
 ---
 name: amneziawg-openwrt-guide
-description: "Complete guide to amneziawg-openwrt. Use for any AmneziaWG task on OpenWrt: installing amneziawg-tools, kmod-amneziawg, luci-proto-amneziawg, configuring proto amneziawg, UCI/LuCI interface and peer config, key generation, QR, watchdog, package builds and kernel/userspace fallback debugging. Triggers: amneziawg, amnezia, awg, luci-proto-amneziawg, kmod-amneziawg, amneziawg-tools, amneziawg-go, openwrt awg, роутер, впн на роутере, амнезия, туннель."
+description: "AmneziaWG on OpenWrt routers: packages kmod-amneziawg, amneziawg-tools, luci-proto-amneziawg (Slava-Shchipunov/awg-openwrt builds, AWG 1.0-3.1), opkg .ipk on 23.05/24.10 vs apk feed on 25.12, proto amneziawg UCI options (awg_jc..awg_i5, awg_header_protection_key, awg_random_trailers, awg_disable_cookies, timers), peer sections, LuCI import/QR/status, watchdog, kernel vs userspace, router-side diagnostics. Parameter meaning and optimal values live in amnezia-vpn. Triggers: amneziawg openwrt, luci-proto-amneziawg, kmod-amneziawg, proto amneziawg, uci awg, awg на роутере, амнезия роутер, cudy awg."
 ---
 
-# AmneziaWG OpenWrt Guide
+# AmneziaWG on OpenWrt
 
-This skill covers the integration of the AmneziaWG protocol into OpenWrt, not "the whole Amnezia product". The repository contains a kernel module, userspace tools, a `netifd` helper and a LuCI UI.
+OpenWrt-specific layer only: packages, UCI/LuCI names, router runtime and diagnostics.
+**What each obfuscation parameter means and which values to choose → `amnezia-vpn`** (`awg-protocol.md`, `awg-config.md`). Do not duplicate it here.
 
-Use it to understand how to bring up `proto 'amneziawg'`, how peer sections work, how the userspace fallback works, and where to fix the LuCI/RPC part.
+Upstream: `Slava-Shchipunov/awg-openwrt` @ 03b6226 (2026-09-23, AWG 3.1). `amnezia-vpn/amneziawg-openwrt` is abandoned since 2024-03 (AWG 1.0 only). Verified 2026-10-15.
 
-## When to use
+## Workflow
 
-- Configuring an AmneziaWG interface on OpenWrt.
-- Understanding the UCI schema or LuCI form fields.
-- Debugging handshakes, endpoint resolution, key generation, the status page.
-- Building packages in the OpenWrt SDK/Buildroot.
-- Working with `kmod-amneziawg`, `amneziawg-tools`, `luci-proto-amneziawg`.
-- Finding out why the kernel module did not load and the userspace fallback kicked in.
+1. Read-only first: OpenWrt version (`/etc/openwrt_release`), package manager (apk on 25.x, opkg on ≤24.10), installed `kmod-amneziawg`/`amneziawg-tools`/`luci-proto-amneziawg` versions → `references/build-and-debug.md`.
+2. Protocol version the packages support (3.1 needs builds `v24.10.8` / `v25.12.5`+) must be ≥ the parameters in the config.
+3. Map the server/client config to UCI options → `references/uci-model.md`; choose values with `amnezia-vpn`.
+4. Diagnose: kernel vs userspace, `logread`, `awg show` with keys filtered, handshake → `references/build-and-debug.md`.
+5. Changes to interfaces, peers, keys or packages only with explicit approval; back up `/etc/config/network` first.
 
-## Quick workflow picker
+## Key facts
 
-- Router and UCI/LuCI task: start with `references/uci-model.md`.
-- Repository layout task: open `references/architecture.md`.
-- Build, compatibility or diagnostics task: open `references/build-and-debug.md`.
+- Packages build from official `amnezia-vpn` sources by tag; kmod must match the firmware kernel exactly.
+- UCI: `awg_s3/s4`, `awg_i1..i5` (2.0/1.5+), `awg_header_protection_key`, `awg_content_padding_addition`, `awg_rekey_after_time`, `awg_rekey_timeout`, `awg_reject_after_time`, `awg_keepalive_timeout`, `awg_max_handshake_attempts` (3.0+), `awg_random_trailers`, `awg_disable_cookies` (3.1, boolean).
+- Runtime config `/tmp/amneziawg/<iface>.conf`; QR via `luci-lib-uqr` (no `qrencode`).
+- `amneziawg-install.sh` can reroute all traffic into the tunnel — never run it unattended on a live router.
 
-Open only the reference you need: upstream barely explains the workflow in prose and the important details are hidden in the code.
+## Safety
 
-## Router Workflow
-
-1. Clarify whether kernel mode is required or the userspace fallback is acceptable.
-2. Check which packages are actually installed on the router: `amneziawg-tools`, `luci-proto-amneziawg`, `kmod-amneziawg`.
-3. Check the interface UCI model and peer sections.
-4. If the problem is the endpoint/dynamic DNS, check `persistent_keepalive` and the watchdog workflow.
-5. For LuCI tasks, check the JS form, the RPC ucode and the status page together.
-
-## Development Workflow
-
-- `amneziawg-tools/` provides the `awg` binary, the `netifd` helper and the watchdog.
-- `kmod-amneziawg/` patches OpenWrt's in-tree WireGuard sources and is therefore very sensitive to kernel layout changes.
-- `luci-proto-amneziawg/` contains the protocol form, RPC methods, ACL and the status page.
-- Any change must account for both the runtime on the router and the packaging in Buildroot.
-
-## Things to watch
-
-- The repository does not ship a "full Amnezia client", only the OpenWrt integration layer.
-- The userspace fallback needs `amneziawg-go`, but the upstream repository does not ship that binary.
-- QR generation needs `qrencode` installed.
-- Kernel patch changes break easily on new OpenWrt/kernel trees.
-
-## Security Notes
-
-- Install packages and binaries only from a verified feed, a release artifact or a pinned commit/tag, not from an unverified mirror.
-- For `amneziawg-go`, kernel patches and LuCI components, pin the version and check the source before updating.
-- Do not feed values from an untrusted external source into UCI/LuCI without manual review.
+- Never print `private_key`, `preshared_key`, `awg_header_protection_key`; filter `uci show`/`awg show`.
+- Install only from the upstream Releases/feed with its signing key, pinned by version.
 
 ## References
 
-- `references/architecture.md`: package roles and a map of key files.
-- `references/uci-model.md`: the `proto amneziawg` interface, peer sections, options and their meaning.
-- `references/build-and-debug.md`: builds, kernel/userspace fallback, watchdog and runtime diagnostics.
+- `references/architecture.md` — which upstream is current, packages and versions, runtime.
+- `references/uci-model.md` — UCI option ↔ `.conf` key ↔ AWG version, peer sections, template.
+- `references/build-and-debug.md` — opkg vs apk, update rules, read-only diagnostics, build.
 
 <!-- A-EVOLVE-ROUTING-SIGNALS:START -->
-## Routing signals: amneziawg awg openwrt luci uci peer interface handshake endpoint keys qr watchdog kernel userspace vpn router
+## Routing signals: amneziawg awg openwrt luci uci proto peer interface handshake endpoint kmod apk opkg feed qr watchdog kernel userspace router cudy
 <!-- A-EVOLVE-ROUTING-SIGNALS:END -->
 
 Russian version: [`references/README.ru.md`](references/README.ru.md).
