@@ -1,0 +1,4 @@
+interface:
+  display_name: "VPN Setup"
+  short_description: "- Плейбук своего VPN: выбор AWG или Xray, VPS, клиенты, роутинг, проверка, траблшутинг"
+  default_prompt: "Use $vpn-setup to plan and verify a self-hosted VPN rollout."

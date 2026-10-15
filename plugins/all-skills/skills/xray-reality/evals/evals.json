@@ -1,0 +1,8 @@
+{
+  "skill_name": "xray-reality",
+  "evals": [
+    {"id": 1, "prompt": "Подними на Ubuntu VPS Xray VLESS Reality с xtls-rprx-vision на 443, нужен config.json сервера и vless:// ссылка для клиента.", "expected_output": "Ответ должен выбрать xray-reality, не amnezia-vpn.", "split": "train"},
+    {"id": 2, "prompt": "XHTTP через Reality отдаёт 404 и в логе processed invalid connection — что сверить между клиентом и сервером?", "expected_output": "Ответ должен выбрать xray-reality.", "split": "train"},
+    {"id": 3, "prompt": "Какой донор выбрать для REALITY target/serverNames и как проверить TLS 1.3 и HTTP/2 с VPS?", "expected_output": "Ответ должен выбрать xray-reality.", "split": "test"}
+  ]
+}

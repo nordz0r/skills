@@ -19,6 +19,8 @@
     "./gitlab-ci",
     "./ansible-playbook",
     "./amnezia-vpn",
+    "./xray-reality",
+    "./vpn-setup",
     "./linux-routing",
     "./litellm-guide",
     "./open-webui-guide",

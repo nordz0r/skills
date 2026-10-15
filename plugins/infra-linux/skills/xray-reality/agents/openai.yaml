@@ -1,0 +1,4 @@
+interface:
+  display_name: "Xray Reality"
+  short_description: "- Xray-core VLESS + REALITY / XHTTP: сервер, клиенты, ссылки vless://, версии, траблшутинг"
+  default_prompt: "Use $xray-reality to assist with xray vless reality tasks."

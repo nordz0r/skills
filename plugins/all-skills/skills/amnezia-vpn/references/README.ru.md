@@ -54,6 +54,8 @@ Policy routing на Linux-хосте — `linux-routing`.
 
 - `references/linux-awg.md` — awg-quick, kernel/userspace, диагностика.
 - `references/docker-stack.md` — контейнеры AmneziaVPN на VPS.
+- `references/awg-protocol.md` — параметры AWG 1.0–3.1, что должно совпадать, ограничения клиентов.
+- `references/architect-audit.md` — аудит генератора architect.vai-rice.space.
 
 <!-- A-EVOLVE-ROUTING-SIGNALS:START -->
 ## Routing signals: amnezia amneziavpn amneziawg awg-quick awg0 opt/amnezia docker vpn jc jmin jmax handshake amneziawg-go vps

@@ -52,11 +52,14 @@ pass if the junk/header params differ between the two sides.
 - Docker engine/compose syntax → `docker-ops`.
 - `ip rule`/nft for split-tunnel on Linux → `linux-routing`.
 - Host systemd/disk/ssh → `administering-linux`.
+- Xray VLESS/REALITY/XHTTP → `xray-reality`; end-to-end VPN rollout → `vpn-setup`.
 
 ## References
 
 - `references/linux-awg.md` — awg-quick, kernel/userspace, diagnostics.
 - `references/docker-stack.md` — AmneziaVPN containers on a VPS.
+- `references/awg-protocol.md` — AWG 1.0–3.1 parameters (Jc/Jmin/Jmax, S1–S4, H1–H4, I1–I5, HeaderProtectionKey, 3.1 flags), what must match, client limits.
+- `references/architect-audit.md` — audit of the architect.vai-rice.space generator: what is useful, what is wrong/outdated.
 
 <!-- A-EVOLVE-ROUTING-SIGNALS:START -->
 ## Routing signals: amnezia amneziavpn amneziawg awg-quick awg0 opt/amnezia docker vpn jc jmin jmax handshake amneziawg-go vps

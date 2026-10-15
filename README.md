@@ -18,7 +18,7 @@
   <a href="https://github.com/nordz0r/skills/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/nordz0r/skills?style=flat-square&logo=github"></a>
 </p>
 
-26 skills для `Claude Code`, `Codex`, `Hermes` и других агентов, которые читают `SKILL.md`. Внутри DevOps и SRE, Linux и Docker, LiteLLM и Open WebUI, Nextcloud и Atlassian, OpenWrt, Telegram и анимированные диаграммы. Каждый skill — папка с `SKILL.md` и, при необходимости, `references/`, `scripts/` и `evals/`.
+28 skills для `Claude Code`, `Codex`, `Hermes` и других агентов, которые читают `SKILL.md`. Внутри DevOps и SRE, Linux и Docker, LiteLLM и Open WebUI, Nextcloud и Atlassian, OpenWrt, Telegram и анимированные диаграммы. Каждый skill — папка с `SKILL.md` и, при необходимости, `references/`, `scripts/` и `evals/`.
 
 ## ⚡ Быстрый старт
 
@@ -47,7 +47,7 @@ npx skills add nordz0r/skills
 claude plugin marketplace add nordz0r/skills
 
 # 2. Установить бандл или отдельные плагины:
-claude plugin install all-skills@nord-skills       # Все 26 скиллов
+claude plugin install all-skills@nord-skills       # Все 28 скиллов
 claude plugin install agency-skills@nord-skills    # Agency engineering (6 скиллов)
 claude plugin install infra-linux@nord-skills      # Linux, Docker, CI/CD, Ansible
 claude plugin install ai-tools@nord-skills         # LiteLLM, WebUI, OpenCodex
@@ -183,6 +183,8 @@ hermes skills update open-webui-guide --force
 | 🦊 | [`gitlab-ci`](gitlab-ci/) | `.gitlab-ci.yml`, rules, runners, dind, Registry |
 | 📜 | [`ansible-playbook`](ansible-playbook/) | Playbooks, roles, inventory, vault, `--check --diff` |
 | 🛡️ | [`amnezia-vpn`](amnezia-vpn/) | AmneziaVPN/AWG на Linux и в Docker |
+| 🛰️ | [`xray-reality`](xray-reality/) | Xray VLESS + REALITY/XHTTP: сервер, клиенты, версии |
+| 🧭 | [`vpn-setup`](vpn-setup/) | Плейбук своего VPN: выбор AWG/Xray, проверка, траблшутинг |
 | 🧭 | [`linux-routing`](linux-routing/) | Policy routing, fwmark, nftables NAT, split-tunnel |
 
 ### 🤖 AI-инструменты и интеграции

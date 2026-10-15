@@ -28,15 +28,17 @@ Address = 10.8.1.1/24
 ListenPort = 443
 PrivateKey = <server-private>
 # Obfuscation. Должны совпасть с клиентом 1:1.
-Jc = 4
-Jmin = 40
-Jmax = 70
-S1 = 0
-S2 = 0
-H1 = 1
-H2 = 2
-H3 = 3
-H4 = 4
+# Пример: сгенерируй свои. H1–H4 = 1..4 и S1=S2=0 — это по сути
+# ванильный WireGuard, так делать не надо (см. awg-protocol.md).
+Jc = 5
+Jmin = 50
+Jmax = 1000
+S1 = 68
+S2 = 149
+H1 = 1023476589
+H2 = 1734522114
+H3 = 2016884455
+H4 = 2122091873
 
 [Peer]
 PublicKey = <client-public>

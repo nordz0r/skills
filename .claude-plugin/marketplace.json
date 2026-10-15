@@ -11,7 +11,7 @@
     {
       "name": "all-skills",
       "displayName": "All Skills (Full Bundle)",
-      "description": "Complete collection of all 26 DevOps, SRE, AI tooling, Linux, and OpenWrt skills",
+      "description": "Complete collection of all 28 DevOps, SRE, AI tooling, Linux, and OpenWrt skills",
       "version": "1.0.0",
       "source": "./",
       "strict": false,
@@ -64,7 +64,9 @@
         "./gitlab-ci",
         "./ansible-playbook",
         "./amnezia-vpn",
-        "./linux-routing"
+        "./linux-routing",
+        "./xray-reality",
+        "./vpn-setup"
       ],
       "tags": [
         "linux",
@@ -326,6 +328,36 @@
         "vpn",
         "wireguard",
         "linux"
+      ]
+    },
+    {
+      "name": "xray-reality",
+      "displayName": "Xray VLESS + REALITY / XHTTP",
+      "description": "Xray-core VLESS + REALITY/XHTTP server and client setup, versions, troubleshooting",
+      "source": "./xray-reality",
+      "strict": false,
+      "category": "infrastructure",
+      "tags": [
+        "xray",
+        "vless",
+        "reality",
+        "xhttp",
+        "vpn"
+      ]
+    },
+    {
+      "name": "vpn-setup",
+      "displayName": "Self-hosted VPN setup playbook",
+      "description": "Choose AmneziaWG vs Xray, deploy, issue clients, route, verify and troubleshoot a self-hosted VPN",
+      "source": "./vpn-setup",
+      "strict": false,
+      "category": "infrastructure",
+      "tags": [
+        "vpn",
+        "amneziawg",
+        "xray",
+        "routing",
+        "checklist"
       ]
     },
     {
