@@ -59,7 +59,7 @@ Query-параметры:
 | `headerType` | `none`, `http` | Тип заголовка для kcp |
 | `seed` | string | Seed для kcp obfuscation |
 | `serviceName` | string | gRPC service name |
-| `mode` | string | Режим xhttp |
+| `mode` | string | Режим xhttp (ссылки `type=xhttp` декодируются только с podkop-engine r11+, 0.7.23) |
 
 ### Trojan
 
@@ -76,6 +76,7 @@ trojan://password@host:port?security=reality&pbk=...&sid=...&sni=...&fp=chrome
 ```
 hysteria2://password@host:port
 hysteria2://password@host:port?sni=example.com&obfs=salamander&obfs-password=secret
+hysteria2://password@host:443,20000-30000?sni=example.com   # несколько портов/диапазоны — 0.7.18+
 hy2://password@host:port?insecure=1
 ```
 

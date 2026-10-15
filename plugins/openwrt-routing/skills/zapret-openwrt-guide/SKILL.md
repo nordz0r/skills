@@ -11,7 +11,9 @@ Zapret is an anti-DPI (Deep Packet Inspection) tool for OpenWrt routers. It is *
 
 **Repository:** https://github.com/remittor/zapret-openwrt
 **Upstream:** https://github.com/bol-van/zapret
-**Current version:** v72.20260226
+**Current version:** v72.20260307 (2026-03-07; nfqws/tpws from bol-van/zapret commit ef637c4, between v72.10 and v72.12). zapret2 flavour: `v0.9.20260307` (bol-van/zapret2 d3b3011). Verified 2026-10-15.
+**Branches:** `zap1` (default) — `zapret` + `luci-app-zapret`; `master` — `zapret2` + `luci-app-zapret2`.
+**Since then (unreleased in remittor as of 2026-10-15):** updater uses `apk add --force-non-repository` (2026-04-22), Image Builder init fix, ipset exclude list refresh. Upstream bol-van v72.12 (armv7 crash fix), v72.13 (2026-07-21: Discord media port range in init.d), nfqws partial-root fix (2026-10-04) are **not yet packaged**; bol-van/zapret2 is at v1.0.5.2 (2026-09-15) while remittor ships 0.9.20260307.
 
 ## Project architecture
 
@@ -182,7 +184,7 @@ Enabled with `DISABLE_CUSTOM=0` (UI: custom.d tab -> "Use custom.d scripts").
 Builds run on GitHub Actions (`.github/workflows/build.yml`):
 - Trigger: pushing a `v[0-9]+*` tag or a manual run
 - Matrix: 30+ architectures (ARM, MIPS, x86_64, RISC-V)
-- Two OpenWrt lines: IPK (v24.10.x) and APK (v25.12.x)
+- Two OpenWrt lines: IPK (v24.10.x SDK) and APK (v25.12.0 SDK since v72.20260307)
 - Releases are published to gh-pages as JSON for auto-update
 
 ## Troubleshooting

@@ -1,80 +1,37 @@
-# AmneziaWG OpenWrt: сборка и диагностика
+# AmneziaWG OpenWrt: пакеты, обновление, диагностика
 
-## Что нужно на роутере
+Источник: `Slava-Shchipunov/awg-openwrt` @ 03b6226 (README, `docs/custom-feed.md`, Makefile'ы), сверено 2026-10-15.
 
-Минимально:
+## Пакетный менеджер
 
-- `amneziawg-tools`
-- `luci-proto-amneziawg`
+| OpenWrt | Менеджер | Откуда |
+|---|---|---|
+| 23.05.x, 24.10.x | `opkg`, `.ipk` | GitHub Releases тега `v<версия OpenWrt>` под свой target/subtarget |
+| 25.12.x и новее | `apk`, `.apk` | apk-feed GitHub Pages `https://slava-shchipunov.github.io/awg-openwrt/<ver>/<target>/<subtarget>/packages.adb` с ключом `/etc/apk/keys/awg-openwrt-feed.pem`; либо `.apk` из Releases |
 
-Обычно также:
+- Проверка установленного: `apk list -I | grep -i amnezia` (25.x) / `opkg list-installed | grep -i amnezia` (≤24.10).
+- AWG 3.1 есть только в сборках `v24.10.8` и `v25.12.5` (и новее); на другой версии OpenWrt пакеты 3.1 не встанут — сначала обнови прошивку до версии, под которую есть сборка, либо собери сам.
+- Обновлять все три пакета вместе и одной версией; kmod строго под ядро прошивки.
+- Скрипт `amneziawg-install.sh` из README ставит пакеты и **может создать интерфейс и включить весь трафик через туннель** (`route_allowed_ips`). На рабочем роутере — только вручную, с бэкапом `/etc/config/network` и `firewall`.
 
-- `kmod-amneziawg`
-
-Опционально:
-
-- `qrencode` для QR в LuCI
-- `amneziawg-go` для userspace fallback
-
-## Watchdog
-
-`amneziawg_watchdog` предназначен для динамических endpoint hostnames.
-
-Условия нормальной работы:
-
-- peer задан через hostname, а не IP;
-- настроен `persistent_keepalive`;
-- watchdog запускается по cron.
-
-Пример идеи из комментария upstream:
+## Диагностика (только чтение)
 
 ```sh
-* * * * * /usr/bin/amneziawg_watchdog
+logread | grep -i amneziawg
+awg show all | grep -vE 'private key|preshared key'
+ls /sys/module/amneziawg          # kernel mode?
+ubus call network.interface.awg0 status
 ```
 
-## Практические команды диагностики
+| Симптом | Где смотреть |
+|---|---|
+| `Please install either kernel module…` | `kmod-amneziawg` не встал/не той версии ядра; нет `amneziawg-go` |
+| `Invalid argument` при подъёме | параметры новее пакетов (3.x на 2.0-пакетах); S < 12 при HPK; пересечение H — см. `amnezia-vpn/references/troubleshooting.md` |
+| нет handshake | shared-параметры не совпадают с сервером (`amnezia-vpn`), endpoint/порт, часы |
+| `Message too long` в `awg show` | длинная цепочка `awg_i1…i5` (kmod, `-EMSGSIZE`) |
+| endpoint по имени не переразрешается | `amneziawg_watchdog` по cron (`* * * * * /usr/bin/amneziawg_watchdog`; в комментарии скрипта по ошибке указан `wireguard_watchdog`) + `persistent_keepalive` |
 
-```sh
-logread | grep amneziawg
-awg show all dump
-ip link show
-ubus call network.interface dump
-ifup awg0
-ifdown awg0
-service network restart
-```
+## Сборка
 
-Проверки состояния:
-
-- существует ли `/sys/module/amneziawg`;
-- установлен ли `awg`;
-- не требуется ли `amneziawg-go`;
-- есть ли handshakes и transfer counters на status page.
-
-## Kernel vs userspace
-
-Логика helper-а такая:
-
-1. попробовать `modprobe amneziawg`;
-2. если модуль появился, использовать kernel mode;
-3. иначе искать `amneziawg-go`.
-
-Если `amneziawg-go` не установлен, helper завершится сообщением о необходимости kernel module или userspace implementation.
-
-## Сборка пакетов
-
-Репозиторий оформлен как OpenWrt package tree. Ожидаемый workflow:
-
-```sh
-make package/amneziawg-tools/compile V=s
-make package/kmod-amneziawg/compile V=s
-make package/luci-proto-amneziawg/compile V=s
-```
-
-Это подразумевает, что repo подключен в OpenWrt SDK/Buildroot как feed/package source.
-
-## Главные риски для разработчика
-
-- `kmod-amneziawg` зависит от структуры in-tree WireGuard в OpenWrt kernel;
-- LuCI и RPC часть надо менять согласованно;
-- совместимость с конкретной веткой OpenWrt не расписана явно, так что любые broad claims нужно проверять на target system.
+Репо — OpenWrt package tree; GitHub Actions собирает по тегу `vX.Y.Z` (версия OpenWrt) или по workflow_dispatch с target/subtarget.
+Локально в SDK: `make package/{kmod-amneziawg,amneziawg-tools,luci-proto-amneziawg}/compile V=s`.

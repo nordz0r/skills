@@ -30,7 +30,7 @@ luci-app-zapret/htdocs/luci-static/resources/view/zapret/
 ### Элементы интерфейса
 
 **Заголовок:**
-- Название пакета и версия (например: "Zapret v72.20260226")
+- Название пакета и версия (например: "Zapret v72.20260307")
 - Ссылки на upstream и fork репозитории
 - Предупреждение, если версии zapret и luci-app-zapret не совпадают
 
