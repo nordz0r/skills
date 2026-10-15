@@ -1,67 +1,51 @@
 ---
 name: amnezia-vpn
-description: "Amnezia VPN and AmneziaWG on Linux/VPS/Docker, not OpenWrt: handshake, awg show, amneziawg-go, kernel module, Jc/H1, /opt/amnezia, Ubuntu VPS, UDP. Triggers: amneziawg, awg-quick, amneziawg-go, amnezia docker, VPS VPN, handshake, впн, амнезия, сервер VPN, рукопожатие."
+description: "Self-hosted VPN on Linux/VPS/Docker (not OpenWrt): AmneziaVPN Docker stack, AmneziaWG 1.0-3.1 (awg, awg-quick, amneziawg-go, kernel module, Jc/Jmin/Jmax, S1-S4, H1-H4, I1-I5, HeaderProtectionKey, RandomTrailers), Xray-core VLESS + REALITY / XHTTP / Vision (config.json, x25519, shortIds, target, vless:// links, FinalMask), vpn:// keys, protocol choice, clients and minimum versions, verification, troubleshooting, FAQ. Triggers: amneziawg, awg-quick, amnezia docker, xray, vless, reality, xhttp, VPS VPN, handshake, obfuscation, DPI, впн, амнезия, свой vpn, обход блокировок, рукопожатие."
 ---
 
-# Amnezia VPN (Linux / Docker)
+# Amnezia VPN, AmneziaWG and Xray (Linux / Docker)
 
-Skill for Amnezia on a Linux server and in an application Docker stack.
-This is not the OpenWrt integration: UCI/LuCI/`kmod-amneziawg` on a router is
-`amneziawg-openwrt-guide`.
+One home for self-hosted VPN on a Linux server: the Amnezia app's Docker stack,
+bare AmneziaWG, bare Xray-core, clients and verification.
 
-Selective routing on OpenWrt via podkop is `podkop-openwrt-guide`.
-Policy routing on a Linux host is `linux-routing`.
-
-## When to use
-
-- Bring up or fix AmneziaVPN on a VPS (the official Docker stack).
-- Linux AWG without a GUI: `awg`, `awg-quick`, kernel module vs `amneziawg-go`.
-- No handshake, wrong Jc/Jmin/Jmax/S1/S2/H1-H4, port closed.
-- `amnezia-*` containers, `/opt/amnezia` data, docker logs.
-- Neighbouring protocols of the stack: WireGuard, Xray/Reality, OpenVPN, Cloak, SS —
-  only in the Amnezia context, not as separate products.
+Not here: OpenWrt AWG (UCI/LuCI/`kmod-amneziawg`) → `amneziawg-openwrt-guide`;
+router-wide sing-box routing → `podkop-openwrt-guide`; Linux policy routing → `linux-routing`.
 
 ## Workflow
 
-1. Split the scenario:
-   - AmneziaVPN GUI → Docker containers on a VPS.
-   - Bare AWG → `awg0` + `awg-quick` / kernel module.
-   - OpenWrt router → a different skill.
-2. Never log the PrivateKey, preshared key or obfuscation secrets in full.
-   Use placeholders in answers.
-3. Handshake = keys + identical obfuscation params + UDP port + endpoint.
-4. After changes: `awg show` / `docker ps` / `ss -ulnp` / ping inside the tunnel.
+1. Pick the protocol and plan → `references/vpn-setup.md`.
+2. Server:
+   - Amnezia app installs Docker containers → `references/docker-stack.md`.
+   - Bare AWG (`awg-quick`, kmod vs `amneziawg-go`) → `references/linux-awg.md`.
+   - Bare Xray-core → `references/xray-server.md`.
+3. Parameters: AWG → `references/awg-protocol.md`; Xray versions → `references/xray-versions.md`.
+4. Clients and minimum versions → `references/vpn-setup.md`.
+5. Verify, then troubleshoot (`vpn-setup.md`, `linux-awg.md`, `xray-troubleshooting.md`).
+6. Never log private keys, PSK, HeaderProtectionKey, UUIDs, `vpn://`/`vless://` links; use placeholders.
 
-## What is in the stack
+## Key rules
 
-The official app deploys Docker on the server. Data usually lives in
-`/opt/amnezia`. Containers are prefixed with `amnezia-`.
-
-Bare AmneziaWG is compatible with WireGuard's key model, but packets will not
-pass if the junk/header params differ between the two sides.
-
-| Layer | Purpose |
-|------|--------|
-| `kmod amneziawg` | kernel datapath, low overhead |
-| `amneziawg-go` | userspace fallback when the module is missing |
-| `awg` / `awg-quick` | like `wg` / `wg-quick` |
-
-## Companion skills
-
-- OpenWrt AWG → `amneziawg-openwrt-guide`.
-- Docker engine/compose syntax → `docker-ops`.
-- `ip rule`/nft for split-tunnel on Linux → `linux-routing`.
-- Host systemd/disk/ssh → `administering-linux`.
-- Xray VLESS/REALITY/XHTTP → `xray-reality`; end-to-end VPN rollout → `vpn-setup`.
+- AWG: H1–H4, S1–S4, HeaderProtectionKey, RandomTrailers must match; Jc/Jmin/Jmax/I1–I5 are sender-only.
+- AWG: unknown key for the device version → interface does not come up; S1–S4 ≥ 12 with HeaderProtectionKey.
+- Xray: `flow` matches on both sides; Vision only over TLS/REALITY; REALITY only over RAW/XHTTP/gRPC.
+- Xray v26.7.11+: plain VLESS to a public address is rejected; `allowInsecure` removed.
 
 ## References
 
-- `references/linux-awg.md` — awg-quick, kernel/userspace, diagnostics.
-- `references/docker-stack.md` — AmneziaVPN containers on a VPS.
-- `references/awg-protocol.md` — AWG 1.0–3.1 parameters (Jc/Jmin/Jmax, S1–S4, H1–H4, I1–I5, HeaderProtectionKey, 3.1 flags), what must match, app defaults, minimum client versions — verified against upstream code 2026-10-15.
+- `references/vpn-setup.md` — protocol choice, VPS prep, clients + minimum versions, verification, troubleshooting by symptom.
+- `references/docker-stack.md` — Amnezia containers, ports, `/opt/amnezia` paths.
+- `references/linux-awg.md` — `awg-quick`, kernel/userspace, NAT, systemd, handshake diagnostics.
+- `references/awg-protocol.md` — AWG 1.0–3.1 parameters, what must match, Amnezia defaults, client versions.
+- `references/xray-server.md` — install, server/client JSON, `vless://`, donor rules.
+- `references/xray-xhttp-finalmask.md` — XHTTP modes, FinalMask, Hysteria 2.
+- `references/xray-versions.md` — Xray features by version.
+- `references/xray-troubleshooting.md` — Xray errors and checks.
+- `references/faq.md` — FAQ (from the architect.vai-rice.space generator), every item verified/corrected/flagged.
+
+Sources verified 2026-10-15: amneziawg-go v3.1.20260828, kmod v3.1.20260906, amneziawg-tools v3.1.20260812, amnezia-client 5.0.3.0, Xray-core v26.10.10.
 
 <!-- A-EVOLVE-ROUTING-SIGNALS:START -->
-## Routing signals: amnezia amneziavpn amneziawg awg-quick awg0 opt/amnezia docker vpn jc jmin jmax handshake amneziawg-go vps
+## Routing signals: amnezia amneziavpn amneziawg awg-quick awg0 opt/amnezia docker vpn jc jmin jmax handshake amneziawg-go vps xray vless reality xhttp vision x25519 shortids vpn-key obfuscation dpi
 <!-- A-EVOLVE-ROUTING-SIGNALS:END -->
 
 Russian version: [`references/README.ru.md`](references/README.ru.md).

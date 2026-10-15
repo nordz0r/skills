@@ -12,6 +12,30 @@
       "prompt": "AmneziaVPN Docker стек в /opt/amnezia, контейнер amnezia-awg Restarting. Сними docker ps/logs и TUN/NET_ADMIN.",
       "expected_output": "Ответ должен выбрать amnezia-vpn для Docker-стека Amnezia, не общий docker-ops как единственный skill.",
       "split": "holdout"
+    },
+    {
+      "id": 3,
+      "prompt": "Подними на Ubuntu VPS Xray VLESS Reality с xtls-rprx-vision на 443: config.json сервера и vless:// для клиента.",
+      "expected_output": "Ответ должен выбрать amnezia-vpn.",
+      "split": "train"
+    },
+    {
+      "id": 4,
+      "prompt": "XHTTP через Reality отдаёт 404 — что сверить между клиентом и сервером?",
+      "expected_output": "Ответ должен выбрать amnezia-vpn.",
+      "split": "train"
+    },
+    {
+      "id": 5,
+      "prompt": "Хочу свой VPN на VPS для обхода блокировок: AmneziaWG или Xray Reality, в каком порядке настроить и проверить?",
+      "expected_output": "Ответ должен выбрать amnezia-vpn.",
+      "split": "test"
+    },
+    {
+      "id": 6,
+      "prompt": "AWG 3.1: awg setconf отвечает Invalid argument после включения HeaderProtectionKey — что проверить?",
+      "expected_output": "Ответ должен выбрать amnezia-vpn.",
+      "split": "test"
     }
   ]
 }
