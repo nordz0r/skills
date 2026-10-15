@@ -58,8 +58,7 @@ pass if the junk/header params differ between the two sides.
 
 - `references/linux-awg.md` — awg-quick, kernel/userspace, diagnostics.
 - `references/docker-stack.md` — AmneziaVPN containers on a VPS.
-- `references/awg-protocol.md` — AWG 1.0–3.1 parameters (Jc/Jmin/Jmax, S1–S4, H1–H4, I1–I5, HeaderProtectionKey, 3.1 flags), what must match, client limits.
-- `references/architect-audit.md` — audit of the architect.vai-rice.space generator: what is useful, what is wrong/outdated.
+- `references/awg-protocol.md` — AWG 1.0–3.1 parameters (Jc/Jmin/Jmax, S1–S4, H1–H4, I1–I5, HeaderProtectionKey, 3.1 flags), what must match, app defaults, minimum client versions — verified against upstream code 2026-10-15.
 
 <!-- A-EVOLVE-ROUTING-SIGNALS:START -->
 ## Routing signals: amnezia amneziavpn amneziawg awg-quick awg0 opt/amnezia docker vpn jc jmin jmax handshake amneziawg-go vps

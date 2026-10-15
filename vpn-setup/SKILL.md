@@ -23,7 +23,7 @@ Deploying both (AWG on UDP + Xray on 443/TCP) on one VPS is a normal fallback se
 ## Workflow
 
 1. VPS: fresh Linux, updates, SSH keys, firewall (allow 22/tcp, 443/tcp for Xray,
-   chosen UDP port for AWG), `net.ipv4.ip_forward=1` for AWG, time sync (REALITY is time-sensitive).
+   chosen UDP port for AWG), `net.ipv4.ip_forward=1` for AWG, time sync (NTP).
 2. Server: follow the protocol skill. Generate keys on the server only.
 3. Clients: one identity per device (AWG peer / Xray UUID + shortId) so access can be revoked individually.
 4. Routing: full tunnel first, then split (`linux-routing`, `podkop-openwrt-guide`).

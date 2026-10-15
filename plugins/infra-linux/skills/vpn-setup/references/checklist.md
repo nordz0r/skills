@@ -1,5 +1,7 @@
 # Чек-лист развёртывания и проверки VPN
 
+Источники: скиллы `amnezia-vpn` и `xray-reality` (сверка 2026-10-15), `amneziawg-tools` (`wg-quick/linux.bash`), Xray-core v26.10.10.
+
 ## 0. VPS
 
 ```bash
@@ -26,18 +28,24 @@ iptables -t nat -A POSTROUTING -s 10.8.1.0/24 -o <wan-if> -j MASQUERADE   # ил
 
 Детали — `xray-reality`. `xray run -test -c config.json` → `systemctl restart xray`.
 
-## 3. Клиенты
+## 3. Клиенты и минимальные версии
 
-| Платформа | AWG | Xray |
+Сверено 2026-10-15 по GitHub releases. AWG — версии с поддержкой нужной версии протокола
+(подробно — `amnezia-vpn/references/awg-protocol.md`); Xray-клиенты должны нести ядро не старее фич сервера.
+
+| Клиент | Протокол | Минимум / актуальная |
 |---|---|---|
-| Android | AmneziaWG, Amnezia VPN, WG Tunnel | v2rayNG, Hiddify, NekoBox |
-| iOS/macOS | AmneziaWG, Amnezia VPN | Streisand, v2rayTun, Hiddify |
-| Windows | AmneziaWG, Amnezia VPN | v2rayN, Hiddify, Throne |
-| Linux | `awg-quick` | `xray`, sing-box |
-| OpenWrt | `amneziawg-openwrt-guide` | `podkop-openwrt-guide` (sing-box) |
-| mihomo/Clash.Meta | outbound `amnezia-wg-option` (для AWG 3.x — `version: 3`) | vless outbound |
+| Amnezia VPN (все ОС) | AWG 1.5 / 2.0 / 3.0 / 3.1, Xray | 4.8.8.3 / 4.8.12.7 / 5.0.0.2 / 5.0.1.5; актуальная 5.0.3.0 |
+| AmneziaWG Android | AWG 2.0 / 3.1 | 2.0.0 / v3.1.20260814 |
+| AmneziaWG Windows | AWG 1.5–2.0 / 3.1 | 2.0.0 (H > 2³¹−1 — с 2.0.2) / 3.1.0 |
+| AmneziaWG iOS/macOS | AWG | релизов на GitHub нет — App Store |
+| Linux `awg-quick` | AWG 3.1 | amneziawg-tools v3.1.20260812 + kmod v3.1.20260906 или amneziawg-go v3.1.20260828 |
+| OpenWrt | AWG | `amneziawg-openwrt-guide` |
+| v2rayN (Win/Linux/macOS) | Xray | 7.25.6 (2026-10-11) |
+| v2rayNG (Android) | Xray | 2.2.6 (2026-07-05) — проверь версию встроенного ядра |
+| sing-box / mihomo / Hiddify | VLESS+REALITY (XHTTP/FinalMask — смотри поддержку в их docs) | mihomo v1.19.32; Hiddify v4.1.1 (2026-03) |
 
-Перед выдачей конфига сверь версию протокола с клиентом (AWG 2.0/3.x поддерживают не все; WireSock игнорирует I1–I5).
+Сторонние клиенты (WireSock, wg-easy, Keenetic и т.п.) не сверялись — проверяй поддержку I1–I5/AWG 2.0+ по их документации.
 
 ## 4. Проверка
 
@@ -60,7 +68,7 @@ ping -M do -s 1252 <tunnel-gw> # проверка MTU 1280 (Linux)
 | AWG: `Invalid argument` при подъёме | ключи версии новее устройства, S<12 при HPK, пересечение H |
 | AWG: нет handshake | несовпадение H/S/HPK; UDP-порт закрыт/режется; `Endpoint`; часы |
 | AWG: handshake есть, трафика нет | `ip_forward`, NAT/MASQUERADE, `AllowedIPs`, DNS |
-| AWG: тяжёлые сайты висят | MTU → 1280 |
+| AWG: тяжёлые сайты висят | уменьшить MTU (Amnezia: 1376 десктоп / 1280 мобильные) |
 | AWG: долго подключается | уменьшить `Jc`, `Jmax` |
 | Xray: не подключается | `password/publicKey`, `shortId`, `serverName`∈`serverNames`, `flow`, часы, `journalctl -u xray` |
 | Работало и перестало | блок сигнатуры (сменить I1/параметры AWG или донора Xray) либо блок IP (сменить IP) |

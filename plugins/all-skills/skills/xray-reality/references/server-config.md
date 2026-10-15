@@ -1,5 +1,10 @@
 # Xray: установка, сервер, клиент
 
+Сверено 2026-10-15: Xray-core v26.10.10 (`infra/conf/*.go`, `main/commands/all/*`),
+docs `XTLS/Xray-docs-next` (`config/transports/reality.md`, коммит 2026-10-11),
+`XTLS/REALITY` README, `XTLS/Xray-examples` (`VLESS-TCP-XTLS-Vision-REALITY`, `VLESS-XHTTP-Reality`, 2026-09-16),
+`XTLS/Xray-install`.
+
 ## Установка (Linux VPS)
 
 Официальный скрипт `XTLS/Xray-install` (systemd unit `xray`, конфиг
@@ -122,7 +127,20 @@ ss -tlnp | grep ':443'
 
 ## Выбор донора (`target`)
 
-- TLS 1.3 + HTTP/2 (`curl -sI --http2 --tlsv1.3 https://donor` с VPS), сертификат публичного CA.
-- `serverNames` покрываются сертификатом донора (тот же домен или SAN).
-- Не свой домен, не за Cloudflare-«редиректами», не гигант, которым пользуются все (microsoft.com/apple.com) — и не экзотика в другом полушарии.
-- Проверка с клиента: `xray tls ping www.example-donor.com`.
+Официальные требования (`XTLS/REALITY` README, docs `reality.md`):
+- минимум: зарубежный сайт, **TLSv1.3 + H2**, домен без редиректа (основной домен часто редиректит на `www`);
+- плюсы: IP рядом с сервером, шифрование сообщений после Server Hello (пример — `dl.google.com`), OCSP Stapling;
+- `serverNames` — имена, которые принимает target (обычно тот же домен / SAN его сертификата);
+- для `mldsa65Seed` цепочка сертификатов target должна быть > 3500 байт;
+- неаутентифицированный трафик проксируется на target: при CDN-доноре сервер становится открытым форвардом — ограничь `limitFallbackUpload/Download`.
+- Ядро предупреждает (v26.10.10, `transport_security.go`), если `serverNames` оканчивается на `.ru/.ir/.cn` или содержит `apple`, `icloud`, `microsoft`: «increase the likelihood of your server's IP being blocked by the GFW». Предупреждение ориентировано на GFW; для РФ решай по своей сети.
+
+Проверка с VPS и клиента: `xray tls ping <donor>` (показывает TLS-версию, поддержку X25519MLKEM768 и длину сертификата).
+
+## Важные ограничения ядра (v26.10.10)
+
+- REALITY только поверх RAW, XHTTP, gRPC.
+- VLESS/Trojan без TLS/REALITY/VLESS Encryption на публичный адрес запрещены (с v26.7.11).
+- `allowInsecure` удалён → `pinnedPeerCertSha256` / `verifyPeerCertByName`.
+- `xray x25519` печатает `PrivateKey`, `Password (PublicKey)`, `Hash32`; клиент принимает `password` (алиас `publicKey`).
+- `fingerprint` `unsafe`/`hellogolang` отклоняются REALITY.

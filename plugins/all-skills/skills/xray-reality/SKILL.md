@@ -38,11 +38,13 @@ Not covered here:
 - `serverNames` / `shortIds` must not be empty on the server.
 - Client must set `fingerprint` (e.g. `chrome`); `serverName` from `serverNames`.
 - Use `target` (formerly `dest`, renamed in v24.10.31).
+- v26.7.11+: plain VLESS/Trojan to a public address is rejected; `allowInsecure` is removed.
+- Facts are verified against Xray-core v26.10.10 code/releases (2026-10-15); each reference states its sources.
 - Never log `privateKey`, UUIDs or full share links; use placeholders.
 
 ## References
 
-- `references/server-config.md` — install, server/client JSON, systemd, share links.
+- `references/server-config.md` — install, server/client JSON, systemd, share links, donor rules.
 - `references/xhttp-finalmask.md` — XHTTP modes, padding knobs, FinalMask.
 - `references/versions.md` — feature-by-version table (verified against releases).
 - `references/troubleshooting.md` — checks and failure patterns.
