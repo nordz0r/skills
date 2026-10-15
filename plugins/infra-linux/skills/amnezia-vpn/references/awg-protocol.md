@@ -88,9 +88,12 @@ PrivateKey = <client-private>
 Address = 10.8.1.2/32
 DNS = 1.1.1.1
 MTU = 1280
+# Пример для AWG 3.1 на обеих сторонах; серверная пара — linux-awg.md, «Конфиг awg-quick».
+# Только у клиента (sender-only, на сервер не нужны):
 Jc = 5
 Jmin = 40
 Jmax = 70
+# Shared — 1:1 с сервером:
 S1 = 24
 S2 = 37          # 24+56=80 ≠ 37
 S3 = 18
@@ -99,18 +102,22 @@ H1 = 100000000-100100000
 H2 = 200000000-200100000
 H3 = 300000000-300100000
 H4 = 400000000-480000000
+# Только у клиента (sender-only):
 I1 = <r 2><b 0x858000010001000000000669636c6f756403636f6d0000010001c00c000100010000105a00044d583737>
-# AWG 3.x (обе стороны 3.x):
+# AWG 3.0+, shared — тот же ключ на сервере:
 HeaderProtectionKey = <awg genkey>
+# AWG 3.0+, client-side:
 ContentPaddingAddition = 10-100
-# AWG 3.1 (обе стороны 3.1):
+# AWG 3.1, shared — включить и на сервере:
 RandomTrailers = on
+# AWG 3.1, локальное поведение (на сервере не обязательно):
 DisableCookies = on
+# Для AWG 2.0: убрать HeaderProtectionKey, ContentPaddingAddition, RandomTrailers, DisableCookies.
 
 [Peer]
 PublicKey = <server-public>
 PresharedKey = <psk>
-Endpoint = vpn.example.com:55424
+Endpoint = vpn.example.com:55424   # = ListenPort сервера
 AllowedIPs = 0.0.0.0/0, ::/0
 PersistentKeepalive = 25
 ```

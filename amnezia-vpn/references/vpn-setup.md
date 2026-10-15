@@ -1,6 +1,18 @@
-# Чек-лист развёртывания и проверки VPN
+# Свой VPN: выбор протокола, развёртывание, проверка
 
-Источники: скиллы `amnezia-vpn` и `xray-reality` (сверка 2026-10-15), `amneziawg-tools` (`wg-quick/linux.bash`), Xray-core v26.10.10.
+## Выбор
+
+| Ситуация | Что ставить |
+|---|---|
+| UDP проходит, нужен полный туннель, роутеры/телефоны | AmneziaWG (`awg-protocol.md`) |
+| UDP режут, активное зондирование, белые списки SNI | Xray VLESS + REALITY (`xray-server.md`) |
+| Нужен CDN / HTTP-форма трафика | Xray VLESS + XHTTP (`xray-xhttp-finalmask.md`) |
+| Весь дом через роутер | OpenWrt: `amneziawg-openwrt-guide`, `podkop-openwrt-guide` |
+| Блок по IP/ASN | обфускация не поможет — менять IP/хостинг |
+
+AWG (UDP) + Xray (443/TCP) на одном VPS — нормальная схема с резервом.
+
+Источники: `awg-protocol.md`, `linux-awg.md`, `xray-*.md` этого скилла (сверка 2026-10-15), `amneziawg-tools` (`wg-quick/linux.bash`), Xray-core v26.10.10.
 
 ## 0. VPS
 
@@ -11,24 +23,13 @@ sysctl -w net.ipv4.ip_forward=1                  # для AWG (закрепи в
 ufw allow 22/tcp; ufw allow 443/tcp; ufw allow <awg-port>/udp; ufw enable
 ```
 
-## 1. AmneziaWG сервер (Linux)
+## 1. Сервер
 
-Детали — `amnezia-vpn` (`references/linux-awg.md`, `references/awg-protocol.md`).
+- Через приложение Amnezia VPN (Docker-стек) → `docker-stack.md`.
+- Голый AWG (`awg-quick`, NAT, systemd) → `linux-awg.md`; параметры → `awg-protocol.md`.
+- Голый Xray-core → `xray-server.md` (`xray run -test -c config.json` → `systemctl restart xray`).
 
-```bash
-awg genkey | tee server.key | awg pubkey > server.pub     # chmod 600 server.key
-awg-quick up awg0 && awg show awg0
-iptables -t nat -A POSTROUTING -s 10.8.1.0/24 -o <wan-if> -j MASQUERADE   # или nft
-```
-
-Клиенту — свой `[Peer]` на сервере (`AllowedIPs = 10.8.1.N/32`) и конфиг-зеркало
-с теми же `S1–S4/H1–H4/HeaderProtectionKey`.
-
-## 2. Xray сервер
-
-Детали — `xray-reality`. `xray run -test -c config.json` → `systemctl restart xray`.
-
-## 3. Клиенты и минимальные версии
+## 2. Клиенты и минимальные версии
 
 Сверено 2026-10-15 по GitHub releases. AWG — версии с поддержкой нужной версии протокола
 (подробно — `amnezia-vpn/references/awg-protocol.md`); Xray-клиенты должны нести ядро не старее фич сервера.
@@ -47,7 +48,7 @@ iptables -t nat -A POSTROUTING -s 10.8.1.0/24 -o <wan-if> -j MASQUERADE   # ил
 
 Сторонние клиенты (WireSock, wg-easy, Keenetic и т.п.) не сверялись — проверяй поддержку I1–I5/AWG 2.0+ по их документации.
 
-## 4. Проверка
+## 3. Проверка
 
 ```bash
 # AWG
@@ -61,7 +62,7 @@ resolvectl query example.com   # нет DNS-утечки к провайдеру
 ping -M do -s 1252 <tunnel-gw> # проверка MTU 1280 (Linux)
 ```
 
-## 5. Траблшутинг по симптомам
+## 4. Траблшутинг по симптомам
 
 | Симптом | Куда смотреть |
 |---|---|

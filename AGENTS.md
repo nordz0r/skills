@@ -41,9 +41,7 @@ skills/
 ├── docker-ops/                       # Dockerfile + Compose v2
 ├── gitlab-ci/                        # GitLab CI/CD + runners
 ├── ansible-playbook/                 # Ansible playbooks / vault / lint
-├── amnezia-vpn/                      # AmneziaVPN / AWG on Linux + Docker
-├── xray-reality/                     # Xray VLESS + REALITY / XHTTP
-├── vpn-setup/                        # Self-hosted VPN rollout playbook (AWG vs Xray)
+├── amnezia-vpn/                      # Self-hosted VPN: AmneziaVPN/AWG + Xray on Linux/Docker
 ├── linux-routing/                    # iproute2 PBR + nftables
 ├── amneziawg-openwrt-guide/          # AmneziaWG on OpenWrt
 ├── podkop-openwrt-guide/             # Podkop / sing-box on OpenWrt
@@ -77,8 +75,6 @@ Design agency skills (`agency-ui-designer`, `agency-ux-architect`, `agency-ux-re
 - `gitlab-ci`
 - `ansible-playbook`
 - `amnezia-vpn`
-- `xray-reality`
-- `vpn-setup`
 - `linux-routing`
 - `nextcloud-admin`
 - `nextcloud-collectives`
@@ -206,7 +202,7 @@ npx skills add nordz0r/skills -s litellm-guide -g
 
 ## NOTES
 
-- Current inventory: 28 skills total.
+- Current inventory: 26 skills total.
 - `pr-lens-diagrams` is a standalone skill (`SKILL.md` in English, Russian text in `references/README.ru.md`) with `scripts/` (setup/build/record) and `examples/`; grouping `Diagrams` in `skills.sh.json`.
 - `agency-*` accounts for 6 remaining engineering skills (design four removed 2026-09-20).
 - `open-webui-guide` has 11 reference files and is still the largest single documentation set.

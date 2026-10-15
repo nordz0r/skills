@@ -18,7 +18,7 @@
   <a href="https://github.com/nordz0r/skills/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/nordz0r/skills?style=flat-square&logo=github"></a>
 </p>
 
-28 skills for `Claude Code`, `Codex`, `Hermes` and other agents that read `SKILL.md`: DevOps and SRE, Linux and Docker, LiteLLM and Open WebUI, Nextcloud and Atlassian, OpenWrt, Telegram and animated diagrams. Each skill is a folder with `SKILL.md` plus optional `references/`, `scripts/` and `evals/`. `SKILL.md` files are in English; translated skills keep the Russian original in `references/README.ru.md`.
+26 skills for `Claude Code`, `Codex`, `Hermes` and other agents that read `SKILL.md`: DevOps and SRE, Linux and Docker, LiteLLM and Open WebUI, Nextcloud and Atlassian, OpenWrt, Telegram and animated diagrams. Each skill is a folder with `SKILL.md` plus optional `references/`, `scripts/` and `evals/`. `SKILL.md` files are in English; translated skills keep the Russian original in `references/README.ru.md`.
 
 ## ⚡ Quick start
 
@@ -47,7 +47,7 @@ This repository is structured for universal integration: install it directly as 
 claude plugin marketplace add nordz0r/skills
 
 # 2. Install bundle or individual plugins:
-claude plugin install all-skills@nord-skills       # Complete 28 skills collection
+claude plugin install all-skills@nord-skills       # Complete 26 skills collection
 claude plugin install agency-skills@nord-skills    # Agency engineering bundle
 claude plugin install infra-linux@nord-skills      # Linux, Docker, CI/CD, Ansible
 claude plugin install ai-tools@nord-skills         # LiteLLM, WebUI, OpenCodex
@@ -182,9 +182,7 @@ The skill folders and `.claude-plugin/marketplace.json` are the source of truth.
 | 🐳 | [`docker-ops`](docker-ops/) | Dockerfile, Compose v2, healthchecks, networks, volumes |
 | 🦊 | [`gitlab-ci`](gitlab-ci/) | `.gitlab-ci.yml`, rules, runners, dind, Registry |
 | 📜 | [`ansible-playbook`](ansible-playbook/) | Playbooks, roles, inventory, vault, `--check --diff` |
-| 🛡️ | [`amnezia-vpn`](amnezia-vpn/) | AmneziaVPN/AWG on Linux and Docker |
-| 🛰️ | [`xray-reality`](xray-reality/) | Xray VLESS + REALITY/XHTTP: server, clients, versions |
-| 🔌 | [`vpn-setup`](vpn-setup/) | Self-hosted VPN playbook: AWG vs Xray, verify, troubleshoot |
+| 🛡️ | [`amnezia-vpn`](amnezia-vpn/) | AmneziaVPN/AWG and Xray (VLESS+REALITY/XHTTP): server, Docker, clients, verification |
 | 🧭 | [`linux-routing`](linux-routing/) | Policy routing, fwmark, nftables NAT, split tunnel |
 
 ### 🤖 AI tooling & integrations
@@ -275,7 +273,7 @@ python3 -m tools.a_evolve_router.evaluate_baseline --split all
 
 The full local `a-evolve` workflow is documented in [`tools/a_evolve_router/README.md`](tools/a_evolve_router/README.md). Use `--reset-workspace` for clean reruns from the current skill catalog.
 
-**Metrics — historical snapshot as of 2026-09-20** (26 skills / 48 cases; as of 2026-10-15 the catalog has 28 skills, not re-run yet):
+**Metrics — historical snapshot as of 2026-09-20** (26 skills / 48 cases):
 
 | State | top1 acc | avg_score |
 |-------|----------|-----------|

@@ -20,8 +20,6 @@
         "gitlab-ci",
         "ansible-playbook",
         "amnezia-vpn",
-        "xray-reality",
-        "vpn-setup",
         "linux-routing"
       ]
     },

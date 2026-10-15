@@ -11,7 +11,7 @@
     {
       "name": "all-skills",
       "displayName": "All Skills (Full Bundle)",
-      "description": "Complete collection of all 28 DevOps, SRE, AI tooling, Linux, and OpenWrt skills",
+      "description": "Complete collection of all 26 DevOps, SRE, AI tooling, Linux, and OpenWrt skills",
       "version": "1.0.0",
       "source": "./",
       "strict": false,
@@ -64,9 +64,7 @@
         "./gitlab-ci",
         "./ansible-playbook",
         "./amnezia-vpn",
-        "./linux-routing",
-        "./xray-reality",
-        "./vpn-setup"
+        "./linux-routing"
       ],
       "tags": [
         "linux",
@@ -317,47 +315,20 @@
     },
     {
       "name": "amnezia-vpn",
-      "displayName": "AmneziaVPN & AWG on Linux",
-      "description": "AmneziaVPN and AmneziaWG server/client setup on Linux and Docker (not OpenWrt UCI)",
+      "displayName": "AmneziaVPN, AWG & Xray self-hosted VPN",
+      "description": "Self-hosted VPN on Linux/Docker: AmneziaWG 1.0–3.1, Xray VLESS+REALITY/XHTTP, Amnezia Docker stack, clients, verification (not OpenWrt UCI)",
       "source": "./amnezia-vpn",
       "strict": false,
       "category": "infrastructure",
       "tags": [
         "amnezia",
         "amneziawg",
-        "vpn",
-        "wireguard",
-        "linux"
-      ]
-    },
-    {
-      "name": "xray-reality",
-      "displayName": "Xray VLESS + REALITY / XHTTP",
-      "description": "Xray-core VLESS + REALITY/XHTTP server and client setup, versions, troubleshooting",
-      "source": "./xray-reality",
-      "strict": false,
-      "category": "infrastructure",
-      "tags": [
         "xray",
         "vless",
         "reality",
-        "xhttp",
-        "vpn"
-      ]
-    },
-    {
-      "name": "vpn-setup",
-      "displayName": "Self-hosted VPN setup playbook",
-      "description": "Choose AmneziaWG vs Xray, deploy, issue clients, route, verify and troubleshoot a self-hosted VPN",
-      "source": "./vpn-setup",
-      "strict": false,
-      "category": "infrastructure",
-      "tags": [
         "vpn",
-        "amneziawg",
-        "xray",
-        "routing",
-        "checklist"
+        "wireguard",
+        "linux"
       ]
     },
     {
