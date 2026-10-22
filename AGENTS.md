@@ -87,6 +87,9 @@ Design agency skills (`agency-ui-designer`, `agency-ux-architect`, `agency-ux-re
 - `podkop-openwrt-guide`
 - `zapret-openwrt-guide`
 - `atlassian`
+- `context-audit`
+
+Standalone skills outside those families: `opencodex-guide`, `pr-lens-diagrams`, `telegram-formatting`.
 
 ## WHERE TO LOOK
 
@@ -202,7 +205,7 @@ npx skills add nordz0r/skills -s litellm-guide -g
 
 ## NOTES
 
-- Current inventory: 26 skills total.
+- Current inventory: 27 skills total.
 - `pr-lens-diagrams` is a standalone skill (`SKILL.md` in English, Russian text in `references/README.ru.md`) with `scripts/` (setup/build/record) and `examples/`; grouping `Diagrams` in `skills.sh.json`.
 - `agency-*` accounts for 6 remaining engineering skills (design four removed 2026-09-20).
 - `open-webui-guide` has 11 reference files and is still the largest single documentation set.

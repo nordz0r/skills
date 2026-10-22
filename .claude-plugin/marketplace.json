@@ -11,7 +11,7 @@
     {
       "name": "all-skills",
       "displayName": "All Skills (Full Bundle)",
-      "description": "Complete collection of all 26 DevOps, SRE, AI tooling, Linux, and OpenWrt skills",
+      "description": "Complete collection of all 27 DevOps, SRE, AI tooling, Linux, and OpenWrt skills",
       "version": "1.0.0",
       "source": "./",
       "strict": false,
@@ -79,7 +79,7 @@
     {
       "name": "ai-tools",
       "displayName": "AI Tooling, Proxies & Automation Bundle",
-      "description": "6 skills covering LiteLLM, Open WebUI, Open Terminal, ELK, OpenCodex, and interview prep",
+      "description": "7 skills covering LiteLLM, Open WebUI, Open Terminal, ELK, OpenCodex, interview prep, and context audits",
       "version": "1.0.0",
       "source": "./",
       "strict": true,
@@ -90,12 +90,17 @@
         "./open-terminal-guide",
         "./elk-kibana-dashboards",
         "./preview-interview",
-        "./opencodex-guide"
+        "./opencodex-guide",
+        "./context-audit"
       ],
       "tags": [
         "litellm",
         "open-webui",
-        "opencodex"
+        "opencodex",
+        "context",
+        "tokens",
+        "audit",
+        "context-window"
       ]
     },
     {
@@ -344,6 +349,20 @@
         "nftables",
         "pbr",
         "linux-networking"
+      ]
+    },
+    {
+      "name": "context-audit",
+      "displayName": "Context Window & Token Audit",
+      "description": "Audit static prefix, system prompts, tool schemas, and history estimates against provider prompt usage; compare captured context snapshots without automatic config writes",
+      "source": "./context-audit",
+      "strict": false,
+      "category": "ai-tools",
+      "tags": [
+        "context",
+        "tokens",
+        "audit",
+        "context-window"
       ]
     },
     {

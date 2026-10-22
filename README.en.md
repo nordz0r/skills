@@ -9,7 +9,7 @@
 <p align="center"><a href="README.md">Русский</a> · <b>English</b></p>
 
 <p align="center">
-  <a href="#catalog"><img alt="skills" src="https://img.shields.io/badge/skills-26-58a6ff?style=flat-square"></a>
+  <a href="#catalog"><img alt="skills" src="https://img.shields.io/badge/skills-27-58a6ff?style=flat-square"></a>
   <img alt="Claude Code" src="https://img.shields.io/badge/Claude_Code-plugin-d97757?style=flat-square">
   <img alt="Codex" src="https://img.shields.io/badge/Codex-plugin-10a37f?style=flat-square">
   <img alt="Hermes" src="https://img.shields.io/badge/Hermes-skills-8957e5?style=flat-square">
@@ -18,7 +18,7 @@
   <a href="https://github.com/nordz0r/skills/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/nordz0r/skills?style=flat-square&logo=github"></a>
 </p>
 
-26 skills for `Claude Code`, `Codex`, `Hermes` and other agents that read `SKILL.md`: DevOps and SRE, Linux and Docker, LiteLLM and Open WebUI, Nextcloud and Atlassian, OpenWrt, Telegram and animated diagrams. Each skill is a folder with `SKILL.md` plus optional `references/`, `scripts/` and `evals/`. `SKILL.md` files are in English; translated skills keep the Russian original in `references/README.ru.md`.
+27 skills for `Claude Code`, `Codex`, `Hermes` and other agents that read `SKILL.md`: DevOps and SRE, Linux and Docker, LiteLLM and Open WebUI, context audits, Nextcloud and Atlassian, OpenWrt, Telegram and animated diagrams. Each skill is a folder with `SKILL.md` plus optional `references/`, `scripts/` and `evals/`. `SKILL.md` files are in English; translated skills keep the Russian original in `references/README.ru.md`.
 
 ## ⚡ Quick start
 
@@ -47,10 +47,10 @@ This repository is structured for universal integration: install it directly as 
 claude plugin marketplace add nordz0r/skills
 
 # 2. Install bundle or individual plugins:
-claude plugin install all-skills@nord-skills       # Complete 26 skills collection
+claude plugin install all-skills@nord-skills       # Complete 27 skills collection
 claude plugin install agency-skills@nord-skills    # Agency engineering bundle
 claude plugin install infra-linux@nord-skills      # Linux, Docker, CI/CD, Ansible
-claude plugin install ai-tools@nord-skills         # LiteLLM, WebUI, OpenCodex
+claude plugin install ai-tools@nord-skills         # 7 skills: LiteLLM, WebUI, OpenCodex, context audits, and more
 claude plugin install nextcloud@nord-skills        # Nextcloud: files + Collectives wiki
 claude plugin install openwrt-routing@nord-skills  # OpenWrt (AmneziaWG, Podkop, zapret)
 claude plugin install telegram-formatting@nord-skills  # Telegram Rich Markdown/HTML
@@ -191,12 +191,15 @@ The skill folders and `.claude-plugin/marketplace.json` are the source of truth.
 |---|---|---|
 | 🔀 | [`litellm-guide`](litellm-guide/) | LiteLLM: SDK, proxy, providers, routing, MCP |
 | 🧩 | [`opencodex-guide`](opencodex-guide/) | OpenCodex: account pools, routing, CLI |
+| 🧮 | [`context-audit`](context-audit/) | Context-window and token audits, before/after snapshot comparison |
 | 💬 | [`open-webui-guide`](open-webui-guide/) | Open WebUI: auth, pipelines, RAG, API, scaling |
 | ⌨️ | [`open-terminal-guide`](open-terminal-guide/) | Open Terminal: terminal REST API for agents |
 | ☁️ | [`nextcloud-admin`](nextcloud-admin/) | Nextcloud via OCS API and WebDAV |
 | 📚 | [`nextcloud-collectives`](nextcloud-collectives/) | Nextcloud Collectives wiki: pages, search, tags |
 | 🔎 | [`elk-kibana-dashboards`](elk-kibana-dashboards/) | Elasticsearch/Kibana: logs, dashboards, KQL |
 | 🧷 | [`atlassian`](atlassian/) | Jira, Confluence, Bitbucket: Cloud and Data Center |
+
+`context-audit` inventories the static prefix, system prompt, tool schemas, and history, separating token estimates from provider prompt usage. It supports native OMP snapshots and local `/dump` requests, labels heuristic fallback explicitly, and never writes configuration automatically.
 
 ### ✈️ Telegram & diagrams
 
@@ -302,7 +305,7 @@ The router still reads only the first `description:` line, so folded `>-` blocks
 New skills and fixes go through pull requests.
 
 1. A `kebab-case` folder with `SKILL.md`; frontmatter `name` matches the folder, `description` is a concrete quoted one-liner.
-2. Register the skill in `.claude-plugin/marketplace.json`, `skills.sh.json` and both READMEs.
+2. Register the skill in `.claude-plugin/marketplace.json`, the explicit `.claude-plugin/plugin.json` list, `skills.sh.json` and both READMEs.
 3. Regenerate plugins and validate:
    ```bash
    node scripts/sync-codex-plugins.js

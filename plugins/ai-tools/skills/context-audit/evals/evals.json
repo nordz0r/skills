@@ -1,0 +1,23 @@
+{
+  "skill_name": "context-audit",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Inspect the before and after OMP session JSONL files from our benchmark run using audit_context.py compare, and report the observed changes in static non_message_tokens, tool_schema_tokens, and prompt_tokens. Do not claim disk deduplication or symlink changes as token reductions.",
+      "expected_output": "The response must run audit_context.py compare on the before and after files, present exact delta numbers for prompt_tokens and static tokens, distinguish static prefix from history growth, and explicitly state that disk/symlink changes do not reduce prompt tokens by themselves.",
+      "split": "train"
+    },
+    {
+      "id": 2,
+      "prompt": "We want to optimize our agent's context window. We do not have any before-and-after session logs or /dump captures yet. How many prompt tokens will we save if we disable unused MCP tools?",
+      "expected_output": "The response must refuse to invent an unsubstantiated token savings number without a baseline capture. It must guide the user to measure a baseline capture first using audit_context.py inspect or /dump, explain how tool schema tokens contribute to the static prefix, and require an empirical remeasurement.",
+      "split": "train"
+    },
+    {
+      "id": 3,
+      "prompt": "Analyze a sensitive /tmp/omp-llm-request-dump.json file that may contain internal API keys and customer records. Provide component size breakdown and advise on reducing context pressure without leaking confidential data or breaking active debugging.",
+      "expected_output": "The response must inspect the dump safely using audit_context.py without printing user prompts or sensitive tool payloads, report character and UTF-8 byte sizes with the largest components, prioritize masking resolved steps while strictly protecting active errors and test outputs, and explain that character heuristics are not exact model tokens.",
+      "split": "holdout"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Context Audit"
+  short_description: "Audit agent context composition, token budgets, and static versus dynamic inflation across system prompts, tool schemas, and history."
+  default_prompt: "Use $context-audit to inspect session context snapshots, compare before-and-after token overhead, and identify static prefix vs dynamic history inflation without guessing."

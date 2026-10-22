@@ -9,7 +9,7 @@
 <p align="center"><b>Русский</b> · <a href="README.en.md">English</a></p>
 
 <p align="center">
-  <a href="#каталог"><img alt="skills" src="https://img.shields.io/badge/skills-26-58a6ff?style=flat-square"></a>
+  <a href="#каталог"><img alt="skills" src="https://img.shields.io/badge/skills-27-58a6ff?style=flat-square"></a>
   <img alt="Claude Code" src="https://img.shields.io/badge/Claude_Code-plugin-d97757?style=flat-square">
   <img alt="Codex" src="https://img.shields.io/badge/Codex-plugin-10a37f?style=flat-square">
   <img alt="Hermes" src="https://img.shields.io/badge/Hermes-skills-8957e5?style=flat-square">
@@ -18,7 +18,7 @@
   <a href="https://github.com/nordz0r/skills/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/nordz0r/skills?style=flat-square&logo=github"></a>
 </p>
 
-26 skills для `Claude Code`, `Codex`, `Hermes` и других агентов, которые читают `SKILL.md`. Внутри DevOps и SRE, Linux и Docker, LiteLLM и Open WebUI, Nextcloud и Atlassian, OpenWrt, Telegram и анимированные диаграммы. Каждый skill — папка с `SKILL.md` и, при необходимости, `references/`, `scripts/` и `evals/`.
+27 skills для `Claude Code`, `Codex`, `Hermes` и других агентов, которые читают `SKILL.md`. Внутри DevOps и SRE, Linux и Docker, LiteLLM и Open WebUI, аудит контекста, Nextcloud и Atlassian, OpenWrt, Telegram и анимированные диаграммы. Каждый skill — папка с `SKILL.md` и, при необходимости, `references/`, `scripts/` и `evals/`.
 
 ## ⚡ Быстрый старт
 
@@ -47,10 +47,10 @@ npx skills add nordz0r/skills
 claude plugin marketplace add nordz0r/skills
 
 # 2. Установить бандл или отдельные плагины:
-claude plugin install all-skills@nord-skills       # Все 26 скиллов
+claude plugin install all-skills@nord-skills       # Все 27 скиллов
 claude plugin install agency-skills@nord-skills    # Agency engineering (6 скиллов)
 claude plugin install infra-linux@nord-skills      # Linux, Docker, CI/CD, Ansible
-claude plugin install ai-tools@nord-skills         # LiteLLM, WebUI, OpenCodex
+claude plugin install ai-tools@nord-skills         # 7 скиллов: LiteLLM, WebUI, OpenCodex, аудит контекста и др.
 claude plugin install nextcloud@nord-skills        # Nextcloud: файлы + Collectives wiki
 claude plugin install openwrt-routing@nord-skills  # OpenWrt (AmneziaWG, Podkop, zapret)
 claude plugin install telegram-formatting@nord-skills  # Telegram Rich Markdown/HTML
@@ -159,6 +159,12 @@ hermes skills update open-webui-guide --force
 
 Источник истины — папки skills и `.claude-plugin/marketplace.json`. Скрипт `scripts/sync-codex-plugins.js` собирает из них `plugins/` для Codex, `skills.sh.json` группирует skills для каталогов, Hermes ставит skill прямо из папки. Схема нарисована skill'ом [`pr-lens-diagrams`](pr-lens-diagrams/).
 
+### Локальная раскладка на хосте
+
+На управляемом хосте `/root/skills` — единственный источник публичных skills. `~/.agents/skills/` — обычный каталог: каждый публичный skill подключён отдельным симлинком на `/root/skills/<skill>`, а сторонние и приватные навыки хранятся непосредственно в `~/.agents/skills/`. Симлинка на весь каталог `skills/` нет. Клиенты не должны использовать `plugins/**` как discovery root: это генерируемая витрина.
+
+Отдельные runtime-данные остаются в игнорируемом `/root/skills/.local/`: `.local/managed/` сохраняет managed discovery OMP через ссылку клиента, `.local/hermes/` — изолированные каталоги данных профилей Hermes, `.local/historical-conflicts/` — сохранённые отличающиеся варианты, `.local/.archive/` — неактивные остатки и прежние проекции. Ничего из `.local/` не добавляется в публичные manifests или каталог. Остатки удалённого OMA перенесены из активного каталога Hermes в `.local/.archive/hermes-oma-20261022/`; Hermes исключает каталоги с именем `.archive` из поиска навыков.
+
 <a id="каталог"></a>
 ## 📦 Каталог
 
@@ -191,12 +197,15 @@ hermes skills update open-webui-guide --force
 |---|---|---|
 | 🔀 | [`litellm-guide`](litellm-guide/) | LiteLLM: SDK, proxy, провайдеры, роутинг, MCP |
 | 🧩 | [`opencodex-guide`](opencodex-guide/) | OpenCodex: пулы аккаунтов, роутинг, CLI |
+| 🧮 | [`context-audit`](context-audit/) | Аудит контекстного окна и токенов, сравнение снимков до/после |
 | 💬 | [`open-webui-guide`](open-webui-guide/) | Open WebUI: auth, pipelines, RAG, API, масштабирование |
 | ⌨️ | [`open-terminal-guide`](open-terminal-guide/) | Open Terminal: REST API терминала для агентов |
 | ☁️ | [`nextcloud-admin`](nextcloud-admin/) | Nextcloud через OCS API и WebDAV |
 | 📚 | [`nextcloud-collectives`](nextcloud-collectives/) | Вики Nextcloud Collectives: страницы, поиск, теги |
 | 🔎 | [`elk-kibana-dashboards`](elk-kibana-dashboards/) | Elasticsearch/Kibana: логи, дашборды, KQL |
 | 🧷 | [`atlassian`](atlassian/) | Jira, Confluence, Bitbucket: Cloud и Data Center |
+
+`context-audit` разбирает статический префикс, system prompt, схемы инструментов и историю; отделяет оценки токенов от provider prompt usage. Поддерживает нативные снимки OMP и локальные запросы `/dump`, явно помечает эвристический fallback и не меняет конфигурацию автоматически.
 
 ### ✈️ Telegram и диаграммы
 
@@ -302,7 +311,7 @@ python3 -m tools.a_evolve_router.evaluate_baseline --split all
 Новый skill или правка — через pull request.
 
 1. Папка в `kebab-case`, внутри `SKILL.md` с frontmatter: `name` совпадает с папкой, `description` — конкретная строка в кавычках.
-2. Добавьте skill в `.claude-plugin/marketplace.json`, `skills.sh.json` и оба README.
+2. Добавьте skill в `.claude-plugin/marketplace.json`, явный список `.claude-plugin/plugin.json`, `skills.sh.json` и оба README.
 3. Пересоберите плагины и проверьте:
    ```bash
    node scripts/sync-codex-plugins.js

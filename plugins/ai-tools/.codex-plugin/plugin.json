@@ -1,7 +1,7 @@
 {
   "name": "ai-tools",
   "version": "1.0.0",
-  "description": "6 skills covering LiteLLM, Open WebUI, Open Terminal, ELK, OpenCodex, and interview prep",
+  "description": "7 skills covering LiteLLM, Open WebUI, Open Terminal, ELK, OpenCodex, interview prep, and context audits",
   "author": {
     "name": "NorD",
     "url": "https://github.com/nordz0r/skills"
@@ -12,13 +12,17 @@
   "keywords": [
     "litellm",
     "open-webui",
-    "opencodex"
+    "opencodex",
+    "context",
+    "tokens",
+    "audit",
+    "context-window"
   ],
   "skills": "./skills/",
   "interface": {
     "displayName": "AI Tooling, Proxies & Automation Bundle",
-    "shortDescription": "6 skills covering LiteLLM, Open WebUI, Open Terminal, ELK, OpenCodex, and interview prep",
-    "longDescription": "6 skills covering LiteLLM, Open WebUI, Open Terminal, ELK, OpenCodex, and interview prep",
+    "shortDescription": "7 skills covering LiteLLM, Open WebUI, Open Terminal, ELK, OpenCodex, interview prep, and context audits",
+    "longDescription": "7 skills covering LiteLLM, Open WebUI, Open Terminal, ELK, OpenCodex, interview prep, and context audits",
     "developerName": "NorD",
     "category": "Productivity",
     "capabilities": [

@@ -30,3 +30,6 @@ tmp/
 .sisyphus/
 playwright-skill/node_modules/
 .omc/
+
+# Host-local skills, migration evidence, and historical variants are never public.
+.local/

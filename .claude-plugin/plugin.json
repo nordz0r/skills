@@ -32,6 +32,7 @@
     "./zapret-openwrt-guide",
     "./opencodex-guide",
     "./telegram-formatting",
-    "./pr-lens-diagrams"
+    "./pr-lens-diagrams",
+    "./context-audit"
   ]
 }
