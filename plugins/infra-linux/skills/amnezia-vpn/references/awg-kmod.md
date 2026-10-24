@@ -83,6 +83,37 @@ ps aux | grep amneziawg-go    # строк нет → kernel
 Признак userspace — процесс `amneziawg-go awg0` в `ps`. Тогда тип
 интерфейса в `ip -d link` будет `tun type tun`, а не `amneziawg`.
 
+### Как читать `lsmod`
+
+- `lsmod | grep amneziawg` отвечает только на вопрос «модуль загружен в ядро хоста».
+  Контейнер Amnezia использует ядро хоста, поэтому проверять нужно на хосте.
+- Колонка `Used by` остаётся `0`, даже когда интерфейс `awg0` типа `amneziawg` работает
+  (интерфейс не держит счётчик ссылок модуля). Пример с боевого сервера:
+  `amneziawg  143360  0` при живом `awg0`. `0` — **не** признак «не используется».
+- Загруженный модуль не означает, что движок — ядро: контейнер может держать
+  `amneziawg-go` (тип `tun`) при загруженном модуле. Решающий признак — тип интерфейса
+  в `ip -d link show awg0` и отсутствие процесса `amneziawg-go`.
+- Пустой вывод `lsmod` при установленном DKMS — модуль не собран или не загружен под
+  **запущенное** ядро (типично после обновления ядра без заголовков). Проверь
+  `uname -r`, `dkms status amneziawg` и `modinfo -n amneziawg` (путь должен быть в
+  `/lib/modules/$(uname -r)/updates/dkms/`); после пересборки — `modprobe amneziawg`
+  и `docker restart amnezia-awg2`.
+
+Аудит нескольких серверов одной командой (ничего не меняет):
+
+```bash
+for h in host1 host2 host3; do
+  echo "== $h"
+  ssh "$h" 'uname -r
+    lsmod | grep -E "^amneziawg" || echo "module: NOT loaded"
+    for c in $(docker ps --format "{{.Names}}" | grep ^amnezia-awg); do
+      docker exec "$c" sh -c "ip -d link show awg0 | grep -oE \"amneziawg|tun type tun\" | head -1"
+    done'
+done
+# ожидаем: module строка есть и тип интерфейса "amneziawg" (kernel);
+# "tun type tun" → userspace amneziawg-go, ставь kmod
+```
+
 ## Подводные камни
 
 ### (a) Нет заголовков под текущее ядро
