@@ -6,7 +6,7 @@ description: "Optimal configuration of AmneziaWG and Xray VPN (not installation 
 # AmneziaWG and Xray: optimal configuration
 
 Configuration only: choosing parameters, writing and validating server/client configs and keys.
-Installation, Docker, systemd, VPS prep and launch are out of scope.
+Installation, Docker, systemd, VPS prep and launch are out of scope — except the engine choice (see Key rules), because it changes the config.
 
 Not here: OpenWrt AWG UCI/LuCI → `amneziawg-openwrt-guide`; router-wide sing-box → `podkop-openwrt-guide`;
 Linux policy routing → `linux-routing`.
@@ -40,6 +40,7 @@ Linux policy routing → `linux-routing`.
 - AWG: H1–H4, S1–S4, HeaderProtectionKey, RandomTrailers must match; Jc/Jmin/Jmax, I1–I5, ContentPaddingAddition are sender-only.
 - AWG: unknown key for the engine version → interface fails; S1–S4 ≥ 12 with HeaderProtectionKey; H ranges must not overlap.
 - AWG port in examples: 443/udp (Amnezia app default is 55424).
+- AWG engine: **always install the kernel module (DKMS `amneziawg`) when the host allows it**; userspace `amneziawg-go` is a fallback only. Check `lsmod | grep amneziawg` on the host and `ip -d link show awg0` (type `amneziawg`, not `tun`) → `awg-kmod.md`.
 - Xray: Vision only over RAW + TLS/REALITY; REALITY only over RAW/XHTTP/gRPC; server flow only `""`/`xtls-rprx-vision`.
 - Xray v26.7.11+: plain VLESS to a public address is rejected; `allowInsecure` removed; unknown JSON fields are silently ignored.
 
@@ -47,6 +48,7 @@ Linux policy routing → `linux-routing`.
 
 - `references/awg-protocol.md` — AWG 1.0–3.1 parameters, what must match, tags, Amnezia defaults, minimum client versions.
 - `references/awg-config.md` — AWG selection order, value generation, scenario recipes, MTU, I1–I5 mimicry, server/client templates.
+- `references/awg-kmod.md` — kernel module (DKMS) over userspace: install, Docker restart, how to verify, pitfalls.
 - `references/xray-config.md` — Xray selection order, server/client JSON, donor, fingerprint, VLESS Encryption, sniffing/routing.
 - `references/xray-xhttp-finalmask.md` — XHTTP modes and options, FinalMask, Hysteria 2.
 - `references/key-formats.md` — `vpn://` structure and editing, `vless://` parameters.

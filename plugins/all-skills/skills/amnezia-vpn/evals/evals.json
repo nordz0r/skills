@@ -48,6 +48,12 @@
       "prompt": "Нужна ли VLESS Encryption поверх XHTTP через CDN и как задать decryption/encryption?",
       "expected_output": "xray-config.md: xray vlessenc, mlkem768x25519plus.native.600s / 0rtt, не смешивать X25519 и ML-KEM пары.",
       "split": "test"
+    },
+    {
+      "id": 9,
+      "prompt": "На VPS с Debian 12 (ядро 6.1.0-9) контейнер Amnezia крутит amneziawg-go, скорость низкая. Что поставить и как проверить, что используется ядро?",
+      "expected_output": "awg-kmod.md: поставить DKMS-модуль amneziawg (заголовки под запущенное ядро; на старом ядре — linux-image-amd64 + headers и перезагрузка), docker restart amnezia-awg2; проверка lsmod и ip -d link show awg0 (тип amneziawg, нет процесса amneziawg-go); I1–I5 с тегами d/ds/dz kmod не принимает.",
+      "split": "test"
     }
   ]
 }
