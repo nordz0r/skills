@@ -40,7 +40,7 @@ Open WebUI читает конфигурацию из двух источник�
 WEBUI_SECRET_KEY=your-secure-random-string-here
 
 # База данных — по умолчанию SQLite, для production используй PostgreSQL
-DATABASE_URL=postgresql://user:pass@localhost:5432/openwebui
+DATABASE_URL=postgresql://user:changeme@localhost:5432/openwebui
 
 # URL Ollama (если используешь локальные модели)
 OLLAMA_BASE_URL=http://localhost:11434
@@ -138,8 +138,8 @@ SCIM_AUTH_TOKEN=
 ```env
 # Подключение (выбери один формат)
 DATABASE_URL=sqlite:///data/webui.db          # SQLite (по умолчанию)
-DATABASE_URL=postgresql://user:pass@host/db   # PostgreSQL
-DATABASE_URL=mysql://user:pass@host/db        # MySQL
+DATABASE_URL=postgresql://user:changeme@host/db   # PostgreSQL
+DATABASE_URL=mysql://user:changeme@host/db        # MySQL
 
 # Или по частям
 DATABASE_TYPE=postgresql
@@ -147,7 +147,7 @@ DATABASE_HOST=localhost
 DATABASE_PORT=5432
 DATABASE_NAME=openwebui
 DATABASE_USER=user
-DATABASE_PASSWORD=pass
+DATABASE_PASSWORD=changeme
 
 # Пул соединений
 DATABASE_POOL_SIZE=50                    # размер пула (default: зависит от БД)
