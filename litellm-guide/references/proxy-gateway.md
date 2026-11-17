@@ -39,7 +39,7 @@ general_settings:
 import openai
 
 client = openai.OpenAI(
-    api_key="sk-litellm-virtual-key-or-master-key",
+    api_key="sk-example-virtual-key-or-master-key",
     base_url="http://localhost:4000",
 )
 
